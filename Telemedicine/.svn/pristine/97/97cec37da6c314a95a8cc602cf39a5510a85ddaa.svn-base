@@ -1,0 +1,169 @@
+<!-- <div class="login-container">
+  <div class="login-panel">
+    <div class="login-form-box" style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      ">
+      <form #OTPForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-5">
+            <p>Create ABHA ID using Aadhaar:</p>
+          </div>
+
+        </div>
+        <div style="background-color: rgb(195, 211, 245); padding: 10px">
+          <div class="row mt-4">
+            <div class="col-md-2" style="height: 38px">
+              <p class="mt-1">Enter OTP<span class="error">*</span></p>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="text" [(ngModel)]="otp" class="form-control input" name="otpe" #otpe="ngModel"
+                  pattern="{{ PATTERN.OTP }}" maxlength="6" required />
+              </div>
+              <div class="error" [hidden]="otpe.valid || otpe.untouched">
+                {{ ERR.OTP }}
+              </div>
+              <div style="margin-left: 35%">
+                <label style="
+                    background-color: lightcyan;
+                    width: 50%;
+                    text-align: center;
+                    border-radius: 5%;
+                  ">00:{{ timeLeft }}</label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary mr-3" style="background-color: #63a4ec;" (click)="resendOTPAadhaar()" [disabled]="timeLeft > 0">
+                Resend OTP
+              </button>
+            </div>
+          </div>
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary mr-3" style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              " (click)="back()">
+              Cancel
+            </button>
+            <button class="btn btn-primary" style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              " [disabled]="!OTPForm.valid" (click)="submit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="nav-container">
+    <p class="nav-text">ABHA ID Details</p>
+  </div>
+  <div>
+    <p class="main-text">
+      An OTP has been sent to your mobile number - {{ CodedMobileNo }}
+    </p>
+    <p class="text">
+      The following information will be sent to NDHM/ ABDM. If you want to
+      modify any
+    </p>
+    <p class="text">
+      information then please update the information in your profile section:
+    </p>
+    <!-- <p class="text">Name: {{ name }}</p>
+    <p class="text">Mobile Number:{{ mobileNoSel }}</p>
+    <p class="text">Date of birth:{{ dob }}</p> -->
+  </div>
+  <div style="padding-left: 70px; padding-top: 24px">
+    <form #OTPForm="ngForm" novalidate autocomplete="off">
+      <div>
+        <div class="row mt-4">
+          <div class="col-md-2" style="height: 38px">
+            <p
+              class="mt-1"
+              style="
+                font-size: 20px;
+                color: black;
+                font-family: Poppins-Regular, sans-serif;
+              "
+            >
+              Enter OTP:
+            </p>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="otp"
+                class="input-box input"
+                name="otpe"
+                #otpe="ngModel"
+                pattern="{{ PATTERN.OTP }}"
+                maxlength="6"
+                style="border-bottom: 1px solid #e43927 !important"
+                required
+              />
+            </div>
+            <div class="error" [hidden]="otpe.valid || otpe.untouched">
+              {{ ERR.OTP }}
+            </div>
+          </div>
+          <div class="col-md-1">
+            <label
+              style="
+                background-color: white;
+                width: 117%;
+                text-align: center;
+                border: 2px solid black;
+                padding: 3px;
+                padding-left: 7px;
+                padding-right: 23px;
+              "
+              >00:{{ timeLeft }}</label
+            >
+          </div>
+          <div class="col-md-3" style="margin-top: -15px">
+            <button
+              class="btn button mr-3"
+              (click)="resendOTPAadhaar()"
+              [disabled]="timeLeft > 0"
+            >
+              RESEND OTP
+            </button>
+          </div>
+        </div>
+        <div
+          class="mt-4 d-flex justify-content-center align-items-center"
+          style="margin-left: -90px"
+        >
+          <button class="btn button mr-3" (click)="back()">BACK</button>
+          <button
+            class="btn button"
+            [disabled]="!OTPForm.valid"
+            (click)="submit()"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div style="padding-left: 342px; padding-top: 225px">
+    <p
+      tyle="margin-top: 33px; font-size: 7px; font-family: Poppins-Regular, sans-serif;
+    color: black;"
+    >
+      Powered BY
+    </p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div>
+</div>

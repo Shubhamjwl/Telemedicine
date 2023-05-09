@@ -1,0 +1,64 @@
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Patient Profile created ,select any option to map health id</h2>
+      </div>
+    </div>
+    <div class="login-form-box" style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      ">
+      <div class="kyc mt-4" style="background-color: #585b5c3d; color: black">
+        Health ID : {{ healthId }}
+      </div>
+
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <div class="kyc mt-4 defultbg" (click)="verifyWithMobileOTP('moto')"
+          [style.background]="enableVerifyWithMobileOTPFlag? 'grey': bgColorMobileOTP"
+          [ngClass]="activecss == 'moto' ? 'active' : ''">
+          Verify with Mobile OTP
+        </div>
+        <div class="kyc mt-4 defultbg" *ngIf="hideData" (click)="verifyWithMobileIVR('mivr')"
+          [style.background]="enableVerifyWithMobileIVRFlag? 'grey': bgColorMobileIVR"
+          [ngClass]="activecss == 'mivr' ? 'active' : ''">
+          Verify with Mobile IVR
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <div class="kyc mt-4 defultbg" (click)="verifyWithAadhaarOTP('Aotp')"
+          [style.background]="enableVerifyWithAadhaarOTPFlag? 'grey': bgColorAadhaarOTP"
+          [ngClass]="activecss == 'Aotp' ? 'active' : ''">
+          Verify with Aadhaar OTP
+        </div>
+        <div class="kyc mt-4 defultbg" *ngIf="hideData" (click)="verifyWithAadhaarBioMetric('bmtrc')"
+          [style.background]="enableVerifyWithAadhaarBioMetricFlag? 'grey': bgColorAadhaarBioMetric"
+          [ngClass]="activecss == 'bmtrc' ? 'active' : ''">
+          Verify with Aadhaar Bio Metric
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button class="btn btn-primary mr-3" style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "  (click)="back()">
+          Back
+        </button>
+        <button class="btn btn-primary" style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          " (click)="verify()">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

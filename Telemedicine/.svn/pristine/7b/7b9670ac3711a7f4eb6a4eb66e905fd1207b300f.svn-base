@@ -1,0 +1,83 @@
+package com.nsdl.telemedicine.consultancy.repository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.nsdl.telemedicine.consultancy.entity.AppointmentDtlsEntity;
+
+@Repository
+public interface AppointmentDtlsRepository extends JpaRepository<AppointmentDtlsEntity, Long> {
+
+	@Query(value = "FROM AppointmentDtlsEntity WHERE docMstrDtlsEntity.dmdUserId = ?1 AND patientRegDtlsEntity.prdUserId = ?2 AND adApptId = ?3")
+	public AppointmentDtlsEntity findByDmdUserIdAndPrdUserIdAndAdApptId(String drUserId, String prdUserId,
+			String appointmentName);
+
+	public AppointmentDtlsEntity findByAdApptId(String adApptId);
+
+	@Query(value = "SELECT count(*) FROM appointment.appt_dtls where ad_appt_id = ?1 and ad_dr_user_id_fk = ?2", nativeQuery = true)
+	public int findCountByAdApptIdAndDmdUserId(String adApptId, String dmdUserId);
+	
+	@Query(value = "SELECT count(*) FROM appointment.appt_dtls where ad_appt_id = ?1 and ad_scrb_user_id = ?2", nativeQuery = true)
+	public int findCountByAdApptIdAndAdScrbUserId(String adApptId, String dmdUserId);
+	
+	@Query(value = "FROM AppointmentDtlsEntity WHERE adApptId = ?1 AND adScrbUserId = ?2")
+	public AppointmentDtlsEntity findByAdApptIdAndAdScrbUserId(String adApptId, String adScrbUserId);
+	
+	@Query(value = "FROM AppointmentDtlsEntity WHERE adApptId = ?1 AND docMstrDtlsEntity.dmdUserId = ?2")
+	public AppointmentDtlsEntity findByAdApptIdAndDmdUserId(String adApptId, String dmdUserId);
+	
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1, ?2) and ad_appt_status in ('S', 'R', 'C','SCHEDULEWP') and ad_dr_user_id_fk = ?3 order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndDmdUserIdAndOrderByAdApptDateFkAdApptSlotFk(LocalDate today, LocalDate tomorrow, String docId);
+
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1, ?2) and ad_appt_status in ('S', 'R', 'C') and ad_scrb_user_id = ?3 order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndAdScrbUserIdAndOrderByAdApptDateFkAdApptSlotFk(LocalDate today, LocalDate tomorrow, String scribeId);
+	
+	@Query(value = "SELECT * FROM appointment.appt_dtls where appt_dtls.ad_pt_user_id_fk = ?1 and ad_appt_status in ('S','R','C') order by ad_appt_date_fk desc, ad_appt_slot_fk desc", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByPrdUserIdOrderByAdApptDateFkAdApptSlotFk(String prdUserId);//s and r
+	
+	@Query(value = "SELECT * FROM appointment.appt_dtls where appt_dtls.ad_pt_user_id_fk = ?1 and ad_appt_status in ('S','R') and ad_appt_date_fk >=current_date order by ad_appt_date_fk desc, ad_appt_slot_fk desc", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByPrdUserIdAndScheduledAndRescheuled(String prdUserId);//s and r
+
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1) and ad_appt_status in ('S', 'R', 'C') and ad_scrb_user_id = ?2 order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndAdScrbUserIdAndOrderByAdApptDateFkAdApptSlotFk(
+			LocalDate appointmentDate, String userName);
+
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1) and ad_appt_status in ('S', 'R', 'C','SCHEDULEWP') and ad_dr_user_id_fk = ?2 order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndDmdUserIdAndOrderByAdApptDateFkAdApptSlotFk(
+			LocalDate appointmentDate, String userName);
+	
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1) and ad_appt_status in ('S', 'R', 'C','X') order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndReceptUserIdAndOrderByAdApptDateFkAdApptSlotFk(
+			LocalDate appointmentDate, String userName);
+	
+	@Query(value = "SELECT * FROM appointment.appt_dtls where ad_appt_date_fk in (?1) and ad_appt_status in ('S', 'R') and ad_dr_user_id_fk = ?2  order by ad_appt_date_fk, ad_appt_slot_fk", nativeQuery = true)
+	public List<AppointmentDtlsEntity> findByAdApptDateFkAndDmdUserIdAndSceduledAndResceduled(
+			LocalDate appointmentDate, String userName);
+	/*
+	 * @Query(value =
+	 * "Select a.ad_appt_id, a.ad_appt_date_fk, a.ad_appt_slot_fk, p.prd_pt_name from appointment.appt_dtls a inner join registration.pt_reg_dtls p on p.prd_user_id = a.ad_pt_user_id_fk inner join appointment.consult_priscp_dtls s on a.ad_appt_id = s.cpd_appt_id_fk  where s.cpd_is_priscp_verify = 'N' and a.ad_dr_user_id_fk =: docName"
+	 * , nativeQuery = true) public List<AppointmentDtlsEntity> findByDocName(String
+	 * docName);
+	 */
+
+	/*
+	 * @Query(value =
+	 * "SELECT new com.nsdl.telemedicine.consultancy.dto.AppointmentDTO(a.ad_appt_id, a.ad_appt_date_fk, "
+	 * +
+	 * "a.ad_appt_slot_fk, p.prd_pt_name) FROM appointment.appt_dtls a inner join registration.pt_reg_dtls p on p.prd_user_id = a.ad_pt_user_id_fk inner join appointment.consult_priscp_dtls s on a.ad_appt_id = s.cpd_appt_id_fk  where s.cpd_is_priscp_verify = 'N' and a.ad_dr_user_id_fk =: docName"
+	 * , nativeQuery = true) public List<AppointmentDTO> findByDocName1(String
+	 * docName);
+	 */
+	
+	/*
+	 * @Query(value =
+	 * "SELECT * FROM appointment.appt_dtls where appt_dtls.ad_appt_id = ?1",
+	 * nativeQuery = true) public List<AppointmentDtlsEntity>
+	 * getApptDetailsByApptId(String apptId);
+	 */
+	
+}

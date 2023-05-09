@@ -1,0 +1,201 @@
+.card-wrapper {
+    float: right;
+    max-width: auto;
+    position: absolute;
+    border-radius: 30px;
+    margin-left: 54%;
+    margin-top: 3%;
+    background: #025599; //07D0B3
+    border: none !important;
+    letter-spacing: 1px;
+    // box-shadow: 0 0 18px -5px;
+
+    // .cardWrapperScroll {
+    //   max-height: 450px;
+    //   overflow-y: auto;
+    //   overflow-x: hidden;
+    // }
+
+    .customTabContent {
+      background: #ffffff;
+      border-top-right-radius: 50px !important;
+      border-top-left-radius: 50px !important;
+      border-bottom-right-radius: 30px !important;
+      border-bottom-left-radius: 30px !important;
+    }
+
+  }
+
+  .background {
+    background: url('../../../../assets/images/624124.jpg');
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .example-large-box {
+    height: auto;
+    width: auto;
+  }
+
+  // Login design
+  .borderBottomNone {
+    border-bottom: none !important;
+  }
+  .activeTab {
+    font-size: 26px;
+    font-weight: 400;
+    a {
+      // text-decoration: underline;
+      color: #ffffff;
+    }
+  }
+  .nonActiveTab {
+    // color: #f1f1f1;
+    font-size: 18px;
+    a {
+      text-decoration: none;
+      color: #f1f1f1;
+    }
+  }
+  .nonActiveTab:hover {
+    cursor: pointer !important;
+  }
+  .registerIconSize {
+    font-size: 90px !important;
+  }
+  .registrationOptionActive {
+    color: #ffffff;
+    background: #17a2b8 !important;
+  }
+  .registrationOptionNonActive {
+    background: #e2e2e2;
+    color: #000000;
+  }
+  .cursor {
+    cursor: pointer !important;
+  }
+  // End login design
+
+  // Theme design
+  $sidebar-background-color: #94C4F9;
+  $sidebar-font-color: #ffffff;
+  $header-background-color: #ffffff;
+  $header-buttons-color: #63a4ec;
+  $know-more-button-background-color: #ffffff;
+  $know-more-button-font-color: lightseagreen;
+  $header-options-color: gray;
+
+.headerNavbar {
+  background-color: $header-background-color !important;
+  box-shadow: 0 0 18px -9px !important;
+  z-index: 1 !important;
+  .navbar-collapse {
+      ul {
+          font-size: 18px !important;
+          font-weight: 500 !important;
+      }
+      .user {
+          .userName {
+              font-size: 18px;
+              max-width: 280px;
+              padding: 4% 5% 4% 5% !important;
+              font-weight: 500;
+              color: $header-options-color;
+          }
+      }
+      // .logoutOption {
+      //     padding: 0px !important;
+      //     button {
+      //         margin: 2%;
+      //         height: 75%;
+      //     }
+      //     .logoutBtn {
+      //         background: $header-buttons-color;
+      //     }
+      // }
+  }
+}
+ 
+.sidebar {
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 75% !important;
+    // background: $sidebar-background-color;
+    background: url('../../../../assets/images/Group\ 2987.png') no-repeat;
+    background-size: 100% 100%;
+    border-bottom-right-radius: 110px;
+    position: fixed;
+    color: $sidebar-font-color;
+    letter-spacing: 1px;
+}
+
+.sidebar {
+  .headerItems {
+    margin: 10px 1px 1px 0px;
+    .logo {
+      margin-left: 5% !important;
+      padding: 0px !important;
+      img {
+        width: 100% !important;
+        height: 80% !important;
+      }
+    }
+    .options {
+        padding-top: 1.5%;
+        div {
+            display: inline;
+            font-size: 18px;
+            margin-right: 10%;
+            cursor: pointer;
+        }
+    }
+  }
+  .welcomeDetails {
+    width: 550px;
+    margin: 18% 0% 0% 12%;
+    .heading {
+      font-size: 38px;
+      font-weight: bold;
+      margin: 0px 0px 8% 0px;
+    }
+    .description {
+      font-size: 14px;
+      direction: ltr;
+      margin: 0px 0px 10% 0px;
+    }
+    .knowMoreBtn {
+      background-color: $know-more-button-background-color;
+      color: $know-more-button-font-color;
+      font-weight: 500;
+      letter-spacing: 1px;
+      padding-left: 28px;
+      padding-right: 28px;
+      border-radius: 5px;
+    }
+    .details-wrap{
+      i{
+        font-size: 40px;
+      }
+      .info-wrap{
+         display: inline-block;
+         padding-left: 10px;
+         h3{
+           margin-top: 2px;
+           margin-bottom: 0px;
+           font-weight: 700 !important;
+         }
+         p{
+          font-weight: 700;
+         }
+      }
+    }
+  }
+
+}
+  // End Theme design

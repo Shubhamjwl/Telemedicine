@@ -1,0 +1,39 @@
+spring.application.name=doctor-registration-service
+
+##Hibernate properties
+#spring.jpa.properties.hibernate.hbm2ddl.auto=create
+spring.jpa.properties.hibernate.show_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+server.servlet.context-path=/doctor-registration
+spring.profiles.active=dev
+## Document paths
+#LinuxDocPath=/deploy/RMS/UploadFile
+##ProfilePhotoPath=D:\\Telemedicine\\Files
+#WindowDocPath = D://temp
+ProfilePhotoPath=/var/telemedicine/documents
+WindowDocPath=/var/telemedicine/documents
+doctor.registration.api.version = v1
+doctor.registration.service-version = /DoctorRegistration/${doctor.registration.api.version}
+doctor.deregistration.service-version = /DoctorDeRegistration/${doctor.registration.api.version}
+
+
+#############PATIENT REGISTRATION PROPERTIES
+login.email.regex=^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
+email.regex=^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
+password.regex=^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$
+login.password.regex=^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$
+mobile.regex=^[7-9][0-9]{9}$
+login.mobile.regex=^[7-9][0-9]{9}$
+
+##File Size limit
+spring.http.multipart.max-file-size=20MB
+spring.http.multipart.max-request-size=20MB
+ProfilePhotoSize=1048576
+DocumentUploadSize=2097152
+
+auth.jwt.secret=sshhhhhh!!!
+auth.jwt.base=Bearer
+auth.jwt.expiry=86400000
+auth.token.header=Authorization

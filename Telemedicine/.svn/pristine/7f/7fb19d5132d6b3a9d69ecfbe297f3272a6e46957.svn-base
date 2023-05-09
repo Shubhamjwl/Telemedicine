@@ -1,0 +1,97 @@
+spring.application.name=ndhm-healthid-service
+server.port=8002
+server.servlet.context-path=/ndhm/v1
+
+
+#management.endpoints.web.exposure.include=*
+#commom propert regarding database
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine?autoReconnect=true
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+
+#spring.datasource.url=jdbc:postgresql://localhost:5432/Test_Telemedicine
+#spring.datasource.username=postgres
+#spring.datasource.password=12345
+
+#Access token Generation details
+clientId=SBX_000312
+clientSecret=ebb11f1b-87b2-4fc4-9c0f-9dfcc2f557aa
+
+#external api urls
+generateToken=https://dev.ndhm.gov.in/gateway/v0.5/sessions
+
+# HealthID creation API using mobile 
+generateOTPForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/generateOtp
+verifyOTPForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/verifyOtp
+resendOTPforMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/resendOtp
+helathIDcreationForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/createHealthId
+generateRespSearchByHealthId=https://healthidsbx.ndhm.gov.in/api/v1/search/searchByHealthId
+genRespByHealthIdNumber=https://healthidsbx.ndhm.gov.in/api/v1/hid/benefit/search/healthIdNumber 
+searchHealthIdByMobNo=https://healthidsbx.ndhm.gov.in/api/v1/search/searchByMobile
+searchHealthIdByAadhar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/search/aadhar
+existHealthId=https://healthidsbx.ndhm.gov.in/api/v1/search/existsByHealthId
+
+# HealthID creation API using Aadhaar
+generateOTPForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/generateOtp
+verifyOTPForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyOTP
+resendOTPforAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/resendAadhaarOtp
+generateOTPForAadhaarwithMob=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/generateMobileOTP
+verifyOTPForAadhaarwithMob=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyMobileOTP
+generateHealthIDwithPreverifiedAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/createHealthIdWithPreVerified
+verifyBioForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyBio
+helathIDcreationForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/createHealthIdWithAadhaarOtp
+
+# Common APIs
+states=https://healthidsbx.ndhm.gov.in/api/v1/ha/lgd/states
+getDistricts=https://healthidsbx.ndhm.gov.in/api/v1/ha/lgd/districts?stateCode=
+
+#Download Health card
+userAuthWithPassword=https://healthidsbx.ndhm.gov.in/api/v1/auth/authPassword
+getPdfHealthCard=https://healthidsbx.ndhm.gov.in/api/v1/account/getCard
+getPNGHealthCard=https://healthidsbx.ndhm.gov.in/api/v1/account/getPngCard
+
+#Auth Verification
+authFetchModes=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/fetch-modes
+authInit=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/init
+authConfirm=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/confirm
+addContext=https://dev.abdm.gov.in/gateway/v0.5/links/link/add-contexts
+
+#Auth
+authInitHealthId=https://healthidsbx.ndhm.gov.in/api/v1/auth/init
+authConfirmWithAadhaarOtp=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithAadhaarOtp
+authConfirmWithMobileOtp=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithMobileOTP
+authConfirmWithPassword=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithPassword
+authConfirmWithAadhaarBio=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithAadhaarBio
+authConfirmWithDemograpics=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithDemographics
+
+#profile
+generateAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/aadhaar/generateOTP
+verifyAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/aadhaar/verifyOTP
+accountBenefits=https://healthidsbx.ndhm.gov.in/api/v1/account/benefits
+changePasswordByAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/byAadhaar
+changePasswordByMobile=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/byMobile
+changePassGenerateMobileOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/generateMobileOTP
+changePassGenerateAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/generateAadhaarOTP
+changePasswordByHealthId=https://healthidsbx.ndhm.gov.in/api/v1/account/change/password
+logoutAccountProfile=https://healthidsbx.ndhm.gov.in/api/v1/account/logout
+urlAccountProfile=https://healthidsbx.ndhm.gov.in/api/v1/account/profile
+getQRCodePNG=https://healthidsbx.ndhm.gov.in/api/v1/account/qrCode
+getBooleanValidateToken=https://healthidsbx.ndhm.gov.in/api/v1/account/token
+
+#Forgot Health Id/Number
+forgotHealthIdAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/aadhaar/generateOtp
+forgotHealthIdAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/aadhaar
+forgotHealthIdMobileOTP=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/mobile/generateOtp
+forgotHealthIdMobile=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/mobile
+
+#communication with telemedicine
+sendHealthIdDtlsToTelemedicine=http://uattele.cloudvoice.in/telemedicine/verifyDoctor/receivePatientHealthIdDetails
+
+#for discover patient
+onDiscover=https://dev.abdm.gov.in/gateway/v0.5/care-contexts/on-discover
+
+
+# For Version 2  apis
+generatePublicKey=https://healthidsbx.ndhm.gov.in/api/v2/auth/cert

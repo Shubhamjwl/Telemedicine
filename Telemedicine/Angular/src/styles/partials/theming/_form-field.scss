@@ -1,0 +1,18 @@
+*:not(.time-container) mat-form-field {
+  width: 220px;
+}
+
+.mat-form-field > .mat-form-field-wrapper {
+  padding-bottom: 5px;
+}
+
+.alert-type-wrapper,
+.alarm-type-wrapper {
+  .mat-form-field {
+    width: 300px;
+
+    .mat-form-field-wrapper {
+      padding-bottom: 1.34375em;
+    }
+  }
+}

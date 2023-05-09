@@ -1,0 +1,176 @@
+package com.nsdl.ndhm.transfer.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.ErrorDTO;
+import com.nsdl.ndhm.dto.RespDTO;
+import com.nsdl.ndhm.entity.CareContextEntity;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.repository.CareContextRepository;
+import com.nsdl.ndhm.transfer.dto.*;
+import com.nsdl.ndhm.transfer.entity.CareContextConsentEntity;
+import com.nsdl.ndhm.transfer.entity.CareContextsEntity;
+import com.nsdl.ndhm.transfer.repository.CareContextConsentRepository;
+import com.nsdl.ndhm.transfer.repository.CareContextsRepository;
+import com.nsdl.ndhm.transfer.service.DataTransferService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+@LoggingClientInfo
+public class DataTransferServiceImpl implements DataTransferService {
+	private static final Logger logger = LoggerFactory.getLogger(DataTransferServiceImpl.class);
+
+	@Autowired
+	CareContextRepository careContextRepository;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CareContextConsentRepository careContextConsentRepository;
+
+	@Autowired
+	CareContextsRepository careContextsRepository;
+
+	@Value("${ndhm.onNotify}")
+	String onNotify;
+
+	@Value("${ndhm.onRequest}")
+	String onRequest;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	/**
+	 * get care context from database by healthid
+	 */
+	public List<CareContextEntity> getCareContextFromDbByHealthId(String healthId) {
+		logger.info("Fetch care contexts from DB By HealthId starts {}", healthId);
+		List<CareContextEntity> careContextEntityList = null;
+		try {
+			careContextEntityList = careContextRepository.getCareContextsByHealthId(healthId);
+		} catch (Exception e) {
+			logger.error(" error while saving in db {}", e);
+		}
+		return careContextEntityList;
+	}
+
+	/*
+	 * for notify call
+	 */
+	@Override
+	public ResponseEntity<String> notify(NotifyRequestDTO notifyRequestDTO) {
+		logger.info("Request Receives for Notify Starts");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+		String uuid = UUID.randomUUID().toString();
+		ZonedDateTime now = ZonedDateTime.now();
+		OnNotifyRespDTO onNotifyRespDTO = null;
+
+		String url = onNotify;
+		ResponseEntity<String> result = null;
+		URI uri;
+		ConsentDetailDTO consentDetail = null;
+		List<CareContextEntity> careContextEntityList = getCareContextFromDbByHealthId(
+				consentDetail.getPatient().getId());
+
+		List<String> reqCareContextRefs = consentDetail.getCareContexts().stream()
+				.map(CareContextDTO::getCareContextReference).collect(Collectors.toList());
+		if (careContextEntityList != null) {
+			List<String> availableCareContextsRefs = careContextEntityList.stream()
+					.map(CareContextEntity::getCareContextId).collect(Collectors.toList());
+
+			if (availableCareContextsRefs.containsAll(reqCareContextRefs)) {
+				onNotifyRespDTO = OnNotifyRespDTO.builder().requestId(uuid).timestamp(formatter.format(now))
+						.acknowledgement(AcknowledgementDTO.builder().consentId(consentDetail.getConsentId())
+								.status("OK").build())
+						.resp(RespDTO.builder().requestId(notifyRequestDTO.getRequestId()).build()).build();
+			}
+		} else {
+			onNotifyRespDTO = OnNotifyRespDTO.builder().requestId(uuid).timestamp(formatter.format(now))
+					.error(ErrorDTO.builder().code("1001").message("CareContext Not matched").build())
+					.resp(RespDTO.builder().requestId(notifyRequestDTO.getRequestId()).build()).build();
+		}
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(onNotifyRespDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful() && null != careContextEntityList) {
+				CareContextConsentEntity careContextConsent = CareContextConsentEntity.builder()
+						.concentId(consentDetail.getConsentId()).hip(consentDetail.getHip().getId())
+						.patientId(consentDetail.getPatient().getId()).perpose(consentDetail.getPurpose().getText())
+						.timestamp(notifyRequestDTO.getTimestamp()).requestId(notifyRequestDTO.getRequestId()).build();
+				List<CareContextsEntity> careContextsEntityList = new ArrayList<>();
+				for (String s : reqCareContextRefs) {
+
+					careContextsEntityList.add(CareContextsEntity.builder().careContextReference(s)
+							.careContextConsentEntity(careContextConsent).build());
+				}
+				careContextConsentRepository.save(careContextConsent);
+				careContextsRepository.saveAll(careContextsEntityList);
+			}
+		} catch (Exception e) {
+			logger.info("Error in HipOnNotify call {}", e);
+		}
+
+		return result;
+	}
+
+	private OnNotifyRespDTO prepareDummyData(NotifyRequestDTO notifyRequestDTO) {
+		SimpleDateFormat format1 = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		return OnNotifyRespDTO.builder().requestId(UUID.randomUUID().toString()).timestamp(format1.format(new Date()))
+				.acknowledgement(AcknowledgementDTO.builder().status("OK")
+						.consentId(notifyRequestDTO.getNotification().getConsentId()).build())
+				.resp(RespDTO.builder().requestId(notifyRequestDTO.getRequestId()).build())
+				.build();
+	}
+
+	/*
+	 * for notify demo call
+	 */
+	@Override
+	public ResponseEntity<String> notifyDemo(NotifyRequestDTO notifyRequestDTO) {
+		logger.info("Request Receives for Notify Starts");
+
+		String url = onNotify;
+		ResponseEntity<String> result = null;
+		URI uri;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(prepareDummyData(notifyRequestDTO));
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+/*			logger.info("requestEntity {}", requestEntity);
+			logger.info("result {}", result);*/
+		} catch (Exception e) {
+			logger.info("Error in On-discover {} ", e);
+		}
+		logger.info("Request Receives for Notify Ends");
+		return result;
+	}
+
+}

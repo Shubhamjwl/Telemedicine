@@ -1,0 +1,14 @@
+<div class="notification-container">
+  <div class="notifications" [class.read]="notification.unReadFlag"
+    *ngFor="let notification of notifications; let i = index" (click)="readNotification(notification);">
+    <div class="notification">
+      <div class="m-2">
+        <span class="bullet" [style.backgroundColor]="notification.notificationColor"></span>
+      </div>
+      <div class="notification-msg">
+        {{notification.notification}}
+      </div>
+    </div>
+    <span class="createdTmstp m-2">{{notification.createdTmstp | date: 'dd/MM/yyyy hh:mm a'}}</span>
+  </div>
+</div>

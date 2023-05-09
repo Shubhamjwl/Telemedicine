@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { LoginRoutingModule } from './login-routing.module';
+import { LoginComponent } from './login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LangModule } from '../lang/lang.module';
+import { AskToLogoutModalComponent } from './ask-to-logout-modal/ask-to-logout-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
+
+@NgModule({
+  declarations: [
+    LoginComponent,
+    AskToLogoutModalComponent,
+  ],
+  imports: [
+    CommonModule,
+    LoginRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LangModule,
+    MatDialogModule,
+    MatButtonModule,
+  ],
+  exports: [LoginComponent]
+})
+export class LoginModule { }

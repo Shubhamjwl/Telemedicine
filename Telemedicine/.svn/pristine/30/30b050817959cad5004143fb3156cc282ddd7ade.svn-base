@@ -1,0 +1,23 @@
+package com.nsdl.telemedicine.constant;
+
+public enum ErrorConstants {
+
+	SOMETHING_WENT_WRONG("ERR-MST-001", "Something went wrong, Please contact admin."),
+	REDFLAG_DATA_NOT_AVAILABLE("ERR-MST-002", "RedFlag details not available for requested Data");
+	
+	private String code;
+	private String message;
+	private ErrorConstants(String code, String message) {
+		this.code = code;
+		this.message = message;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+	
+}

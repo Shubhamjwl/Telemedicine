@@ -1,0 +1,95 @@
+
+.dashboard-wrapper{
+    .detils-wrapper {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 1px 2px 20px 0px #ffe9ea;
+        padding: 0 40px 40px 40px;
+        width: 100%;
+    }
+    .doc-count{
+        color: #FF5549;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .count{
+        padding: 0 0 0 0;
+        font-size: 45px;
+    }
+    .count-left{
+        float: left;
+        width: 60%;
+    }
+    .count-right{
+        float: right;
+        width: 40%;
+        text-align: center !important;
+    }
+    .scribe-name{
+        width: 200px;
+        display: inline-block;
+    }
+    .text-flow{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .image-wrap{
+        display: inline-block;
+        width: 5%;
+        img{
+            height: 40px;
+            width: 40px;
+        }
+    }
+    .scribe-details{
+        width: 85%;
+        h2, p {
+            line-height: 20px;
+            display: inline-block;
+            margin-bottom: 0px !important;
+        }
+        h2 {
+            font-size: 20px;
+        }
+        p{
+            font-size: 16px;
+        }
+    }
+    .btn-sm{
+        min-width: 80px;
+    }
+    .bg-white{
+        background-color: #fff;
+        font-size: 25px;
+        text-align: center;
+    }
+    .doc-num-details{
+        font-size: 12px;
+    }
+}
+.mat-checkbox-checked .mat-checkbox-background, 
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: #6c757d !important;
+}
+
+.mat-checkbox-checked .mat-checkbox-background {
+    transform: scale(1.5);
+}
+.mat-checkbox .mat-checkbox-frame {
+    border-color: #6c757d;
+    background-color: transparent;
+    transform: scale(1.5) !important;
+}
+.col-checkbox{
+    max-width: 10%;
+}
+.col-profile{
+    max-width: 10%;
+}
+.col-doc-details {
+    max-width: 80%;
+}
+:focus {
+    outline: none;
+}

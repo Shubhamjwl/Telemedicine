@@ -1,0 +1,183 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.AadharOtpResendRespDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpAadhaarDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpRespAadhaar;
+import com.nsdl.ndhm.dto.CreateHealthIdPreverifiedRequestDTO;
+import com.nsdl.ndhm.dto.CreateHealthIdPreverifiedRespDTO;
+import com.nsdl.ndhm.dto.GenerateMobileOTP;
+import com.nsdl.ndhm.dto.GenerateOtpAadhaarDTO;
+import com.nsdl.ndhm.dto.GenerateOtpResp;
+import com.nsdl.ndhm.dto.HealthIDAadhaarDTO;
+import com.nsdl.ndhm.dto.HealthIDResp;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.ResendOtpDTO;
+import com.nsdl.ndhm.exception.HealthIdCreationException;
+import com.nsdl.ndhm.service.AssistedHealthIdCreationByAadhraService;
+
+@RestController
+@CrossOrigin
+public class AssistedHealthIdCreationByAadharController {
+	private static final Logger logger = LoggerFactory.getLogger(AssistedHealthIdCreationByAadharController.class);
+
+	@Autowired
+	AssistedHealthIdCreationByAadhraService assistedHealthIdCreationByAadhraService;
+
+	/*
+	 * for generate OTP for Assisted Aadhar
+	 */
+	@PostMapping(value = "/generateOTPForAadhaarAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateOtpResp>> generateOTPForAadharAssisted(
+			@RequestHeader Map<String, String> headers, @RequestBody GenerateOtpAadhaarDTO generateOtpAadhaarDTO) {
+		MainResponseDTO<GenerateOtpResp> mainResponse = null;
+		logger.info("Generate OTP Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.generateOTPForAadharAssisted(headers,
+					generateOtpAadhaarDTO);
+		} catch (Exception e) {
+			logger.error("Error in generateOTPForAadharAssisted " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for resend Aadhar OTP assisted
+	 */
+	@PostMapping(value = "/resendOTPForAadharAssited", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AadharOtpResendRespDTO>> resendOTPForAadharAssited(
+			@RequestHeader Map<String, String> headers, @RequestBody ResendOtpDTO resendOTPDTO) {
+		MainResponseDTO<AadharOtpResendRespDTO> mainResponse = null;
+		logger.info("Resend OTP Request Received");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.resendOTPForAadharAssited(headers, resendOTPDTO);
+		} catch (Exception e) {
+			logger.error("Error in resendOTPForAadharAssited " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for verify Assisted Aadhar OTP
+	 */
+	@PostMapping(value = "/verifyOTPForAadhaarAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<ConfirmOtpRespAadhaar>> verifyOTPForAadhaarAssisted(
+			@RequestHeader Map<String, String> headers, @RequestBody ConfirmOtpAadhaarDTO confirmOtpAadhaarDTO) {
+		MainResponseDTO<ConfirmOtpRespAadhaar> mainResponse = null;
+		logger.info("Verify OTP Request Received");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.verifyOTPForAadhaarAssisted(headers,
+					confirmOtpAadhaarDTO);
+		} catch (Exception e) {
+			logger.error("Error in resendOTPForAadharAssited " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * create healthid by Assisted aadhar number
+	 */
+	@PostMapping(value = "/helathIDcreationForAadhaarAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<HealthIDResp>> helathIDcreationForAadhaarAssisted(
+			@RequestHeader Map<String, String> headers, @Valid @RequestBody HealthIDAadhaarDTO healthIDDTO)
+			throws HealthIdCreationException {
+		MainResponseDTO<HealthIDResp> mainResponse = null;
+		logger.info("Registration-HealthId Request Received");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.helathIDcreationForAadhaarAssisted(headers,
+					healthIDDTO);
+		} catch (Exception e) {
+			logger.error("Error in helathIDcreationForAadhaarAssisted " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for generate Mobile OTP for Assisted Aadhar
+	 */
+	@PostMapping(value = "/generateMobileOTPAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateOtpResp>> generateMobileOTPAssisted(
+			@RequestHeader Map<String, String> headers, @RequestBody GenerateMobileOTP generateMobileOTP) {
+		MainResponseDTO<GenerateOtpResp> mainResponse = null;
+		logger.info("Generate OTP Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.generateMobileOTPAssisted(headers,
+					generateMobileOTP);
+		} catch (Exception e) {
+			logger.error("Error in generateMobileOTPAssisted " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for verify Assisted mobile OTP
+	 */
+	@PostMapping(value = "/verifyMobileOTPAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<ConfirmOtpRespAadhaar>> verifyMobileOTPAssisted(
+			@RequestHeader Map<String, String> headers, @RequestBody ConfirmOtpDTO confirmOtpDTO) {
+		MainResponseDTO<ConfirmOtpRespAadhaar> mainResponse = null;
+		logger.info("Verify Mobile OTP Request Received");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.verifyMobileOTPAssisted(headers, confirmOtpDTO);
+		} catch (Exception e) {
+			logger.error("Error in verifyMobileOTPAssisted " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * create healthid by preverify Assisted Aadhar
+	 */
+	@PostMapping(value = "/helathIDcreationForPreVerifiedAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<CreateHealthIdPreverifiedRespDTO>> helathIDcreationForPreVerifiedAssisted(
+			@RequestHeader Map<String, String> headers,
+			@Valid @RequestBody CreateHealthIdPreverifiedRequestDTO createHealthIdPreverifiedRequestDTO)
+			throws HealthIdCreationException {
+		MainResponseDTO<CreateHealthIdPreverifiedRespDTO> mainResponse = null;
+		logger.info("Registration-HealthId for Preverified Request Received");
+		try {
+			mainResponse = assistedHealthIdCreationByAadhraService.helathIDcreationForAadhaarAssisted(headers,
+					createHealthIdPreverifiedRequestDTO);
+		} catch (Exception e) {
+			logger.error("Error in helathIDcreationForPreVerifiedAssisted " + e.getMessage());
+		}
+
+		return mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+}

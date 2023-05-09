@@ -1,0 +1,647 @@
+import { TmBookAppointmentComponent } from './../tm-book-appointment/tm-book-appointment.component';
+import {
+  IConsultationList,
+  IAppointmentDtls,
+} from './../../../../shared/commonBuildBlocks/index';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DeleteAppointmentModalComponent } from 'src/app/layout/shared-modules/modals/delete-appointment-modal/delete-appointment-modal/delete-appointment-modal.component';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ScribeService } from 'src/app/shared/commonBuildBlocks/services/scribeServices/scribe.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { TcdoctorRegisterModalComponent } from 'src/app/layout/shared-modules/modals/tcdoctor-register-modal/tcdoctor-register-modal.component';
+import { AppConstants } from 'src/app/app-constants';
+import { Router } from '@angular/router';
+import { IAPIResponseWrapper } from 'src/app/shared/commonBuildBlocks/interfaces/api-response-wrapper.interface';
+import * as moment from 'moment';
+import { TmCreateSlotComponent } from '../../slots/tm-create-slot/tm-create-slot.component';
+
+@Component({
+  selector: 'app-tm-doctor-appointments-dashboard',
+  templateUrl: './tm-doctor-appointments-dashboard.component.html',
+  styleUrls: ['./tm-doctor-appointments-dashboard.component.scss'],
+})
+export class TmDoctorAppointmentsDashboardComponent implements OnInit {
+  profilePhoto: string = 'assets/images/img_avatar.png';
+  userID: string;
+  userRole: string;
+  selectedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+  slotList = {
+    morning: [],
+    afternoon: [],
+    evening: [],
+    other: [], // TODO: check why data is here
+  };
+  errorMsg: string;
+  timeInterval: any;
+  timer: any;
+  modelRef: NgbModalRef;
+  user: any; // TODO:
+  reasonGroup: FormGroup;
+  reasonModelRef: NgbModalRef;
+  drRegID: string;
+  scribeListForDoctor: string[] = [];
+  drConsultFee: number = 0;
+  drconvenienceCharge: number = 0;
+  slotType: any;
+  consultType: any;
+  previousApptType: any;
+  patientInfo: any;
+  rescheduleApptDetails: any;
+  doctorDetails: any;
+  isOpenPayment: boolean;
+  rescheduleDetails: any;
+  appointmentDetails: any;
+  isPayLater: any;
+  Valid: any;
+  disableSlot: any;
+  dialogRef: any;
+  constructor(
+    private appointmentService: AppointmentService,
+    private dataPassingService: DataPassingService,
+    private consultationService: ConsultationService,
+    private patientService: PatientService,
+    private toastrMessage: ToastMessageService,
+    private scribeService: ScribeService,
+    private authService: AuthService,
+    private spinner: NgxSpinnerService,
+    private fb: FormBuilder,
+    private datePipe: DatePipe,
+    private modelService: NgbModal,
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    this.reasonGroup = this.fb.group({
+      apptId: [''],
+      error: [''],
+    });
+    this.userID = authService.getUserId() ? authService.getUserId() : null;
+    this.userRole = authService.getUserRole()
+      ? authService.getUserRole()
+      : null;
+  }
+
+  ngOnInit(): void {
+    this.dataPassingService.callDocDashboard.subscribe(() => {
+      this.getDetails();
+    });
+  }
+
+  private getDetails() {
+    if (this.userRole === AppConstants.doctor) {
+      this.getDoctorProfileDetails();
+      this.getAppointmentListForDoc();
+      this.getScribeListByDoctorID();
+    } else if (this.userRole === AppConstants.scribe) {
+      this.getAppointmentListForDoc();
+      this.getScribeDetails();
+      this.dataPassingService.docScribeList.next(null);
+    } else if (this.userRole === AppConstants.receptionist) {
+      this.getAppointmentListForDoc();
+    }
+  }
+
+  private getAppointmentListForDoc() {
+    this.spinner.show();
+    this.appointmentService
+      .getAppointmentListOfDoc(this.userID, this.selectedDate)
+      .subscribe(
+        (result: IAPIResponseWrapper<IConsultationList>) => {
+          if (result.response && result.status) {
+            this.spinner.hide();
+            const appointmentDetails = result.response;
+            this.drRegID = appointmentDetails.drRegID;
+            this.drConsultFee = appointmentDetails.doctorConsultFee;
+            this.resetSlotList();
+            this.createSlotList(appointmentDetails?.apptDtls?.Today || {});
+            this.drconvenienceCharge = appointmentDetails.convenienceCharge;
+          } else if (result.errors) {
+            this.spinner.hide();
+            this.resetSlotList();
+            this.errorMsg = result.errors
+              ? result.errors[0]
+                ? result.errors[0].message
+                  ? result.errors[0].message
+                  : null
+                : null
+              : null;
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          this.resetSlotList();
+          this.errorMsg = error.errors
+            ? error.errors[0]
+              ? error.errors[0].message
+                ? error.errors[0].message
+                : null
+              : null
+            : null;
+        }
+      );
+  }
+
+  changeDate(event) {
+    this.selectedDate = this.datePipe.transform(
+      event.target.value,
+      'yyyy-MM-dd'
+    );
+    this.getAppointmentListForDoc();
+  }
+
+  clickToBookAppointment(appointmentSlotsDtls: IAppointmentDtls) {
+    if (appointmentSlotsDtls.status === 'Available') {
+      let todaysDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      let time = '00:00';
+      let slotTime = appointmentSlotsDtls
+        ? appointmentSlotsDtls.appointmentTime
+          ? appointmentSlotsDtls.appointmentTime
+          : time
+        : time;
+      let slotDate = appointmentSlotsDtls
+        ? appointmentSlotsDtls.appointmentDate
+          ? appointmentSlotsDtls.appointmentDate
+          : this.selectedDate
+        : this.selectedDate;
+      let isValid = this.consultationService.isValidConsultation(
+        slotTime,
+        slotDate,
+        todaysDate,
+        true
+      );
+      let slotType = appointmentSlotsDtls.slotType
+        ? appointmentSlotsDtls.slotType
+        : ' ';
+      this.disableSlot = this.consultationService.isSlotAvalableAfter30(
+        slotDate,
+        slotTime
+      );
+      if (isValid) {
+        if (this.disableSlot) {
+          if (
+            this.userRole == AppConstants.receptionist ||
+            this.userRole == AppConstants.doctor ||
+            this.userRole !== AppConstants.scribe
+          ) {
+            if (
+              appointmentSlotsDtls &&
+              appointmentSlotsDtls.status === 'Available'
+            ) {
+              let apptSlotTime = slotTime;
+              let apptSlotDate = slotDate;
+              let SlotType = slotType;
+              this.openDialog(apptSlotTime, apptSlotDate, SlotType);
+            }
+          }
+        } else {
+          this.toastrMessage.showInfoMsg(
+            'Cannot book appointment for the slots within 30 mins',
+            'Information'
+          );
+        }
+      } else {
+        this.toastrMessage.showInfoMsg(
+          "Can't book appointment for past time",
+          'Information'
+        );
+      }
+    }
+  }
+
+  openDialog(slotTime, slotDate, slotType) {
+    const dialogRef = this.dialog.open(TmBookAppointmentComponent, {
+      disableClose: true,
+      // width: '900Px',
+      // height: '600px',
+      data: {
+        slotTime: slotTime,
+        slotDate: slotDate,
+        slotType: slotType,
+        drId: this.drRegID,
+        fees: this.drConsultFee,
+        charge: slotType === 'Teleconsultation' ? this.drconvenienceCharge : 0,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.data) {
+        this.getAppointmentListForDoc();
+      }
+    });
+  }
+
+  openDeleteDialog() {
+    const dialogRef = this.dialog.open(DeleteAppointmentModalComponent, {
+      disableClose: true,
+      width: '900Px',
+      height: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAppointmentListForDoc();
+      }
+    });
+  }
+
+  /* Used to navigate on Create time slot page */
+  onClickTimeSlot() {
+    const dialogRef = this.dialog.open(TmCreateSlotComponent, {
+      disableClose: true,
+      // width:'766px',
+      // height:'500px',
+      // data: { slotTime: slotTime, slotDate: slotDate, slotType: slotType, drId: this.drRegID, fees: this.drConsultFee }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAppointmentListForDoc();
+      }
+    });
+  }
+
+  //reschedule modal
+  openModel(content, data, index) {
+    if (this.timeInterval) {
+      this.resetInterval();
+    }
+    this.timer = '';
+    this.upcomingAppointmentCountdown(
+      data.appointmentDate ? data.appointmentDate : data.apptDate,
+      data.appointmentTime
+    );
+    let todaysDate1 = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.Valid = this.consultationService.validateConsultation(
+      data.appointmentTime,
+      data.appointmentDate,
+      todaysDate1
+    );
+    this.modelRef = this.modelService.open(content, {
+      size: 'lg',
+      backdrop: 'static',
+    });
+    if (this.authService.isUserDoctor()) {
+      data.profilephoto = this.profilePhoto;
+    }
+    this.user = data;
+    this.dataPassingService.rescheduleApptDetails = data;
+    console.log(data);
+  }
+
+  resetInterval() {
+    clearInterval(this.timeInterval);
+  }
+
+  upcomingAppointmentCountdown(date, time) {
+    this.timeInterval = null;
+    let upcomingAppointmentDateTime = this.consultationService.getNextAppointmentTime(
+      date,
+      time
+    );
+    this.timeInterval = setInterval(() => {
+      // Today's date & time
+      let now = new Date().getTime();
+      // difference between current time & upcoming appointment
+      let differenceStart = upcomingAppointmentDateTime[0] - now;
+      let differenceEnd = upcomingAppointmentDateTime[1] - now;
+      // Time calculation for days, hours, minutes & seconds
+      if (differenceStart < 0 && differenceEnd < 0) {
+        clearInterval(this.timeInterval);
+        this.timer = 'Appointment is not attended by Patient.';
+      } else {
+        if (differenceStart > 0) {
+          let days = Math.floor(differenceStart / (1000 * 60 * 60 * 24));
+          let hours = Math.floor(
+            (differenceStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          let minutes = Math.floor(
+            (differenceStart % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          let seconds = Math.floor((differenceStart % (1000 * 60)) / 1000);
+          this.timer =
+            days + 'd : ' + hours + 'h : ' + minutes + 'm : ' + seconds + 's';
+        } else {
+          let hours = Math.floor(
+            (differenceEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          let minutes = Math.floor(
+            (differenceEnd % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          let seconds = Math.floor((differenceEnd % (1000 * 60)) / 1000);
+          this.timer = hours + 'h : ' + minutes + 'm : ' + seconds + 's';
+          this.timer = 'You can start consultation till  ' + this.timer;
+        }
+      }
+    }, 1000);
+  }
+
+  getNextAppointmentTime(appdate, time) {
+    if (appdate && time) {
+      var d = new Date(appdate);
+      let p = d.toDateString();
+      let arr = p.split(' ');
+      let rtime = time.split('-');
+
+      let startDate = new Date(
+        arr[1] + ' ' + arr[2] + ',' + ' ' + arr[3] + ' ' + rtime[0]
+      ).getTime();
+
+      let endDate = new Date(
+        arr[1] + ' ' + arr[2] + ',' + ' ' + arr[3] + ' ' + rtime[1]
+      ).getTime();
+
+      return [startDate, endDate];
+    }
+    return null;
+  }
+
+  onClickAppointment(appointmentDetails: IAppointmentDtls) {
+    if (this.modelRef) {
+      this.modelRef.close();
+    }
+    let apptID = appointmentDetails.appointmentID
+      ? appointmentDetails.appointmentID
+      : null;
+    let todaysDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    let isValid = this.consultationService.validateConsultation(
+      appointmentDetails.appointmentTime,
+      appointmentDetails.appointmentDate,
+      todaysDate
+    );
+    if (isValid) {
+      if (appointmentDetails.status !== 'Completed') {
+        this.dataPassingService.userName = appointmentDetails.doctorName;
+        this.router.navigate([RoutesConstant.CONSULTATION], {
+          queryParams: {
+            apptID,
+            drRegID: this.drRegID,
+            ptRegID: appointmentDetails.patientRegId,
+            slotTime: appointmentDetails.appointmentTime,
+          },
+        });
+      }
+    } else {
+      this.toastrMessage.showWarningMsg(
+        ErrorSuccessMessage.VALIDCONSULTATION,
+        'Warning'
+      );
+    }
+  }
+
+  rescheduleAppointment() {
+    this.modelRef.close();
+    this.patientService.currentAction({ isRescedule: true, data: this.user });
+    this.router.navigate(['/doctor-appointments'], {
+      queryParams: { isReschedule: true },
+    });
+  }
+
+  openReasonModel(content, appID) {
+    this.reasonGroup.reset();
+    this.reasonGroup.get('apptId').patchValue(appID);
+    this.reasonModelRef = this.modelService.open(content, {
+      backdrop: 'static',
+    });
+  }
+
+  cancelAppointment() {
+    let data = {
+      apptId: this.reasonGroup.get('apptId').value,
+    };
+    this.appointmentService.cancelAppointment(data).subscribe((resp: any) => {
+      this.spinner.hide();
+      if (resp) {
+        if (resp.status && resp.response && resp.response.info) {
+          this.toastrMessage.showSuccessMsg(resp.response.info, 'Success');
+          this.reasonModelRef.close();
+          this.modelRef.close();
+          this.getAppointmentListForDoc();
+        } else if (resp.errors) {
+          this.reasonGroup.get('error').patchValue(resp.errors[0].message);
+        }
+      }
+    });
+  }
+
+  // Used to show scribe profile details for scribe login
+  getScribeDetails() {
+    this.spinner.show();
+    this.scribeService.getScribeProfileDetails().subscribe(
+      (result) => {
+        this.spinner.hide();
+        if (result.response) {
+          let res = result.response;
+          this.dataPassingService.docId = res.scrbdrUserIDfk
+            ? res.scrbdrUserIDfk
+            : null;
+          this.profilePhoto = res.scribeProfilePhoto;
+          let setProfileDetails = {
+            profile: res.scribeProfilePhoto,
+            name: res.scrbFullName,
+            gender: res.scrbGender,
+            mobileNo: res.scrbMobNo,
+            emailId: res.scrbEmail,
+            doctorName: res.scrbDrName,
+          };
+          this.dataPassingService.setProfileDetails.next(setProfileDetails);
+          this.dataPassingService.docName = res.scrbDrName;
+          this.dataPassingService.doctorId = res.scrbdrUserIDfk;
+          sessionStorage.setItem('Scribe_dr_Id', res.scrbdrUserIDfk);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  /* Used to get already registered Doctor Profile details */
+  getDoctorProfileDetails() {
+    this.spinner.show();
+    this.consultationService.getDoctorProfile(this.userID).subscribe(
+      (result) => {
+        this.spinner.hide();
+        if (result.response) {
+          let res = result.response;
+          this.dataPassingService.docId = localStorage.getItem('USER_ID')
+            ? localStorage.getItem('USER_ID')
+            : null;
+          this.profilePhoto = res.profilePhoto;
+          this.drConsultFee = res.dmdConsulFee ? res.dmdConsulFee : 0;
+          this.drconvenienceCharge = res.dmdConvenienceCharge
+            ? res.dmdConvenienceCharge
+            : 0;
+          let setProfileDetails = {
+            profile: res.profilePhoto,
+            name: res.dmdDrName,
+            gender: res.dmdGender,
+            mobileNo: res.dmdMobileNo,
+            emailId: res.dmdEmail,
+            specialization: res.dmdSpecialiazation,
+            smcNo: res.dmdSmcNumber,
+            mciNo: res.dmdMciNumber,
+            drProfileLink: res.dmdDrProfileLink,
+          };
+          sessionStorage.setItem('emailID', res.dmdEmail);
+          this.dataPassingService.setProfileDetails.next(setProfileDetails);
+
+          if (res.dmdTcFlag != true) {
+            this.acceptTermsCondition();
+          }
+
+          this.dataPassingService.docName = res.dmdDrName;
+          console.log(this.userID);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  acceptTermsCondition() {
+    const dialogRef = this.dialog.open(TcdoctorRegisterModalComponent, {
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAppointmentListForDoc();
+      }
+    });
+  }
+
+  /* Used to get List of scribe available for doctor */
+  getScribeListByDoctorID() {
+    this.spinner.show();
+    this.consultationService.getScribeList().subscribe(
+      (result) => {
+        if (result.response) {
+          this.spinner.hide();
+          result.response.scribeDtls.forEach((item) => {
+            item.scribeAdded = 'false';
+          });
+          let scribeList = result.response.scribeDtls;
+          this.scribeListForDoctor = scribeList;
+          this.dataPassingService.docScribeList.next(scribeList);
+        } else if (result.errors) {
+          this.spinner.hide();
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  onClickDeleteTimeSlot() {
+    this.openDeleteDialog();
+  }
+
+  reloadCurrentRoute() {
+    this.getAppointmentListForDoc();
+  }
+
+  /**
+   * @description group the slot in morning, afternoon, evening
+   * appointmentTime format - 13:00-13:15
+   * display format of appointmentTime - 01:00 PM - 01:15 PM
+   * @param appointmentDetails
+   */
+  private createSlotList(appointmentDetails: {
+    [key: string]: IAppointmentDtls[];
+  }) {
+    const slotFormat = 'hh:mm A'; // display time format
+    const timeFormat = 'HH:mm'; // compare time format
+
+    // constant for time group
+    const SLOT_GROUP_TIME = Object.freeze({
+      MORNING: {
+        START_TIME: moment('00:00', timeFormat),
+        END_TIME: moment('11:59', timeFormat),
+      },
+      AFTERNOON: {
+        START_TIME: moment('12:00', timeFormat),
+        END_TIME: moment('17:59', timeFormat),
+      },
+      EVENING: {
+        START_TIME: moment('18:00', timeFormat),
+        END_TIME: moment('23:59', timeFormat),
+      },
+    });
+    for (const key in appointmentDetails) {
+      // getting key (slots) from BE (old functionality, not in used now)
+      if (key != 'slots') {
+        const slots = appointmentDetails[key];
+        for (const slot of slots) {
+          const appointmentTime = slot?.appointmentTime || '';
+          const slotStartTime = moment(
+            appointmentTime.substring(0, appointmentTime.indexOf('-')),
+            timeFormat
+          ); // extract start date from the range and converting it in moment time format
+          const slotEndTime = moment(
+            appointmentTime.substring(
+              appointmentTime.indexOf('-'),
+              appointmentTime.length
+            ),
+            timeFormat
+          ); // extract end date from the range and converting it in moment time format
+          // transform appointment time for displaying
+          slot.appointmentTimeLabel = `${slotStartTime.format(
+            slotFormat
+          )} - ${slotEndTime.format(slotFormat)}`;
+          if (
+            slotStartTime.isSameOrAfter(SLOT_GROUP_TIME.MORNING.START_TIME) &&
+            slotStartTime.isSameOrBefore(SLOT_GROUP_TIME.MORNING.END_TIME)
+          ) {
+            this.slotList.morning.push(slot); // morning slot
+          } else if (
+            slotStartTime.isSameOrAfter(SLOT_GROUP_TIME.AFTERNOON.START_TIME) &&
+            slotStartTime.isSameOrBefore(SLOT_GROUP_TIME.AFTERNOON.END_TIME)
+          ) {
+            this.slotList.afternoon.push(slot); // afternoon slot
+          } else if (
+            slotStartTime.isSameOrAfter(SLOT_GROUP_TIME.EVENING.START_TIME) &&
+            slotStartTime.isSameOrBefore(SLOT_GROUP_TIME.EVENING.END_TIME)
+          ) {
+            this.slotList.evening.push(slot); // evening slot
+          } else {
+            // TODO: if there is any slot in other means is some issue in the slot/format
+            this.slotList.other.push(slot);
+          }
+        }
+      }
+    }
+
+    console.log(this.slotList);
+    // sort evening slots
+    /*  const eveningSlot = [...this.slotList.evening];
+    this.slotList.evening = eveningSlot.reverse();
+    this.slotList.evening = eveningSlot.sort((a: IAppointmentDtls, b:IAppointmentDtls)=> {
+      const aSlotStartTime = moment(a.appointmentTime.substring(0, a.appointmentTime.indexOf('-')));
+      const bSlotStartTime = moment(b.appointmentTime.substring(0, b.appointmentTime.indexOf('-')));
+      return moment.utc(aSlotStartTime).diff(moment.utc(bSlotStartTime));
+    }); */
+  }
+
+  /**
+   * @description reset the slot group list
+   */
+  private resetSlotList() {
+    this.slotList = {
+      morning: [],
+      afternoon: [],
+      evening: [],
+      other: [],
+    };
+  }
+}

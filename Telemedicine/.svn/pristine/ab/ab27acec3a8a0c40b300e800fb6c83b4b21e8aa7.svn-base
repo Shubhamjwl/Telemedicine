@@ -1,0 +1,660 @@
+package com.nsdl.payment.service.impl;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.nsdl.payment.constant.AppConstant;
+import com.nsdl.payment.dto.AppointmentTransIDDTO;
+import com.nsdl.payment.dto.CommonResponseDTO;
+import com.nsdl.payment.dto.InvoiceDetail;
+import com.nsdl.payment.dto.MainRequestDTO;
+import com.nsdl.payment.dto.MainResponseDTO;
+import com.nsdl.payment.dto.NotifyRequestDTO;
+import com.nsdl.payment.dto.NotifyResponseDTO;
+import com.nsdl.payment.dto.RazorPayResponse;
+import com.nsdl.payment.dto.UpdateRequestDto;
+import com.nsdl.payment.dto.UsrOtpEmailVerifyDTO;
+import com.nsdl.payment.dto.UsrOtpEmailVerifyResponseDTO;
+import com.nsdl.payment.entity.AppointmentDtlsEntity;
+import com.nsdl.payment.entity.AppointmentSeqEntity;
+import com.nsdl.payment.entity.DocMstrDtlsEntity;
+import com.nsdl.payment.entity.LoginUserEntity;
+import com.nsdl.payment.entity.PatientPersonalDetailEntity;
+import com.nsdl.payment.entity.PaymentDtl;
+import com.nsdl.payment.entity.PaymentDtlsEntity;
+import com.nsdl.payment.exception.DateParsingException;
+import com.nsdl.payment.exception.ErrorConstants;
+import com.nsdl.payment.exception.ServiceError;
+import com.nsdl.payment.repository.AppointmentDtlsAuditRepository;
+import com.nsdl.payment.repository.AppointmentDtlsRepository;
+import com.nsdl.payment.repository.AppointmentSeqRepository;
+import com.nsdl.payment.repository.DocMstrDtlsRepository;
+import com.nsdl.payment.repository.LoginRepository;
+import com.nsdl.payment.repository.PaymentRepository;
+import com.nsdl.payment.repository.PaymentRepository_old;
+import com.nsdl.payment.repository.RegistrationRepository;
+import com.nsdl.payment.service.AuditService;
+import com.nsdl.payment.service.PaymentService;
+import com.nsdl.payment.utility.AlphabetEncoder;
+import com.nsdl.payment.utility.RestCallUtil;
+
+
+@Service
+public class PaymentServiceImpl  implements PaymentService{
+	
+	private static final Logger  logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
+	
+	@Autowired
+	PaymentRepository payRepo;
+	
+	@Autowired
+	LoginRepository loginRepo;
+	
+	@Autowired
+	RegistrationRepository registrationRepo;
+	
+	@Value("${EMAIL_NOTIFICATION_URL}")
+	private String emailNotificationUrl;
+	
+/*	@Value("${APPOINTMENT_SERVICE_URL}")
+	private String saveAppointmentUrl; */
+	
+	@Autowired
+	PaymentRepository_old oldPayRepo;
+	
+	@Autowired
+	private DocMstrDtlsRepository docMstrDtlsRepository;
+	
+	@Autowired
+	AppointmentSeqRepository seqRepository;
+
+	@Autowired
+	private AppointmentDtlsRepository appointmentDtlsRepository;
+	
+	@Autowired
+	private AuditService auditService;
+
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Autowired
+	private AppointmentDtlsAuditRepository apptAuditDtlsRepo;
+	/**
+	 * This method will update the orderId,receipt and status obtained from razorpay in db
+	 *
+	 */
+	@Override
+	public MainResponseDTO<CommonResponseDTO> updateOrder(UpdateRequestDto paymentRequest) {
+		String loggedInUser;
+		MainResponseDTO<CommonResponseDTO> response=new MainResponseDTO<>();
+		CommonResponseDTO CommonResp=new CommonResponseDTO();
+		 if(paymentRequest.getLoggedinUser()!="")
+		 {
+			 loggedInUser=paymentRequest.getLoggedinUser().trim();  //changes by sayalia, condition based because for external link shared by doctor , loggedin user is not pres
+		 }else
+		 {
+			 loggedInUser=paymentRequest.getPtUserID();
+		 }
+		logger.info("Logged in user:"+loggedInUser);
+		logger.info("Transaction Id:"+paymentRequest.getTransId());
+		LoginUserEntity userEntity = loginRepo.findByUserIdIgnoreCase(loggedInUser);
+		PaymentDtl paymentDtl=new PaymentDtl();
+		//Check if valid user
+		if(paymentRequest.getPtUserID()!="")
+		{
+		 logger.info("No need to check user status, as user is not logged in in case of external URL");	
+		}else
+		{
+			checkIsValidUser(userEntity);
+		}
+		
+		if(stringIsNullOrEmpty(paymentRequest.getTransId()) || stringIsNullOrEmpty(paymentRequest.getOrderId()))
+		{
+			logger.error("Received blank/null tranaction /OrderId ");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_REQUEST.getCode(), ErrorConstants.INVALID_REQUEST.getMessage()));
+		}
+		//Check if valid user, if transaction initiated and receipt comes from Razorpay not matched then invalid transaction
+		checkIfValidTransaction(paymentRequest.getTransId(),paymentRequest.getReceiptId());
+		logger.info("Trying to get record for payment transaction Id: "+paymentRequest.getTransId());
+		PaymentDtlsEntity paymentDtlEntity=oldPayRepo.findByTransId(paymentRequest.getTransId());
+		logger.info("Record fetched successfully: "+paymentRequest.getTransId());
+		checkIfValidPayment(paymentDtlEntity);
+		
+		//Save record to database against given transactionID
+		paymentDtl.setAmount(paymentRequest.getAmount());
+		paymentDtl.setConvenienceCharge(paymentRequest.getConvenienceCharge());
+		paymentDtl.setTransId(paymentRequest.getTransId());
+		paymentDtl.setCreatedBy(loggedInUser);
+		paymentDtl.setPayStatus(AppConstant.PAYMENT_SUCCESS);
+		paymentDtl.setCreatedTmstmp(LocalDateTime.now());
+		paymentDtl.setPayDate(LocalDateTime.now());
+		paymentDtl.setRazorpayOrderId(paymentRequest.getOrderId());
+		 if (payRepo.saveAndFlush(paymentDtl) != null) 
+		 {
+			 	logger.info("Record Saved successfully against tarnsactionId: "+paymentRequest.getTransId());
+			 	CommonResp.setMessage("Record Updated Successfully");
+				response.setStatus(true);
+				response.setResponse(CommonResp);
+		 }
+		 else {
+				logger.info("Record Update Failed");
+				response.setStatus(false);
+				CommonResp.setMessage(AppConstant.RECORD_UPDATE_FAIL);
+				response.setResponse(CommonResp);
+			}
+		return response;
+	}
+
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	private MainResponseDTO<NotifyResponseDTO> sendNotification(NotifyRequestDTO restRequest) {
+		logger.info("Calling Notification service...");
+		MainRequestDTO<NotifyRequestDTO> mainRequest = new MainRequestDTO<NotifyRequestDTO>();
+		ResponseEntity<MainResponseDTO<NotifyResponseDTO>> response = null;
+		mainRequest.setRequest(restRequest);
+		try {
+			response = (ResponseEntity<MainResponseDTO<NotifyResponseDTO>>) RestCallUtil.postApiRequest(emailNotificationUrl, mainRequest, MainResponseDTO.class);
+		} catch (Exception e) {
+			logger.error("Exception occurred while calling notification service");
+			e.printStackTrace();
+		}
+		logger.info("Called notification service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+		
+	}
+	
+	
+	private void checkIfValidPayment(PaymentDtlsEntity paymentDtl) {
+		if (paymentDtl == null) {
+			logger.error("Payment Details not found for given user");
+			throw new DateParsingException(new ServiceError(ErrorConstants.PAYMENT_RECORD_NOT_FOUND.getCode(), ErrorConstants.PAYMENT_RECORD_NOT_FOUND.getMessage()));
+		}
+		
+	}
+
+
+	private void checkIfValidTransaction(String transId,String receipt) {
+		if(!(transId.equals(receipt)))
+		{
+			logger.error("Record updation failed due to mismatch in requested transactionId and received transactionId");
+			logger.error("Payment requested for Transaction Id : "+transId+ " Receipt Id mentioned in response : "+receipt);
+			throw new DateParsingException(new ServiceError(ErrorConstants.RECORD_MISMATCH.getCode(), ErrorConstants.RECORD_MISMATCH.getMessage()));
+			
+		}
+		
+	}
+
+
+	public boolean stringIsNullOrEmpty(String str) {
+
+		if (str == null|| str.equals(null)) {
+			return true;
+		} else {
+			str = str.trim().replaceAll("\\s+", " ");
+			if (str.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> updatePaymentResponse(RazorPayResponse paymentResponse) {
+		MainResponseDTO<CommonResponseDTO> response=new MainResponseDTO<>();
+		CommonResponseDTO commonResp=new CommonResponseDTO();
+		String loggedInUser=paymentResponse.getLoggedinUser().trim();
+		logger.info("Logged in user:"+loggedInUser);
+		NotifyRequestDTO notifyRequest = new NotifyRequestDTO();
+		if(stringIsNullOrEmpty(paymentResponse.getOrderId()))
+		{
+			logger.error("Received blank/null OrderId ");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_REQUEST.getCode(), ErrorConstants.INVALID_REQUEST.getMessage()));
+		}
+		logger.info("Payment Response obtained from razorpay:\n");
+		logger.info("Payment Id:"+paymentResponse.getPaymentId());
+		logger.info("Order Id:"+paymentResponse.getOrderId());
+		logger.info("Signature Id:"+paymentResponse.getSignature());
+		logger.info("Getting Payment Data from database on the basis of Order Id:" +paymentResponse.getOrderId());
+		PaymentDtl paymentDtl = payRepo.findByRazorpayOrderId(paymentResponse.getOrderId());
+		checkIfValidPaymentByOrderId(paymentDtl);
+		PatientPersonalDetailEntity patientDtl=registrationRepo.findByPtUserIDIgnoreCase(loggedInUser);
+		if(null!=patientDtl)
+		{
+			//patientName=patientDtl.getPtFullName();
+			notifyRequest.setEmailId(patientDtl.getPtEmail());
+			notifyRequest.setMobileNo(patientDtl.getPtMobNo());
+			notifyRequest.setUserId(loggedInUser);
+			notifyRequest.setSendType(AppConstant.NOTIFICATION_CONSTANT);
+			notifyRequest.setAmount(paymentDtl.getAmount());
+			//paymentResponse.setPaymentStatus(AppConstant.PAYMENT_CAPTURED);
+			if(paymentResponse.getPaymentStatus().equalsIgnoreCase(AppConstant.PAYMENT_CAPTURED))
+			{
+				notifyRequest.setTemplateType(AppConstant.SUCCESS_TEMPLATE_NAME);
+			}
+			else
+			{
+				notifyRequest.setTemplateType(AppConstant.FAIL_TEMPLATE_NAME);
+			}
+			
+			
+		}
+		logger.info("Trying to update record against transactionId: "+paymentResponse.getOrderId());
+		 paymentDtl.setModifiedBy(paymentResponse.getLoggedinUser());
+		 paymentDtl.setModifiedTmstmp(LocalDateTime.now());
+		 paymentDtl.setRazorpayPaymentId(paymentResponse.getPaymentId());
+		 paymentDtl.setRazorpaySignature(paymentResponse.getSignature());
+		 paymentDtl.setPaymentMethod(paymentResponse.getPaymentMethod());
+		 paymentDtl.setPayStatus(paymentResponse.getPaymentStatus());
+		 paymentDtl.setBankName(paymentResponse.getBankName());
+		 if (payRepo.saveAndFlush(paymentDtl) != null) 
+				 {
+					 logger.info("Record updated successfully against tarnsactionId: ",paymentResponse.getOrderId());
+					//Notify user by sending email/SMS
+					 	MainResponseDTO<NotifyResponseDTO> updateResponse =sendNotification(notifyRequest);
+					 	if(updateResponse.isStatus())
+						{
+					 		logger.info("Notification sent successfully");
+						}
+					 commonResp.setMessage(AppConstant.PAYMENT_SUCCESS_MSG);
+					 response.setStatus(true);
+					 response.setResponse(commonResp);
+				 }
+		 else {
+				logger.info("Record Update Failed!!");
+				response.setStatus(false);
+				commonResp.setMessage(AppConstant.RECORD_UPDATE_FAIL);
+				response.setResponse(commonResp);
+			}
+				
+		return response;
+	}
+	
+	private void checkIfValidPaymentByOrderId(PaymentDtl paymentDtl) {
+		if (paymentDtl == null) {
+			logger.error("Payment Details not found for given user");
+			throw new DateParsingException(new ServiceError(ErrorConstants.PAYMENT_RECORD_NOT_FOUND.getCode(), ErrorConstants.PAYMENT_RECORD_NOT_FOUND.getMessage()));
+		}
+		
+		
+	}
+
+
+
+
+	/**
+	 * @param userEntity
+	 * To check user is valid or not (Active & Logged in)
+	 */
+	private void checkIsValidUser(LoginUserEntity userEntity) {
+		if (userEntity == null) {
+			logger.error("User data not found for given user : Invalid User");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_USER_ERROR.getCode(), ErrorConstants.INVALID_USER_ERROR.getMessage()));
+		}
+		else if (!userEntity.getIsActive()) 
+		{
+			logger.error("User status is not Active : InActive User");
+			throw new DateParsingException(new ServiceError(ErrorConstants.USER_NOT_ACTIVE.getCode(), ErrorConstants.USER_NOT_ACTIVE.getMessage()));
+		}
+		 else if (!userEntity.getIsLoggedIn())
+		 {
+				logger.error("User Not Logged in");
+				throw new DateParsingException(new ServiceError(ErrorConstants.USER_NOT_LOGIN.getCode(), ErrorConstants.USER_NOT_LOGIN.getMessage()));
+		}
+	}
+
+
+
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> createPaymentLink(InvoiceDetail invoiceDetail) {
+		MainResponseDTO<CommonResponseDTO> response=new MainResponseDTO<>();
+		CommonResponseDTO CommonResp=new CommonResponseDTO();
+		String loggedInUser=invoiceDetail.getLoggedinUser().trim();
+		logger.info("Logged in user:"+loggedInUser);
+		logger.info("Transaction Id:"+invoiceDetail.getTransId());
+		LoginUserEntity userEntity = loginRepo.findByUserIdIgnoreCase(loggedInUser);
+		PaymentDtl paymentDtl=new PaymentDtl();
+		//Check if valid user
+		checkIsValidUser(userEntity);
+		if(stringIsNullOrEmpty(invoiceDetail.getTransId()) || stringIsNullOrEmpty(invoiceDetail.getOrderId()))
+		{
+			logger.error("Received blank/null tranaction /OrderId ");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_REQUEST.getCode(), ErrorConstants.INVALID_REQUEST.getMessage()));
+		}
+		logger.info("Trying to get record for payment transaction Id: "+invoiceDetail.getTransId());
+		PaymentDtlsEntity paymentDtlEntity=oldPayRepo.findByTransId(invoiceDetail.getTransId());
+		logger.info("Record fetched successfully: "+invoiceDetail.getTransId());
+		checkIfValidPayment(paymentDtlEntity);
+		
+		//Save record to database against given transactionID
+		paymentDtl.setAmount(invoiceDetail.getAmount_due()/100); //convert to rupee
+		paymentDtl.setConvenienceCharge(invoiceDetail.getConvenienceCharge());
+		paymentDtl.setDiscount(invoiceDetail.getDiscount());
+		paymentDtl.setTransId(invoiceDetail.getTransId());
+		paymentDtl.setCreatedBy(loggedInUser);
+		paymentDtl.setPayStatus(invoiceDetail.getInvoiceStatus());
+		paymentDtl.setCreatedTmstmp(LocalDateTime.now());
+		paymentDtl.setPayDate(LocalDateTime.now());
+		paymentDtl.setRazorpayOrderId(invoiceDetail.getOrderId());
+		paymentDtl.setInvoiceId(invoiceDetail.getInvoiceId());
+		 if (payRepo.saveAndFlush(paymentDtl) != null) 
+		 {
+			 	logger.info("Record Saved successfully against tarnsactionId: "+invoiceDetail.getTransId());
+			 	CommonResp.setMessage("Record Updated Successfully");
+				response.setStatus(true);
+				response.setResponse(CommonResp);
+		 }
+		 else {
+				logger.info("Record Update Failed");
+				response.setStatus(false);
+				CommonResp.setMessage(AppConstant.RECORD_UPDATE_FAIL);
+				response.setResponse(CommonResp);
+			}
+		return response;
+	
+	}
+
+
+
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> updatePaymentLinkDtls(RazorPayResponse paymentResponse) {
+		MainResponseDTO<CommonResponseDTO> response=new MainResponseDTO<>();
+		CommonResponseDTO commonResp=new CommonResponseDTO();
+		 boolean isAppointmentSaved=false;
+		//NotifyRequestDTO notifyRequest = new NotifyRequestDTO();
+		if(stringIsNullOrEmpty(paymentResponse.getTransId()))
+		{
+			logger.error("Received blank/null TransactionId ");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_REQUEST.getCode(), ErrorConstants.INVALID_REQUEST.getMessage()));
+		}
+		PaymentDtl paymentDtl = payRepo.findByTransId(paymentResponse.getTransId());
+		checkIfValidPaymentByOrderId(paymentDtl);
+	/*	PatientPersonalDetailEntity patientDtl=registrationRepo.findByPtUserIDIgnoreCase(loggedInUser);
+		if(null!=patientDtl)
+		{
+			notifyRequest.setEmailId(patientDtl.getPtEmail());
+			notifyRequest.setMobileNo(patientDtl.getPtMobNo());
+			notifyRequest.setUserId(loggedInUser);
+			notifyRequest.setSendType(AppConstant.NOTIFICATION_CONSTANT);
+			notifyRequest.setAmount(paymentDtl.getAmount());
+			if(paymentResponse.getPaymentStatus().equalsIgnoreCase(AppConstant.PAYMENT_PAID))
+			{
+				notifyRequest.setTemplateType(AppConstant.SUCCESS_TEMPLATE_NAME);
+			}
+			else
+			{
+				notifyRequest.setTemplateType(AppConstant.FAIL_TEMPLATE_NAME);
+			}
+		} */
+			logger.info("Trying to update record against transactionId: "+paymentResponse.getTransId());
+			 paymentDtl.setModifiedBy(paymentResponse.getLoggedinUser());
+			 paymentDtl.setModifiedTmstmp(LocalDateTime.now());
+			 paymentDtl.setRazorpayPaymentId(paymentResponse.getPaymentId());
+			 paymentDtl.setRazorpaySignature(paymentResponse.getSignature());
+			 paymentDtl.setPayStatus(paymentResponse.getPaymentStatus());
+			 if (payRepo.saveAndFlush(paymentDtl) != null) 
+			 {
+				 logger.info("Record updated successfully in payment details against tarnsactionId: ",paymentResponse.getOrderId());
+				 logger.info("Calling saveAppointment...");
+				 try
+				 {
+					 isAppointmentSaved=updateAppointmentDetails(paymentResponse.getTransId());
+					 
+				 }
+				 catch(Exception e)
+				 {
+					 logger.error("Exception occurred while updating appointment details");
+					 e.printStackTrace();
+				 }
+				if(isAppointmentSaved)
+				{
+					 logger.info("Appointment booked successfully...");
+					 commonResp.setMessage(AppConstant.PAYMENT_SUCCESS_MSG);
+					 response.setStatus(true);
+					 response.setResponse(commonResp);
+				}
+				//Notify user by sending email/SMS
+				/* 	MainResponseDTO<NotifyResponseDTO> updateResponse =sendNotification(notifyRequest);
+				 	if(updateResponse.isStatus())
+					{
+				 		logger.info("Notification sent successfully");
+					} */
+				
+			 }
+			 else {
+				 logger.info("Record Update Failed!!");
+				 response.setStatus(false);
+				 commonResp.setMessage(AppConstant.RECORD_UPDATE_FAIL);
+				 response.setResponse(commonResp);
+			 	}
+			
+	return response;
+	}
+
+
+	private static Date getDateTime(Date date, String time) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.substring(0, 2)));
+		calendar.set(Calendar.MINUTE, Integer.parseInt(time.substring(3, 5)));
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
+	}
+
+	
+	public boolean updateAppointmentDetails(String transId)
+	{
+		logger.info("Trying to save appointment details..."+transId);
+		AppointmentDtlsEntity appointmentDtlsEntity =appointmentDtlsRepository.findByTransactionId(transId);
+		appointmentDtlsEntity.setAdApptStatus(AppConstant.SCHEDULED);
+		AppointmentDtlsEntity appointmentDetails = appointmentDtlsRepository.save(appointmentDtlsEntity);
+		logger.info("Appointment Booked Successfully");
+		auditService.auditAppointmentData(appointmentDetails);
+		logger.info("Appointment Details saved in audit table Successfully");
+		logger.info("Calling API of Email and sms notification");
+		MainResponseDTO<UsrOtpEmailVerifyResponseDTO> resp=sendSMSEmailNotification(appointmentDtlsEntity,appointmentDtlsEntity.getDocMstrDtlsEntity(),appointmentDtlsEntity.getPatientRegDtlsEntity(),"appointment_success");
+		if(resp.isStatus())
+		{
+			logger.info("Notification sent successfully after payment");
+		}
+		return (resp.isStatus())?true:false;
+	 	
+		
+	}
+	private MainResponseDTO<UsrOtpEmailVerifyResponseDTO> sendSMSEmailNotification(AppointmentDtlsEntity appointmentDtlsEntity,
+			DocMstrDtlsEntity docMstrDtlsEntity, PatientPersonalDetailEntity patientDtl, String string) {
+		MainRequestDTO<UsrOtpEmailVerifyDTO> mainRequest = new MainRequestDTO<>();
+		UsrOtpEmailVerifyDTO usrOtpEmailVerifyDTO=new UsrOtpEmailVerifyDTO();
+		usrOtpEmailVerifyDTO.setUserId("");
+		Date date = appointmentDtlsEntity.getAdApptDateFk();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
+		String strDate = dateFormat.format(date);  
+		usrOtpEmailVerifyDTO.setAppointmentDate(strDate);
+		usrOtpEmailVerifyDTO.setAppointmentTime(appointmentDtlsEntity.getAdApptSlotFk());
+		usrOtpEmailVerifyDTO.setDocEmailId(docMstrDtlsEntity.getDmdEmail());
+		usrOtpEmailVerifyDTO.setDocMobileNo(docMstrDtlsEntity.getDmdMobileNo());
+		usrOtpEmailVerifyDTO.setPatientName(patientDtl.getPtFullName());
+		usrOtpEmailVerifyDTO.setPtEmailId(patientDtl.getPtEmail());
+		usrOtpEmailVerifyDTO.setPreAssessmentLink(docMstrDtlsEntity.getDmdShortPreAssessmentLink());
+		usrOtpEmailVerifyDTO.setPreAssessmentFlag(docMstrDtlsEntity.isDmdPreAssessmentFlag());
+		usrOtpEmailVerifyDTO.setPtMobileNo(String.valueOf(patientDtl.getPtMobNo()));
+		usrOtpEmailVerifyDTO.setSendType(null != docMstrDtlsEntity.getDmdEmail() && !docMstrDtlsEntity.getDmdEmail().isEmpty() ? "both" : "sms");//changed by girishk
+		usrOtpEmailVerifyDTO.setTemplateType("appointment_success");
+		usrOtpEmailVerifyDTO.setDoctorName(docMstrDtlsEntity.getDmdDrName());
+		mainRequest.setRequest(usrOtpEmailVerifyDTO);
+		HttpEntity<MainRequestDTO<UsrOtpEmailVerifyDTO>> requestEntity = new HttpEntity<MainRequestDTO<UsrOtpEmailVerifyDTO>>(mainRequest);
+		ParameterizedTypeReference<MainResponseDTO<UsrOtpEmailVerifyResponseDTO>> parameterizedResponse = new ParameterizedTypeReference<MainResponseDTO<UsrOtpEmailVerifyResponseDTO>>() {
+		};
+		ResponseEntity<MainResponseDTO<UsrOtpEmailVerifyResponseDTO>> response = restTemplate.exchange(emailNotificationUrl, HttpMethod.POST, requestEntity, parameterizedResponse);
+		return response.getBody();
+	}
+
+	
+	public MainResponseDTO<CommonResponseDTO> saveAppointmentDetails(AppointmentTransIDDTO transID)
+	{
+		logger.info("Inside save appointment details method======="+transID.getTransID());
+		MainResponseDTO<CommonResponseDTO> response=new MainResponseDTO<>();
+		logger.info("Trying to save appointment details..."+transID.getTransID());
+	   PaymentDtlsEntity paymentDtlEntity=oldPayRepo.findByTransId(transID.getTransID());
+	   Date slotDateTime = getDateTime(paymentDtlEntity.getApptDate(),paymentDtlEntity.getApptSlot());
+	  if (slotDateTime.before(new Date())) {
+			logger.info("Can't use past date for booking");
+			logger.info("request date and time : {}", slotDateTime);
+			logger.info("current date : {}", new Date());
+			throw new DateParsingException(new ServiceError(ErrorConstants.PAST_DATE_TIME_CANNOT_BOOKED.getCode(), ErrorConstants.PAST_DATE_TIME_CANNOT_BOOKED.getMessage()));
+			}
+	   //Get Doctor details
+	   DocMstrDtlsEntity docMstrDtlsEntity = docMstrDtlsRepository.findByDmdUserId(paymentDtlEntity.getDocRegId());
+		if (docMstrDtlsEntity == null) {
+			logger.error("No doctor details found for doctor Id: {}", paymentDtlEntity.getDocRegId());
+			throw new DateParsingException(new ServiceError(ErrorConstants.DOCTOR_DETAILS_NOT_PRESENT.getCode(),ErrorConstants.DOCTOR_DETAILS_NOT_PRESENT.getMessage()));
+		}
+		logger.info("Doctor details fetched successfully");
+		 //Get patient details
+		   PatientPersonalDetailEntity patientDtl=registrationRepo.findByPtUserIDIgnoreCase(paymentDtlEntity.getPtRegId());
+		   if(null!=patientDtl)
+		   {
+			   logger.info("Patient details fetched successfully");
+			  // apptDto.setPatientEmail(patientDtl.getPtEmail());
+			   //apptDto.setPatientMNO(String.valueOf(patientDtl.getPtMobNo()));
+			   //apptDto.setPatientName(patientDtl.getPtFullName());
+		   }
+		AppointmentDtlsEntity appointmentDtlsEntity = new AppointmentDtlsEntity();
+		appointmentDtlsEntity.setAdApptId(generateAppointmentId());
+		appointmentDtlsEntity.setDocMstrDtlsEntity(docMstrDtlsEntity);
+		//if (paymentDtlEntity.getApptBookedFor().equalsIgnoreCase("y")) {
+			appointmentDtlsEntity.setAdApptBookedFor(patientDtl.getPtFullName());
+			appointmentDtlsEntity.setAdPatientEmail(patientDtl.getPtEmail());
+			appointmentDtlsEntity.setAdPatientMobileNo(String.valueOf(patientDtl.getPtMobNo()));
+			appointmentDtlsEntity.setAdIsbooked(true);
+	/*	}
+		else
+		{
+			appointmentDtlsEntity.setAdIsbooked(false);
+		}*/
+		appointmentDtlsEntity.setPatientRegDtlsEntity(patientDtl);
+		appointmentDtlsEntity.setAdApptSlotFk(paymentDtlEntity.getApptSlot());
+		appointmentDtlsEntity.setAdApptDateFk(paymentDtlEntity.getApptDate());
+		appointmentDtlsEntity.setAdApptStatus(AppConstant.SCHEDULEDWP);
+		appointmentDtlsEntity.setPaymentDtlsEntity(paymentDtlEntity);
+		appointmentDtlsEntity.setAdCreatedBy(paymentDtlEntity.getDocRegId());
+		appointmentDtlsEntity.setAdCreatedTmstmp(LocalDateTime.now());
+		appointmentDtlsEntity.setAdConsultType(paymentDtlEntity.getPdslotType());
+	//	logger.info("DTO before save: "+appointmentDtlsEntity);
+		AppointmentDtlsEntity appointmentDetails = appointmentDtlsRepository.save(appointmentDtlsEntity);
+		logger.info("Appointment Booked Successfully");
+		auditService.auditAppointmentData(appointmentDetails);
+		logger.info("Appointment Details saved in audit table Successfully");
+		// logger.info("Calling API of Email and sms notification");
+		// sendSMSEmailNotification(appointmentDtlsEntity,docMstrDtlsEntity,patientDtl,"appointment_success");
+		/*if(resp.isStatus())
+		{
+			logger.info("Notification sent successfully after payment");
+		}*/
+		if(null!=appointmentDetails)
+		{
+			response.setStatus(true);
+		}
+		return response;
+	 	
+		
+	}
+	
+
+	private synchronized String generateAppointmentId() {
+
+		List<AppointmentSeqEntity>seqList=seqRepository.findAll();
+		if(seqList.size()>0) {
+			AppointmentSeqEntity appointmentSeqEntity=seqList.get(0);
+			String apptId=AlphabetEncoder.generateAppointmentId(appointmentSeqEntity.getSeq().intValue());
+			appointmentSeqEntity.setSeq(appointmentSeqEntity.getSeq()+1);
+			seqRepository.save(appointmentSeqEntity);
+			return apptId;
+		}
+		else {
+
+			SimpleDateFormat ft = new SimpleDateFormat("yyyyMMddhhmmss"); 
+			String datetime = ft.format(new Date()); 
+			String randomTwoDigitNumber = String.valueOf(new Random().nextInt(90) + 10);
+			return datetime.concat(randomTwoDigitNumber);
+		}
+	}
+
+
+
+
+	@Override
+	public void deleteslotsWithoutpayment() {
+		logger.info("cron for 2 minutes+++=");
+		// TODO Auto-generated method stub
+		List<AppointmentDtlsEntity> apptlist=new ArrayList<>();
+		apptlist=appointmentDtlsRepository.findapptDetailsWithoutPayment();
+		for (AppointmentDtlsEntity appointmentDtlsEntity : apptlist) {
+			int i,j=0;
+			LocalDateTime dateTime = appointmentDtlsEntity.getAdCreatedTmstmp().plus(Duration.of(22, ChronoUnit.MINUTES));
+			Date apptTime = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+			LocalDateTime dateTime1 = LocalDateTime.now();
+			Date currentTime = Date.from(dateTime1.atZone(ZoneId.systemDefault()).toInstant());
+			if(apptTime.before(currentTime))
+					{
+					i=appointmentDtlsRepository.deleteApptDetails(appointmentDtlsEntity.getAdApptId());
+					j=apptAuditDtlsRepo.deleteAuditApptDetails(appointmentDtlsEntity.getAdApptId());
+					 if(i>0 && j>0)
+					 {
+						//System.out.println("delete successfully++++++");
+						logger.info("Record deleted successfully+++");
+					  }
+					}
+			}
+	}
+	/*
+	private void getcurrentepochtime() {
+		// TODO Auto-generated method stub
+		logger.info("Inside epoch time converter method++++++...");
+		TimeZone tz = TimeZone.getTimeZone("GMT+05:30");
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 22);
+		c.setTimeZone(tz);
+		Date dte = c.getTime();
+		long epoch = (dte.getTime() / 1000);
+		logger.info("epoch time++++++..." + epoch);
+			
+	}*/
+
+	/*private boolean getCreatedEpochTime(LocalDateTime localDateTime)
+	{
+		// LocalDateTime Example
+		  LocalDateTime dateTime = localDateTime.plus(Duration.of(22, ChronoUnit.MINUTES));
+		  Date added10Mins = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+		  System.out.println("Java 8 added with 10 mins : " + added10Mins);
+		  long epoch= (added10Mins.getTime()/1000);
+		  return true;
+	}*/
+
+	
+}

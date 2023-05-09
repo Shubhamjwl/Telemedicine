@@ -1,0 +1,118 @@
+.appt-history-wrapper{
+    .appt-history{
+        background-color: #fff;
+        border: 1px solid #cacaca;
+        border-radius: 20px;
+        padding: 30px 10px;
+
+        .slide-show-wrapp{
+            background-color: #cacaca;  
+        }
+
+        .month-list {
+            text-align: center;
+            height: 250px;
+            overflow: hidden;
+            .month {
+                padding: 15px 0px;
+                height: 50px;
+                margin: 0px;
+                cursor: pointer;
+
+            } :hover{
+                background-color: #00000021;
+            }
+            .active {
+                background-color: #0BD0B5;
+                color: #fff;
+            }
+        }
+        .month-details{
+            padding: 20px 18px;
+            background-color: #cacaca;  
+            .sub-details{
+                font-size: 10px;
+            }
+        }
+        .btn-acc{
+            border: 1px solid #000;
+            border-radius: 50%;
+            height: 25px;
+            width: 25px;
+            padding: 1px;
+            font-size: 20px;
+        }
+        .btn-next{
+            transform: rotate(180deg);
+        }
+    }
+    .col-heading {
+        display: inline-block;
+        width: 75%;
+        padding: 5px 10px 0px 0px;
+    }
+    .col-details {
+        display: inline-block;
+        width: 25%;
+        padding: 5px 5px 0px 10px;
+    }
+    .sub-heading{
+        margin: 0 0;
+        border-bottom: 1px solid #cacaca;
+    }
+    .main-heading {
+        border-bottom: 1px solid #00000054;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        h3{
+            font-weight: 400;
+        }
+    }
+    .slide-show-wrapp{
+        padding: 20px 0;
+    }
+    .cal-cell-top{
+        min-height: 50px;
+        height: 50px;
+        text-align: left;
+    }
+    .event-details {
+        font-size: 10px;
+    }
+}
+.calender-wrapper {
+    .cal-month-view .cal-cell-row .cal-header {
+        background-color: #cacaca !important;
+    } 
+    .cal-month-view .cal-header .cal-cell {
+        background-color: #cacaca !important;
+    }
+}
+.time-span {
+    width: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    line-height: 9px;
+    cursor: pointer;
+
+}
+.breadcrumb {
+    background-color: transparent;
+    flex-direction: row-reverse;
+    padding-top: 0px;
+
+    .breadcrumb-item {
+        cursor: pointer;
+    }:hover {
+        color: #000;
+    }
+}
+.breadcrumb-item+.breadcrumb-item::before {
+    content: "";
+}
+.breadcrumb-item+.breadcrumb-item::after {
+    content: ">>";
+    margin-left: 4px;
+}

@@ -1,0 +1,10 @@
+server.port=7079
+server.servlet.context-path=/book/v1
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888/config
+spring.cloud.config.label=1.0.1
+Spring.application.name=Booking-Appointment
+
+cron.expression=*/10 * * * *
+
+

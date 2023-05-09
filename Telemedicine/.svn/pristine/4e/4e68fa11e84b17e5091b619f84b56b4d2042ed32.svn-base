@@ -1,0 +1,722 @@
+package com.nsdl.otpManager.serviceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.otpManager.Exception.OTPException;
+import com.nsdl.otpManager.Exception.ServiceErrors;
+import com.nsdl.otpManager.constant.AppConstant;
+import com.nsdl.otpManager.enumeration.ErrorConstant;
+import com.nsdl.otpManager.dto.InvitationLinkRequest;
+import com.nsdl.otpManager.dto.InvitationLinkResponse;
+import com.nsdl.otpManager.dto.MainRequestDTO;
+import com.nsdl.otpManager.dto.MainResponseDTO;
+import com.nsdl.otpManager.dto.OTPRequest;
+import com.nsdl.otpManager.dto.OTPResponse;
+import com.nsdl.otpManager.dto.TemplateDtls;
+import com.nsdl.otpManager.dto.VerifyOTPRequest;
+import com.nsdl.otpManager.entity.DoctorRegDtlsEntity;
+import com.nsdl.otpManager.entity.LoginUserEntity;
+import com.nsdl.otpManager.entity.PatientPersonalDetailEntity;
+import com.nsdl.otpManager.entity.UsrOtpEmailVerifyDtl;
+import com.nsdl.otpManager.repository.DoctorRegRepository;
+import com.nsdl.otpManager.repository.PatientRegRepository;
+import com.nsdl.otpManager.repository.UserRepository;
+import com.nsdl.otpManager.repository.UsrEmailVerifyRepository;
+import com.nsdl.otpManager.service.EmailService;
+import com.nsdl.otpManager.service.NotificationService;
+import com.nsdl.otpManager.service.OtpService;
+import com.nsdl.otpManager.service.SmsService;
+import com.nsdl.otpManager.utility.Utility;
+
+
+
+@Service
+@Transactional
+public class OtpServiceImpl implements OtpService{
+	
+	@Value("${OTPLength}")
+    private Integer OTPLength;
+	
+	@Value("${OTPValidDuration}")
+    private Integer OTPValidDuration;
+	
+	 @Value("${otpRetryAttempt}") 
+	 private Integer otpVerificationAttempt;
+	 
+	 @Value("${OTPString}")
+	 private String OTPString;
+	 
+	 @Value("${verifyOtpByPass.flag}")
+	 private String verifyOtpByPassFlag;
+		
+	@Autowired
+	UsrEmailVerifyRepository repo;
+	
+	@Autowired
+	UserRepository userRepo;
+	
+	@Autowired
+	public EmailService emailService;
+
+	@Autowired
+	public SmsService smsService;
+	
+	@Autowired
+	public DoctorRegRepository doctorRepo;
+	
+	@Autowired
+	public NotificationService notificationServie;
+	
+	@Autowired
+	public PatientRegRepository patientRepo; 
+	
+	
+	private static final Logger logger = LoggerFactory.getLogger(OtpServiceImpl.class);
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<OTPResponse> generateOTP(MainRequestDTO<OTPRequest> request)  {
+
+		MainResponseDTO<OTPResponse> response = null;
+			OTPResponse otpResponse = new OTPResponse();
+			OTPRequest payLoad = request.getRequest();
+			String otp=AppConstant.NULL;
+			String encodeOTP=AppConstant.NULL;
+			List<String>otpList=new ArrayList<>();
+			String newOtp =AppConstant.BLANK;
+			String newEncodeOTP=AppConstant.BLANK;
+			String emailOtp=AppConstant.BLANK;
+			String smsOtp=AppConstant.BLANK;
+				
+			if(Utility.stringIsNullOrEmpty(payLoad.getUserId()))
+			{
+				logger.info("User id is blank or null ");
+				throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_USER.getCode(),ErrorConstant.INVALID_USER.getMessage()));
+			}
+			if(Utility.stringIsNullOrEmpty(payLoad.getMobileNo()))
+			{
+				logger.info("Mobile Number is blank or null ");
+				throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_MOBILE.getCode(),ErrorConstant.INVALID_MOBILE.getMessage()));
+			}
+			//code commented by girishk
+//			if(Utility.stringIsNullOrEmpty(payLoad.getEmailID()))
+//			{
+//				logger.info("Email Id is blank or null ");
+//				throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_EMAIL.getCode(),ErrorConstant.INVALID_EMAIL.getMessage()));
+//			}
+			
+			if((Utility.stringIsNullOrEmpty(payLoad.getOtpFor()))||(!payLoad.getOtpFor().equalsIgnoreCase(AppConstant.REG) && !payLoad.getOtpFor().equalsIgnoreCase(AppConstant.FORGOT) && !payLoad.getOtpFor().equalsIgnoreCase(AppConstant.CHANGE)))
+				{
+				logger.info("Invalid Value found for parameter otpFor. Value must be any of the following reg/forgot/change , value found:"+payLoad.getOtpFor());	
+					throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_PARAMETER.getCode(),ErrorConstant.INVALID_PARAMETER.getMessage()));
+				}
+				if((Utility.stringIsNullOrEmpty(payLoad.getOtpGenerateTpye()))||(!payLoad.getOtpGenerateTpye().equalsIgnoreCase(AppConstant.SAME) && !payLoad.getOtpGenerateTpye().equalsIgnoreCase(AppConstant.DIFFERENT)))
+				{
+					logger.info("Invalid Value found for parameter otpGenerateTpye. Value must be any of the following same/Different , value found:"+payLoad.getOtpGenerateTpye());
+					throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_PARAMETER.getCode(),ErrorConstant.INVALID_PARAMETER.getMessage()));
+				}
+				if((Utility.stringIsNullOrEmpty(payLoad.getSendType()))||(!payLoad.getSendType().equalsIgnoreCase(AppConstant.SMS) && !payLoad.getSendType().equalsIgnoreCase(AppConstant.EMAIL) && !payLoad.getSendType().equalsIgnoreCase(AppConstant.BOTH)))
+				{
+					logger.info("Invalid Value found for parameter sendType. Value must be any of the following Email/SMS/Both , value found:"+payLoad.getSendType());
+					throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_PARAMETER.getCode(),ErrorConstant.INVALID_PARAMETER.getMessage()));
+				}
+				otp=Utility.getNewOTP(OTPLength,OTPString);
+				logger.info("Generated OTP:"+otp);
+				encodeOTP=Utility.getEncodedPwd(otp);
+				UsrOtpEmailVerifyDtl usrOtpEmailVerifyDtl=new UsrOtpEmailVerifyDtl();		
+					if(payLoad.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+					{
+						 logger.info("OTP generation is requested for Email");
+						usrOtpEmailVerifyDtl.setEmailOtp(encodeOTP);
+						usrOtpEmailVerifyDtl.setEmailOtpSentTmstmp(Utility.getCurrentTimestamp());
+						usrOtpEmailVerifyDtl.setOtpType(AppConstant.EMAIL);
+						otpList.add(otp);
+					}
+					else if(payLoad.getSendType().equalsIgnoreCase(AppConstant.SMS))
+					{
+						 logger.info("OTP generation is requested for sms");
+						usrOtpEmailVerifyDtl.setOtpSentTmstmp(Utility.getCurrentTimestamp());
+						usrOtpEmailVerifyDtl.setSmsOtp(encodeOTP);
+						usrOtpEmailVerifyDtl.setOtpType(AppConstant.SMS);
+						otpList.add(otp);
+						
+					}
+					else
+					{
+						usrOtpEmailVerifyDtl.setOtpType(AppConstant.BOTH);
+						 logger.info("OTP generation is requested for both Email/SMS");
+						if(payLoad.getOtpGenerateTpye().equalsIgnoreCase(AppConstant.DIFFERENT))
+						{
+							usrOtpEmailVerifyDtl.setEmailOtp(encodeOTP);
+							usrOtpEmailVerifyDtl.setEmailOtpSentTmstmp(Utility.getCurrentTimestamp());
+							newOtp=Utility.getNewOTP(OTPLength,OTPString);
+							newEncodeOTP=Utility.getEncodedPwd(newOtp);
+							usrOtpEmailVerifyDtl.setSmsOtp(newEncodeOTP);
+							usrOtpEmailVerifyDtl.setOtpSentTmstmp(Utility.getCurrentTimestamp());
+							otpList.add(otp);
+							otpList.add(newOtp);
+							 logger.info("Different OTP generated for both Email/SMS:Email OTP:"+otp+" "+"SMS : "+newOtp);
+						}
+						else
+						{
+							usrOtpEmailVerifyDtl.setSmsOtp(encodeOTP);
+							usrOtpEmailVerifyDtl.setOtpSentTmstmp(Utility.getCurrentTimestamp());
+							usrOtpEmailVerifyDtl.setEmailOtp(encodeOTP);
+							usrOtpEmailVerifyDtl.setEmailOtpSentTmstmp(Utility.getCurrentTimestamp());
+							otpList.add(otp);
+						}
+					}
+					
+					usrOtpEmailVerifyDtl.setCreatedTimestamp(Utility.getCurrentTimestamp());
+					usrOtpEmailVerifyDtl.setOtpFor(payLoad.getOtpFor());
+					usrOtpEmailVerifyDtl.setUserIdFk(payLoad.getUserId().toUpperCase());	
+					usrOtpEmailVerifyDtl.setOtpExpiredTmstmp(Utility.getOTPExpireTime(OTPValidDuration));
+					usrOtpEmailVerifyDtl.setOtpGenerateAttempts(usrOtpEmailVerifyDtl.getOtpGenerateAttempts()+1);
+		
+				repo.save(usrOtpEmailVerifyDtl);
+				logger.info("OTP details Saved Successfully to usrOtpEmailVerifyDtl table");
+				
+				//Send Email & SMS
+				if(payLoad.getOtpGenerateTpye().equalsIgnoreCase(AppConstant.DIFFERENT) && payLoad.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+				{
+					if(otpList.size()>1)
+					{
+						emailOtp=otpList.get(0);
+						smsOtp=otpList.get(1);
+						
+					}
+					else
+					{
+					//	throw new OTPException(AppConstant.NO, "Bad request");
+						logger.info("Exception occurred while generating otp");
+						throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_PARAMETER.getCode(),ErrorConstant.INVALID_PARAMETER.getMessage()));
+					}
+				}
+				else
+				{
+					smsOtp=otpList.get(0);
+					emailOtp=otpList.get(0);
+				}
+					if(payLoad.getSendType().equalsIgnoreCase(AppConstant.SMS))
+				{
+					
+						logger.info("Sending sms otp...");
+					try
+					{
+						//String msg=smsService.createSMSMessage(payLoad,smsOtp);
+						payLoad.setSmsOtp(smsOtp);
+						sendSMS(payLoad);
+						
+					}
+					catch(Exception e)
+					{
+						logger.info("Exception occurred while sending sms to mobile number:"+payLoad.getMobileNo());
+						response = (MainResponseDTO<OTPResponse>) Utility.getMainResponseDto(request);
+						otpResponse.setMessage(AppConstant.NO);
+						otpResponse.setDescription(e.getMessage());
+						response.setStatus(false);
+						response.setResponse(otpResponse);
+						return response;
+						
+					}
+				}
+				else if(payLoad.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+				{
+					logger.info("Trying to send email...:");
+					
+					try
+					{
+						payLoad.setEmailOtp(emailOtp);
+						sendEmail(payLoad);
+						
+					}
+					catch(Exception e)
+					{
+						logger.info("Exception occurred while sending email :"+payLoad.getMobileNo());
+						response = (MainResponseDTO<OTPResponse>) Utility.getMainResponseDto(request);
+						otpResponse.setMessage(AppConstant.NO);
+						otpResponse.setDescription(e.getMessage());
+						response.setStatus(false);
+						response.setResponse(otpResponse);
+						return response;
+					}
+					
+					
+				}
+				else
+				{
+					logger.info("Sending OTP to both EMAIL/SMS.....");
+					//String msg=smsService.createSMSMessage(payLoad,smsOtp);
+					//smsService.SendSms(msg, payLoad.getMobileNo());
+					//smsService.sendGupShupSms(msg, payLoad.getMobileNo());
+					//emailService.sendMail(payLoad.getEmailID(), payLoad.getUserId(), emailOtp, payLoad.getOtpFor());
+					payLoad.setSmsOtp(smsOtp);
+					sendSMS(payLoad);
+					payLoad.setEmailOtp(emailOtp);
+					try
+					{
+						sendEmail(payLoad);	
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+						logger.info("Exception occurred while sending email :"+payLoad.getMobileNo());
+						response = (MainResponseDTO<OTPResponse>) Utility.getMainResponseDto(request);
+						otpResponse.setMessage(AppConstant.NO);
+						otpResponse.setDescription(e.getMessage());
+						response.setStatus(false);
+						response.setResponse(otpResponse);
+						return response;
+					}
+					
+					
+				}
+				
+				response = (MainResponseDTO<OTPResponse>)Utility.getMainResponseDto(request);
+				otpResponse.setMessage(AppConstant.YES);
+				otpResponse.setDescription(AppConstant.GENERATED_SUCCESSFULLY);
+				response.setStatus(true);
+				response.setResponse(otpResponse);
+				
+
+			return response;
+			
+
+	}
+
+
+	private void sendSMS(OTPRequest payLoad) {
+		String templateTypeName=Utility.getTemplateTypeName(payLoad.getOtpFor());	
+		String templateName=templateTypeName+AppConstant.SMS;
+		List<String> notification_dtls=new ArrayList<>();
+		TemplateDtls dtls=new TemplateDtls();
+		dtls.setUserId(payLoad.getUserId());
+		dtls.setMobileNo(payLoad.getMobileNo());
+		dtls.setPassword(payLoad.getSmsOtp());
+		notification_dtls=notificationServie.getSMSAndEmailDetails(dtls,templateName);
+		notificationServie.prepareSMSRequestAndSendMsg(dtls,notification_dtls,AppConstant.BLANK);
+		//smsService.sendGupShupSms(msg, payLoad.getMobileNo());
+		logger.info("OTP sent successfully to mobile number:"+payLoad.getMobileNo());
+		
+	}
+
+
+	private void sendEmail(OTPRequest payLoad) {
+		String templateTypeName=Utility.getTemplateTypeName(payLoad.getOtpFor());
+		String templateName=templateTypeName+AppConstant.EMAIL;
+		List<String> notification_dtls=new ArrayList<>();
+		TemplateDtls templateModel=new TemplateDtls();
+		templateModel.setUserId(payLoad.getUserId());
+		templateModel.setEmailId(payLoad.getEmailID());
+		templateModel.setMobileNo(payLoad.getMobileNo());
+		templateModel.setPassword(payLoad.getEmailOtp());
+		notification_dtls=notificationServie.getSMSAndEmailDetails(templateModel,templateName);
+		try
+		{
+			notificationServie.prepareEmailRequestAndSendEmail(templateModel,notification_dtls,AppConstant.BLANK);	
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+		
+		logger.info("OTP sent successfully to mail:"+payLoad.getEmailID());	
+		
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<OTPResponse> verifyOTP(MainRequestDTO<VerifyOTPRequest> verifyOTPRequest) throws Exception {
+		MainResponseDTO<OTPResponse> response = null;
+		OTPResponse otpResponse = new OTPResponse();
+		VerifyOTPRequest verifyRequest = verifyOTPRequest.getRequest();
+		boolean OTPonMobileVerified=false;
+		boolean OTPonEmailVerified=false;
+		String userId=verifyRequest.getUserId();
+		LoginUserEntity userDetails=null;
+		DoctorRegDtlsEntity doctorDtls=null;
+		
+		 if(Utility.stringIsNullOrEmpty(userId)) 
+		 {
+			 logger.info("OTP Not verified.User Id is blank or null"); 
+			 throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_USER.getCode(),ErrorConstant.INVALID_USER.getMessage()));
+		  } 
+		 if(Utility.stringIsNullOrEmpty(verifyRequest.getUserRole())) 
+		 {
+		  logger.info("User Role not found in request"); 
+		  throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_USER_ROLE.getCode(),ErrorConstant.INVALID_USER_ROLE.getMessage()));
+		 }
+		  if(Utility.stringIsNullOrEmpty(verifyRequest.getMobileOTP()) & Utility.stringIsNullOrEmpty(verifyRequest.getEmailOTP())) 
+		  {
+		  logger.info("OTP Not verified.Blank OTP found"); 
+		   throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage()));
+		  }
+		  if(!Utility.stringIsNullOrEmpty(verifyRequest.getEmailOTP()) && Utility.stringIsNullOrEmpty(verifyRequest.getMobileOTP())) 
+		  {
+			  logger.info("Verification started for email otp...");
+			//otp verifying bypassed for performance testing1
+			  if(verifyOtpByPassFlag.equals("Y")) {
+				  logger.info("Otp verification bypassed");
+				  OTPonEmailVerified = true; 
+			  }else {
+				  OTPonEmailVerified=verifyOTPonMail(verifyRequest);
+			  }
+			  if(!OTPonEmailVerified) 
+			  {
+				  logger.info("Verification failed.Invalid email OTP found."); 
+				  throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage()));
+			  }
+		  
+		  } 
+		  if(!Utility.stringIsNullOrEmpty(verifyRequest.getMobileOTP()) && Utility.stringIsNullOrEmpty(verifyRequest.getEmailOTP())) {
+			  logger.info("Verification started for mobile otp...");
+			//otp verifying bypassed for performance testing2 
+			  if(verifyOtpByPassFlag.equals("Y")) {
+				  OTPonMobileVerified = true;
+				  logger.info("Otp verification bypassed");
+			  }
+			  else {
+				  OTPonMobileVerified=verifyOTPonMobile(verifyRequest);
+			  }
+			  if(!OTPonMobileVerified) 
+			  {
+				  logger.info("Invalid sms OTP found for verification"); 
+				  throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage()));
+				  }
+			  }
+		  	if(!Utility.stringIsNullOrEmpty(verifyRequest.getMobileOTP()) && !Utility.stringIsNullOrEmpty(verifyRequest.getEmailOTP())) {
+		  	//otp verifying bypassed for performance testing3 
+		  		if(verifyOtpByPassFlag.equals("Y")) {
+		  			OTPonMobileVerified = true;
+		  			logger.info("Otp verification bypassed");
+		  		 }
+		  		 else {
+		  			OTPonMobileVerified=verifyOTPonMobile(verifyRequest);
+		  		 }
+		  		if(!OTPonMobileVerified) 
+		  		{
+		  		 logger.info("Invalid sms OTP found for verification");
+		  		  throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage())); 
+		  		 }
+		  		 if(verifyOtpByPassFlag.equals("Y")) {
+		  		//otp verifying bypassed for performance testing4
+		  			OTPonEmailVerified = true;
+		  			logger.info("Otp verification bypassed");
+		  		 }else {
+		  			OTPonEmailVerified=verifyOTPonMail(verifyRequest); 
+		  		 }
+		 if(!OTPonEmailVerified)
+		  {
+			  logger.info("Invalid email OTP found for verification"); 
+			  throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage())); 
+		  }
+		  if(OTPonMobileVerified && OTPonEmailVerified) 
+		  { 
+			  response =(MainResponseDTO<OTPResponse>)Utility.getMainResponseDto(verifyOTPRequest);
+			  otpResponse.setMessage(AppConstant.VERIFIED);
+			  otpResponse.setDescription("OTP Successfully verified");
+			  response.setStatus(true); 
+			  response.setResponse(otpResponse);
+			  response.setResponse(otpResponse);
+			  logger.info("OTP Verified Successfully!!"); 
+		  }
+		  
+		  }
+		 	response = (MainResponseDTO<OTPResponse>)Utility.getMainResponseDto(verifyOTPRequest);
+			otpResponse.setMessage(AppConstant.VERIFIED);
+			otpResponse.setDescription("OTP Successfully verified");
+			response.setStatus(true);
+			response.setResponse(otpResponse);
+			response.setResponse(otpResponse);	
+			 logger.info("OTP Verified Successfully!!");
+			 if(verifyRequest.getUserRole().equalsIgnoreCase(AppConstant.DOCTOR))
+			 {
+				//Update isActive Flag in Doctor Registration table (Set to 'R')
+				 doctorDtls=doctorRepo.findByDocUserIdIgnoreCase(userId);
+				 if(null!=doctorDtls)
+				 {
+					 doctorDtls.setIsVerified("R");
+					 doctorRepo.save(doctorDtls); 
+					 logger.info("iSActive Flag updated successfully in DoctorRegistration table !!");
+				 }
+					 
+				 
+			 }
+			 else
+			 {
+				 //Update isActive Flag in case of Patient & Scribe
+				 userDetails=userRepo.findByUserIdIgnoreCase(userId);
+				 if(null!=userDetails)
+				 {
+					 userDetails.setIsActive(true);
+					 userRepo.save(userDetails);
+					 logger.info("iSActive Flag updated successfully in UserDetails!!"); 
+				 }
+				//Update isActive Flag in Patient Registration
+				 PatientPersonalDetailEntity patient=patientRepo.findByPtUserIDIgnoreCase(userId);
+				 if(null!=patient)
+				 {
+					 patient.setIsactive('Y'); 
+					 patientRepo.save(patient);
+					 logger.info("Patient reg details updated successfully");
+				 }
+				 logger.info("isActive Flag updated successfully in Patient Registration!!");
+			 }
+			  return response;
+	}
+
+
+	private boolean verifyOTPonMobile(VerifyOTPRequest payLoad) {
+		UsrOtpEmailVerifyDtl usrOtpEmailVerifyDtl=null;
+		boolean isOTPExpire=false;
+		boolean isPwdValid=false;
+		int retryCount=0;
+		List<UsrOtpEmailVerifyDtl> userLitInDesc=new ArrayList<UsrOtpEmailVerifyDtl>();
+		userLitInDesc=repo.findByuserIdFkOrderByCreatedTimestampDesc(payLoad.getUserId().toUpperCase());
+			if(userLitInDesc.size()>0)
+			{
+				usrOtpEmailVerifyDtl=userLitInDesc.get(0);
+				if(usrOtpEmailVerifyDtl.getOtpType().equalsIgnoreCase(AppConstant.BOTH) && (Utility.stringIsNullOrEmpty(payLoad.getEmailOTP())))
+				{		
+					 logger.info("Blank OTP found for verification");
+					 throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage()));
+				}
+				if(usrOtpEmailVerifyDtl.getIsSmsOtpVerified()==AppConstant.OTPVERIFIED) 
+				{ 
+					usrOtpEmailVerifyDtl.setIsSmsOtpVerified(AppConstant.OTPNOTVERIFIED);
+					usrOtpEmailVerifyDtl.setSmsVerifyTmstmp(null);
+					
+				}
+				retryCount=usrOtpEmailVerifyDtl.getOtpIncorrectAttempts();
+				try {
+					isOTPExpire=Utility.isOTPExpire(usrOtpEmailVerifyDtl.getOtpExpiredTmstmp());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				usrOtpEmailVerifyDtl.setIsSmsOtpVerified(AppConstant.OTPNOTVERIFIED);
+				if(!isOTPExpire) 
+				{
+					isPwdValid=Utility.isPwdMatched(payLoad.getMobileOTP(),usrOtpEmailVerifyDtl.getSmsOtp()); 
+					if(isPwdValid) 
+					{
+						
+						usrOtpEmailVerifyDtl.setIsSmsOtpVerified(AppConstant.OTPVERIFIED);
+						try {
+							usrOtpEmailVerifyDtl.setSmsVerifyTmstmp(Utility.getCurrentTimestamp());
+						} catch (Exception e) {
+								e.printStackTrace();
+						}
+						
+						repo.save(usrOtpEmailVerifyDtl);
+						logger.info("OTP Verified Successfully.Record successfully updated to Database");
+						return true;
+					}
+					else
+					{
+						  
+						retryCount+=1; 
+						 if(retryCount>otpVerificationAttempt)
+						 {
+							 logger.info("OTP Verification failed.Maximum number of verification Attempt Exceeded");
+							 throw new OTPException(new ServiceErrors(ErrorConstant.MAX_ATTEMPT_EXCEED.getCode(),ErrorConstant.MAX_ATTEMPT_EXCEED.getMessage())); 
+						 }
+						 
+						 usrOtpEmailVerifyDtl.setOtpGenerateAttempts(usrOtpEmailVerifyDtl.getOtpGenerateAttempts()+1);
+						 usrOtpEmailVerifyDtl.setIsSmsOtpVerified(AppConstant.OTPNOTVERIFIED);
+						 usrOtpEmailVerifyDtl.setOtpIncorrectAttempts(retryCount);
+						 repo.save(usrOtpEmailVerifyDtl);
+						 return false;
+					}
+			}
+				else
+				{	
+				if(retryCount>otpVerificationAttempt)
+				{
+					logger.info("OTP Verfication failed.Maximum number of verification Attempt Exceeded");
+					throw new OTPException(new ServiceErrors(ErrorConstant.MAX_ATTEMPT_EXCEED.getCode(),ErrorConstant.MAX_ATTEMPT_EXCEED.getMessage()));
+				}
+			usrOtpEmailVerifyDtl.setOtpGenerateAttempts(usrOtpEmailVerifyDtl.getOtpGenerateAttempts()+1);
+			usrOtpEmailVerifyDtl.setIsSmsOtpVerified(AppConstant.OTPNOTVERIFIED);
+			usrOtpEmailVerifyDtl.setOtpIncorrectAttempts(retryCount);
+			repo.save(usrOtpEmailVerifyDtl);
+			return false;
+			}
+		
+  }
+			else 
+				{
+				logger.info("OTP Verfication failed.User not found.");
+				throw new OTPException(new ServiceErrors(ErrorConstant.USR_NOT_EXIST.getCode(),ErrorConstant.USR_NOT_EXIST.getMessage()));
+				}
+		}
+
+
+	private boolean verifyOTPonMail(VerifyOTPRequest verifyRequest){
+		UsrOtpEmailVerifyDtl usrOtpEmailVerifyDtl=null;
+		boolean isOTPExpire=false;
+		boolean isPwdValid=false;
+		int retryCount=0;
+		List<UsrOtpEmailVerifyDtl> userLitInDesc=new ArrayList<UsrOtpEmailVerifyDtl>();
+		userLitInDesc=repo.findByuserIdFkOrderByCreatedTimestampDesc(verifyRequest.getUserId().toUpperCase());
+			if(userLitInDesc.size()>0)
+			{
+				usrOtpEmailVerifyDtl=userLitInDesc.get(0);
+				if((usrOtpEmailVerifyDtl.getOtpType().equalsIgnoreCase(AppConstant.BOTH)) && Utility.stringIsNullOrEmpty(verifyRequest.getMobileOTP()))
+				{
+					 logger.info("OTP Verification failed.Mobile OTP not found");	
+					 throw new OTPException(new ServiceErrors(ErrorConstant.OTP_INVALID.getCode(),ErrorConstant.OTP_INVALID.getMessage()));
+				}
+				if(usrOtpEmailVerifyDtl.getIsEmailOtpVerified()==AppConstant.OTPVERIFIED) 
+				{ 
+					usrOtpEmailVerifyDtl.setIsEmailOtpVerified(AppConstant.OTPNOTVERIFIED);
+					usrOtpEmailVerifyDtl.setEmailVerifyTmstmp(null);
+					
+				}
+				retryCount=usrOtpEmailVerifyDtl.getOtpIncorrectAttempts();
+				try {
+					isOTPExpire=Utility.isOTPExpire(usrOtpEmailVerifyDtl.getOtpExpiredTmstmp());
+				} catch (Exception e) {
+						e.printStackTrace();
+				}
+				usrOtpEmailVerifyDtl.setIsEmailOtpVerified(AppConstant.OTPNOTVERIFIED);
+				if(!isOTPExpire) 
+				{
+					isPwdValid=Utility.isPwdMatched(verifyRequest.getEmailOTP(),usrOtpEmailVerifyDtl.getEmailOtp()); 
+					if(isPwdValid) 
+					{
+						
+						usrOtpEmailVerifyDtl.setIsEmailOtpVerified(AppConstant.OTPVERIFIED);
+						try {
+							usrOtpEmailVerifyDtl.setEmailVerifyTmstmp(Utility.getCurrentTimestamp());
+						} catch (Exception e) {
+								e.printStackTrace();
+						}
+						repo.save(usrOtpEmailVerifyDtl);
+						logger.info("OTP Verififid Successfully. Reocrd updated successfully into UsrOtpEmailVerifyDtl table");
+						return true;
+					}
+					else
+					{
+						 retryCount+=1; 
+						 if(retryCount>otpVerificationAttempt)
+						 {
+							 logger.info("OTP Verfication failed.Maximum number of verification Attempt Exceeded");
+							 throw new OTPException(new ServiceErrors(ErrorConstant.MAX_ATTEMPT_EXCEED.getCode(),ErrorConstant.MAX_ATTEMPT_EXCEED.getMessage())); 
+						 }	 
+						 usrOtpEmailVerifyDtl.setOtpGenerateAttempts(usrOtpEmailVerifyDtl.getOtpGenerateAttempts()+1);
+						 usrOtpEmailVerifyDtl.setOtpIncorrectAttempts(retryCount);
+						  repo.save(usrOtpEmailVerifyDtl);
+						
+						
+					}
+			}
+				else
+				{	
+						if(retryCount>otpVerificationAttempt)
+						{
+							logger.info("OTP Verfication failed.Maximum number of verification Attempt Exceeded");
+							throw new OTPException(new ServiceErrors(ErrorConstant.MAX_ATTEMPT_EXCEED.getCode(),ErrorConstant.MAX_ATTEMPT_EXCEED.getMessage()));
+						}
+					usrOtpEmailVerifyDtl.setOtpGenerateAttempts(usrOtpEmailVerifyDtl.getOtpGenerateAttempts()+1);
+					usrOtpEmailVerifyDtl.setOtpIncorrectAttempts(retryCount);
+					repo.save(usrOtpEmailVerifyDtl);
+					return false;
+				}
+					
+		
+		
+  }
+		return false;
+		
+
+	}
+
+//Method to send invitation link to mobile/email
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<InvitationLinkResponse> sendInvitationLink(MainRequestDTO<InvitationLinkRequest> invitationLinkRequest) {
+		
+		MainResponseDTO<InvitationLinkResponse> response = null;
+			InvitationLinkResponse invitationResponse = new InvitationLinkResponse();
+		InvitationLinkRequest request = invitationLinkRequest.getRequest();
+		if(Utility.stringIsNullOrEmpty(request.getInviteMode()))
+		{
+			logger.info("Invite Mode is blank or null ");
+			throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_INVITE_MODE.getCode(),ErrorConstant.INVALID_INVITE_MODE.getMessage()));
+		}
+		if(Utility.stringIsNullOrEmpty(request.getContent()))
+		{
+			logger.info("Content is blank or null ");
+			throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_CONTENT.getCode(),ErrorConstant.INVALID_CONTENT.getMessage()));
+		}
+		if(null != request.getInviteOn() && !request.getInviteOn().isEmpty() && request.getInviteMode().equalsIgnoreCase(AppConstant.EMAIL))//condition changed by girishk
+		{		
+			 logger.info("Invitation Link is requested for Email");
+			 logger.info("Trying to send Invitation link to email..");
+			 try
+				{
+					emailService.sendeMailLink(request.getInviteOn(), request.getContent());
+					logger.info("Invitation link sent successfully to mail:"+request.getInviteOn());	
+				}
+				catch(Exception e)
+				{
+					logger.info("Exception occurred while sending email :"+request.getInviteOn());
+					response = (MainResponseDTO<InvitationLinkResponse>) Utility.getMainResponseDto(invitationLinkRequest);
+					invitationResponse.setStatus(AppConstant.FAILURE_RESPONSE);
+					response.setStatus(false);
+					response.setResponse(invitationResponse);
+					return response;
+				}
+		}
+		else
+		{
+			 logger.info("Invitation Link is requested for SMS");
+			 logger.info("Trying to send Invitation link to sms..");
+			 try
+				{
+					smsService.sendGupShupSms(request.getContent(), request.getInviteOn());
+					logger.info("Invitation link sent successfully to sms:"+request.getInviteOn());	
+				}
+				catch(Exception e)
+				{
+					logger.info("Exception occurred while sending email :"+request.getInviteOn());
+					response = (MainResponseDTO<InvitationLinkResponse>) Utility.getMainResponseDto(invitationLinkRequest);
+					invitationResponse.setStatus(AppConstant.FAILURE_RESPONSE);
+					response.setStatus(false);
+					response.setResponse(invitationResponse);
+					return response;
+				}	
+		}
+		response = (MainResponseDTO<InvitationLinkResponse>)Utility.getMainResponseDto(invitationLinkRequest);
+		invitationResponse.setStatus(AppConstant.SUCCESS_RESPONSE);
+		response.setStatus(true);
+		response.setResponse(invitationResponse);  
+		return response;
+	}
+
+	}
+
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+	
+
+

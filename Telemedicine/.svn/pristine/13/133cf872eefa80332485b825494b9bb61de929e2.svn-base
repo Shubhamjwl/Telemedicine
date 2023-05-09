@@ -1,0 +1,159 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nsdl.ndhm.dto.AuthInitReqDTO;
+import com.nsdl.ndhm.dto.IdentifierDTO;
+import com.nsdl.ndhm.dto.OnConfirmRequestDTO;
+import com.nsdl.ndhm.dto.OnFetchModesRequestDTO;
+import com.nsdl.ndhm.entity.AuthInitEntity;
+import com.nsdl.ndhm.entity.FetchModesEntity;
+import com.nsdl.ndhm.entity.OnConfirmIdentifierEntity;
+import com.nsdl.ndhm.entity.SaveAuthOnConfirmRespEntity;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.repository.AuthConfirmRepository;
+import com.nsdl.ndhm.repository.AuthInitRepository;
+import com.nsdl.ndhm.repository.FetchModesRepository;
+import com.nsdl.ndhm.repository.OnConfirmResponseRepository;
+import com.nsdl.ndhm.service.GatewayCallbackService;
+
+@Service
+@LoggingClientInfo
+public class GatewayCallbackServiceImpl implements GatewayCallbackService {
+	private static final Logger logger = LoggerFactory.getLogger(GatewayCallbackServiceImpl.class);
+	@Autowired
+	FetchModesRepository fetchModesRepository;
+
+	@Autowired
+	AuthInitRepository authInitRepository;
+
+	@Autowired
+	AuthConfirmRepository authConfirmRepository;
+
+	@Autowired
+	OnConfirmResponseRepository onConfirmResponseRepository;
+
+	/* update on fetch modes data */
+	@Override
+	public FetchModesEntity updateFetchModes(OnFetchModesRequestDTO onFetchModesDTO) {
+		logger.info("Update Fetch modes In Service Starts");
+		ObjectMapper mapper = new ObjectMapper();
+
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(onFetchModesDTO);
+		} catch (JsonProcessingException e) {
+			logger.error("Error in updateFetchModes " + e.getMessage());
+		}
+
+		FetchModesEntity fetchModesEntity = FetchModesEntity.builder()
+				.requestId(onFetchModesDTO.getResp().getRequestId()).timestamp(onFetchModesDTO.getTimestamp())
+				.status(true).response(json).build();
+
+		try {
+			fetchModesEntity = fetchModesRepository.save(fetchModesEntity);
+		} catch (Exception e) {
+			logger.error("Error in updateFetchModes " + e.getMessage());
+			fetchModesEntity = null;
+		}
+		logger.info("Update Fetch modes In Service ends");
+		return fetchModesEntity;
+	}
+
+	/* update on init data */
+	@Override
+	public AuthInitEntity updateInit(AuthInitReqDTO authInitReqDTO) {
+		logger.info("Update INIT In Service Starts");
+		ObjectMapper mapper = new ObjectMapper();
+
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(authInitReqDTO);
+		} catch (JsonProcessingException e) {
+			logger.error("Error in updateInit " + e.getMessage());
+		}
+		AuthInitEntity authInitEntity = AuthInitEntity.builder().requestId(authInitReqDTO.getResp().getRequestId())
+				.timestamp(authInitReqDTO.getTimestamp()).transactionId(authInitReqDTO.getAuth().getTransactionId())
+				.status(true).expiry(authInitReqDTO.getAuth().getMeta().getExpiry()).response(json).build();
+		try {
+			authInitEntity = authInitRepository.save(authInitEntity);
+		} catch (Exception e) {
+			logger.error("Error in updateInit " + e.getMessage());
+			authInitEntity = null;
+		}
+		logger.info("Update Init In Service ends");
+		return authInitEntity;
+	}
+
+	/* update on confirm data */
+	@Transactional
+	@Override
+	public void updateConfirm(OnConfirmRequestDTO onConfirmRequestDTO) {
+		logger.info("Update confirm  In Service Starts");
+		ObjectMapper mapper = new ObjectMapper();
+		SaveAuthOnConfirmRespEntity responseEntity = null;
+		List<OnConfirmIdentifierEntity> identifierList = new ArrayList<OnConfirmIdentifierEntity>();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(onConfirmRequestDTO);
+		} catch (JsonProcessingException e) {
+			logger.error("Error in updateConfirm " + e.getMessage());
+		}
+
+		 if (onConfirmRequestDTO.getAuth().getAccessToken() != null
+				&& onConfirmRequestDTO.getAuth().getPatient() != null) {
+			responseEntity = SaveAuthOnConfirmRespEntity.builder()
+					.requestId(onConfirmRequestDTO.getResp().getRequestId())
+					.timeStamp(onConfirmRequestDTO.getTimestamp()).token(onConfirmRequestDTO.getAuth().getAccessToken())
+					.healthId(onConfirmRequestDTO.getAuth().getPatient().getId())
+					.name(onConfirmRequestDTO.getAuth().getPatient().getName())
+					.yearOfBirth(onConfirmRequestDTO.getAuth().getPatient().getYearOfBirth()).jsonResp(json).build();
+
+			for (IdentifierDTO i : onConfirmRequestDTO.getAuth().getPatient().getIdentifiers()) {
+				identifierList.add(OnConfirmIdentifierEntity.builder().type(i.getType()).value(i.getValue())
+						.saveAuthOnConfirmRespEntity(responseEntity).build());
+			}
+
+		} else if (onConfirmRequestDTO.getAuth().getAccessToken() == null
+				&& onConfirmRequestDTO.getAuth().getPatient() != null) {
+			responseEntity = SaveAuthOnConfirmRespEntity.builder()
+					.requestId(onConfirmRequestDTO.getResp().getRequestId())
+					.timeStamp(onConfirmRequestDTO.getTimestamp())
+					.healthId(onConfirmRequestDTO.getAuth().getPatient().getId())
+					.name(onConfirmRequestDTO.getAuth().getPatient().getName())
+					.yearOfBirth(onConfirmRequestDTO.getAuth().getPatient().getYearOfBirth()).jsonResp(json).build();
+
+			for (IdentifierDTO i : onConfirmRequestDTO.getAuth().getPatient().getIdentifiers()) {
+				identifierList.add(OnConfirmIdentifierEntity.builder().type(i.getType()).value(i.getValue())
+						.saveAuthOnConfirmRespEntity(responseEntity).build());
+			}
+
+		} 
+		try {
+			if (onConfirmRequestDTO.getAuth().getPatient() != null) {
+				responseEntity.setIdentities(identifierList);
+				//onConfirmResponseRepository.save(responseEntity);
+			}
+
+			authConfirmRepository.updateResponseAndTokenByRequestId(json,
+					onConfirmRequestDTO.getAuth().getAccessToken() != null
+							? onConfirmRequestDTO.getAuth().getAccessToken()
+							: "",
+					onConfirmRequestDTO.getResp().getRequestId(), true);
+		} catch (Exception e) {
+			logger.error("Error in updateConfirm " + e.getMessage());
+
+		}
+		logger.info("Update confirm In Service ends");
+
+	}
+}

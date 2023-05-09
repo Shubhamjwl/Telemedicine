@@ -1,0 +1,203 @@
+<div class="container mt-4">
+    <div class="time-slot-wrapper">
+        <form [formGroup]="newForm" (ngSubmit)="saveTimeSlot(newForm.value)">
+            <div class="bgShadowStyle newSlotDesign">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <!-- <form [formGroup]="newForm" (ngSubmit)="saveTimeSlot(newForm.value)"> -->
+                            <div class="row">
+                                <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                    <div class="row">
+                                        <div class="col-4 pr-0 mx-auto my-auto">
+                                            <b>Create slot for next</b>
+                                        </div>
+                                        <div class="col-8 px-0">
+                                            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                                <div class="btn-group p-0 mr-1" role="group" aria-label="First group">
+                                                    <input type="text" class="form-control text-center" numberOnly length="2" formControlName="selectedRepeatMonths" placeholder="--">
+                                                </div>
+                                                <div class="btn-group mr-1" role="group" aria-label="Second group">
+                                                    <button type="button" class="btn" (click)="repeatForMonths(3)">3</button>
+                                                </div>
+                                                <div class="btn-group mr-1" role="group" aria-label="Third group">
+                                                    <button type="button" class="btn" (click)="repeatForMonths(6)">6</button>
+                                                </div>
+                                                <div class="btn-group mr-1" role="group" aria-label="Forth group">
+                                                    <button type="button" class="btn" (click)="repeatForMonths(12)">12</button>
+                                                </div>
+                                                <div class="my-auto">
+                                                    <b>months</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7">
+                                    <div class="custom-control custom-checkbox mt-2">
+                                        <input type="checkbox" class="custom-control-input" formControlName="autRepeat" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">
+                                            <span>Auto-Repeat </span><span *ngIf="newForm.get('autRepeat').value">(if select Slots will be created for <span>{{ autoRepeatStartYear }}</span> to {{ autoRepeatEndYear }})</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 pr-0 mt-2">
+                        <b>Create slots for: <span class="text-danger">*</span></b>
+                    </div>  
+                </div>
+                <div class='row'>
+                    <div class="col-4 pr-0 mt-2">
+                         <div class="form-check form-check-inline">
+                             <input class="form-check-input" type="radio" name="slotType" id="yes" value="Teleconsultation" formControlName="slotType">
+                             <label class="form-check-label" for="yes">Teleconsultation</label>
+                         </div>
+                         <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio"  name="slotType" id="no" value="In-Clinic" formControlName="slotType">
+                            <label class="form-check-label" for="no">In-Clinic</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                        <div class="text-left mt-3 mb-2">
+                            <b>Set Working Days: <span class="text-danger">*</span></b>
+                        </div>
+                        <!-- <div class="pr-0"> -->
+                            <div>
+                                <div class="btn-toolbar days" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="First group">
+                                        <label for="Sunday" class="btn" [ngClass]="getClass(sundayChangeBg == 1, 'Sunday')">
+                                            <input type="checkbox" id="Sunday" formControlName="Sunday" hidden> Sun
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Second group">
+                                        <label for="Monday" class="btn" [ngClass]="getClass(mondayChangeBg == 1, 'Monday')"> <!-- [ngClass]="{'btn-selected': mondayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': mondayChangeBg === 0}" (click)="selectedWorkingDays('Monday')"-->
+                                            <input type="checkbox" id="Monday" formControlName="Monday" hidden> Mon
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Third group">
+                                        <label for="Tuesday" class="btn" [ngClass]="getClass(tuesdayChangeBg == 1, 'Tuesday')"> <!--[ngClass]="{'btn-selected': tuesdayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': tuesdayChangeBg === 0}" (click)="selectedWorkingDays('Tuesday')"-->
+                                            <input type="checkbox" id="Tuesday" formControlName="Tuesday" hidden> Tue
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Forth group">
+                                        <label for="Wednesday" class="btn"[ngClass]="getClass(wednesdayChangeBg == 1, 'Wednesday')" > <!-- [ngClass]="{'btn-selected': wednesdayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': wednesdayChangeBg === 0}" (click)="selectedWorkingDays('Wednesday')"-->
+                                            <input type="checkbox" id="Wednesday" formControlName="Wednesday" hidden> Wed
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Fifth group">
+                                        <label for="Thursday" class="btn" [ngClass]="getClass(thursdayChangeBg == 1, 'Thursday')"> <!-- [ngClass]="{'btn-selected': thursdayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': thursdayChangeBg === 0}" (click)="selectedWorkingDays('Thursday')"-->
+                                            <input type="checkbox" id="Thursday" formControlName="Thursday" hidden> Thu
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Sixth group">
+                                        <label for="Friday" class="btn"  [ngClass]="getClass(fridayChangeBg == 1, 'Friday')"> <!-- [ngClass]="{'btn-selected': fridayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': fridayChangeBg === 0}" (click)="selectedWorkingDays('Friday')"-->
+                                            <input type="checkbox" id="Friday" formControlName="Friday" hidden> Fri
+                                        </label>
+                                    </div>
+                                    <div class="btn-group" data-toggle="buttons" role="group" aria-label="Seventh group">
+                                        <label for="Saturday" class="btn" [ngClass]="getClass(SaturdayChangeBg == 1, 'Saturday')">  <!--[ngClass]="{'btn-selected': SaturdayChangeBg === 1, 'btn-secondary workingDayDefaultBgColor': SaturdayChangeBg === 0}" (click)="selectedWorkingDays('Saturday')"-->
+                                            <input type="checkbox" id="Saturday" formControlName="Saturday" hidden> Sat
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                        <div class="text-left mt-3 mb-2">
+                            <b>Working time (24-hr): <span class="text-danger">*</span></b>                            
+                        </div>
+                        <div formArrayName="workingTimeArray">
+                            <div class="row mb-1"  *ngFor="let item of newForm.get('workingTimeArray')['controls']; let i = index" [formGroupName]="i">
+                                <div class="col-5 pr-0">
+                                <!-- <div class="row"> -->
+                                        <div  class="working-time-input"> 
+                                            <input type="time" formControlName="startTime" (change)="startTimeValidation(i)" class="form-control">
+                                        </div>
+                                        <span class="to">To</span>
+                                <!-- </div> -->
+                                </div>
+                                <div class="col-5 pl-0 pr-0">
+                                    <div class="working-time-input">
+                                        <input type="time" formControlName="endTime" (change)="startTimeValidation(i)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-2 p-0">
+                                    <button type="button" *ngIf="i == newForm.get('workingTimeArray').length - 1" class="btn btn-add btn-sm" (click)="addWorkingTime()">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button"  *ngIf="i < newForm.get('workingTimeArray').length - 1" class="btn btnColor btn-sm" (click)="removeWorkingTime(i)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <!-- <div class="col-2 p-0" *ngIf="i < newForm.get('workingTimeArray').length - 1">
+                                    <button type="button" class="btn btnColor btn-sm mt-3" (click)="removeWorkingTime(i)">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <div class="text-left mt-3 mb-2">
+                            <b>Slot Duration ( in minutes): <span class="text-danger">*</span></b>                            
+                        </div>
+                        <div class="px-0">
+                            <div class="btn-toolbar slot-time" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group p-0" role="group" aria-label="First group">
+                                    <input type="text" class="form-control text-center" numberOnly length="2" formControlName="selectedTimeSlotDuration" placeholder="--">
+                                </div>
+                                <div class="btn-group" role="group" aria-label="second group">
+                                    <button type="button" class="btn" (click)="selectedSlotDuration(10)">10</button>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="third group">
+                                    <button type="button" class="btn" (click)="selectedSlotDuration(15)">15</button>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="forth group">
+                                    <button type="button" class="btn" (click)="selectedSlotDuration(20)">20</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div [ngClass]="{'col-md-6 col-lg-6 col-xl-6': startYear && endYear, 'col-sm-12 col-md-12 col-lg-12 col-xl-12':!(startYear && endYear)}">
+                        <div class="row justify-content-center">
+                            <div [ngClass]="{'col-4': startYear && endYear, 'col-2':!(startYear && endYear)}">
+                                <button type="reset" (click)="clearManually()" class="btn btnColor btn-block">
+                                    Clear
+                                </button>
+                            </div>
+                            <div [ngClass]="{'col-4': startYear && endYear, 'col-2':!(startYear && endYear)}">
+                                <button type="submit" class="btn btnColor btn-block">
+                                    Create Slots
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" *ngIf="startYear && endYear">
+                        <div class="row  justify-content-center">
+                            <div class="col-4 text-right my-auto">
+                                <b>Slots created for</b>
+                            </div>
+                            <div class="col-3 solt-created">
+                                <span>{{ startYear }}</span>
+                            </div>
+                            <div class="col-1 px-2 text-center my-auto">
+                                <b> To</b>
+                            </div>
+                            <div class="col-3 solt-created">
+                                <span>{{ endYear }}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

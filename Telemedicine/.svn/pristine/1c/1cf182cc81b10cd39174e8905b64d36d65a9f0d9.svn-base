@@ -1,0 +1,228 @@
+<!-- Theme Design -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand logo-wrapper" >
+      <img src="assets/images/ProteanClinic8.png" alt="logo" style="margin: 0 0 -7px 0;">
+      <!-- <img src="assets/images/Protean_Clinic_7.png" alt="logo"> -->
+    </span>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="col-5 navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link cursor" (click)="navigateToPage('home')">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('aboutUs')">About Us</a>
+            </li> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('contactUs')">Contact Us</a>
+            </li> -->
+        </ul>
+        
+        <!-- <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 user">
+            <a class="cursor float-right mt-2 nav-link" target="_blank" [href]="getLink()" download>Download APK</a>
+        </div>
+   -->
+        <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+            <button type="button" (click)="onClickContactUs()" class="btn btn-outline-info">
+                Contact Us
+            </button>
+        </div> -->
+  
+    </div>
+  </nav>
+  <div class="container shadow mt-3" >
+      <div class="row">
+          <div class="col-md-12">
+              <div class="col text-center text-danger pt-3">
+                 <h2><strong>Privacy Policy</strong></h2>
+              </div>
+              <div class="col pt-5 textJustify">
+                <p>
+                    Protean e-Gov Technologies Limited (herein after referred as “We, Us, Our, Company”) provides online platform known 
+                    as “Protean Clinic” (Platform) to enable online interaction between qualified doctors, their patients, and other stakeholders.
+                     All the users of the Platform including patient, doctors, specialist shall here after referred as “You” or “Users”. 
+                  </p>
+
+                  <p>
+                    Please read this privacy policy (“Policy”) carefully before using the Platform, along with the Terms of Use (“ToU”) provided on 
+                    the Platform. Use of the Platform by the User or registration of the User with us through any mode shall signify acceptance of this Policy by the User and his/her agreement to be legally bound by the same. If You do not agree with the terms of this Policy, do not use the Platform or avail any of the services provided. 
+                  </p>
+
+                  <p>
+                      <strong>
+                        YOUR ACCESSING OUR PLATFORM SIGNIFIES YOUR UNCONDITIONAL CONSENT TO THIS POLICY AND TERMS OF USE.
+                      </strong>
+                  </p>
+                  <p><strong>
+                    Our privacy policy is subject to change at any time without notice. To make sure User is aware of any changes, User should review this policy periodically.
+                  </strong></p>
+
+                  <h3 class="text-danger"><strong>1. Scope</strong></h3>
+                  <p>
+                    This Privacy Policy applies to the collection, receipt, storage, usage, processing, disclosure, transfer and protection of information shared or collected from the Users as and when User uses or accesses the Platform. Any capitalised 
+                    term not defined in this Privacy Policy shall have the same meaning as assigned to it in Terms of Use.
+                  </p>
+
+                  <h3 class="text-danger"><strong>2. Personal Information we may collect and process</strong></h3>
+
+                  <p>
+                    While using the Platform, You may provide  various information while accessing and registering for the Services. When You register with us, You generally provide:  
+                  </p>
+                  <div class="indent">
+                  <p>(a)	name, age, gender, email address, location, phone number, of User or ward of User (if the Patient is ward i.e. minor/ disabled) ;</p>
+                  <p>(b)	information such as billing address, a credit / debit card number and a credit / debit card expiration date and/ or other payment instrument details and tracking information from cheques or money orders;</p>
+                  <p>(c)	information User provides us when he/she contacts Us for help; or while using the Platform including feedback etc.</p>
+                  <p>(d)	certain information’s related to Patient such as Patient’s name, age, gender, blood group, address, personal medical records and history including Physical, physiological and mental health condition etc.; and </p>
+                  <p>(e)	 the information automatically collected from You, including, but not limited to, the type of your device, its unique device ID, IP address; operating system, the type of Internet browsers used, and information about the way You use the Platform etc.</p>
+                </div>
+                  <p>
+                    The said information collected from You could be categorized as “Personal Information” and “Sensitive Personal Information (each as individually defined under the Information Technology (Reasonable security practices and 
+                    procedures and sensitive personal data or information) Rules, 2011 (the “Data Protection Rules”)) shall collectively be referred to as “Information” in this Policy.
+                  </p>
+                  <p>
+                    The Information is collected from You by various methods including but not limited to Your registration, during the course of services, 
+                    use of features of the Platform, through device as per the granted permissions, use of cookies and through RMP pursuant to consultation on the Platform. 
+                  </p>
+                  <p>
+                    User always have an option to not provide the Personal Information or Sensitive Personal Information, which we seek from User. Further, User shall, at any time while using the Platform, also have an option to withdraw his/her consent given earlier to Us to use such Personal Information or Sensitive Personal Information. Such withdrawal of the consent is required to be sent in writing to Us at the contact details provided in this Policy below. In such event, however, 
+                    the Protean fully reserves the right not to allow further usage of the Platform by the User.
+                  </p>
+                  <h3 class="text-danger"><strong>3. Use of the Information Collected </strong></h3>
+                  <p>
+                    We may use the Information to contact You from time to time, provision of the services, providing information, 
+                    notices and promotions. We will ask You when we need more information that personally identifies you (personal information) or allows us to contact you. 
+                  </p>
+                  <p>
+                    We use this information to assemble aggregate information about the visitors to our Platform, 
+                    and assist with our systems administration and problem resolution activities. 
+                  </p>
+                  <p>
+                    We use the collected Information to analyse trends, to conduct research, to administer the Platform and services. Aggregated, 
+                    anonymized data may periodically be transmitted to external service providers to help Us improve the Platform and our services. We will share user information with third parties only in the ways that are described below in this Policy. 
+                  </p>
+                  <p>
+                    We may use the Information to perform academic/studies, for our understanding, information, analysis, services and technologies in order to assist medical service providers to provide all users improved quality of care.
+                    We may also aggregate personal information for research for academic/studies, statistical analysis and business intelligence purposes, with a purpose of improving the existing services to the Users, develop new services, modules, features or for the advancement of scientific knowledge about health and disease. 
+                  </p>
+                  <p>
+                    Protean may send email notices or contact User to communicate about the services, products, and benefits, as they are considered an essential part of the services/products User has chosen.
+                  </p>
+                  <h3 class="text-danger"><strong>4.Data recipients, transfer, and disclosure of Personal Information</strong></h3>
+                  <p>
+                    We do not share, sell, trade, or otherwise transfer your Personal Information to outside parties. 
+                    This does not include trusted third parties who assist us in conducting our business,
+                    or servicing you, so long as those parties agree to keep this information confidential.
+                     We may also release, use or disclose your Personal Information when we believe such release of 
+                     information is necessary to comply with any applicable law, regulation, 
+                     legal process or enforceable statutory requirement, to enforce our site policies,
+                      to protect ours or others rights, property or safety as required or permitted by law, 
+                      or when we have reason to believe that disclosing the information is necessary to identify, 
+                      contact or bring legal action against someone who may be causing interference with our rights 
+                      or properties, whether intentionally or otherwise, or when anyone else could be harmed by such 
+                      activities. In addition, if Protean or substantially all of its assets are acquired, 
+                    our customer information will most likely also be transferred in connection with such acquisition.
+                  </p>
+                  <h3 class="text-danger"><strong>5. Use of Cookies</strong></h3>
+                  <p>
+                    We send cookies (small files containing a string of characters) to user’s computer, 
+                    thereby uniquely identifying User’s browser. Cookies are used to track User’s preferences, 
+                    help User login faster, and aggregated to determine use trends. 
+                    This data is used to improve our offerings, such as providing more content in areas of greater 
+                    interest to a majority of users. Most browsers are initially set up to accept cookies, 
+                    but User can reset your browser to refuse all cookies or to indicate when a cookie is being sent. 
+                    Some of our features and services may not function properly if User has disabled the cookies.
+                  </p>
+                  <h3 class="text-danger"><strong>6. Access to your Personal Information</strong></h3>
+                  <p>
+                    You will always have the means to ensure that the Personal Information provided by You  
+                    is correct and current. You can change your profile as per your need. We adopt reasonable
+                     security measures to protect User password, However, You are advised not to disclose your
+                      username and password to anyone as we do not differentiate between persons using Your
+                       login details to access the Platform, so long as the log in/access credentials match with User’s 
+                       credentials. In order to make the best use of the Platform and enable User’s Information to be captured accurately on the Platform, 
+                    it is essential that User has logged in using his/her own credentials. 
+                  </p>
+                  <h3 class="text-danger"><strong>7.How Long Do We Retain User Data?</strong></h3>
+                  <p>
+                    Currently, we plan to retain user data while an account is active and for at least three 
+                    years afterward. We may alter this practice according to legal and business requirements. 
+                    For example, we may lengthen the retention period for some data if needed to comply with law or
+                    voluntary codes of conduct. Unless otherwise prohibited, we may shorten the retention period 
+                    for some types of data if needed to free up storage space.
+                    We also store user profile and user recordings.
+                  </p>
+                  <h3 class="text-danger"><strong>8.Linked Websites</strong></h3>
+                  <p>Further, this Platform may contain links to other sites such as business affiliates and 
+                      software providers. We are not responsible for the content or the privacy practices employed by other
+                       sites. We are not responsible for the protection and privacy of any information which you provide
+                        whilst visiting other sites and such other sites are not governed by this Policy. We encourage our 
+                        users to be aware when they leave our site to read the privacy statements of each and every web 
+                        site that collects personally identifiable information. 
+                      This Privacy Policy applies solely to information collected by our Platform.</p>
+                    <h3 class="text-danger"><strong>9.	Payment</strong></h3>
+                    <p>All payments are arranged to be executed by you through a secured Payment Gateway 
+                        which is compliant with PCI-DSS (Payment Card Industry and IT Data Security Standards Compliance)
+                         requirements and using Verisign SSL Security Certificate. The data traffic to and from this 
+                         Platform is protected through a SSL tunnel using the Entrust SSL Security Certificate. 
+                         This means all Personal Information You provide on the Platform is transmitted using strong 
+                         encryption mechanism of 128 bits key. SSL is a proven coding system that lets your browser automatically encrypt, 
+                        or scramble, data before you send it to us.</p>
+                    <h3 class="text-danger"><strong>10.	Data security</strong></h3>
+                    <p>
+                        We take appropriate steps to protect the information you share with us. 
+                        We have implemented technology and security features and strict policy guidelines
+                        to safeguard the privacy of your Personal Information from unauthorized access and improper use
+                         or disclosure. Please contact us to obtain names and addresses of the specific entities that shall
+                         have access to your Personal Information in a given transaction / application or any relevant form.
+                    </p>
+                    <p>
+                        We will continue to enhance its security procedures as new technology becomes
+                         available and ensures that its security procedures are compliant with current 
+                         applicable regulations. Please be aware that, although we endeavour to provide 
+                         reasonable security for information we process and maintain, 
+                        no security system can prevent all potential security breaches.
+                    </p>
+                    <h3 class="text-danger"><strong>11.	Changes to this Policy</strong></h3>
+                    <p>
+                        If our Privacy Policy changes in the future, it will be posted here, 
+                        and a new effective date will be shown. You should access our Privacy Policy 
+                        regularly to ensure you understand our current policies,
+                         as continued use is deemed approval of all changes.
+                    </p>
+                    <h3 class="text-danger"><strong>12.	Your Consent</strong></h3>
+                    <p>
+                        We believe that, every user of our Platform must be in a position to provide an informed consent prior to providing any Information required for the use of the Platform. By registering with us, User is expressly consenting to our collection, processing, storing,
+                         disclosing and handling of User’s information as set forth in this Policy now and as amended by us.  
+                    </p>
+                    <p>
+                        Processing, User’s information in any way, including, but not limited to, collecting, storing, deleting, using, combining, sharing, transferring, and disclosing information,
+                         all of which activities will take place in India as per the applicable data protection laws of India.
+                    </p>
+                    <h3 class="text-danger"><strong>13.	Grievance Redressal</strong></h3>
+                    <p>
+                        Any complaints, abuse, or concerns with regards to content and or comment or breach of these terms 
+                        shall be immediately informed to the designated Grievance Officer as mentioned below via in writing or through email 
+                        signed with the electronic signature to <i>writetous@nsdl.co.in</i> or Mr. Kapil Kumar (“Grievance Officer”) 
+                    </p>
+<address>
+<pre>
+ <strong>
+Mr. Kapil Kumar
+Grievance Officer  
+Protean eGov Technologies Limited 
+1st floor, Times Tower, Kamala Mills Compound, Lower Parel, Mumbai - 400 013, India 
+Ph: 022-24994200
+</strong>
+</pre>
+</address>
+                    <p>
+                        Protean shall not be responsible for any communication, if addressed, to any non-designated person in this regard.
+                    </p>
+                    <p> Thank you for using the Platform!</p>
+                </div>
+              
+          </div>
+      </div>
+  </div>

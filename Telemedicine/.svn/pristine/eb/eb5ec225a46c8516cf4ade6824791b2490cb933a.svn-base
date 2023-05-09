@@ -1,0 +1,47 @@
+<!-- <div active-tab class="resp-tabs-container hor_1">
+    <div class="resp-tab-content hor_1 resp-tab-content-active" aria-labelledby="hor_1_tab_item-1"
+        style="display: block">
+        <div class="register-form">
+            <form>
+                <div class="input-group upload-area">
+                    <label>Upload Prescription</label>
+                    <input type="text" placeholder="Browse Files" name="upload" />
+                </div>
+                <div class="input-group btn-area">
+                    <button type="submit" class="submit-main-btn">
+                        Upload
+                    </button>
+                </div>
+            </form>
+            <div class="note">
+                Max File Size 20MB (File format PDF, Jpg, PNG)
+            </div>
+        </div>
+        <div class="prescription-img">
+            <img src="assets/img/prescription-img.jpg" alt="" />
+        </div>
+        <div class="input-group btn-area form-col">
+            <button type="submit" class="submit-main-btn">
+                Save &amp; Submit
+            </button>
+        </div>
+        <div class="back-btn"><a href="#">Prev</a></div>
+        <div class="next-btn"><a href="#">Next</a></div>
+    </div>
+</div> -->
+
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="row">
+    <div class="col-12">
+        <embed *ngIf="pdfURL; else noDataFound" [attr.src]="pdfURL" type="application/pdf" class="w-100 pdf-viwer">
+        <ng-template #noDataFound>
+            <div class="ml-2">
+                {{error}}
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<button class="btn btn-primary mt-4" (click)="savePrescriptionDetails()" [disabled]="!pdfURL">Save & Submit</button>

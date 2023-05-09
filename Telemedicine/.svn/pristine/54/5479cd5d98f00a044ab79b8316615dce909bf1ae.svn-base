@@ -1,0 +1,31 @@
+package com.nsdl.ndhm.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "auth_init_dtls")
+public class AuthInitEntity {
+	@Id
+	private String requestId;
+	private String timestamp;
+	private String transactionId;
+	@Column(columnDefinition = "TEXT")
+	private String response;
+	@Column(name = "isCalled", columnDefinition = "boolean default false")
+	private boolean status;
+	private String expiry;
+}

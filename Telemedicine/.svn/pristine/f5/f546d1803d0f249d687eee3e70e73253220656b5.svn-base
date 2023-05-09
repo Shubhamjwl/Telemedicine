@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39">
+  <g id="Add" transform="translate(-478 -303)">
+    <circle id="Ellipse_28" data-name="Ellipse 28" cx="19.5" cy="19.5" r="19.5" transform="translate(478 303)" fill="#e43927"/>
+    <path id="plus" d="M13.045,5.727H8.273V.955A.955.955,0,0,0,7.318,0H6.682a.955.955,0,0,0-.955.955V5.727H.955A.955.955,0,0,0,0,6.682v.636a.955.955,0,0,0,.955.955H5.727v4.773A.955.955,0,0,0,6.682,14h.636a.955.955,0,0,0,.955-.955V8.273h4.773A.955.955,0,0,0,14,7.318V6.682A.955.955,0,0,0,13.045,5.727Zm0,0" transform="translate(491 316)" fill="#fff"/>
+  </g>
+</svg>

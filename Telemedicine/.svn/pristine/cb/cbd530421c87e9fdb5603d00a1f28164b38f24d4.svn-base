@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="file">
+  
+   <xs:complexType>
+         <xs:sequence>
+             <xs:element name = 'file-header' type = 'fileHeaderType' minOccurs = '1' maxOccurs = '1' />
+			  <xs:element name = 'batch-header' type = 'batchHeaderType' minOccurs = '1'  maxOccurs = '1' />
+			   <xs:element name = 'ddo-header' type = 'ddoHeaderType' minOccurs = '0'  maxOccurs = 'unbounded' />
+			    <xs:element name = 'subscriber-dtl' type = 'subscriberDdtlType' minOccurs = '1' maxOccurs = 'unbounded' />
+         </xs:sequence>
+      </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name = "fileHeaderType">
+   <xs:all>
+            <xs:element name="line-no"  minOccurs="1">
+			  <xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:totalDigits value="1" />
+					<xs:pattern value="[1]{1}" />
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="record-type"  minOccurs="1">
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+				<xs:length value="2" />
+				<xs:pattern value="FH"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="uploaded-by" minOccurs="1">
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+					 <xs:length value="1" />
+					 <xs:pattern value="P"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="pao-reg-no"  minOccurs="1">
+			  <xs:simpleType>
+				 <xs:restriction base="xs:positiveInteger">
+					<xs:pattern value="[0-9]{7}"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="no-of-batches" minOccurs="1">
+              <xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:totalDigits value="1" />
+					<xs:pattern value="[1]{1}" />
+				</xs:restriction>
+			    	</xs:simpleType>
+              </xs:element>
+              <xs:element name="sal-disb-date"  minOccurs="1" nillable="true"  >
+			  <xs:simpleType>
+				<xs:restriction base="xs:string" >
+					<xs:pattern value="\d{2}\d{2}\d{4}"/>
+					<xs:pattern value=""/>
+					<xs:minLength value="0"/>
+					<xs:maxLength value="8"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="file-flag" minOccurs="1">
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+						<xs:length value="1" />	
+						<xs:pattern value="(M|A)"/>
+					</xs:restriction>
+					</xs:simpleType>
+			  </xs:element>
+              <xs:element name="month" minOccurs="1" nillable="true" >
+			  <xs:simpleType>
+				<xs:restriction  base="xs:string" >
+					<xs:pattern value=""/>	
+					<xs:pattern value="|(01|02|03|04|05|06|07|08|09|10|11|12)"/>
+					<xs:minLength value="0"/>
+					<xs:maxLength value="2"/>
+			   	</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="year" minOccurs="1" nillable="true" >
+			  <xs:simpleType>
+				  <xs:restriction base="xs:string">
+				  <xs:pattern value="|[0-9]{4}"/>
+					<xs:pattern value=""/>
+					<xs:minLength value="0"/>				  
+					<xs:maxLength value="4"/>				 
+				</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="version"  minOccurs="1">
+			  <xs:simpleType>
+				<xs:restriction base="xs:decimal">
+			   		 <xs:pattern value="[0-9]{1,3}(\.[0-9]{1,4})?"/>
+				 </xs:restriction>
+				  </xs:simpleType>
+			  </xs:element>
+            </xs:all>
+   </xs:complexType>
+   
+   <xs:complexType name = "batchHeaderType">
+    <xs:all>
+              <xs:element name="line-no"   minOccurs="1" > 
+			  <xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:totalDigits value="1" />
+					<xs:pattern value="[1]{1}" />
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="record-type"  minOccurs="1"> 
+			  <xs:simpleType>
+				 <xs:restriction base="xs:string">
+				 	 <xs:length value="2" />
+					 <xs:pattern value="BH"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="batch-no"  minOccurs="1">
+				<xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:totalDigits value="1" />
+					<xs:pattern value="[1]{1}" />
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="contr-file-type"   minOccurs="1"> 
+			  <xs:simpleType>
+				 <xs:restriction base="xs:string">
+				<xs:pattern value="C|R"/>
+				<xs:maxLength value="1"/>
+			 </xs:restriction>
+			 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="pao-reg-no"   minOccurs="1">
+				<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:pattern value="[0-9]{7}"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="date-file-creation"  minOccurs="1">
+			  <xs:simpleType>
+				 <xs:restriction base="xs:string">
+				 <xs:pattern value="\d{2}\d{2}\d{4}"></xs:pattern>
+					<xs:length value="8"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="batch-id"  minOccurs="1">
+				<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:pattern value="[0-9]{20}"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="txn-id"  minOccurs="1"  nillable="true"> 
+              	<xs:simpleType>
+				<xs:restriction base="xs:string" >
+				    <xs:pattern value=""/>
+					<xs:pattern value="[0-9]{0,13}"/>
+					<xs:minLength value="0"/>
+					<xs:maxLength value="13"/>
+				</xs:restriction >
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="total-ddo"  minOccurs="1">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					 <xs:pattern value="[0-9]{1,9}"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="no-subscriber-records"  minOccurs="1">
+			<xs:simpleType>
+					<xs:restriction base="xs:integer" >
+					 <xs:pattern value="[0-9]{1,9}"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="control-total-govt-contr"   minOccurs="1"> 
+			  <xs:simpleType>
+			<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="control-total-sub-contr"  minOccurs="1">
+			<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="grand-total"  minOccurs="1"> 
+			  <xs:simpleType>
+			<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+            </xs:all>
+  
+   </xs:complexType>
+   
+   <xs:complexType name = "ddoHeaderType">
+    <xs:all>
+              <xs:element name="line-no" minOccurs="1" >
+				<xs:simpleType>
+				<xs:restriction base="xs:string">
+					 <xs:minLength value="1"/>
+				     <xs:maxLength value="9"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="record-type" minOccurs="1" >
+			<xs:simpleType>
+				 <xs:restriction base="xs:string">
+					 <xs:pattern value="DH"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="batch-no" minOccurs="1" >  
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">
+					 <xs:minLength value="1"/>
+				     <xs:maxLength value="9"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="ddo-serial-no" minOccurs="1" > 
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					 <xs:minLength value="1"/>
+				     <xs:maxLength value="9"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="ddo-reg-no" minOccurs="1">  
+			  <xs:simpleType>
+			  <xs:restriction base="xs:string">
+					<xs:pattern value="[0-9A-Z]{10}"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="total-subscriber" minOccurs="1" > 
+				<xs:simpleType>
+				 <xs:restriction base="xs:float">
+			   		 <xs:pattern value="[0-9]{1,3}(\.[0-9]{1,2})?"/>
+				 </xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="control-total-govt-contr" minOccurs="1" >
+			<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="control-total-sub-contr" minOccurs="1">
+			<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+          </xs:all>
+          
+  
+   </xs:complexType>
+   
+   <xs:complexType name = "subscriberDdtlType">
+     <xs:all>
+              <xs:element name="record-type" minOccurs="1"> 
+			  	<xs:simpleType>
+				 <xs:restriction base="xs:string">
+					 <xs:pattern value="SD"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="ddo-reg-no" minOccurs="1"> 
+			  <xs:simpleType>
+				 <xs:restriction base="xs:string">
+					<xs:length value="10"/>
+			    </xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="pran"  minOccurs="1"> 
+			  <xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:totalDigits value="12" />
+					<xs:fractionDigits value="0" />
+					<xs:pattern value="[0-9]{12}" />
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="govt-contr-amt"  minOccurs="1">
+				<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="subscriber-contr-amt" minOccurs="1">
+				<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="total-contr-subscriber" minOccurs="1"> 
+			  <xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+					<xs:minInclusive value="0" />
+					<xs:maxInclusive value="99999999999999999999.99"/>
+			</xs:restriction>
+				 </xs:simpleType>
+			  </xs:element>
+              <xs:element name="contr-type"  minOccurs="1">
+			<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<xs:pattern value="A|C"/>
+					 <xs:maxLength value="1"/>
+				</xs:restriction>
+				</xs:simpleType>
+			  </xs:element>
+              <xs:element name="contr-month" minOccurs="1" nillable="true">
+			<xs:simpleType>
+				<xs:restriction  base="xs:string" >
+					<xs:pattern value=""/>	
+					<xs:pattern value="|(01|02|03|04|05|06|07|08|09|10|11|12)"/>
+					<xs:minLength value="0"/>
+					<xs:maxLength value="2"/>
+			   	</xs:restriction>
+					</xs:simpleType>
+			  </xs:element>
+              <xs:element name="contr-year" minOccurs="1" nillable="true"> 
+			  	<xs:simpleType>
+				  <xs:restriction base="xs:string">
+				  <xs:pattern value="|[0-9]{4}"/>
+				  <xs:pattern value=""/>
+					<xs:minLength value="0"/>				  
+					<xs:maxLength value="4"/>				 
+				</xs:restriction>
+					</xs:simpleType>
+			  </xs:element>
+            <!--   <xs:element name="remarks"  >
+			  <xs:simpleType>
+				<xs:restriction base="xs:string">		
+				 	<xs:enumeration value=""/>
+					<xs:enumeration value="[Aa][Rr][Rr][Ee][Aa][Rs][Ss]"/>
+					<xs:enumeration value="Da Arrears|DA ARREARS|da arrears"/>
+					<xs:enumeration value="Festival Advance|FESTIVAL ADVANCE|festival advance"/>
+					<xs:enumeration value=" Leave Arrears|LEAVE ARREARS|leave arrears"/>
+					<xs:enumeration value="Pay Difference|PAY DIFFERENCE|pay difference"/>
+					<xs:enumeration value="Earned Leave|EARNED LEAVE|earned leave"/>
+					<xs:enumeration value="Interest|INTEREST|interest"/>
+					<xs:enumeration value="Others"/>
+					</xs:restriction>
+					</xs:simpleType>
+					</xs:element > -->
+					
+					<xs:element name="remarks" minOccurs="1">
+					<xs:simpleType>
+					 <xs:union>
+					 		<xs:simpleType>
+           						 <xs:restriction base="xs:string">
+                				<xs:enumeration value=""/>
+								<xs:enumeration value="Arrears"/>
+								<xs:enumeration value="Da Arrears"/>
+								<xs:enumeration value="Festival Advance"/>
+								<xs:enumeration value="Leave Arrears"/>
+								<xs:enumeration value="Pay Difference"/>
+								<xs:enumeration value="Earned Leave"/>
+								<xs:enumeration value="Interest"/>
+								<xs:enumeration value="Others"/>
+								 <xs:maxLength value="75"/>
+					            </xs:restriction>
+        					</xs:simpleType>
+					 <xs:simpleType>
+           					 <xs:restriction base="xs:string">
+               				 <xs:pattern value="[Aa][Rr][Rr][Ee][Aa][Rs][Ss]" />
+               				 <xs:pattern value="[Dd][Aa] [Aa][Rr][Rr][Ee][Aa][Rs][Ss]" />
+               				  <xs:pattern value="[Ff][Ee][Ss][Tt][Ii][Vv][Ee] [Aa][Dd][Vv][Aa][Nn][Cc][Ee]" />
+               				  <xs:pattern value="[Ll][Ee][Aa][Vv][Ee] [Aa][Rr][Rr][Ee][Aa][Rs][Ss]" />
+               				  <xs:pattern value="[Pp][Aa][Yy] [Dd][Ii][Ff][Ff][Ee][Rr][Ee][Nn][Cc][Ee]" />
+               				  <xs:pattern value="[Ee][Aa][Rr][Nn][Ee][Dd] [Ll][Ee][Aa][Vv][Ee]"/>
+               				  <xs:pattern value="[Ii][Nn][Tt][Ee][Rr][Ee][Ss][Tt]"/>
+               				  <xs:pattern value="[Oo][Tt][Hh][Ee][Rr][Ss]"/>
+               				
+           					 </xs:restriction>
+        			</xs:simpleType>
+					 </xs:union>
+					</xs:simpleType>
+   				</xs:element>
+   				
+            </xs:all>
+   </xs:complexType>
+   </xs:schema>
+   
+   
+  
+  
+  
+  

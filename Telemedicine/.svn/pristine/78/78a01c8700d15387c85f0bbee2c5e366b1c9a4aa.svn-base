@@ -1,0 +1,197 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<div class="">
+  <div class="main-container">
+    <div class="breadcrumb-area"><a href="index.html">Home</a></div>
+    <div class="page-title">Appointments</div>
+    <div class="patient-detail accordion_container">
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header (click)="isExpanded = !isExpanded; setPlusMinus()">
+            <div class="patient-photo">
+              <img src="assets/img/patient-photo.png" alt="" />
+            </div>
+            <div class="patient-name">
+              {{ ptPersonalDetails?.name }}
+            </div>
+            <div class="vid-area">
+              <span *ngIf="patientDetailsByAppointment?.slotType !== 'In-Clinic'"><img src="assets/img/video.svg" (click)="bigBlueButtonVCToken()" /></span><span *ngIf="patientDetailsByAppointment?.slotType !== 'In-Clinic'" class="vid-text">Video Call</span>
+            </div>
+            <div class="detail-area1 mob">
+              <div class="detail-icon">
+                <img src="assets/img/appointment-id2.svg" alt="" />
+              </div>
+              <div class="detail-text">Appointment ID<br /><span> 2022013102454381</span></div>
+            </div>
+            <div class="detail-area1 detail-area12">
+              <div class="detail-icon">
+                <img src="assets/img/blood-group.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Blood Group<br /><span> {{ patientDetails?.bloodgrp }}</span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area13">
+              <div class="detail-icon">
+                <img src="assets/img/height.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Height <br /><span> {{ patientDetails?.height }} Cms</span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area14">
+              <div class="detail-icon">
+                <img src="assets/img/weight.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Weight <br /><span> {{ patientDetails?.weight }} KG</span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area15">
+              <div class="detail-icon">
+                <img src="assets/img/gender.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Gender<br /><span> {{ ptPersonalDetails?.gender }}</span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area6">
+              <div class="detail-icon">
+                <img src="assets/img/date-of-birth.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Date of Birth<br /><span> {{ ptPersonalDetails?.dob }}</span>
+              </div>
+            </div>
+
+            <span class="plusminus">{{ plusMinus }}</span>
+          </mat-expansion-panel-header>
+          <div class="accordion_body" style="">
+            <div class="detail-area1 detail-area7">
+              <div class="detail-icon">
+                <img src="assets/img/e-mail.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Email Address <br /><span>
+                  <a>{{ ptPersonalDetails?.emailId }}</a></span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area8">
+              <div class="detail-icon">
+                <img src="assets/img/mobile-number.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Mobile No. <br /><span> {{ ptPersonalDetails?.mobileNo }}</span>
+              </div>
+            </div>
+            <div class="detail-area1 detail-area9">
+              <div class="detail-icon">
+                <img src="assets/img/emergency-number.svg" alt="" />
+              </div>
+              <div class="detail-text">Emergency Contact No. <br /><span> +91 8745874596</span></div>
+            </div>
+            <div class="detail-area1 detail-area10">
+              <div class="detail-icon">
+                <img src="assets/img/address.svg" alt="" />
+              </div>
+              <div class="detail-text">
+                Address <br /><span>
+                  {{ patientDetails?.address?.address1 }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="report-section"><span>Patient Reported Symptoms :</span> {{ ptSymptomsDetails }}</div>
+    <div class="patient-tabsection">
+      <div id="parentHorizontalTab">
+        <mat-horizontal-stepper labelPosition="bottom" #stepper>
+          <mat-step label="Details">
+            <ng-container *ngIf="stepper.selectedIndex === 0">
+              <app-tm-prescription-details></app-tm-prescription-details>
+            </ng-container>
+          </mat-step>
+          <mat-step label="Prescription">
+            <ng-container *ngIf="stepper.selectedIndex === 1">
+              <app-tm-consultation-priscription></app-tm-consultation-priscription>
+            </ng-container>
+          </mat-step>
+          <mat-step label="View document report">
+            <ng-container *ngIf="stepper.selectedIndex === 2">
+              <app-tm-uploaded-documents-report></app-tm-uploaded-documents-report>
+            </ng-container>
+          </mat-step>
+          <mat-step label="View Histrorical completed appointment">
+            <ng-container *ngIf="stepper.selectedIndex === 3">
+              <app-tm-historical-completed-appointments [ptPersonalDetails]="ptPersonalDetails">
+              </app-tm-historical-completed-appointments>
+            </ng-container>
+          </mat-step>
+          <mat-step label="Red flag & education video">
+            <ng-container *ngIf="stepper.selectedIndex === 4">
+              <app-tm-patient-submitted-form [ptPersonalDetails]="ptPersonalDetails"></app-tm-patient-submitted-form>
+            </ng-container>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </div>
+      <div class="back-btn" *ngIf="stepper.selectedIndex !== 0"><a role="button" (click)="goBack()">Prev</a></div>
+      <div class="next-btn" *ngIf="stepper.selectedIndex !== stepper._steps?.length-1"><a role="button"
+          (click)="goForward()">Next</a></div>
+    </div>
+    <div class="patient-tabsection2">
+      <div class="pre-button"><a role="button" (click)="onClickPrescribed()">PRESCRIBE SERVICES</a></div>
+      <div class="tabsection2-title">Prescription Summary</div>
+
+      <div class="report-detail2">
+        <div class="detail-icon2">
+          <img src="assets/img/symptoms2.svg" alt="" />
+        </div>
+        <div class="detail-title">Symptoms</div>
+        <div class="detail-text2">
+          {{ symptomDetails }}
+        </div>
+      </div>
+
+      <div class="report-detail2">
+        <div class="detail-icon2">
+          <img src="assets/img/diagnosis2.svg" alt="" />
+        </div>
+        <div class="detail-title">Provisional Diagnosis</div>
+        <div class="detail-text2">
+          {{ diagnosisDetails }}
+        </div>
+      </div>
+
+      <div class="report-detail2">
+        <div class="detail-icon2">
+          <img src="assets/img/medicine2.svg" alt="" />
+        </div>
+        <div class="detail-title">Medicines</div>
+        <div class="detail-text2">
+          <span *ngFor="let medicine of medicineDetails"> {{ medicine }}<br /> </span>
+        </div>
+      </div>
+
+      <div class="report-detail2">
+        <div class="detail-icon2">
+          <img src="assets/img/advice2.svg" alt="" />
+        </div>
+        <div class="detail-title">Advice</div>
+        <div class="detail-text2">
+          <span *ngFor="let advice of adviceDetails"> {{ advice }}<br /> </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">© Copyright 2022, Protean Clinic.</div>
+</div>
+
+<form #form [action]="actionURL" method="post" target="_blank">
+  <input type="hidden" name="patient_name" [value]="ptPersonalDetails?.name" />
+  <input type="hidden" name="patient_phone" [value]="ptPersonalDetails?.mobileNo" />
+  <input type="hidden" name="doctor_mobile" [value]="doctorDetails?.dmdMobileNo" />
+  <input type="hidden" name="doctor_email" [value]="doctorDetails?.dmdEmail" />
+  <input type="hidden" name="client_secret_key" [value]="clientSecret" />
+  <input type="hidden" name="telmed_trans_id" [value]="transactionID" />
+</form>

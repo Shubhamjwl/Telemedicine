@@ -1,0 +1,38 @@
+package com.nsdl.notification.entity;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "notification_user_token", schema = "usrmgmt", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "nut_user_id", " nut_user_type" }) })
+public class NotificationUserTokenEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "nut_id")
+	private Integer nutId;
+
+	@Column(name = "nut_user_id", nullable = false)
+	private String nutUserId;
+
+	@Column(name = "nut_user_type", nullable = false)
+	private String nutUserType;
+
+	@Column(name = "nut_user_token", nullable = false)
+	private String nutUserToken;
+
+	@Column(name = "nut_last_sync")
+	private LocalDateTime nutLastSync;
+
+}

@@ -1,0 +1,138 @@
+package com.nsdl.telemedicine.doctor.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+/**
+ * The persistent class for the dr_mstr_dtls database table.
+ * 
+ */
+@Data
+@Entity
+@Table(name="dr_mstr_dtls", schema = "registration")
+@NamedQuery(name="DoctorMstrDtlsEntity.findAll", query="SELECT d FROM DoctorMstrDtlsEntity d")
+public class DoctorMstrDtlsEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="dmd_id_pk")
+	private Integer dmdIdPk;
+
+	@Column(name="dmd_consul_fee")
+	private Integer dmdConsulFee;
+
+	@Column(name="dmd_dr_name")
+	private String dmdDrName;
+	
+	@Column(name="dmd_dr_first_name")
+	private String dmdDrFirstName;
+	
+	@Column(name="dmd_dr_first_name")
+	private String dmdDrMiddleName;
+	
+	@Column(name="dmd_dr_first_name")
+	private String dmdDrLastName;
+
+	@Column(name="dmd_email")
+	private String dmdEmail;
+
+	@Column(name="dmd_gender")
+	private String dmdGender;
+
+	@Column(name="dmd_is_reg_by_ipan")
+	private String dmdIsRegByIpan;
+
+	@Column(name="dmd_isverified")
+	private Boolean dmdIsverified;
+
+	@Column(name="dmd_mci_number")
+	private String dmdMciNumber;
+
+	@Column(name="dmd_mobile_no")
+	private Long dmdMobileNo;
+
+	@Column(name="dmd_modified_by")
+	private String dmdModifiedBy;
+
+	@Column(name="dmd_modified_tmstmp")
+	private Timestamp dmdModifiedTmstmp;
+
+	@Column(name="dmd_opti_version")
+	private String dmdOptiVersion;
+
+	@Column(name="dmd_password")
+	private String dmdPassword;
+
+	@Column(name="dmd_smc_number")
+	private String dmdSmcNumber;
+
+	@Column(name="dmd_specialiazation")
+	private String dmdSpecialiazation;
+	
+	@Column(name="dmd_user_id")
+	private String dmdUserId;
+
+	@OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="srd_dr_user_id_fk")
+	private List<ScribeRegEntity> scrbRegDtls;
+
+	@Column(name="dmd_photo_path")
+	private String profilePhoto;
+	
+	@Column(name="dmd_address1")
+	private String dmdAddress1;
+	
+	@Column(name="dmd_address2")
+	private String dmdAddress2;
+	
+	@Column(name="dmd_address3")
+	private String dmdAddress3;
+	
+	@Column(name="dmd_state")
+	private String dmdState;
+	
+	@Column(name="dmd_city")
+	private String dmdCity;
+	
+	@Column(name="dmd_isactive_flg")
+	private Boolean dmdisactiveflg;
+	
+	@Column(name="dmd_dr_link")
+	private String dmdDrLink;
+	
+	@Column(name="dmd_dr_profile_link")
+	private String dmdDrProfileLink;
+	
+	@Column(name="dmd_pre_assessment_link")
+	private String dmdPreassessmentLink;
+	
+	@Column(name="dmd_pre_assessment_flag")
+	private boolean dmdPreassessmentFlag;
+	
+	@Column(name="dmd_patient_reg_link")
+	private String dmdPatientRegistrationLink;
+	
+	@Column(name = "dmd_tc_flag", nullable = true)
+	private Boolean dmdTcFlag;
+	
+	@Column(name="dmd_association_name")
+	private String dmdAssociationName;
+	
+	@Column(name="dmd_association_number")
+	private String dmdAssociationNumber;
+}

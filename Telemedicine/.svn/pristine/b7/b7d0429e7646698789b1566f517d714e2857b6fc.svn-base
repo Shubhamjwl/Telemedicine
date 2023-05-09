@@ -1,0 +1,31 @@
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+
+<mat-table [dataSource]="dataSource" class="clinic-table">
+  <ng-container matColumnDef="reportname">
+    <mat-header-cell *matHeaderCellDef> <b> Report Type </b> </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="appointmentId" width="10%"> {{ element.reportname }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="view">
+    <mat-header-cell *matHeaderCellDef class="view"> <b> View </b> </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img src="assets/img/view-red.svg" ngbTooltip="View" role="button" class="w-auto m-0"
+        (click)="openDialog(element)" />
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="download">
+    <mat-header-cell *matHeaderCellDef class="download"> <b> Download
+      <img class="refresh" role="button" (click)="getPatientUploadedReport()" src="assets/img/referesh.svg">
+    </b> </mat-header-cell>
+    <mat-cell *matCellDef="let element" [class]="element.download">
+      <img src="assets/img/download.svg" ngbTooltip="Download" role="button" class="w-auto m-0"
+        (click)="download(element)" />
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
+</mat-table>

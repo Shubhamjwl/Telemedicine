@@ -1,0 +1,16 @@
+.shadow {
+  box-shadow: rgb(161, 142, 142);
+}
+.textJustify {
+  text-align: justify;
+  text-justify: inter-word;
+  font-family: FontAwesome;
+}
+.indent {
+  text-indent: 50px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.headerNavbar {
+  padding: 10px 60px;
+}

@@ -1,0 +1,79 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.AuthConfirmNotifyRequestDTO;
+import com.nsdl.ndhm.dto.AuthInitReqDTO;
+import com.nsdl.ndhm.dto.OnConfirmRequestDTO;
+import com.nsdl.ndhm.dto.OnFetchModesRequestDTO;
+import com.nsdl.ndhm.service.GatewayCallbackService;
+
+@RestController
+@RequestMapping("/v0.5/users/auth")
+public class GatewayCallbackController {
+
+	private static final Logger logger = LoggerFactory.getLogger(GatewayCallbackController.class);
+
+	@Autowired
+	GatewayCallbackService gatewayCallbackService;
+
+	/* call back api from NDHM for on fetch modes */
+	@PostMapping("/on-fetch-modes")
+	public ResponseEntity<OnFetchModesRequestDTO> onFetchModes(@RequestHeader Map<String, String> headers,
+			@RequestBody OnFetchModesRequestDTO onFetchModesDTO) {
+
+		logger.info("OnFetchModes call back Received");
+		gatewayCallbackService.updateFetchModes(onFetchModesDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/* Callback for init */
+	@PostMapping("/on-init")
+	public ResponseEntity<OnFetchModesRequestDTO> onInit1(@RequestHeader Map<String, String> headers,
+			@RequestBody AuthInitReqDTO authInitReqDTO) {
+		logger.info("On Init Callback received");
+		gatewayCallbackService.updateInit(authInitReqDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/* Callback for on confirm */
+	@PostMapping("/on-confirm")
+	public ResponseEntity<OnFetchModesRequestDTO> onConfirm1(@RequestHeader Map<String, String> headers,
+			@RequestBody OnConfirmRequestDTO onConfirmRequestDTO) {
+		logger.info("On confirm Callback received");
+
+		gatewayCallbackService.updateConfirm(onConfirmRequestDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/* notify for on confirm */
+	@PostMapping("/notify")
+	public ResponseEntity<String> confirmNotify(@RequestHeader Map<String, String> headers,
+			@RequestBody AuthConfirmNotifyRequestDTO authConfirmNotifyRequestDTO) {
+		logger.info("confirmNotify method Starts");
+
+		gatewayCallbackService.confirmNotify(authConfirmNotifyRequestDTO);
+
+		logger.info("confirmNotify method Ends");
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+}

@@ -1,0 +1,78 @@
+package com.nsdl.auth.repository;
+
+import java.time.LocalDateTime;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.auth.entity.DoctorSessionHistory;
+@Transactional
+@Repository
+public interface DoctorSessionRepo extends JpaRepository<DoctorSessionHistory, String>{
+
+	
+	
+	/*
+	 * @Query("select user.sh_id from DoctorSessionHistory user where user.sh_id= :id"
+	 * ) public Long getById(@Param("id") Long id);
+	 */
+	 
+	
+	
+	/*
+	 * @Query(value = "select sh_id from usrmgmt.session_history where sh_id= :id",
+	 * nativeQuery=true) public Long getById(@Param("id") Long id);
+	 */
+
+	  @Query(value = "select sh_usr_id from usrmgmt.session_history where sh_usr_id= :userId", nativeQuery=true)
+	public String getUserName(@Param("userId") String userId);
+
+	
+	  @Modifying
+	  @Query(value = "UPDATE usrmgmt.session_history SET sh_usr_id = :userId ,sh_session_id =:sessionId ,sh_created_tmpstmp =:modifiedTime WHERE sh_usr_id =:userId", nativeQuery=true)
+	public void updateSession(@Param("userId") String userId,@Param("sessionId") String sessionId,@Param("modifiedTime") LocalDateTime modifiedTime);
+
+	 
+	  @Modifying
+	  @Query(value = "UPDATE usrmgmt.session_history SET sh_end_tmpstmp =:logOutTime,sh_is_active=false WHERE sh_usr_id =:userId", nativeQuery=true)
+	public void updateLogOutTime(@Param("userId") String userId,@Param("logOutTime") LocalDateTime logOutTime);
+
+
+	  @Query(value ="SELECT * FROM usrmgmt.session_history where session_history.sh_created_tmpstmp = ?1 and sh_usr_id= ?2", nativeQuery = true) 
+	public DoctorSessionHistory getCurrSessionDtls(LocalDateTime currTime,String userId);
+
+	  @Modifying
+	  @Query(value = "UPDATE usrmgmt.session_history SET sh_session_id =:sessId WHERE sh_id =:shId", nativeQuery=true)
+	public void updateSessionId(@Param("sessId") String sessId,@Param("shId") Long shId);
+
+
+	  @Query(value ="SELECT sh_session_id FROM usrmgmt.session_history where session_history.sh_end_tmpstmp = ?1", nativeQuery = true)
+	public String getSessionIdByTime(LocalDateTime logOutTime);
+
+
+	/*
+	 * @Query(value
+	 * ="SELECT sh_session_id FROM usrmgmt.session_history WHERE sh_usr_id =:userId AND sh_is_active =:flag"
+	 * , nativeQuery = true) public String getSessionIdByUserId(@Param("userId")
+	 * String userId,@Param("flag") boolean flag);
+	 */
+	 
+	@Query(value ="SELECT * FROM usrmgmt.session_history WHERE sh_is_active=:flag AND sh_usr_id =:userId", nativeQuery = true) 
+	public DoctorSessionHistory getSessionId(@Param("userId") String userId,@Param("flag") String flag);
+	
+	 @Modifying
+	 @Query(value = "UPDATE usrmgmt.session_history SET sh_is_active=false WHERE sh_usr_id =:userId", nativeQuery=true)
+	 public void updateOldFlagToFalse(@Param("userId") String userId);
+
+	
+	/*
+	 * @Query("select * from DoctorSessionHistory user where user.sh_id= :id")
+	 * public DoctorSessionHistory getId(@Param("id") Long id);
+	 */
+	
+
+}

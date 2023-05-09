@@ -1,0 +1,271 @@
+[2022-03-03 12:12:59,201] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$31201f5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:12:59,534] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+[2022-03-03 12:13:00,154] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator log | Located environment: name=consultation-manager-service, profiles=[dev], label=1.0.1, version=null, state=null
+[2022-03-03 12:13:00,154] INFO  consultation-manager-service, , [main], ,  , PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+[2022-03-03 12:13:00,211] INFO  consultation-manager-service, , [main], ,  , ConsultationManagerService logStartupProfileInfo | The following profiles are active: dev
+[2022-03-03 12:13:02,288] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+[2022-03-03 12:13:02,454] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 153ms. Found 22 repository interfaces.
+[2022-03-03 12:13:02,830] INFO  consultation-manager-service, , [main], ,  , GenericScope setSerializationId | BeanFactory id=d8dc0a7e-a883-3d35-9adf-711075b9ce8c
+[2022-03-03 12:13:03,188] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$e6f7fef8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:13:03,233] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$31201f5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:13:03,765] INFO  consultation-manager-service, , [main], ,  , TomcatWebServer initialize | Tomcat initialized with port(s): 7078 (http)
+[2022-03-03 12:13:03,784] INFO  consultation-manager-service, , [main], ,  , Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7078"]
+[2022-03-03 12:13:03,797] INFO  consultation-manager-service, , [main], ,  , StandardService log | Starting service [Tomcat]
+[2022-03-03 12:13:03,797] INFO  consultation-manager-service, , [main], ,  , StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+[2022-03-03 12:13:03,810] INFO  consultation-manager-service, , [main], ,  , AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+[2022-03-03 12:13:03,985] INFO  consultation-manager-service, , [main], ,  , [/consultation] log | Initializing Spring embedded WebApplicationContext
+[2022-03-03 12:13:03,986] INFO  consultation-manager-service, , [main], ,  , ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3763 ms
+[2022-03-03 12:13:05,202] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Starting...
+[2022-03-03 12:13:08,021] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Start completed.
+[2022-03-03 12:13:08,159] INFO  consultation-manager-service, , [main], ,  , LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[2022-03-03 12:13:08,318] INFO  consultation-manager-service, , [main], ,  , Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+[2022-03-03 12:13:08,321] INFO  consultation-manager-service, , [main], ,  , Environment <clinit> | HHH000206: hibernate.properties not found
+[2022-03-03 12:13:08,636] INFO  consultation-manager-service, , [main], ,  , Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[2022-03-03 12:13:08,898] INFO  consultation-manager-service, , [main], ,  , Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[2022-03-03 12:13:08,923] INFO  consultation-manager-service, , [main], ,  , LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+[2022-03-03 12:13:08,933] INFO  consultation-manager-service, , [main], ,  , BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@4db4431b
+[2022-03-03 12:16:15,764] WARN  consultation-manager-service, , [main], ,  , ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:310)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.consultancy.ConsultationManagerService.main(ConsultationManagerService.java:12)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:266)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 33 common frames omitted
+[2022-03-03 12:24:23,858] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b1cab73e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:24:24,268] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+[2022-03-03 12:24:25,565] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator log | Located environment: name=consultation-manager-service, profiles=[dev], label=1.0.1, version=null, state=null
+[2022-03-03 12:24:25,565] INFO  consultation-manager-service, , [main], ,  , PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+[2022-03-03 12:24:25,642] INFO  consultation-manager-service, , [main], ,  , ConsultationManagerService logStartupProfileInfo | The following profiles are active: dev
+[2022-03-03 12:24:26,713] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+[2022-03-03 12:24:26,978] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 244ms. Found 22 repository interfaces.
+[2022-03-03 12:24:27,484] INFO  consultation-manager-service, , [main], ,  , GenericScope setSerializationId | BeanFactory id=d8dc0a7e-a883-3d35-9adf-711075b9ce8c
+[2022-03-03 12:24:27,853] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$95b0b441] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:24:27,892] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b1cab73e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 12:24:28,421] INFO  consultation-manager-service, , [main], ,  , TomcatWebServer initialize | Tomcat initialized with port(s): 7078 (http)
+[2022-03-03 12:24:28,441] INFO  consultation-manager-service, , [main], ,  , Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7078"]
+[2022-03-03 12:24:28,453] INFO  consultation-manager-service, , [main], ,  , StandardService log | Starting service [Tomcat]
+[2022-03-03 12:24:28,453] INFO  consultation-manager-service, , [main], ,  , StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+[2022-03-03 12:24:28,468] INFO  consultation-manager-service, , [main], ,  , AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+[2022-03-03 12:24:28,655] INFO  consultation-manager-service, , [main], ,  , [/consultation] log | Initializing Spring embedded WebApplicationContext
+[2022-03-03 12:24:28,657] INFO  consultation-manager-service, , [main], ,  , ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2997 ms
+[2022-03-03 12:24:30,072] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Starting...
+[2022-03-03 12:24:31,213] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Start completed.
+[2022-03-03 12:24:31,339] INFO  consultation-manager-service, , [main], ,  , LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[2022-03-03 12:24:31,467] INFO  consultation-manager-service, , [main], ,  , Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+[2022-03-03 12:24:31,469] INFO  consultation-manager-service, , [main], ,  , Environment <clinit> | HHH000206: hibernate.properties not found
+[2022-03-03 12:24:31,715] INFO  consultation-manager-service, , [main], ,  , Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[2022-03-03 12:24:31,940] INFO  consultation-manager-service, , [main], ,  , Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[2022-03-03 12:24:31,964] INFO  consultation-manager-service, , [main], ,  , LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+[2022-03-03 12:24:31,971] INFO  consultation-manager-service, , [main], ,  , BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5036a286
+[2022-03-03 12:24:48,340] WARN  consultation-manager-service, , [main], ,  , ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:310)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.consultancy.ConsultationManagerService.main(ConsultationManagerService.java:12)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:266)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 33 common frames omitted
+[2022-03-03 12:24:52,616] INFO  consultation-manager-service, , [main], ,  , LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2022-03-03 12:24:53,399] INFO  consultation-manager-service, , [main], ,  , QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+[2022-03-03 12:24:54,699] INFO  consultation-manager-service, , [main], ,  , ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+[2022-03-03 12:24:54,792] WARN  consultation-manager-service, , [main], ,  , JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2022-03-03 12:24:55,798] INFO  consultation-manager-service, , [main], ,  , EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+[2022-03-03 12:24:55,913] INFO  consultation-manager-service, , [main], ,  , Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7078"]
+[2022-03-03 12:24:55,948] INFO  consultation-manager-service, , [main], ,  , TomcatWebServer start | Tomcat started on port(s): 7078 (http) with context path '/consultation'
+[2022-03-03 12:24:55,951] INFO  consultation-manager-service, , [main], ,  , ConsultationManagerService logStarted | Started ConsultationManagerService in 33.101 seconds (JVM running for 34.76)
+[2022-03-03 12:27:45,849] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+[2022-03-03 12:27:46,562] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+[2022-03-03 12:27:46,645] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+[2022-03-03 12:27:46,873] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown initiated...
+[2022-03-03 12:27:46,960] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown completed.
+[2022-03-03 12:27:46,998] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7078"]
+[2022-03-03 12:27:47,108] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , StandardService log | Stopping service [Tomcat]
+[2022-03-03 12:27:47,201] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7078"]
+[2022-03-03 12:27:47,216] INFO  consultation-manager-service, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7078"]
+[2022-03-03 13:12:20,324] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aea0dbb8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 13:12:20,736] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+[2022-03-03 13:12:24,790] INFO  consultation-manager-service, , [main], ,  , ConfigServicePropertySourceLocator log | Located environment: name=consultation-manager-service, profiles=[dev], label=1.0.1, version=null, state=null
+[2022-03-03 13:12:24,792] INFO  consultation-manager-service, , [main], ,  , PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+[2022-03-03 13:12:24,931] INFO  consultation-manager-service, , [main], ,  , ConsultationManagerService logStartupProfileInfo | The following profiles are active: dev
+[2022-03-03 13:12:26,161] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+[2022-03-03 13:12:26,349] INFO  consultation-manager-service, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 174ms. Found 22 repository interfaces.
+[2022-03-03 13:12:26,852] INFO  consultation-manager-service, , [main], ,  , GenericScope setSerializationId | BeanFactory id=d8dc0a7e-a883-3d35-9adf-711075b9ce8c
+[2022-03-03 13:12:27,206] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9286d8bb] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 13:12:27,255] INFO  consultation-manager-service, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aea0dbb8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-03-03 13:12:27,843] INFO  consultation-manager-service, , [main], ,  , TomcatWebServer initialize | Tomcat initialized with port(s): 7078 (http)
+[2022-03-03 13:12:27,862] INFO  consultation-manager-service, , [main], ,  , Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7078"]
+[2022-03-03 13:12:27,873] INFO  consultation-manager-service, , [main], ,  , StandardService log | Starting service [Tomcat]
+[2022-03-03 13:12:27,874] INFO  consultation-manager-service, , [main], ,  , StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+[2022-03-03 13:12:27,887] INFO  consultation-manager-service, , [main], ,  , AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+[2022-03-03 13:12:28,073] INFO  consultation-manager-service, , [main], ,  , [/consultation] log | Initializing Spring embedded WebApplicationContext
+[2022-03-03 13:12:28,073] INFO  consultation-manager-service, , [main], ,  , ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3115 ms
+[2022-03-03 13:12:29,404] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Starting...
+[2022-03-03 13:12:31,008] INFO  consultation-manager-service, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Start completed.
+[2022-03-03 13:12:31,175] INFO  consultation-manager-service, , [main], ,  , LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[2022-03-03 13:12:31,499] INFO  consultation-manager-service, , [main], ,  , Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+[2022-03-03 13:12:31,503] INFO  consultation-manager-service, , [main], ,  , Environment <clinit> | HHH000206: hibernate.properties not found
+[2022-03-03 13:12:31,977] INFO  consultation-manager-service, , [main], ,  , Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[2022-03-03 13:12:32,387] INFO  consultation-manager-service, , [main], ,  , Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[2022-03-03 13:12:32,420] INFO  consultation-manager-service, , [main], ,  , LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+[2022-03-03 13:12:32,431] INFO  consultation-manager-service, , [main], ,  , BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@7cadf3ca
+[2022-03-03 13:12:59,403] WARN  consultation-manager-service, , [main], ,  , ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:310)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.consultancy.ConsultationManagerService.main(ConsultationManagerService.java:12)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:266)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 33 common frames omitted
+[2022-03-03 13:13:04,920] INFO  consultation-manager-service, , [main], ,  , LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2022-03-03 13:13:05,671] INFO  consultation-manager-service, , [main], ,  , QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+[2022-03-03 13:13:06,941] INFO  consultation-manager-service, , [main], ,  , ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+[2022-03-03 13:13:07,118] WARN  consultation-manager-service, , [main], ,  , JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2022-03-03 13:13:08,004] INFO  consultation-manager-service, , [main], ,  , EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+[2022-03-03 13:13:08,252] INFO  consultation-manager-service, , [main], ,  , Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7078"]
+[2022-03-03 13:13:08,295] INFO  consultation-manager-service, , [main], ,  , TomcatWebServer start | Tomcat started on port(s): 7078 (http) with context path '/consultation'
+[2022-03-03 13:13:08,300] INFO  consultation-manager-service, , [main], ,  , ConsultationManagerService logStarted | Started ConsultationManagerService in 48.982 seconds (JVM running for 50.484)
+[2022-03-03 13:16:32,332] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+[2022-03-03 13:16:32,974] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+[2022-03-03 13:16:33,064] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+[2022-03-03 13:16:33,184] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown initiated...
+[2022-03-03 13:16:33,236] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown completed.
+[2022-03-03 13:16:33,247] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7078"]
+[2022-03-03 13:16:33,283] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , StandardService log | Stopping service [Tomcat]
+[2022-03-03 13:16:33,357] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7078"]
+[2022-03-03 13:16:33,370] INFO  consultation-manager-service, , [RMI TCP Connection(5)-127.0.0.1], ,  , Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7078"]

@@ -1,0 +1,30 @@
+package com.nsdl.ndhm.healthinfo.controller;
+
+import com.nsdl.ndhm.healthinfo.dto.HipRequestDTO;
+import com.nsdl.ndhm.healthinfo.service.HealthInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/v0.5/health-information/")
+public class HealthInfoController {
+    private static final Logger logger = LoggerFactory.getLogger(HealthInfoController.class);
+
+    @Autowired
+    HealthInfoService healthInfoService;
+
+    @Async("asyncExecutor")
+    @PostMapping(value = "hip/request", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> hipRequest(@RequestBody HipRequestDTO hipRequestDTO) {
+        logger.info("Request Received For hipRequest Starts");
+
+        logger.info("Request Received For hipRequest ends");
+        return healthInfoService.hipOnRequest(hipRequestDTO);
+    }
+}

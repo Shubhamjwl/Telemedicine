@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { MasterTypes } from '../shared/commonBuildBlocks/enum/master-type.enum';
+import { ConsultationService } from '../shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from '../shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ToastMessageService } from '../shared/commonBuildBlocks/toaster/toast-message.service';
+
+@Component({
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss']
+})
+export class LayoutComponent implements OnInit {
+
+  constructor(public dataPassingService: DataPassingService,
+    private consultationService: ConsultationService,
+    private toastrMessage: ToastMessageService,) {
+  
+  }
+
+  ngOnInit() {
+    this.getDoctorSpecialization();
+  }
+  getDoctorSpecialization() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.SPECIALIZATION).subscribe(result => {
+		if(result.status && result.response){
+			// result.response.forEach((element) => {
+			// 	this.dataPassingService.specializationList.push({'masterValue' : element.masterValue});
+			// })
+			this.dataPassingService.specializationList = result.response
+		//	console.log(this.dataPassingService.specializationList);
+		}else if(result.errors) {
+			this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+		}
+    },error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+  
+}

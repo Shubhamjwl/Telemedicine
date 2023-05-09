@@ -1,0 +1,37 @@
+.code {
+  width: 15px;
+}
+
+.login-container {
+  border: 5px solid #00bcd49e;
+  margin: 60px auto;
+  width: 1000px;
+}
+
+.login-par {
+  display: flex;
+  background-color: #03a9f43d;
+  color: #00bcd49e;
+  border: 1px solid #00bcd49e;
+  padding: 10px;
+  width: 400px;
+  margin: 0px auto;
+}
+
+.login-par h2 {
+  font-size: 20px;
+  text-align: center;
+}
+.input {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background-color: #dbe9f099;
+  border-color: #2196f3;
+}
+.lable {
+  background-color: #03a9f43d;
+  height: 38px;
+  border-radius: 2px;
+  margin-top: 3%;
+}

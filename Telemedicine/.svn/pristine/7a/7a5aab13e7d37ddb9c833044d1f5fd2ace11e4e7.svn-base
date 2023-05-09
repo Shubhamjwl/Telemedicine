@@ -1,0 +1,77 @@
+<app-breadcrumb [showHomePageOptions]="true"></app-breadcrumb>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+<!--  New patient UX start here -->
+<div class="container">
+  <div class="content-area content-area2 login-form">
+    <div class="page-title">Register A Patient</div>
+
+    <div class="register-form register-form2">
+      <div class="tab-title2"></div>
+      <form [formGroup]="form">
+        <div class="input-group full-col repeat-area right">
+          <div class="repeat-inside">
+            <input type="checkbox" id="weekday-1" name="weekday-1" value="Yes">
+            <label for="weekday-1">Single</label>
+            <input type="checkbox" id="weekday-2" name="weekday-2" value="Yes">
+            <label for="weekday-2">File Upload</label>
+          </div>
+        </div>
+        <div class="input-group half-col right">
+          <label>Patient's Full Name<sup>*</sup></label>
+          <input type="text" formControlName="patientName" autocomplete="off">
+          <mat-error class="ml-1"
+            *ngIf="form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)">
+            <span *ngIf="form.get('patientName').errors.required">{{'errFullNameRequired'| l10n}}</span>
+            <span *ngIf="form.get('patientName').errors.maxlength">{{'errFullNameMaxLength'| l10n}}</span>
+            <span *ngIf="form.get('patientName').errors.pattern">{{'errFullNamePattern'| l10n}}</span>
+          </mat-error>
+        </div>
+        <div class="input-group half-col left">
+          <label>Mobile Number<sup>*</sup></label>
+          <input type="text" formControlName="mobileNo" autocomplete="off">
+          <mat-error class="ml-1"
+            *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)">
+            <span *ngIf="form.get('mobileNo').errors.required">{{'errMobileRequired'| l10n}}</span>
+            <span *ngIf="form.get('mobileNo').errors.maxlength">{{'errMobileMaxLength'| l10n}}</span>
+            <span *ngIf="form.get('mobileNo').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+          </mat-error>
+        </div>
+        <div class="input-group half-col right">
+          <label>Email Id<sup>*</sup></label>
+          <input type="email" formControlName="email" autocomplete="off">
+          <mat-error class="ml-1"
+            *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)">
+            <span *ngIf="form.get('email').errors.required">{{'errEmailRequired'| l10n}}</span>
+            <span *ngIf="form.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+            <span *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{'errEmailMaxlength'   | l10n}}</span>
+          </mat-error>
+        </div>
+        <div class="input-group half-col left">
+          <label>Date of Birth<sup>*</sup></label>
+          <input type="text" class="dob-icon" formControlName="dob" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>
+              <img src="assets/img/date-of-birth-small.svg">
+            </mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+
+        <div class="input-group half-col left attach-col ">
+          <label>Upload Photo</label>
+
+          <div class="toogle-area">
+            <mat-slide-toggle [checked]='isSwitcheChecked' (change)="onClickSwitch()"> </mat-slide-toggle>
+            <div class="attach-img"><img [src]="uploadedImage"></div>
+            <input type="text" class="upload1" placeholder="Browse Files" name="uploadphoto">
+            <label class="label2">Take Photo</label>
+          </div>
+        </div>
+        <div class="input-group full-col btn-area">
+          <button type="button" class="submit-main-btn submit-main-btn2" (click)="onClickSubmit()">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>

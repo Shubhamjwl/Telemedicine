@@ -1,0 +1,23 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+ //  stage('Installing Packages') {
+ //     sh "npm install"
+ //  }
+
+//   stage('packaging') {
+//       sh "ng build --prod --aot false --build-optimizer false --base-href=/telemedicine/ --output-hashing=all"
+//   }
+ 
+   stage('Deploy on Dev Env') {
+       sshagent (credentials: ['nsdl']) {
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.16.11.167 /usr/share/nginx/html/telemedicine/backup.sh"
+      // sh "scp -o StrictHostKeyChecking=no -r telemedicine mosip@172.16.11.167:/usr/share/nginx/html/telemedicine/"
+         }
+       }    
+
+   }

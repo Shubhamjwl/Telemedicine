@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar headerBackgroundColor">
+  <div class="header-panel">
+    <div class="header-left header-left2">
+      <img src="assets/img/protean-clinic-logo.png" alt="">
+    </div>
+    <div class="header-right">
+      <div class="welcome-user">
+        <div class="User-area">
+          <div class="User-avtar">
+            <img [src]="profile">
+          </div>
+          <div class="User-Dropdown">
+            <div class="User-Dropdown-inside">
+              <div class="profile-img">
+                <div class="User-avtar">
+                  <img [matTooltip]="checker" [src]="profile" alt="">
+                </div>
+              </div>
+              <div class="doc-name">
+                <ng-container *ngIf="userRole === 'DOCTOR'">DR.</ng-container>
+                {{ checker }}
+              </div>
+              <div class="doc-email"><a>{{profileDetails?.emailId}}</a></div>
+              <form>
+                <div class="input-group half-col">
+                  <a class="reg-patient" *ngIf="userRole === 'DOCTOR' || userRole=='SCRIBE'" (click)="ptregister()">Register Patient</a>
+                  <a class="chng-pass" (click)="onClickChangePass()">Change Password</a>
+                  <button type="button" class="submit-main-btn" (click)="onClickLogout()">Logout</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-left">
+      <img src="assets/img/logos.png" alt="">
+    </div>
+  </div>
+</nav>
+<div class="sidebar sidebarBackgroundColor" [style.width]="widthToggle ? '260px' : '56px'">
+  <mat-sidenav mode="side" opened class="mat-elevation-z8" mode="side" height opened>
+    <mat-accordion>
+      <mat-panel-title>
+        <button mat-button class="menu-button" (click)="widthToggle = !widthToggle">
+          <mat-icon style="margin-bottom: 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12.121" height="21.414" viewBox="0 0 12.121 21.414"
+              [class.rotate]="!widthToggle">
+              <path id="back_arrow" data-name="back arrow" d="M0,10,10,0,20,10"
+                transform="translate(1.414 20.707) rotate(-90)" fill="none" stroke="#000" stroke-width="2" />
+            </svg>
+          </mat-icon>
+          <span></span>
+        </button>
+      </mat-panel-title>
+      <ng-container *ngFor="let menu of menus">
+        <mat-expansion-panel click-event [disabled]="!widthToggle" [hideToggle]="!menu.subMenus"
+          [expanded]="widthToggle && menu.expanded" (click)="menu.expanded = !menu.expanded">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="patient-registration">
+              <button mat-button [hover-class]="menu.property" class="menu-button"
+                (click)="widthToggle = true;menu.route && onClickRoute(menu.route)">
+                <mat-icon><img [src]="'assets/img/' + menu.icon" class="menu-icon"></mat-icon>
+                <span>{{menu.name}}</span>
+              </button>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div *ngIf="menu.subMenus && menu.subMenus.length" class="submenu" [class]="menu.property">
+            <div *ngFor="let subMenu of menu.subMenus">
+              <a (click)="onClickRoute(subMenu.route)">
+                <span>{{subMenu.name}}</span>
+              </a>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </mat-sidenav>
+</div>

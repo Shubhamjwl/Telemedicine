@@ -1,0 +1,88 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Mobile Verified</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id :</p>
+      <form #verifyForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-4" style="height: 38px">
+            <p class="mt-1"><b>Enter Aadhaar<br /><span>(Recomonded)</span></b></p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="aadhaar"
+                class="form-control input"
+                name="aadhaars"
+                #aadhaars="ngModel"
+                pattern="{{ PATTERN.Aadhaar }}"
+                maxlength="12"
+                required
+                class="form-control"
+                style="
+                  width: 100%;
+                  display: inline-block;
+                  background-color: lightcyan;
+                  border-color: #2196f3;
+                "
+              />
+            </div>
+            <div class="error" [hidden]="aadhaars.valid || aadhaars.untouched">
+              Enter Valid Aadhaar
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="back()"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: goldenrod;
+              border-color: darkgoldenrod;
+              width: 30%;
+            "
+            (click)="proceedWithAadhaar()"
+            [disabled]="!verifyForm.valid"
+          >
+            Proceed with Aadhaar
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: goldenrod;
+              border-color: darkgoldenrod;
+              width: 30%;
+            "
+            (click)="proceedWithoutAadhaar()"
+          >
+            Proceed without Aadhaar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

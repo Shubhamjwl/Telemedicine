@@ -1,0 +1,51 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+   def gupshupmailsendVersion
+   stage ('create Image Version'){
+   gupshupmailsendVersion = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('tele_uat/gupshupmailsend', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'tele_uat') {
+           dockerImage.push "${gupshupmailsendVersion}"
+         }
+      }
+
+   stage('delete docker Image') {
+       sh "docker rmi tele_uat/gupshupmailsend"
+       sh "docker rmi 172.16.11.166:37719/tele_uat/gupshupmailsend:${gupshupmailsendVersion}"
+       }   
+
+   stage('Deploy on Dev Env') {
+         sshagent (credentials: ['nsdl']) {
+       sh "echo 'gupshupmailsendVersion=${gupshupmailsendVersion}' > .env"
+       sh "scp -o StrictHostKeyChecking=no .env mosip@172.19.75.247:/var/workspace/telemedicine"
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.19.75.247 /var/workspace/telemedicine/helper/gupshupmailsend.sh"
+         }
+       }  
+       
+   }
+  

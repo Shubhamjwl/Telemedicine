@@ -1,0 +1,91 @@
+package com.nsdl.telemedicine.doctor.utility;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.nsdl.telemedicine.doctor.dto.DoctorMstrDtlsDTO;
+import com.nsdl.telemedicine.doctor.entity.DoctorRegDtlsEntity;
+import com.nsdl.telemedicine.doctor.repository.RegistrationRepo;
+
+@Component
+public class CommonUtility {
+	
+	@Autowired
+	RegistrationRepo registrationRepo;
+
+	public boolean isValidFileExtension(String fileName) {
+		String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+		if (fileExtension.equalsIgnoreCase("jpeg")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean doctorRegistrationNullCheck(DoctorMstrDtlsDTO doctor) {
+		if (doctor.getDmdDrName() == null || doctor.getDmdMobileNo() == null || doctor.getDmdPassword() == null
+				|| doctor.getDmdMciNumber() == null || doctor.getDmdSmcNumber() == null
+				|| doctor.getDmdSpecialiazation() == null || doctor.getDmdCity() == null || doctor.getDmdState() == null
+				|| doctor.getDmdGender() == null || doctor.getDmdAddress1() == null) {
+			return false;
+		}
+		return true;
+	}
+	
+	public <T> boolean areAllUnique(List<T> list) {
+		Set<T> set = new HashSet<>();
+
+		for (T t : list) {
+			if (!set.add(t))
+				return false;
+		}
+		return true;
+	}
+	
+	public String createUserId(String username) {
+
+		// removed special characters and space from string
+		String user = username.replaceAll("\\s", "").replaceAll("[-+.^:,]", "");
+		int length = user.length();
+
+		if (length < 8) {
+			return checkUserIdExists(user, 8 - length);
+		} else if (length > 8 && length < 10) {
+			return checkUserIdExists(user, 0);
+		} else {
+			StringTokenizer st = new StringTokenizer(username, " ");
+			return createUserId(st.nextToken());
+		}
+	}
+	
+	private long generateRandomNumber(int n) {
+		long min = (long) Math.pow(10, n - 1);
+		return ThreadLocalRandom.current().nextLong(min, min * 10);
+	}
+	
+	private String checkUserIdExists(String username, int length) {
+		
+		String modifiedUserName = null;
+		if (length > 0) {
+			long number = generateRandomNumber(length);
+			modifiedUserName = username + number;
+		} else {
+			modifiedUserName = username;
+		}
+		
+		Optional<DoctorRegDtlsEntity> doctor = registrationRepo.findByDocUserID(modifiedUserName);
+		if (doctor.isPresent()) {
+			return checkUserIdExists(username, length + 1);
+		} else {
+			return modifiedUserName;
+		}
+	}
+
+
+}

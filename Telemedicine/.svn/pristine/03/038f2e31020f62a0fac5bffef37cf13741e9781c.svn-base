@@ -1,0 +1,165 @@
+hystrix.command.signin.execution.isolation.thread.timeoutInMilliseconds: 3000
+hystrix.command.survey.execution.isolation.thread.timeoutInMilliseconds: 3000
+
+
+server:
+  port: 7084
+
+# By Tin-core refrence
+auth:
+  jwt-properties:
+    base: Bearer
+    expiry: 3600000
+    secret: sshhhhhh!!!
+    latitude-digits: '%.1f'
+    longitude-digits: '%.1f'
+  token:
+    header: Authorization
+    custom-url: http://172.19.75.247:7072/usermanagement/v1/user/login
+    role-function-url: http://172.19.75.247:7072/usermanagement/v1/user/roleFunction/getAllRoleFunctionsMapping
+  encryption:
+    symmetric:
+      key: nsdlegov
+  captcha:
+    captcha-value: captchaValu
+    session-id: sessionId
+    verify-url: http://172.19.75.247:8073/captcha/verifyCaptcha
+function:
+  function-uri-map:
+    name: service1
+    uri: service/get
+    
+        
+        
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: user-management-service
+        uri: http://172.19.75.247:7072
+        predicates:
+        - Path=/login/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/usermanagement/v1/user/$\{segment}
+      - id: user-management-service
+        uri: http://172.19.75.247:7072
+        predicates:
+        - Path=/roleFunction/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/usermanagement/v1/user/$\{segment}
+      - id: user-management-service
+        uri: http://172.19.75.247:7072
+        predicates:
+        - Path=/verifyDoctor/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/usermanagement/v1/user/$\{segment}
+      - id: user-management-service
+        uri: http://172.19.75.247:7072
+        predicates:
+        - Path=/function/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/usermanagement/v1/user/$\{segment}
+      - id: user-management-service
+        uri: http://172.19.75.247:7072
+        predicates:
+        - Path=/role/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/usermanagement/v1/user/$\{segment}
+      - id: captcha-service
+        uri: http://172.19.75.247:8073
+        predicates:
+        - Path=/captcha/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: doctor-registration-service
+        uri: http://172.19.75.247:7073
+        predicates:
+        - Path=/DoctorRegistration/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/doctor-registration/$\{segment}
+      - id: doctor-registration-service
+        uri: http://172.19.75.247:7073
+        predicates:
+        - Path=/DoctorDeRegistration/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/doctor-registration/$\{segment}
+      - id: consultation-manager-service
+        uri: http://172.19.75.247:7078
+        predicates:
+        - Path=/appointment/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/consultation/$\{segment}
+      - id: patient-review-service
+        uri: http://172.19.75.247:7082
+        predicates:
+        - Path=/review/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/PatientReview/$\{segment}
+      - id: scribe-registration-service
+        uri: http://172.19.75.247:7071
+        predicates:
+        - Path=/scribe-service/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: patient-registration-service
+        uri: http://172.19.75.247:7075
+        predicates:
+        - Path=/patientRegistration/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/patient/v1/$\{segment}
+      - id: patient-registration-service
+        uri: http://172.19.75.247:7075
+        predicates:
+        - Path=/patientModification/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/patient/v1/$\{segment}
+      - id: slot-management
+        uri: http://172.19.75.247:7077
+        predicates:
+        - Path=/slotManagement/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: master-management-service
+        uri: http://172.19.75.247:7074
+        predicates:
+        - Path=/masterManagement/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: otp-manager-service
+        uri: http://172.19.75.247:7076
+        predicates:
+        - Path=/OTPManager/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: video-call-conference-service
+        uri: http://172.19.75.247:7083
+        predicates:
+        - Path=/videoconference/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: patient-report-service
+        uri: http://172.19.75.247:7081
+        predicates:
+        - Path=/PatientReportModule/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: Booking-Appointment
+        uri: http://172.19.75.247:7079
+        predicates:
+        - Path=/book/v1/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/$\{segment}
+      - id: tele-marketplace
+        uri: http://172.19.75.247:7088
+        predicates:
+        - Path=/tele/**
+        filters:
+        - RewritePath=/(?<segment>/?.*),/marketplace/v1/$\{segment}
+       
+        
+       
+                          
+
+  

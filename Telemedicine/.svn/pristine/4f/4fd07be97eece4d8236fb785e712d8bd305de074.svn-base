@@ -1,0 +1,37 @@
+package com.nsdl.telemedicine.slot.constant;
+
+public class SlotConstant {
+
+	public final static String MASTER_VALUE_EMPTY = "Master value cannot be null";
+	public final static String MASTER_NAME_EMPTY = "Master name cannot be blank";
+	public final static String REQUEST_NULL = "Request cannot be null";
+	public final static String CREATED_BY_EMPTY = "Created by cannot be blank";
+	public final static String CREATED_TIMESTAMP_EMPTY = "Created timestamp cannot be blank";
+	public final static String IS_ACTIVE_FLAG_EMPTY = "Is active flag cannot be blank";
+	
+	
+	public final static String SLOT_FROM_TIME_EMPTY = "Slot from date & time cannot be blank";
+	public final static String SLOT_TO_TIME_EMPTY = "Slot to date & time cannot be blank";
+	public final static String SLOT_DURATION = "Slot duration cannot be blank";
+	public final static String SLOT_DATE_TIME_FORMAT = "yyyy-MM-ddTHH:mm";
+	public final static String SLOT_DATE_FORMAT = "yyyy-MM-dd";
+	public final static String SLOT_FORMAT = "HH:mm";
+	public static final String DR_REG_ID_EMPTY = "Dr regId cannot be blank";
+	public static final String SLOT_DATE = "Slot date cannot be blank";
+	public static final String CONSULT_AMOUNT_EMPTY = "Consultation amount cannot be blank";
+	public static final String SLOT_TIME_EMPTY = "Slot time cannot be blank";
+	public static final String SLOT_DATE_INVALID = "Invalid slot date";
+	public static final String SLOT_DELETED = "Slots deleted successfully";
+	public static final String PARTIALLY_SLOT_DELETED = "Slots partially deleted";
+	public static final String TRUE ="true";
+	public static final String FALSE ="false";
+	public static final String SCRIBE_ROLE = "SCRIBE";
+	public static final String DOCTOR_ROLE = "DOCTOR";
+	public static final String SCRIBE_ID_EMPTY = "Scribe id can not be blank";
+	public static final String YEAR_MONT_NOT_EMPTY = "Year and month can not be blank.";
+	public static final String HOLIDY_DATE_EMPTY = "Holiday date can not be blank";
+	public static final String IS_HOLDAY_FLAG_EMPTY = "Is holiday flag can not be blank and its value should be true or false";
+	public final static String DEV_ENV_FLAG_SLOTBOOK ="false";
+	public final static String TELECONSULTATION ="Teleconsultation";
+	public final static String INCLINIC ="In-Clinic";
+}

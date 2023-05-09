@@ -1,0 +1,109 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { data } from 'jquery';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { UserData } from 'src/app/shared/commonBuildBlocks/model/system-user-data.model';
+import { CheckerService } from 'src/app/shared/commonBuildBlocks/services/checkerServices/checker.service';
+import { DocumentService } from 'src/app/shared/commonBuildBlocks/services/documentServices/document.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+
+@Component({
+  selector: 'app-checker-doc-check-list',
+  templateUrl: './checker-doc-check-list.component.html',
+  styleUrls: ['./checker-doc-check-list.component.scss']
+})
+export class CheckerDocCheckListComponent implements OnInit {
+
+  doctorData: any;
+  q: string;
+  dataSource: any = null;
+  displayedColumns: any;
+  planType:any;
+  reasonGroup: FormGroup;
+  typeGroup: FormGroup;
+  extensionArray = ['png', 'jpeg', 'jpg', 'bmp'];
+  modelRef: any;
+  arrayLength: number=0;
+  checkListArray: any;
+  deleteSlotArray = [];
+  drUserID: any;
+
+  constructor(
+      public checkerService: CheckerService,
+      public fb: FormBuilder,
+      public documentService: DocumentService,
+      public modelService: NgbModal,
+      private spinner: NgxSpinnerService,
+      private toastrMessage: ToastMessageService,
+      private router: Router,
+  ) {
+      this.displayedColumns = ['Document Name', 'Status', 'Visibility', 'Upgrade'];
+      this.reasonGroup = this.fb.group({
+          reason: ['', [Validators.required, Validators.maxLength(200)]],
+          userId: [''],
+      })
+      this.typeGroup = this.fb.group({
+          isIpanorMarsha: ['I'],
+      })
+
+  }
+
+  ngOnInit(): void {
+      this.getDoctorsList();
+      // this.typeGroup.controls['isIpanprMarsha'].setValue('I');
+  }
+
+  getDoctorsList() {
+    this.spinner.show();
+    this.checkerService.getDoctorCheckList().subscribe((resp: any) => {
+        this.doctorData = [];
+        this.spinner.hide();
+        if (resp.response) {
+           let data = new UserData(resp.response);
+            this.doctorData = data.details;
+        } else if (resp.errors && resp.errors.length) {
+            this.doctorData = [];
+        }
+    }, error => {
+        this.spinner.hide();
+    })
+}
+
+isChecked(data){
+  let index=this.deleteSlotArray.findIndex((slot: any)=> slot.drUserID===data.drUserID)
+       if(index==-1){
+         this.deleteSlotArray.push(data);
+       }else{
+         this.deleteSlotArray.splice(index, 1);
+       }
+     
+   this.arrayLength=this.deleteSlotArray.length
+}
+
+verifyCheckList(){
+  let request = {
+    "id":"doctor.allow.request",
+    "version":"1.0",
+    "requesttime":"2022-01-10T12:43:01.381Z",
+    "request": this.deleteSlotArray.map(x => x.drUserID)
+     
+ }
+ this.checkerService.allowDoctorsForLogin(request).subscribe((resp: any) => {
+   if(resp.response){
+    this.spinner.hide();
+    this.toastrMessage.showSuccessMsg(resp.message, "Data updated successfully!!!!");
+    this.getDoctorsList();
+   } else  if(resp.errors){
+    this.toastrMessage.showErrorMsg(resp.errors[0].message, 'Error');
+  }
+  },error => {
+    this.spinner.hide();
+    this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error'); 
+  
+});
+ 
+}
+
+}

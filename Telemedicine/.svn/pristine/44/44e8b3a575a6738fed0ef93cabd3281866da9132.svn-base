@@ -1,0 +1,725 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.AadharOtpResendRespDTO;
+import com.nsdl.ndhm.dto.AccountBenefitsRespDTO;
+import com.nsdl.ndhm.dto.AccountChangePassByHealthIdReqDTO;
+import com.nsdl.ndhm.dto.AccountChangePasswordDTO;
+import com.nsdl.ndhm.dto.AccountProfileRespDTO;
+import com.nsdl.ndhm.dto.AccountProfileUpdateDTO;
+import com.nsdl.ndhm.dto.AuthTokenReqDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.ExceptionJSONInfoDTO;
+import com.nsdl.ndhm.dto.GenerateAadhaarOtpDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.service.HealthIdProfileService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import com.nsdl.ndhm.utility.CommonValidationUtil;
+
+@Service
+@LoggingClientInfo
+public class HealthIdProfileServiceImpl implements HealthIdProfileService {
+	private static final Logger logger = LoggerFactory.getLogger(HealthIdProfileServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Autowired
+	@Qualifier("healthIdCommonValidation")
+	private CommonValidationUtil validate;
+
+	@Value("${generateAadhaarOTP}")
+	String generateAadhaarOTP;
+
+	@Value("${verifyAadhaarOTP}")
+	String verifyAadhaarOTP;
+
+	@Value("${accountBenefits}")
+	String accountBenefits;
+
+	@Value("${changePasswordByAadhaar}")
+	String changePasswordByAadhaar;
+
+	@Value("${changePasswordByMobile}")
+	String changePasswordByMobile;
+
+	@Value("${changePassGenerateMobileOTP}")
+	String changePassGenerateMobileOTP;
+
+	@Value("${changePassGenerateAadhaarOTP}")
+	String changePassGenerateAadhaarOTP;
+
+	@Value("${changePasswordByHealthId}")
+	String changePasswordByHealthId;
+
+	@Value("${logoutAccountProfile}")
+	String getLogoutAccountProfile;
+
+	@Value("${urlAccountProfile}")
+	String getUrlAccountProfile;
+
+	@Value("${getQRCodePNG}")
+	String getAccountQRCodePng;
+
+	@Value("${getBooleanValidateToken}")
+	String validateAuthToken;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	ExceptionJSONInfoDTO exceptionJSONInfoDTO = null;
+	MainResponseDTO<AccountProfileRespDTO> mainResponse = null;
+
+	@Override
+	public MainResponseDTO<AadharOtpResendRespDTO> generateAadhaarOTP(Map<String, String> headers,
+			GenerateAadhaarOtpDTO generateAadhaarOtpDTO) {
+		logger.info("Request Receives for generate Aadhaar OTP");
+		String url = generateAadhaarOTP;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<AadharOtpResendRespDTO> resp = new MainResponseDTO<>();
+		AadharOtpResendRespDTO respData = null;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(generateAadhaarOtpDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AadharOtpResendRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Generated OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * verify aadhaar otp
+	 */
+	@Override
+	public MainResponseDTO<Boolean> verifyAadhaarOTP(Map<String, String> headers, ConfirmOtpDTO confirmOtpDTO) {
+		logger.info("Request Receives for verify aadhaar OTP");
+		String url = verifyAadhaarOTP;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<Boolean> resp = new MainResponseDTO<>();
+		Boolean respData = null;
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(confirmOtpDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), Boolean.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Verify aadhaar OTP Ends ");
+		return resp;
+	}
+
+	/*
+	 * get account benefits
+	 */
+	@Override
+	public MainResponseDTO<AccountBenefitsRespDTO> accountBenefits(Map<String, String> headers) {
+		logger.info("Request Receives for Get Account Benefits Starts");
+		String url = accountBenefits;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<AccountBenefitsRespDTO> resp = new MainResponseDTO<>();
+		AccountBenefitsRespDTO respData = null;
+		try {
+
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AccountBenefitsRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getCode(),
+					HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for Get Account Benefits Ends ");
+		return resp;
+	}
+
+	/*
+	 * for change account password by aadhaar
+	 */
+	@Override
+	public MainResponseDTO<String> changePasswordByAadhaar(Map<String, String> headers,
+			AccountChangePasswordDTO accountChangePasswordDTO) {
+		logger.info("Request Receives for change account password By Aadhaar Starts");
+		String url = changePasswordByAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<String> resp = new MainResponseDTO<>();
+		String respData = null;
+
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(accountChangePasswordDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), String.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for change account password By Aadhaar Ends ", resp);
+		return resp;
+	}
+
+	/*
+	 * for change account password by mobile
+	 */
+	@Override
+	public MainResponseDTO<String> changePasswordByMobile(Map<String, String> headers,
+			AccountChangePasswordDTO accountChangePasswordDTO) {
+		logger.info("Request Receives for change account password By Mobile Starts");
+		String url = changePasswordByMobile;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<String> resp = new MainResponseDTO<>();
+		String respData = null;
+
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(accountChangePasswordDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), String.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for change account password By Mobile Ends ", resp);
+		return resp;
+	}
+
+	/*
+	 * generate otp for change password through mobile number
+	 */
+	@Override
+	public MainResponseDTO<AadharOtpResendRespDTO> changePasswdGenerateMobileOTP(Map<String, String> headers) {
+		logger.info("Request Receives for change password generation mobile OTP Starts");
+		String url = changePassGenerateMobileOTP;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<AadharOtpResendRespDTO> resp = new MainResponseDTO<>();
+		AadharOtpResendRespDTO respData = null;
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AadharOtpResendRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getCode(),
+					HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for change password generation mobile OTP Ends ", resp);
+		return resp;
+	}
+
+	/*
+	 * generate otp for change password through aadhaar number
+	 */
+	@Override
+	public MainResponseDTO<AadharOtpResendRespDTO> changePasswdGenerateAadhaarOTP(Map<String, String> headers) {
+		logger.info("Request Receives for change password generation aadhaar OTP Starts");
+		String url = changePassGenerateAadhaarOTP;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<AadharOtpResendRespDTO> resp = new MainResponseDTO<>();
+		AadharOtpResendRespDTO respData = null;
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AadharOtpResendRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getCode(),
+					HealthIdCreationConstands.ACCOUNT_BENEFITS_FAIL.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for change password generation Aadhaar OTP Ends ", resp);
+		return resp;
+	}
+
+	/*
+	 * change password by healthId
+	 */
+	@Override
+	public MainResponseDTO<String> changePasswordByHealthId(Map<String, String> headers,
+			AccountChangePassByHealthIdReqDTO accountChangePassByHealthIdReqDTO) {
+		logger.info("Request Receives for change password By HealthId Starts");
+		String url = changePasswordByHealthId;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<String> resp = new MainResponseDTO<>();
+		String respData = null;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(accountChangePassByHealthIdReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), String.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Request Receives for change password By HealthId Ends ", resp);
+		return resp;
+	}
+
+	/*
+	 * Logout from account profile
+	 */
+	@Override
+	public ResponseEntity<String> logoutProfile(Map<String, String> headers) {
+		logger.info("Request Received for Logout Profile");
+		String url = getLogoutAccountProfile;
+		URI uri;
+		ResponseEntity<String> result = null;
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		logger.info("Requested For Logout Profile ");
+		return new ResponseEntity<>(result.getStatusCode());
+	}
+
+	/*
+	 * Get Account Profile Details
+	 */
+	@Override
+	public MainResponseDTO<AccountProfileRespDTO> getProfile(Map<String, String> headers) {
+		logger.info("Request Received for get Profile");
+		MainResponseDTO<AccountProfileRespDTO> resp = new MainResponseDTO<>();
+		String url = getUrlAccountProfile;
+		URI uri;
+		ResponseEntity<String> result;
+		AccountProfileRespDTO respData;
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AccountProfileRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(errorList);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+
+		} catch (Exception e) {
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.FETCH_ACCOUNT_PROFILE_FAIL.getCode(),
+					HealthIdCreationConstands.FETCH_ACCOUNT_PROFILE_FAIL.getMsg()));
+			resp.setErrors(errorList);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+		}
+		logger.info("Requested Account Profile Information ");
+		return resp;
+	}
+
+	/*
+	 * Update Account Profile Details
+	 */
+	@Override
+	public MainResponseDTO<AccountProfileRespDTO> updateProfile(Map<String, String> headers,
+			AccountProfileUpdateDTO profileUpdateDTO) {
+		logger.info("Updating user account profile details");
+		MainResponseDTO<AccountProfileRespDTO> mainResponse;
+		mainResponse = validateFieldsForUpdate(profileUpdateDTO);
+		if (null != mainResponse && !mainResponse.getErrors().isEmpty()) {
+
+			logger.error("Request body data is invalid");
+			return mainResponse;
+		}
+		mainResponse = new MainResponseDTO<>();
+		MainResponseDTO<AccountProfileRespDTO> responseUsrUpdate = updateAccountProfile(headers, profileUpdateDTO);
+
+		if (responseUsrUpdate.isStatus()) {
+			mainResponse.setResponse(responseUsrUpdate.getResponse());
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} else {
+			mainResponse.setResponse(responseUsrUpdate.getResponse());
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(responseUsrUpdate.getErrors());
+		}
+		logger.info("Account profile details updated successfully");
+		return mainResponse;
+	}
+
+	/*
+	 * update account profile by calling NDHM APIs
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> updateAccountProfile(Map<String, String> headers,
+			AccountProfileUpdateDTO profileUpdateDTO) {
+
+		logger.info("Updating the Account Profile for existing user");
+		String url = getUrlAccountProfile;
+		URI uri;
+		ResponseEntity<String> result = null;
+		AccountProfileRespDTO resp = null;
+		MainResponseDTO<AccountProfileRespDTO> response = new MainResponseDTO<>();
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(profileUpdateDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			resp = new Gson().fromJson(result.getBody(), AccountProfileRespDTO.class);
+			response.setResponse(resp);
+			response.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+		} catch (Exception e) {
+			e.printStackTrace();
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getCode(),
+					HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getMsg()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+
+		}
+		logger.info("Updated the Account Profile for existing user successfully");
+		return response;
+
+	}
+
+	/*
+	 * for validate require fields
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> validateFieldsForUpdate(AccountProfileUpdateDTO profileUpdateDTO) {
+
+		logger.info("Validating the request body fields");
+
+		if (profileUpdateDTO.getFirstName() != null && profileUpdateDTO.getFirstName().isEmpty()
+				|| profileUpdateDTO.getFirstName().length() < 1 || profileUpdateDTO.getFirstName().length() > 99) {
+			logger.error("User first name is empty");
+			return throwExceptionForHealthIdFirstName();
+		}
+		if (profileUpdateDTO.getLastName() != null && profileUpdateDTO.getLastName().isEmpty()
+				|| profileUpdateDTO.getLastName().length() < 1 || profileUpdateDTO.getLastName().length() > 99) {
+			logger.error("User Last name is empty");
+			return throwExceptionForHealthIdLastName();
+		} else if ((!profileUpdateDTO.getEmail().isEmpty() || profileUpdateDTO.getEmail() != null)
+				&& !validate.validateEmail(profileUpdateDTO.getEmail())) {
+			logger.error("User emailID pattern or is empty. Please check");
+			return throwExceptionForHealthIdEmail();
+		} else if (profileUpdateDTO.getPassword() != null
+				&& !validate.validatePassword(profileUpdateDTO.getPassword())) {
+			logger.error("User password is empty. Please check");
+			return throwExceptionForHealthIdPassword();
+		}
+
+		return null;
+	}
+
+	/*
+	 * Delete Account Profile
+	 */
+	@Override
+	public Map<String, String> deleteProfile(Map<String, String> headers) {
+		logger.info("Request Received to Delete Profile");
+		String url = getUrlAccountProfile;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.DELETE, requestEntity, String.class);
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getStatusCode().toString());
+
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getLocalizedMessage());
+
+		}
+		logger.info("Requested to Delete Profile ");
+		return map;
+	}
+
+	/*
+	 * Get QR Account in PNG
+	 */
+	@Override
+	public ResponseEntity<byte[]> getQrCode(Map<String, String> headers) {
+		logger.info("Request Received for QRCode PNG Card");
+		String url = getAccountQRCodePng;
+		URI uri;
+
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", commonHeadersUtil.getHeadersWithXtoken(headers));
+			ResponseEntity<byte[]> byteArray = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, byte[].class);
+
+			return ResponseEntity.status(HttpStatus.OK).body(byteArray.getBody());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			return ResponseEntity.status(e.getStatusCode()).body(null);
+		} catch (Exception e) {
+			byte[] emptyArray = new byte[0];
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(emptyArray);
+		}
+	}
+
+	@Override
+	public MainResponseDTO<Boolean> checkValidateAuthToken(Map<String, String> headers,
+			AuthTokenReqDTO authTokenReqDTO) {
+		logger.info("Request Received for Validate Auth Token");
+		MainResponseDTO<Boolean> resp = new MainResponseDTO<>();
+		String url = validateAuthToken;
+		URI uri;
+		ResponseEntity<String> result;
+		Boolean respData;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authTokenReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXtoken(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), Boolean.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(errorList);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+
+		} catch (Exception e) {
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<ExceptionJSONInfoDTO>();
+			errorList.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.VALIDATE_ACCOUNT_TOKEN_FAIL.getCode(),
+					HealthIdCreationConstands.VALIDATE_ACCOUNT_TOKEN_FAIL.getMsg()));
+			resp.setErrors(errorList);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+		}
+		logger.info("Requested To Validate Auth Token");
+		return resp;
+	}
+
+	/*
+	 * exception for first name
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> throwExceptionForHealthIdFirstName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	/*
+	 * exception for last name
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> throwExceptionForHealthIdLastName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	/*
+	 * exception for email id
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> throwExceptionForHealthIdEmail() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	/*
+	 * exception for password
+	 */
+	private MainResponseDTO<AccountProfileRespDTO> throwExceptionForHealthIdPassword() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+}

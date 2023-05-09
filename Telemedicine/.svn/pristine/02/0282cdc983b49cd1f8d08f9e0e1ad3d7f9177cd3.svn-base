@@ -1,0 +1,23 @@
+#server.port=7081
+
+#spring.jpa.properties.hibernate.id.new_generator_mappings = false
+spring.jpa.properties.hibernate.format_sql = true
+spring.jpa.hibernate.ddl-auto=update
+
+#spring.datasource.url= jdbc:postgresql://172.25.2.246:5432/rms_suc_mrg_31082020?characterEncoding=utf8
+#spring.datasource.url= jdbc:postgresql://172.30.151.101:9001/telemedicine?characterEncoding=utf8
+#spring.datasource.username= sysadmin
+#spring.datasource.password= Mosipadm@dev123
+#spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
+
+spring.profiles.active=dev
+
+
+#otpMgr.api.version=v1
+server.servlet.context-path=/PatientReportModule
+spring.application.name=patient-report-service
+
+auth.jwt.secret=sshhhhhh!!!
+auth.jwt.base=Bearer
+auth.jwt.expiry=86400000
+auth.token.header=Authorization

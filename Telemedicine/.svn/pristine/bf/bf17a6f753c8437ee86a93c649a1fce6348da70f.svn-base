@@ -1,0 +1,28 @@
+.mat-menu-panel > .mat-menu-content {
+  padding: 0 !important;
+  box-shadow: var(--box-shadow-interaction);
+  button.mat-menu-item {
+    display: inline-flex;
+    background-color: var(--button-primary-bg-color) !important;
+    color: var(--button-txt-color) !important;
+    box-shadow: none !important;
+    line-height: 14px;
+    padding-left: 40px;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: var(--button-hover-bg-color) !important;
+      box-shadow: none !important;
+    }
+    &:disabled {
+      background-color: var(--button-primary-disabled-bg-color) !important;
+    }
+    .mat-icon {
+      color: white !important;
+      font-size: 18px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+  }
+}

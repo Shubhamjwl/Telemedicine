@@ -1,0 +1,9 @@
+server.port=8888
+#spring.cloud.config.server.git.uri=file:///${user.home}/git-localconfig-repo
+#spring.cloud.config.server.git.uri=file:///${user.home}/git-localconfig-repo
+spring.cloud.config.server.native.search-locations=file:///D:/git-localconfig-repo
+#spring.cloud.config.server.git.uri=file://${Users.SayaliA}/git-localconfig-repo
+spring.cloud.config.server.git.clone-on-start=true
+spring.security.user.name=root
+spring.security.user.password=nsdl123
+spring.cloud.config.server.bootstrap=true

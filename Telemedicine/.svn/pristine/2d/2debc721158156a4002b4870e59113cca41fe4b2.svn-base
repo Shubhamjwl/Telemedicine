@@ -1,0 +1,428 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HistoricalCompletedAppointmentsModalComponent } from 'src/app/layout/shared-modules/modals/historical-completed-appointments-modal/historical-completed-appointments-modal.component';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { IConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/interfaces/consultation-patient-details.interface';
+import { ConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/model/consultation-patient-details.model';
+import { IPatientDetailsByAppointmentIDSaveSpec } from 'src/app/shared/commonBuildBlocks/saveSpecs/patient-details-by-appointment-id.savespec';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { PrescriptionDataSharingService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/PrescriptionDataSharingService';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import { th } from 'date-fns/locale';
+import { DoctorService } from 'src/app/shared/commonBuildBlocks/services/doctorServices/doctor.service';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { DatePipe } from '@angular/common';
+@Component({
+  selector: 'app-consultation',
+  templateUrl: './consultation.component.html',
+  styleUrls: ['./consultation.component.scss']
+})
+export class ConsultationComponent implements OnInit {
+
+  userRole: any;
+  slotType: any;
+  appointment: any;
+  symptomDetails: any;
+  diagnosisDetails: any;
+  medicineDetails: any;
+  adviceDetails: any;
+  ptSymptomsDetails:any;
+  doctorDetails: any;
+  patientGroup: any;
+  data: any;
+  selectedDate: any;
+  apiSlotTime: any;
+  slotDate: any;
+  form: FormGroup;
+  clientSecret: any;
+  transactionID:any;
+  emailid: any;
+  drRegID: string;
+  appointmentTime:string;
+  userID: any;
+  drConsultFee: number = 0;
+  appointmentSlotsList: any = [];
+  startDate: Date = new Date();
+  slotsList = [];
+  drconvenienceCharge: number = 0;
+  errorMsg: String;
+  drMobileNumber:string;
+  // emailid = sessionStorage.getItem('emailID');
+   mobileNo = sessionStorage.getItem('mobileNo');
+   
+   
+  @ViewChild("form") formPre: ElementRef;
+ 
+ 
+  
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private consultationService: ConsultationService,
+    private dataPassingService: DataPassingService,
+    private prescriptionDataSharingService: PrescriptionDataSharingService,
+    private toastrMessage: ToastMessageService,
+    private dialog: MatDialog,
+    public patientService: PatientService,
+    private spinner: NgxSpinnerService,
+    private doctorService: DoctorService,
+    private appointmentService: AppointmentService,
+    private authService: AuthService,
+    private datePipe: DatePipe,
+    //private datapassingService: DataPassingService,
+  ) {
+    this.doctorDetails = this.dataPassingService.getDoctorDetails();
+    this.userID = authService.getUserId() ? authService.getUserId() : null;
+		this.userRole = authService.getUserRole() ? authService.getUserRole() : null;
+   }
+
+  /**
+   * Used to store route list.
+   */
+  routeList = [
+    RoutesConstant.CHIEF_COMPLAINTS,
+    RoutesConstant.DIAGNOSIS,
+    RoutesConstant.INVESTIGATION,
+    RoutesConstant.MEDICATION,
+    RoutesConstant.ADVICE,
+    RoutesConstant.PRESCRIPTION,
+    RoutesConstant.PRESCRIPTIONDETAILS
+  ];
+
+  /**
+   * Used to store Patient Personal details
+   */
+  
+
+  displayedColumns: string[] = ['srNo','Symptoms', 'Diagnosis', 'Medicine','Advice'];
+  medicalallergiesdisplayedColumns = ['srNo', 'aname'];
+  medicalchronicDiseasesdisplayedColumns = ['srNo', 'dname'];
+
+
+  /**
+   * Used to store Start Consultation Event
+   */
+  isConsultationInitiate: boolean = false;
+
+  /**
+   * Used to map status component details
+   */
+  statusComponentBackgroundColor: any = 'blue';
+  statusComponentHeading: any = 'Consultation Status';
+  statusComponentDescription: any = 'Fill all details for complete consultation';
+  statusComponentPercentage: any = '40%';
+
+  /**
+   * Used to show add scribe option based on page name
+   */
+  pageName: any = 'consultation';
+
+  /**
+   * Used to store response of Patient Details
+   */
+  patientDetails: IConsultationPatientDetails;
+
+  
+  ngOnInit(): void {
+    this.dataPassingService.setRouteDetails(this.activatedRoute.snapshot.queryParams);
+    this.form = this.fb.group({
+      name: [''],
+      apptId: [''],
+      gender: [''],
+      dob: [''],
+      emailId: [''],
+      mobileNo: [''],
+      address1: [''],
+      address2: [''],
+      address3: [''],
+      symptoms:[''],
+    });
+    this.getPatientDetails();
+    this.getAppointmentListForDoc();
+    this.selectedDate = this.datePipe.transform(this.startDate, "yyyy-MM-dd");
+    //console.log(this.ptPersonalDetals.dob,"dob");
+    this.onLoadInitiateConsultation();
+
+    this.prescriptionDataSharingService.symptomDetailsChanged.subscribe(
+      res => {
+        this.symptomDetails = res;
+      }
+    )
+    this.prescriptionDataSharingService.diagnosisDetailsChanged.subscribe(
+      res => {
+        this.diagnosisDetails = res;
+      }
+    )
+    this.prescriptionDataSharingService.medicineDetailsChanged.subscribe(
+      res => {
+        this.medicineDetails = res;
+      }
+    )
+    this.prescriptionDataSharingService.adviceDetailsChanged.subscribe(
+      res => {
+        this.adviceDetails = res;
+      }
+    )
+    this.doctorDetails = {
+			doctorId: '',
+			doctorName: '',
+			speciality: '',
+			consultFee: '',
+			drProfilePhoto: ''
+		}
+  }
+
+  onLoadInitiateConsultation() {
+    this.router.navigate([RoutesConstant.CONSULTATION, RoutesConstant.PRESCRIPTIONDETAILS], { preserveQueryParams: true });
+    this.isConsultationInitiate = true;
+  }
+
+  ptPersonalDetals;
+  lifeStyleDetails = [];
+  medicalallergies = []
+  medicalchronicDiseases = []
+  /**
+   * Used to get Patient Details from API Call
+   */
+  getPatientDetails() {
+    this.consultationService.getPatientDeailsByAppointmenttID((this.activatedRoute.snapshot.queryParams as IPatientDetailsByAppointmentIDSaveSpec)).subscribe(
+      res => {
+        if (res.response) {
+          this.patientDetails = res.response;
+          this.ptPersonalDetals = res.response.ptPersonalDetals;
+          this.ptSymptomsDetails=res.response.symptoms;
+          this.lifeStyleDetails = []
+          if (this.patientDetails && this.patientDetails.ptMedicalDtls && this.patientDetails.ptMedicalDtls.allergies) {
+            this.medicalallergies = this.patientDetails.ptMedicalDtls.allergies.map(aname => {
+              return { aname: aname }
+            })
+          }
+          if (this.patientDetails && this.patientDetails.ptMedicalDtls && this.patientDetails.ptMedicalDtls.chronicDiseases) {
+            this.medicalchronicDiseases = this.patientDetails.ptMedicalDtls.chronicDiseases.map(dname => {
+              return { dname: dname }
+            })
+          }
+          this.form.setValue(new ConsultationPatientDetails(this.patientDetails));
+        } else if (res.errors) {
+          console.log('error:', res.errors.message);
+        }
+      }, error => {
+        console.log('error:', error)
+      }
+    )
+  }
+
+/**
+   * Used to get doctors Details from API Call
+   */
+
+  getAppointmentListForDoc() {
+		this.spinner.show();
+		this.appointmentService.getAppointmentListOfDoc(this.userID, this.selectedDate).subscribe((result: any) => {
+			if (result.response && result.status) {
+				this.spinner.hide();
+				this.drRegID = result.response.drRegID ? result.response.drRegID : null;
+        this.drMobileNumber = result.response.drMobileNumber ? result.response.drMobileNumber : null;
+				this.drConsultFee = result.response.doctorConsultFee ? result.response.doctorConsultFee : null;
+				this.appointmentSlotsList = result.response ? result.response.apptDtls ? result.response.apptDtls.Today ? result.response.apptDtls.Today : [] : [] : [];
+			  this.appointmentTime = result.response.apptDtls.Today.appointmentTime ? result.response.apptDtls.Today.appointmentTime : null;
+        this.slotsList = this.appointmentSlotsList.slots ? this.appointmentSlotsList.slots : [];
+				this.drconvenienceCharge = result.response.convenienceCharge ? result.response.convenienceCharge : null;
+				// this.appointmentService.slotDetails = this.appointmentSlotsList;
+			} else if (result.errors) {
+				this.spinner.hide();
+				this.appointmentSlotsList = [];
+				this.slotsList = [];
+				this.errorMsg = result.errors ? result.errors[0] ? result.errors[0].message ? result.errors[0].message : null : null : null;
+			}
+		}, error => {
+			this.spinner.hide();
+			this.appointmentSlotsList = [];
+			this.slotsList = [];
+			this.errorMsg = error.errors ? error.errors[0] ? error.errors[0].message ? error.errors[0].message : null : null : null;
+		})
+	}
+
+
+
+
+    /**
+   * Used to redirect prescribed page
+   */
+     onClickPrescribed(){ 
+      this.paymentApi();
+}
+
+paymentApi() {
+  let dummyPayload = {
+    docUserID: this.activatedRoute.snapshot.queryParamMap.get('drRegID'),
+    ptUserID: this.activatedRoute.snapshot.queryParamMap.get('ptRegID'),
+    bookedFor: "n",
+    appointmentSlot: this.apiSlotTime,
+    appointmentDate: this.slotDate,
+    appointmentType:this.slotType,
+
+  }
+  
+  this.patientService.dummyPaymentApi(dummyPayload).subscribe(result => {
+    this.transactionID = result;
+        console.log(result,"transaction id");
+        this.saveMarketPlaceDetails(this.transactionID);
+  },
+  error => {
+    this.toastrMessage.showErrorMsg(ErrorSuccessMessage.APIFAILD, 'Error');
+  });
+   }
+  
+
+    saveMarketPlaceDetails(transactionID){
+       this.emailid = sessionStorage.getItem('emailID');
+       let data = {
+          request:{
+            transtId:transactionID,
+            drEmail:this.emailid,
+            ptNname:this.ptPersonalDetals.name,
+            ptMobile:this.ptPersonalDetals.mobileNo,
+          },
+       };
+       this.spinner.show();
+       this.consultationService.saveMarketPlaceDetails(data).subscribe(result => {
+        this.spinner.hide();
+        this.clientSecret = result.response.clientSecret;
+        setTimeout(()=>{
+          this.formPre.nativeElement.submit();
+        },1000)
+       });
+
+      }  
+
+  // onClickPrescribed(){
+    //this.userDetails.auth_key
+  //        let request =
+  //        {
+  //           transtId: null,
+  //           drEmail: null,
+  //           ptNname: null,
+  //           ptMobile:"completed",
+            
+  //         }
+  //     this.consultationService.saveAndUploadPrescription(request) 
+
+      
+  //   //let url="http://14.140.81.156/index.php?route=prescribedservices/services_listing";
+  //   //console.log(url);
+  //   //this.router.navigateByUrl('http://14.140.81.156/index.php?route=prescribedservices/services_listing');
+  //  // window.open(url);
+  // }
+
+  /**
+   * Used to Initiate Consulation
+   */
+  onClickInitiateConsultation() {
+    let scribeList = this.dataPassingService.getScribeList();
+    let isScribeSelected = false;
+    let appID = this.activatedRoute.snapshot.queryParamMap.get('apptID');
+    appID = appID.replace(/-/g, "");
+    let fileURL = `https://nsdlmeet.cloudvoice.in/${appID}`
+    window.open(fileURL);
+    this.router.navigate([RoutesConstant.CONSULTATION, RoutesConstant.PRESCRIPTIONDETAILS], { preserveQueryParams: true });
+    this.isConsultationInitiate = true;
+
+  }
+
+  isDiagosisInitialized() {
+    return this.routeList.some(route => this.router.url.includes(route))
+  }
+
+  startVideoConsultation() {
+    let appID = this.activatedRoute.snapshot.queryParamMap.get('apptID');
+    appID = appID.replace(/-/g, "");
+    // let fileURL = `https://nsdlmeet.cloudvoice.in/${appID}`
+    //  window.open(fileURL);
+    this.startVConsultation(appID);
+  }
+
+  startVConsultation(apptID) {
+    this.consultationService.startVideoConsultation(apptID).subscribe(result => {
+      if (result.response && result.status) {
+        window.open(result.response.message);
+      } else {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, "Error");
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error.errors[0].message, "Error");
+    })
+  }
+
+  bigBlueButtonVCToken(){
+    this.getAppointmentListForDoc();
+    let appID = this.activatedRoute.snapshot.queryParamMap.get('apptID');
+    let slotTime = this.activatedRoute.snapshot.queryParamMap.get('slotTime');
+    appID = appID.replace(/-/g, "");
+    let payload = {
+      meetingId:appID,
+      name: this.selectedDate,//"Consultation",
+      duration:slotTime,//appointmentTime,
+      moderatorPassword:this.drMobileNumber,
+      moderatorId: this.userID,
+      attendeePassword:this.ptPersonalDetals.mobileNo,//"attendee123"
+      redirect:true,
+      record:false
+
+    }
+    this.consultationService.createMeetingBBB(payload).subscribe(result => {
+      if (result.response && result.status) {
+        console.log(result.response,"response");
+         this.joinMeeting(appID);
+      } else {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, "Error");
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error.errors[0].message, "Error");
+    })
+  
+  }
+
+  private joinMeeting(appID:string){
+     let joinpayload ={
+      meetingID:appID,
+      userDisplayName:this.userID,
+      password:this.ptPersonalDetals.mobileNo,
+      redirect:true 
+     }
+      
+     this. consultationService.joinMeetingBBB(joinpayload).subscribe(result => {
+      if (result.response && result.status) {
+        window.open(result.response.message);
+      } else {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, "Error");
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error.errors[0].message, "Error");
+    })
+  }
+
+
+
+
+  historicalAppointments() {
+    const dialogRef = this.dialog.open(HistoricalCompletedAppointmentsModalComponent, {
+      disableClose: true,
+      width: '800Px',
+      data: { name: this.ptPersonalDetals.name }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+}

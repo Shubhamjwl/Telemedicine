@@ -1,0 +1,146 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Delete ABDM issued ABDM ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Delete ABDM ID :</p>
+      <form #healthidDeleteForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-4 lable">
+            <p class="mt-1"><b>Enter ABDM ID<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control input"
+                placeholder="Health ID"
+                name="healthidnameOne"
+                [(ngModel)]="healthIdOne"
+                #healthidnameOne="ngModel"
+                required
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="healthidnameOne.valid || healthidnameOne.untouched"
+            >
+              Enter Valid Healthid
+            </div>
+          </div>
+          <div class="col-md-4 lable">
+            <p class="mt-1"><b>Enter Password<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                [type]="hidePassword ? 'password' : 'text'"
+                [(ngModel)]="password"
+                name="pass"
+                #pass="ngModel"
+                autocomplete="disabled"
+                class="form-control mr-2 input"
+                placeholder="Password"
+                required
+              />
+              <i
+                *ngIf="!hidePassword"
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                class="fa fa-eye eye-icon cursor ml-2"
+              ></i>
+              <i
+                *ngIf="hidePassword"
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                class="fa fa-eye-slash eye-icon cursor ml-2"
+              ></i>
+            </div>
+            <div class="error" [hidden]="pass.valid || pass.untouched">
+              Enter Password
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn btn-primary mr-3"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+          (click)="open(mymodal)"
+          [disabled]="!healthidDeleteForm.valid"
+        >
+          Delete
+        </button>
+
+        <ng-template #mymodal let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Delete Health ID</h4>
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this Health ID?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              (click)="delete()"
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              (click)="modal.close('Save click')"
+            >
+              No
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

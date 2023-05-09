@@ -1,0 +1,114 @@
+<div>
+    <!-- <div class="row close float-right ml-3">
+    </div>  -->
+    <ngx-spinner>
+        <p class="loading">Loading...</p>
+    </ngx-spinner>
+    <div class="model-wrapper">
+
+        <form [formGroup] = "patientDetails">
+            <div class="modal-header py-2">
+                <h2 class="modal-title mb-0">Book Appointment</h2>
+                <!-- <button mat-button [mat-dialog-close]="data" type="button">×</button> -->
+                <button type="button" class="close" aria-label="Close" (click)="onClickClose()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-4">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
+                        <h4 class="text-secondary"><b>Appointment Time</b></h4>
+                        <p><span class="mr-2">{{data.slotDate| date: 'dd MMM yyyy'}}</span>|<span class="ml-2">{{data ? data.slotTime : ''}}</span></p>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 mt-3">
+                      <h4 [ngClass]="data.slotType == 'Teleconsultation' ? 'telesq' : 'InClinicSq'"></h4>
+                    </div>
+                    <div class="col-sm-11 col-md-11 col-lg-11 col-xl-11 mt-3">
+                        <h4 class="text-secondary"><span>{{data?.slotType}}</span></h4>
+                    </div>   
+                </div> 
+                <div *ngIf = "role !== 'CALLCENTRE' && data.slotType !== 'In-Clinic'">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2 mb-1">
+                            <span class="text-secondary"><b>Consultation Fees (INR):</b></span> <span><b>{{data.fees}}</b></span>
+                            <!-- <p><span class="mr-2">{{data.slotDate| date: 'dd MMM yyyy'}}</span>|<span class="ml-2">{{data ? data.slotTime : ''}}</span></p> -->
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2 mb-1">
+                            <span class="text-secondary"><b> Convenience Fees in INR (inclusive of taxes and finance charges): </b></span> <span><b>{{data.charge}}</b></span>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2 mb-1">
+                            <mat-checkbox class="example-margin" (change)="onClickDiscount($event.checked)">Discount (INR): </mat-checkbox>
+                            <mat-form-field class="example-full-width ml-3">
+                                <input matInput autocomplete="off" numberOnly formControlName = "discountAmount" placeholder="Enter discount amount" [disabled] = "true">
+                                <mat-error class="ml-2" *ngIf="patientDetails.get('discountAmount').invalid">Please enter a valid amount</mat-error>
+                            </mat-form-field>
+
+                            <!-- <p><span class="mr-2">{{data.slotDate| date: 'dd MMM yyyy'}}</span>|<span class="ml-2">{{data ? data.slotTime : ''}}</span></p> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2 mb-1">
+                            <span class="text-secondary"><b>Net Amount to be paid (INR):  {{netConsultationFees}}</b></span>
+                            <!-- <p><span class="mr-2">{{data.slotDate| date: 'dd MMM yyyy'}}</span>|<span class="ml-2">{{data ? data.slotTime : ''}}</span></p> -->
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div class="md-form">
+                        <mat-form-field class="w-100 mt-2">
+                            <mat-label>Search by Name or Mobile Number</mat-label>
+                            <input type="text" matInput formControlName="searchPtByName" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange) = "onSelectPtOption($event)">
+                                <div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-2">
+                                        <ngx-avatar size="40" [style]= "customStyle" fgColor="black" [name]="option.ptFullName"></ngx-avatar>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>{{option.ptFullName}}</h4>
+                                        <h4>{{option.ptMobNo}}</h4>
+                                    </div>
+
+                                </div>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        </div>
+                        <div *ngIf = "isPatientSelected">
+                        <div>
+                            <span>Patient Phone:</span>
+                            <span>{{patientInfo ? patientInfo.ptMobNo ? patientInfo.ptMobNo : 'NA' : 'NA'}}</span>
+                        </div>
+                        <div>
+                            <span>Patient Name:</span>
+                            <span>{{patientInfo ? patientInfo.ptFullName ? patientInfo.ptFullName : 'NA' : 'NA'}}</span>
+                        </div>
+                        <!-- <div>
+                            <span>Patient Email:</span>
+                            <span>{{patientInfo ? patientInfo.ptEmail ? patientInfo.ptEmail : 'NA' : 'NA'}}</span>
+                        </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="float-right">
+                    <button [disabled]="!isPatientSelected || patientDetails.invalid " type="button" class="btn btnColor" (click)="bookPatientAppointment()" *ngIf ="data.slotType !== 'In-Clinic'">Confirm & Pay Later</button>
+                    <button [disabled]="!isPatientSelected || patientDetails.invalid " type="button" class="btn btnColor" (click)="bookPatientAppointmentInclinic()" *ngIf ="data.slotType == 'In-Clinic'">Confirm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div *ngIf = "isPayLater">
+    <app-payment-option-modal></app-payment-option-modal>
+</div>

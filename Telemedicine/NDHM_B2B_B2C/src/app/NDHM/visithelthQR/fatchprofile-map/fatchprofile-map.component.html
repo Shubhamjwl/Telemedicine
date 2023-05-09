@@ -1,0 +1,206 @@
+<div class="login-container">
+  <form #mapForm="ngForm" novalidate autocomplete="off">
+    <div class="login-panel">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2>Create ABDM issued ABHA ID</h2>
+        </div>
+      </div>
+      <div
+        class="login-form-box"
+        style="
+          width: 900px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 80px;
+          padding: 20px;
+        "
+      >
+        <div class="row mt-4" style="margin-left: 5px;">
+          <div class="col-md-3 lable">
+            <p class="mt-1"><b>Enter Health ID<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthId"
+                name="healthidname"
+                class="form-control input"
+                placeholder="Health ID"
+                #healthidname="ngModel"
+                required
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="healthidname.valid || healthidname.untouched"
+            >
+              Enter Valid Healthid
+            </div>
+          </div>
+
+          <div class="col-md-3 lable">
+            <p class="mt-1"><b>Name<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="namesel"
+                name="name"
+                #name="ngModel"
+                required
+                class="form-control mr-1 input"
+                placeholder="First Name"
+              />
+            </div>
+            <div class="error" [hidden]="name.valid || name.untouched">
+              Enter Valid Name
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1"><b>Date of Birth<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input
+                type="date"
+                [(ngModel)]="dateOfBirth"
+                name="dob"
+                #dob="ngModel"
+                required
+                class="form-control input"
+                placeholder="DD/MM/YYY"
+                style="width: 100% !important"
+              />
+            </div>
+            <div class="error" [hidden]="dob.valid || dob.untouched">
+              Enter Valid DOB
+            </div>
+          </div>
+          <div class="col-md-2 lable">
+            <p class="mt"><b>Gender<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="gender"
+                name="genders"
+                #genders="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="M/F/T"
+                style="width: 50% !important"
+              />
+            </div>
+            <div class="error" [hidden]="genders.valid || genders.untouched">
+              Enter Valid Gender
+            </div>
+          </div>
+
+          <div class="col-md-3 lable">
+            <p class="mt-1"><b>Address<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="address"
+                name="addresssel"
+                #addresssel="ngModel"
+                pattern="{{ PATTERN.ADDRESS }}"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Address"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="addresssel.valid || addresssel.untouched"
+            >
+              Enter Valid Address
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1"><b>Enter Mobile Number<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control mr-2"
+                placeholder="+91"
+                style="width: 15%; display: inline-block"
+                disabled
+              />
+              <input
+                type="tel"
+                name="mobileNo"
+                #mobileNo="ngModel"
+                [(ngModel)]="mobileNoSel"
+                maxlength="10"
+                pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                required
+                class="form-control input"
+                placeholder="9937111111"
+              />
+            </div>
+            <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+              Enter Valid Mobile no
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 93px">
+              <div class="col-md-1" style="padding-top: 15px">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  #checkbox="ngModel"
+                  [(ngModel)]="checkboxSel"
+                  required
+                />
+              </div>
+              <div class="col-md-10">
+                <p
+                  style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                  "
+                >
+                  All the Information are verified
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            [disabled]="!mapForm.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

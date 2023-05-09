@@ -1,0 +1,367 @@
+<app-breadcrumb [showHomePageOptions]="true"></app-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid patientReg pl-5">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row">
+            <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9 mt-3">
+                <div class="row">
+                    <!-- Heading -->
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-12">
+                            <h2 class="mb-1 pl-1 d-inline-block">
+                                <span>
+                                    <b>{{'lblRegisterPatient' | l10n}}</b>
+                                </span>
+                            </h2>
+                            <!-- <p class="text-muted mb-4 pl-3 d-inline-block"> 
+                                <span class="description">
+                                    (Please fill following details)
+                                </span>
+                            </p> -->
+                        </div>
+                    </div>
+
+                    <!-- Card Design START -->
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-12 pb-3">
+                            <div class="bgShadowStyle borderRadius15">
+                                <mat-card class="borderRadius15">
+                                    <div class="col-md-6">
+                                        <label class="radio-inline mr-2" *ngFor="let option of radioButtonLList">
+                                            <input type="radio" name="optradio" checked [value]="option.value"
+                                                [(ngModel)]="selectedRadio">
+                                            <b class="ml-1">{{option.name}}</b>
+                                        </label>
+                                        <!-- <label class="radio-inline"> 
+                                            <input type="radio"  name="optradio">
+                                            <b class="ml-1">File Upload</b> 
+                                        </label> -->
+                                    </div>
+                                    <form [formGroup]="form">
+                                        <div class="row">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10"
+                                                *ngIf="selectedRadio === 'single'">
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5">
+                                                        <mat-form-field class="example-full-width w-100 "
+                                                            appearance="outline">
+                                                            <mat-label class="text-secondary"> <b>{{'lblPatientFullName'
+                                                                    | l10n}}</b> </mat-label>
+                                                            <input matInput formControlName="patientName"
+                                                                autocomplete="off" required>
+                                                            <mat-error
+                                                                *ngIf="form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)">
+                                                                <span
+                                                                    *ngIf="form.get('patientName').errors.required">{{'errFullNameRequired'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="form.get('patientName').errors.maxlength">{{'errFullNameMaxLength'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="form.get('patientName').errors.pattern">{{'errFullNamePattern'
+                                                                    | l10n}}</span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <mat-form-field class="example-full-width w-100 "
+                                                            appearance="outline">
+                                                            <mat-label class="text-secondary"> <b>{{'lblMobileNumber' |
+                                                                    l10n}}</b> </mat-label>
+                                                            <input matInput type="number" numberOnly length="10"
+                                                                formControlName="mobileNo" autocomplete="off" required>
+                                                            <mat-error
+                                                                *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)">
+                                                                <span
+                                                                    *ngIf="form.get('mobileNo').errors.required">{{'errMobileRequired'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="form.get('mobileNo').errors.maxlength">{{'errMobileMaxLength'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="form.get('mobileNo').errors.pattern">{{'errMobilePattern'
+                                                                    | l10n}}</span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5">
+                                                        <mat-form-field class="example-full-width w-100 "
+                                                            appearance="outline">
+                                                            <mat-label class="text-secondary"> <b>{{'lblEmailId' |
+                                                                    l10n}}</b> </mat-label>
+                                                            <input matInput formControlName="email" autocomplete="off">
+                                                            <mat-error
+                                                                *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)">
+                                                                <span
+                                                                    *ngIf="form.get('email').errors.required">{{'errEmailRequired'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="form.get('email').errors.email">{{'errEmailPattern'
+                                                                    | l10n}}</span>
+                                                                <span
+                                                                    *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{'errEmailMaxlength'
+                                                                    | l10n}}</span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <mat-form-field class="example-full-width w-100 "
+                                                            appearance="outline">
+                                                            <mat-label class="text-secondary"> <b>{{"lblDateOfBirth" | l10n}}</b> </mat-label>
+                                                            <input matInput formControlName="dob" [matDatepicker]="picker" [max]="maxDate" [disabled]="disableDob" >
+                                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                          <mat-datepicker #picker></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <!-- <div class="row mt-1">
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                                        <mat-label class="text-secondary"><b>{{'lblUserName' | l10n}}</b></mat-label>
+                                                        <input matInput formControlName="userName" autocomplete="off" minlength="8" maxlength="25" required>
+                                                        <mat-error *ngIf="form.get('userName').errors && (form.get('userName').touched || form.get('userName').dirty)">
+                                                            <span *ngIf="form.get('userName').errors.required">{{'errUserNameRequired' | l10n}}</span>
+                                                            <span *ngIf="form.get('userName').errors.maxlength">{{'errUserNameMaxLength' | l10n}}</span>
+                                                            <span *ngIf="form.get('userName').errors.minlength">{{'errUserNameMinLength' | l10n}}</span>
+                                                            <span *ngIf="form.get('userName').errors.pattern">{{'errUserNamePattern' | l10n}}</span>
+                                                        </mat-error>                                                   
+                                                     </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline" [ngbTooltip]="template">
+                                                            <mat-label class="text-secondary"> <b>{{'lblPassword' | l10n}}</b> </mat-label>
+                                                            <input [type]="hidePassword? 'password' : 'text'" matInput formControlName="password" autocomplete="off" minlength="8" maxlength="16" autocomplete="new-password" required>
+                                                            <mat-icon matSuffix class="cursorHand" (click)="hidePassword = !hidePassword"> {{hidePassword? 'visibility_off' : 'visibility'}} </mat-icon>
+                                                            <mat-error *ngIf="form.get('password').errors && (form.get('password').touched || form.get('password').dirty)">
+                                                                <span *ngIf="form.get('password').errors.required">{{'errpasswordRequired' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('password').errors.maxlength">{{'lblPasswordCondition2' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('password').errors.minlength">{{'errPasswordMinLength' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('password').value && form.get('password').invalid">{{'lblPasswordMatch' | l10n}}</span>                                                        
+                                                            </mat-error> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline" [ngbTooltip]="template">
+                                                            <mat-label class="text-secondary"> <b>{{'lblReEnterPassword' | l10n}}</b> </mat-label>
+                                                            <input [type]="hideReEnterPassword? 'password' : 'text'" matInput  formControlName="reEnterPassword" autocomplete="off" (input)="onPasswordInput()" required>
+                                                            <mat-icon matSuffix class="cursorHand" (click)="hideReEnterPassword = !hideReEnterPassword"> {{hideReEnterPassword? 'visibility_off' : 'visibility'}} </mat-icon>
+                                                            <mat-error *ngIf="form.get('reEnterPassword').errors && (form.get('reEnterPassword').touched || form.get('reEnterPassword').dirty)">
+                                                                <span *ngIf="form.get('reEnterPassword').errors.required">{{'errpasswordRequired' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('reEnterPassword').errors.maxlength">{{'lblPasswordCondition2' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('reEnterPassword').errors.minlength">{{'errPasswordMinLength' | l10n}}</span>&nbsp;
+                                                                <span *ngIf="form.get('reEnterPassword').invalid && !form.get('reEnterPassword').hasError('required')">{{'lblEnterCorrectPass' | l10n}}</span>                                                       
+                                                            </mat-error> 
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2"
+                                                *ngIf="selectedRadio === 'single'">
+                                                <div class="row">
+                                                    <b>{{'lblUploadPhoto' | l10n}}</b>&nbsp;
+                                                    <label class="switch">
+                                                        <input type="checkbox" (click)="onClickSwitch()"
+                                                            [checked]='isSwitcheChecked'>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        *ngIf="!isSwitcheChecked">
+                                                        <div class="profile-wrapper">
+                                                            <img src="{{uploadedImage}}" id="ProfilePhoto" alt="Avatar"
+                                                                class="rounded-circle">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        *ngIf="isSwitcheChecked">
+                                                        <div>
+                                                            <webcam [height]="75" [width]="100"
+                                                                [trigger]="triggerObservable"
+                                                                (initError)="handleInitError($event)"
+                                                                (imageCapture)="handleImage($event)">
+                                                            </webcam>
+                                                            <!-- &nbsp;  -->
+                                                            <br />
+                                                            <button type="button" class="actionBtn btn btn-info btn-sm"
+                                                                (click)="triggerSnapshot()">{{'lblTakepicture' |
+                                                                l10n}}</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mr-3">
+                                                        <!-- <label class="uploadPhotoText text-muted mt-1">{{'lblUploadPhoto' | l10n}}</label> &nbsp;&nbsp; -->
+                                                        <div class="mt-2 ml-2">
+                                                            <input type="file" id="browse"
+                                                                formControlName="profilePhoto" class="mt-1"
+                                                                (change)="uploadProfilePhoto($event)" hidden>
+                                                            <button type="button" *ngIf="!isSwitcheChecked"
+                                                                class="btn btn-info btn-sm" (click)="browse()">
+                                                                Browse
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10"
+                                                *ngIf="selectedRadio === 'multiple'">
+                                                <div class="row mt-1">
+                                                    <div class="col-md-10 ml-3">
+                                                        Click <a class="link-primary" (click)="download()"> Download
+                                                            file </a> to download and attach patient details
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row mt-1 ml-3">
+                                                    <!-- <div class="col-md-6">-->
+                                                    <div class="row w-100">
+                                                        <div class="col-4 mr-3">
+                                                            <input #inputFile type="file" class="chooseFile" multiple
+                                                                (change)="selectFiles($event)">
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <img src="assets/images/UploadFiles.png"
+                                                                style="height: 89%; width: 85%;" alt=""
+                                                                (click)="uploadFiles()">
+                                                        </div>
+                                                        <!-- <input type="submit" value="Upload" (click) = "uploadFiles()"> -->
+                                                    </div>
+                                                    <div class="row w-100">
+                                                        <div class="mt-2 ml-3"
+                                                            *ngIf="uploadedFiles && uploadedFiles.length">
+                                                            <table class="table table-bordered">
+                                                                <tbody>
+                                                                    <tr
+                                                                        *ngFor="let file of uploadedFiles; let i = index">
+                                                                        <td class="chooseFile">{{file.name}}</td>
+                                                                        <td class="text-danger chooseFile"
+                                                                            (click)="removeFile(i)"><b>X</b></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <!-- </div> -->
+
+                                                    <!-- <div class="col-md-6">
+                                                        <input type="file" id="browseFile" class="mt-2" (change)="showSelectedFiles($event)" multiple hidden>
+                                                        <button class="btn btnColor btn-sm mt-2 ml-3" (click)="browseFile()">
+                                                            Browse
+                                                        </button>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- Show uploaded files -->
+                                            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 mt-2"
+                                                *ngIf="selectedRadio === 'multiple'">
+                                                <div class="col-4 p-2"
+                                                    *ngFor="let file of uploadedFileNames; let i=index">
+                                                    <ul class="fileUpload p-0 mb-2">
+                                                        <li class="border-bottom">
+                                                            {{file.name}}
+                                                            <button type="button"
+                                                                class="btn btn-default btn-sm p-0 float-right"
+                                                                (click)="removeFiles(i)">
+                                                                <i class="fa fa-trash-o text-danger"
+                                                                    aria-hidden="true"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-1">
+                                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                                                <button class="btn btnColor mt-2" mat-raised-button
+                                                    (click)="onClickSubmit()">Submit</button>&nbsp;
+                                                <button class="btn btnColor mt-2" mat-raised-button
+                                                    (click)="reset()">Clear</button>&nbsp;
+                                                <button class="btn btnColor mt-2" mat-raised-button
+                                                    (click)="onClickCancel()">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal details design -->
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 mt-5">
+                <div class="personalDetailsList bgShadowStyle bg-info">
+                    <div class="col-12 border-bottom text-center pt-3">
+                        <h2>
+                            Personal Details
+                        </h2>
+                    </div>
+                    <div class="col-12 pt-2 pb-1">
+                        <ul class="list pl-0">
+                            <li *ngFor="let item of personalDataList;" class="pt-1 pb-1">
+                                <i *ngIf="item.stepValue" class="fa fa-circle" aria-hidden="true"></i>
+                                <i *ngIf="!item.stepValue" class="fa fa-circle-o" aria-hidden="true"></i>
+                                <small class="pl-1"> {{item.stepName}} : </small>
+                                <small class="pl-1"> {{item.stepValue}} </small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<ng-template #template>
+    <div class="row">
+        <div class="col-12">
+            <p class="ml-1 mb-0 text-left">Note: </p>
+            <ul class="passwordNoteList">
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition1' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition2' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition3' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition4' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition5' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition6' | l10n}}
+                    </small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</ng-template>

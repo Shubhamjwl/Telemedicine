@@ -1,0 +1,10 @@
+package com.nsdl.ndhm.dto;
+
+import lombok.Data;
+
+@Data
+public class NdhmFeatureFlagResponse {
+	
+	private boolean flag;
+
+}

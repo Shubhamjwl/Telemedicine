@@ -1,0 +1,93 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+
+<div class="main-container">
+    <div class="breadcrumb-area"><a routerLink="/appointments">Home</a></div>
+    <div class="page-title">Prescribe Services</div>
+    <div class="register-form register-form2">
+        <form [formGroup]="form">
+            <ng-container>
+                <div class="input-group half-col last-col">
+                    <h3>Select Patient</h3>
+                    <hr>
+                    <mat-form-field class="w-100">
+                        <mat-label style="color:#e43927;">Search by Name or Mobile Number</mat-label>
+                        <input type="text" matInput formControlName="searchPtByName" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                <div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-2">
+                                        <ngx-avatar size="40" [style]="customStyle" fgColor="black"
+                                            [name]="option.ptFullName"></ngx-avatar>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4>{{option.ptFullName}}</h4>
+                                        <h4>{{option.ptMobNo}}</h4>
+                                    </div>
+
+                                </div>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </ng-container>
+        </form>
+        <form [formGroup]="ptForm">
+            <div class="row col-12 mt-5 mb-5" style="text-align: center;padding-left: 25%; padding-top: 25px;">
+                <span>Or</span>
+            </div>
+            <div class="row col-12">
+                <div class="input-group half-col left" style="padding-right: 25px;">
+                    <mat-form-field appearance="fill">
+                        <mat-label style="color:#e43927;">Patient's Full Name</mat-label>
+                        <input matInput formControlName="patientName" [matAutocomplete]="auto">
+                        <mat-error class="ml-1"
+                            *ngIf="ptForm.get('patientName').errors && (ptForm.get('patientName').touched || ptForm.get('patientName').dirty)">
+                            <span *ngIf="ptForm.get('patientName').errors.required">{{'errFullNameRequired' |
+                                l10n}}</span>
+                            <span *ngIf="ptForm.get('patientName').errors.maxlength">{{'errFullNameMaxLength' |
+                                l10n}}</span>
+                            <span *ngIf="ptForm.get('patientName').errors.pattern">{{'errFullNamePattern' |
+                                l10n}}</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="input-group half-col right">
+                    <mat-form-field appearance="fill">
+                        <mat-label style="color:#e43927;">Mobile Number</mat-label>
+                        <input matInput formControlName="patientMobileNo" length="10" numberOnly autocomplete="off">
+                        <mat-error class="ml-1"
+                            *ngIf="ptForm.get('patientMobileNo').errors && (ptForm.get('patientMobileNo').touched || ptForm.get('patientMobileNo').dirty)">
+                            <span *ngIf="ptForm.get('patientMobileNo').errors.required">{{'errMobileRequired' |
+                                l10n}}</span>
+                            <span *ngIf="ptForm.get('patientMobileNo').errors.maxlength">{{'errMobileMaxLength' |
+                                l10n}}</span>
+                            <span *ngIf="ptForm.get('patientMobileNo').errors.pattern">{{'errMobilePattern' |
+                                l10n}}</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+            <div class="input-group full-col btn-area">
+                <button type="button" class="btn btn-primary mt-2 mr-2" [disabled]="!isValid"
+                    (click)="onClickPrescribed()">Prescribe Service</button>
+            </div>
+        </form>
+
+        <form #formS [action]="actionURL" method="post" target="_blank">
+            <input type="hidden" name="patient_name" [value]="ptName">
+            <input type="hidden" name="patient_phone" [value]="ptMobile">
+            <input type="hidden" name="doctor_mobile" [value]="mobileNo">
+            <input type="hidden" name="doctor_email" [value]="emailid">
+            <input type="hidden" name="client_secret_key" [value]="clientSecret">
+            <input type="hidden" name="telmed_trans_id" [value]="transactionID">
+        </form>
+
+    </div>
+
+</div>

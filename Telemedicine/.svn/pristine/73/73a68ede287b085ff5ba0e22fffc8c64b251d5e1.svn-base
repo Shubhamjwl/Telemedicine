@@ -1,0 +1,82 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ConsultationRoutingModule } from './consultation-routing.module';
+import { PrescriptionDetailsComponent } from './prescription-details/prescription-details.component';
+import { ConsultationPriscriptionComponent } from './consultation-priscription/consultation-priscription.component';
+import { LangModule } from 'src/app/lang/lang.module';
+import { SharedModulesModule } from '../../shared-modules/shared-modules.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbModule } from 'src/app/shared/modules/breadcrumb/breadcrumb.module';
+import { CommingSoonModule } from 'src/app/comming-soon/comming-soon.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ConsultationComponent } from './consultation/consultation.component';
+import { ConsultationInitiationComponent } from './consultation-initiation/consultation-initiation.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+
+@NgModule({
+  declarations: [
+    ConsultationComponent,
+    ConsultationInitiationComponent,
+    PrescriptionDetailsComponent,
+    ConsultationPriscriptionComponent
+  ],
+  imports: [
+    CommonModule,
+    SharedModulesModule,
+    ConsultationRoutingModule,
+    LangModule,
+    NgxSpinnerModule,
+    FormsModule,
+    MatButtonToggleModule,
+    ReactiveFormsModule,
+    BreadcrumbModule,
+    CommingSoonModule,
+
+    // Mat
+    MatTabsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatStepperModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatRadioModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatDatepickerModule,
+    MatToolbarModule
+    // MatNativeDateModule
+
+    //other
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class ConsultationModule { }

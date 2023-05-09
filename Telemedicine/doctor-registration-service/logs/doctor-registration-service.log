@@ -1,0 +1,14 @@
+  [2022-02-01 09:41:23,795], , [HikariPool-1 housekeeper], doctor-registration-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10h53m8s901ms656µs200ns).
+  [2022-02-01 10:41:42,903], , [HikariPool-1 housekeeper], doctor-registration-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=58m19s38ms598µs200ns).
+  [2022-02-01 11:42:52,237], , [HikariPool-1 housekeeper], doctor-registration-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=37m39s13ms75µs100ns).
+  [2022-02-01 12:00:16,320], , [HikariPool-1 housekeeper], doctor-registration-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m54s70ms300µs500ns).
+  [2022-02-01 12:49:21,155], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-02-01 12:49:21,954], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 12:49:22,033], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-01 12:49:22,457], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2022-02-01 12:49:22,582], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2022-02-01 12:49:22,634], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7073"]
+  [2022-02-01 12:49:22,748], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-01 12:49:22,815], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  [/doctor-registration] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-02-01 12:49:23,049], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7073"]
+  [2022-02-01 12:49:23,098], , [RMI TCP Connection(174)-127.0.0.1], doctor-registration-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7073"]

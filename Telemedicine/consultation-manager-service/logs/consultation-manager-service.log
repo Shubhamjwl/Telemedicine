@@ -1,0 +1,220 @@
+  [2022-02-07 13:38:41,116], , [main], consultation-manager-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$dfe7afa1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-07 13:38:41,491], , [main], consultation-manager-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-07 13:38:42,302], , [main], consultation-manager-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=consultation-manager-service, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-07 13:38:42,302], , [main], consultation-manager-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-07 13:38:42,377], , [main], consultation-manager-service, INFO  ConsultationManagerService logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-07 13:38:43,722], , [main], consultation-manager-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-07 13:38:43,909], , [main], consultation-manager-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 169ms. Found 22 repository interfaces.
+  [2022-02-07 13:38:44,366], , [main], consultation-manager-service, INFO  GenericScope setSerializationId | BeanFactory id=d8dc0a7e-a883-3d35-9adf-711075b9ce8c
+  [2022-02-07 13:38:44,776], , [main], consultation-manager-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c3cdaca4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-07 13:38:44,819], , [main], consultation-manager-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$dfe7afa1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-07 13:38:45,388], , [main], consultation-manager-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7078 (http)
+  [2022-02-07 13:38:45,408], , [main], consultation-manager-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7078"]
+  [2022-02-07 13:38:45,419], , [main], consultation-manager-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-07 13:38:45,420], , [main], consultation-manager-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-07 13:38:45,432], , [main], consultation-manager-service, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-07 13:38:45,608], , [main], consultation-manager-service, INFO  [/consultation] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-07 13:38:45,609], , [main], consultation-manager-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3178 ms
+  [2022-02-07 13:38:46,969], , [main], consultation-manager-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-07 13:38:48,678], , [main], consultation-manager-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-07 13:38:48,869], , [main], consultation-manager-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-07 13:38:48,997], , [main], consultation-manager-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-07 13:38:48,999], , [main], consultation-manager-service, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-07 13:38:49,405], , [main], consultation-manager-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-07 13:38:49,758], , [main], consultation-manager-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-07 13:38:49,786], , [main], consultation-manager-service, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-07 13:38:49,795], , [main], consultation-manager-service, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@21d48c40
+  [2022-02-07 13:39:17,963], , [main], consultation-manager-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:183)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:72)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:310)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.consultancy.ConsultationManagerService.main(ConsultationManagerService.java:12)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2440)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2183)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:308)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:441)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:365)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:307)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:293)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:270)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:266)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 33 common frames omitted
+  [2022-02-07 13:39:23,786], , [main], consultation-manager-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-07 13:39:25,046], , [main], consultation-manager-service, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-07 13:39:26,769], , [main], consultation-manager-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-07 13:39:26,863], , [main], consultation-manager-service, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-07 13:39:27,708], , [main], consultation-manager-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-07 13:39:27,843], , [main], consultation-manager-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7078"]
+  [2022-02-07 13:39:27,888], , [main], consultation-manager-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7078 (http) with context path '/consultation'
+  [2022-02-07 13:39:27,892], , [main], consultation-manager-service, INFO  ConsultationManagerService logStarted | Started ConsultationManagerService in 47.877 seconds (JVM running for 51.199)
+  [2022-02-07 13:40:58,004], , [http-nio-7078-exec-2], consultation-manager-service, INFO  [/consultation] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-07 13:40:58,005], , [http-nio-7078-exec-2], consultation-manager-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-07 13:40:58,038], , [http-nio-7078-exec-2], consultation-manager-service, INFO  DispatcherServlet initServletBean | Completed initialization in 33 ms
+408c081505b19cba 408c081505b19cba [2022-02-07 13:41:26,392], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | start time : null
+408c081505b19cba 408c081505b19cba [2022-02-07 13:41:34,312], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | end time : null
+408c081505b19cba 408c081505b19cba [2022-02-07 13:41:39,785], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | inside else block
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:01,490], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | Inside sendPrescriptionNotificationOnSMS method
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:01,520], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | calling Otp manager service sms Api
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:01,717], , [http-nio-7078-exec-2], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | sendPrescriptionNotificationOnSMS method excecution completed
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:02,087], , [http-nio-7078-exec-2], consultation-manager-service, INFO  AbstractBatchImpl release | HHH000010: On release of batch it still contained JDBC statements
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:02,094], , [http-nio-7078-exec-2], consultation-manager-service, ERROR BatchingBatch performExecution | HHH000315: Exception executing batch [org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1], SQL: update appointment.appt_dtls set ad_appt_booked_for=?, ad_appt_date_fk=?, ad_appt_end_time=?, ad_appt_id=?, ad_appt_slot_fk=?, ad_appt_start_time=?, ad_appt_status=?, ad_appt_total_time=?, ad_appt_consult_type=?, ad_created_by=?, ad_created_tmstmp=?, ad_isbooked=?, ad_modified_by=?, ad_modified_tmstmp=?, ad_opti_version=?, ad_recpt_user_id=?, ad_scrb_user_id=?, ad_appt_symptoms=?, ap_cancel_date=?, ap_cancel_reason=?, ad_dr_user_id_fk=?, ad_pt_user_id_fk=?, ad_pmt_trans_id_fk=? where ad_id_pk=? and ad_opti_version=?
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:02,100], , [http-nio-7078-exec-2], consultation-manager-service, ERROR ExceptionMapperStandardImpl mapManagedFlushFailure | HHH000346: Error during managed flush [Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1]
+408c081505b19cba 408c081505b19cba [2022-02-07 13:43:02,337], , [http-nio-7078-exec-2], consultation-manager-service, ERROR ConsultationExceptionHandler globalExceptionHandler | org.springframework.orm.ObjectOptimisticLockingFailureException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1; nested exception is org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:338)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:253)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:536)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:746)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:714)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:533)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:304)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.nsdl.telemedicine.consultancy.service.impl.ConsultationServiceImpl$$EnhancerBySpringCGLIB$$9408cef7.updateConsultationStatus(<generated>)
+	at com.nsdl.telemedicine.consultancy.controller.ConsultationController.updateConsultationStatus(ConsultationController.java:350)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:189)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:90)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter.doFilter(ExceptionLoggingFilter.java:50)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:86)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:117)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:679)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+Caused by: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at org.hibernate.jdbc.Expectations$BasicExpectation.checkBatched(Expectations.java:67)
+	at org.hibernate.jdbc.Expectations$BasicExpectation.verifyOutcome(Expectations.java:54)
+	at org.hibernate.engine.jdbc.batch.internal.BatchingBatch.checkRowCounts(BatchingBatch.java:148)
+	at org.hibernate.engine.jdbc.batch.internal.BatchingBatch.performExecution(BatchingBatch.java:123)
+	at org.hibernate.engine.jdbc.batch.internal.BatchingBatch.doExecuteBatch(BatchingBatch.java:104)
+	at org.hibernate.engine.jdbc.batch.internal.AbstractBatchImpl.execute(AbstractBatchImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.executeBatch(JdbcCoordinatorImpl.java:212)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:633)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:478)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:356)
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:39)
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1454)
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:511)
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3283)
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2479)
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:473)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:178)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:39)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:271)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:98)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:532)
+	... 79 more
+
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:45:40,641], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | start time : 13:42
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:45:41,757], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | end time : 13:45
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:45:54,286], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | inside else block
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:46:44,284], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | Inside sendPrescriptionNotificationOnSMS method
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:46:44,323], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | calling Otp manager service sms Api
+60fce43f51c59d0d 60fce43f51c59d0d [2022-02-07 13:46:44,799], , [http-nio-7078-exec-5], consultation-manager-service, INFO  ConsultationServiceImpl sendPrescriptionNotificationOnSMS | sendPrescriptionNotificationOnSMS method excecution completed
+4dc7813c18535836 4dc7813c18535836 [2022-02-07 13:49:32,065], , [http-nio-7078-exec-6], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | start time : null
+4dc7813c18535836 4dc7813c18535836 [2022-02-07 13:49:32,578], , [http-nio-7078-exec-6], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | end time : null
+4dc7813c18535836 4dc7813c18535836 [2022-02-07 13:50:19,800], , [http-nio-7078-exec-6], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | start time : null
+4dc7813c18535836 4dc7813c18535836 [2022-02-07 13:50:21,055], , [http-nio-7078-exec-6], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | end time : null
+a5470d4bb91be86f a5470d4bb91be86f [2022-02-07 14:01:18,287], , [http-nio-7078-exec-4], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | start time : null
+a5470d4bb91be86f a5470d4bb91be86f [2022-02-07 14:01:18,351], , [http-nio-7078-exec-4], consultation-manager-service, INFO  ConsultationServiceImpl updateConsultationStatus | end time : null
+a5470d4bb91be86f a5470d4bb91be86f [2022-02-07 14:01:18,362], , [http-nio-7078-exec-4], consultation-manager-service, ERROR ConsultationServiceImpl updateConsultationStatus | Exception while updating staus of appointment details. Cannot invoke "String.equalsIgnoreCase(String)" because the return value of "com.nsdl.telemedicine.consultancy.entity.AppointmentDtlsEntity.getAdConsultType()" is null
+  [2022-02-07 16:05:22,087], , [HikariPool-1 housekeeper], consultation-manager-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m30s962ms896µs700ns).

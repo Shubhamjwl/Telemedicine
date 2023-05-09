@@ -1,0 +1,7 @@
+export const environment = {
+  production: true,
+  baseUrl: './',
+  prescribedUrl: 'https://protean-health.com/market/index.php?route=prescribedservices/services_listing',
+  ndhmURL:'https://uattele.cloudvoice.in/ndhm/',
+  newLayout: false
+};

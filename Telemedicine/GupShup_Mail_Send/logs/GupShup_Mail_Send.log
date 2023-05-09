@@ -1,0 +1,259 @@
+  [2022-05-03 15:42:29,816], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-03 15:42:30,219], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$43a85570] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:42:30,653], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+  [2022-05-03 15:42:51,825], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://172.30.151.100:51000/config. Will be trying the next url if available
+  [2022-05-03 15:42:51,828], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://172.30.151.100:51000/config/GupShup_Mail_Send/dev/1.0.0": Connection timed out: connect; nested exception is java.net.ConnectException: Connection timed out: connect
+  [2022-05-03 15:42:51,840], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-03 15:42:53,264], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=287ff15b-350f-393f-ba72-3bf3c628fb8d
+  [2022-05-03 15:42:53,841], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$43a85570] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:42:54,794], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8082 (http)
+  [2022-05-03 15:42:54,813], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:42:54,814], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-03 15:42:54,815], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-05-03 15:42:54,962], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-03 15:42:54,963], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3067 ms
+  [2022-05-03 15:42:56,129], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+  [2022-05-03 15:42:56,131], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-05-03 15:42:56,152], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-05-03 15:42:56,158], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.net.gupshup.mail.GupShupMailSendApplication.main(GupShupMailSendApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 22 common frames omitted
+  [2022-05-03 15:45:54,051], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-03 15:45:54,554], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$9ff8ab49] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:45:54,905], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+  [2022-05-03 15:45:56,492], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator log | Located environment: name=GupShup_Mail_Send, profiles=[dev], label=1.0.0, version=218, state=null
+  [2022-05-03 15:45:56,493], , [restartedMain], app_name_IS_UNDEFINED, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='configClient'}, MapPropertySource {name='http://172.16.11.166/telemed-ivv/branches/1.0.0/application-dev.properties'}]}
+  [2022-05-03 15:45:56,564], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-03 15:45:58,221], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=287ff15b-350f-393f-ba72-3bf3c628fb8d
+  [2022-05-03 15:45:58,796], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$9ff8ab49] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:45:59,739], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8082 (http)
+  [2022-05-03 15:45:59,756], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:45:59,757], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-03 15:45:59,758], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-05-03 15:45:59,950], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-03 15:45:59,951], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3364 ms
+  [2022-05-03 15:46:01,119], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type.value' in value "${gupshup.mail.content_type.value}"
+  [2022-05-03 15:46:01,122], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-05-03 15:46:01,145], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-05-03 15:46:01,152], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type.value' in value "${gupshup.mail.content_type.value}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.net.gupshup.mail.GupShupMailSendApplication.main(GupShupMailSendApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type.value' in value "${gupshup.mail.content_type.value}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 22 common frames omitted
+  [2022-05-03 15:48:30,143], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-03 15:48:30,470], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6b9bf25f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:48:30,823], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-05-03 15:48:32,978], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888/config. Will be trying the next url if available
+  [2022-05-03 15:48:32,980], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/config/GupShup_Mail_Send/dev/1.0.1": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-05-03 15:48:32,985], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-03 15:48:34,172], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=287ff15b-350f-393f-ba72-3bf3c628fb8d
+  [2022-05-03 15:48:34,560], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6b9bf25f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:48:35,414], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8082 (http)
+  [2022-05-03 15:48:35,430], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:48:35,431], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-03 15:48:35,432], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-05-03 15:48:35,575], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-03 15:48:35,576], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2550 ms
+  [2022-05-03 15:48:36,560], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+  [2022-05-03 15:48:36,562], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-05-03 15:48:36,584], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-05-03 15:48:36,588], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.net.gupshup.mail.GupShupMailSendApplication.main(GupShupMailSendApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 22 common frames omitted
+  [2022-05-03 15:49:46,295], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-03 15:49:46,784], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f6e052a3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:49:47,153], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-05-03 15:49:48,030], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator log | Located environment: name=GupShup_Mail_Send, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-05-03 15:49:48,030], , [restartedMain], app_name_IS_UNDEFINED, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-05-03 15:49:48,083], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-03 15:49:49,558], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=287ff15b-350f-393f-ba72-3bf3c628fb8d
+  [2022-05-03 15:49:50,182], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f6e052a3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:49:51,145], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8082 (http)
+  [2022-05-03 15:49:51,162], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:49:51,163], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-03 15:49:51,164], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-05-03 15:49:51,312], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-03 15:49:51,314], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3212 ms
+  [2022-05-03 15:49:52,362], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type' in value "${gupshup.mail.content_type}"
+  [2022-05-03 15:49:52,364], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-05-03 15:49:52,391], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-05-03 15:49:52,397], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gupShupEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type' in value "${gupshup.mail.content_type}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.net.gupshup.mail.GupShupMailSendApplication.main(GupShupMailSendApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.mail.content_type' in value "${gupshup.mail.content_type}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 22 common frames omitted
+  [2022-05-03 15:51:43,023], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-03 15:51:43,781], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ff6ae087] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:51:44,391], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-05-03 15:51:45,576], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator log | Located environment: name=GupShup_Mail_Send, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-05-03 15:51:45,577], , [restartedMain], app_name_IS_UNDEFINED, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-05-03 15:51:45,637], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-03 15:51:47,508], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=287ff15b-350f-393f-ba72-3bf3c628fb8d
+  [2022-05-03 15:51:51,211], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ff6ae087] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-03 15:51:52,178], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8082 (http)
+  [2022-05-03 15:51:52,197], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:51:52,198], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-03 15:51:52,200], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-05-03 15:51:52,373], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-03 15:51:52,374], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 6716 ms
+  [2022-05-03 15:51:56,422], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-05-03 15:52:04,540], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-05-03 15:52:07,778], , [restartedMain], app_name_IS_UNDEFINED, INFO  EndpointLinksResolver <init> | Exposing 4 endpoint(s) beneath base path '/actuator'
+  [2022-05-03 15:52:07,923], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8082"]
+  [2022-05-03 15:52:08,541], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 8082 (http) with context path '/send-mail-gupshup'
+  [2022-05-03 15:52:08,558], , [restartedMain], app_name_IS_UNDEFINED, INFO  GupShupMailSendApplication logStarted | Started GupShupMailSendApplication in 27.008 seconds (JVM running for 30.563)
+  [2022-05-03 15:56:27,160], , [http-nio-8082-exec-3], app_name_IS_UNDEFINED, INFO  [/send-mail-gupshup] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-05-03 15:56:27,203], , [http-nio-8082-exec-3], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-05-03 15:56:27,730], , [http-nio-8082-exec-3], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Completed initialization in 526 ms
+c428b18498e3c984 c428b18498e3c984 [2022-05-03 16:00:58,361], , [http-nio-8082-exec-9], app_name_IS_UNDEFINED, WARN  DefaultHandlerExceptionResolver logException | Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize instance of `[Ljava.lang.String;` out of VALUE_STRING token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of `[Ljava.lang.String;` out of VALUE_STRING token
+ at [Source: (PushbackInputStream); line: 4, column: 18] (through reference chain: com.nsdl.net.gupshup.mail.dto.SendMailDTO["recipients"])]
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:02:29,305], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  LoggingAspect profileAllMethods | Start of GupShupController.sendMailGupShupAPI
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:03:20,974], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  LoggingAspect profileAllMethods | Start of GupShupEmailSenderServiceImpl.sendMailGupShup
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:03:26,840], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  GupShupEmailSenderServiceImpl buildMultiValueMap | Inside buildMultiValueMap Method************SendMailDTO(name=null, recipients=[shubh.55jwl@gmail.com], subject=concern, content=Hi shubham, flag=true, content_type=text/html)
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:03:26,914], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  GupShupEmailSenderServiceImpl buildMultiValueMap | Request body from GupShup APIS************{method=[EMS_POST_CAMPAIGN], userid=[2000700865], password=[spVJkb], v=[1.1], name=[NSDL e-Governance Infrastructure Limited], recipients=[shubh.55jwl@gmail.com], fromEmailId=[noreply@epan.nsdl.co.in], subject=[concern], content=[Hi shubham], =text/html=[text/html]}
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:03:47,046], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  GupShupEmailSenderServiceImpl sendMailGupShup | Mail Dto before sending request to gupshup:SendMailDTO(name=null, recipients=[shubh.55jwl@gmail.com], subject=concern, content=Hi shubham, flag=true, content_type=text/html)
+30dd0f9ad64f827c 30dd0f9ad64f827c [2022-05-03 16:03:48,149], 0:0:0:0:0:0:0:1, [http-nio-8082-exec-10], app_name_IS_UNDEFINED, INFO  GupShupEmailSenderServiceImpl sendMailGupShup | Calling gupshup api...

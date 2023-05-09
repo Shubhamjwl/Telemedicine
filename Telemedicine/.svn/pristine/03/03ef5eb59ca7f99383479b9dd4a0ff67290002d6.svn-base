@@ -1,0 +1,47 @@
+package com.nsdl.ndhm.transfer.controller;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.transfer.dto.SharePatientReqDTO;
+import com.nsdl.ndhm.transfer.dto.SmsNotifyResponseDTO;
+import com.nsdl.ndhm.transfer.service.SharePatientService;
+
+@RestController
+public class PatientShareController {
+	private static final Logger logger = LoggerFactory.getLogger(PatientShareController.class);
+
+	@Autowired
+	SharePatientService sharePatientService;
+
+	@PostMapping(value = "/v0.5/patients/profile/share")
+	public ResponseEntity<String> share(@RequestHeader Map<String, String> headers,
+			@RequestBody SharePatientReqDTO sharePatientReqDTO) {
+		logger.info("Request Receive for Share Patient Starts: {} ", sharePatientReqDTO);
+
+		sharePatientService.sharePatient(sharePatientReqDTO);
+
+		logger.info("Request Receive for Share Patient ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/v0.5/patients/sms/on-notify")
+	public ResponseEntity<String> onSmsNotify(@RequestHeader Map<String, String> headers,
+			@RequestBody SmsNotifyResponseDTO smsNotifyResponseDTO) {
+		logger.info("Request Receive for On Sms Notify Starts ");
+
+		sharePatientService.onSmsNotify(smsNotifyResponseDTO);
+
+		logger.info("Request Receive for Sms Notify ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+}

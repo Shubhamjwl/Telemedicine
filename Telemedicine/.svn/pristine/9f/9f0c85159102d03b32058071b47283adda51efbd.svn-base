@@ -1,0 +1,34 @@
+<div class="consultationInitiation">
+  <!-- style= 'margin: 2% 1% 1% 4%;' -->
+  <div class="justify-content-md-center row mt-2 mb-2">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+      <div class="intitiationCardStyle">
+        <nav mat-tab-nav-bar>
+          <a mat-tab-link *ngFor="let obj of tabs" [active]="isTabActivated(obj.type)" [routerLink]="obj.route"
+            (click)="tabChange(obj.route)" queryParamsHandling="merge"> {{obj.tabName}} </a>
+        </nav>
+        <router-outlet></router-outlet><br>
+      </div>
+    </div>
+  </div>
+  <div class="justify-content-md-center row">
+    <div class="col-sm-11 col-md-11 col-lg-11 col-xl-11 mt-2">
+      <button type="button" *ngIf="currentTab !== availableTabs.PRESCRIPTIONDETAILS" class="btn btnColor btn-sm align-right"
+        (click)="changeTab('prev')">{{'lblPrevious' | l10n}}</button>
+      <button type="button" *ngIf="currentTab !== availableTabs.PRESCRIPTION" class="align-right btn btnColor btn-sm"
+        (click)="changeTab('next')">{{'lblNext' | l10n}}</button>
+      <button class="btn btn-info" (click)="onClickPrescribed()" class="align-right btn btnColor btn-sm" style="margin-right: 12px;"> 
+        {{'lblPrescribeServices'| l10n}}</button>
+    </div>
+  </div>
+ 
+ <!-- Optional section end-->
+ <form  #form  action="http://14.140.81.156/index.php?route=prescribedservices/services_listing" method="post" target="_blank">
+     <input type="hidden" name="patient_name"  [value]="ptPersonalDetals?.name">
+     <input type="hidden" name="patient_phone"  [value]="ptPersonalDetals?.mobileNo">
+     <input type="hidden" name="doctor_mobile" [value]="mobileNo">
+     <input type="hidden" name="doctor_email"  [value]="emailid">
+     <input type="hidden" name="client_secret_key" [value]="clientSecret"> 
+     <input type="hidden" name="telmed_trans_id" [value]="this.transactionID"> 
+   </form>
+</div>

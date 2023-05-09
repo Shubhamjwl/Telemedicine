@@ -1,0 +1,91 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { AppConstants } from 'src/app/app-constants';
+import { IAPIResponseWrapper } from '../../interfaces/api-response-wrapper.interface';
+import { IDoctorProfileDetails } from '../../interfaces/doctor-profile-details.inteface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CheckerService {
+
+  constructor(
+	private httpClient: HttpClient
+  ) { }
+
+	/**
+	 * getDoctorList function is used to get doctor list for verification
+	 */
+    getDoctorList(){
+		let payload = {
+			"api":"get List Of Scribe By Doctor",
+			"id":"1",
+			"version":"v1.0",
+			"requesttime":"2020-11-28T05:48:03.125Z",
+			"request":null,
+			"mimeType":"application/json"
+		}
+		// AppConstants.usermanagementModuleURL + AppConstants.appVersion +
+		let url = AppConstants.getDoctorListToVerify;
+			return this.httpClient.post(url, payload)
+			.pipe(
+			map(res => res)
+		);
+	  }
+	  
+	/**
+	 * verifyDoctor fuction is used for API call of verify doctor
+	 * @param data used to store doctor data send for verification
+	 */
+	verifyDoctor(data){
+		// AppConstants.usermanagementModuleURL + AppConstants.appVersion + 
+		let url =AppConstants.verifyDoctor;
+			return this.httpClient.post(url, data)
+			.pipe(
+			map(res => res)
+		);
+	}
+
+	/**
+	 * downloadDoc used for API call of download document
+	 * @param data used to store data required to download document
+	 */
+	downloadDoc(data){
+		let url = AppConstants.doctorRegistrationModuleURL + AppConstants.appVersion + AppConstants.download;
+		return this.httpClient.post(url, data)
+			.pipe(
+			map(res => res)
+		);
+	}
+
+	/**
+	 * getDoctorProfile function is used for API call to get doctor details by used ID
+	 * @param userID Used to store user ID of doctor
+	 */
+	getDoctorProfile(userID) {
+		// AppConstants.usermanagementModuleURL + AppConstants.appVersion +
+		let url = AppConstants.doctorDetails;
+		let payload = {
+			request: {
+				doctorId: userID,
+			}
+		}
+		return this.httpClient.post<IAPIResponseWrapper<IDoctorProfileDetails>>(url, payload).pipe(map(res => res));
+	}
+
+	getDoctorListToDeRegister(){
+		let url = AppConstants.doctorDeRegistrationModuleURL + AppConstants.appVersion + AppConstants.getListOfDoctorTodeRegister;
+		return this.httpClient.post<IAPIResponseWrapper<any>>(url, '').pipe(map(res => res));
+	}
+	
+	deRegisterDoctors(data){
+		let url = AppConstants.doctorDeRegistrationModuleURL + AppConstants.appVersion + AppConstants.listOfDoctorTodeRegister;
+		let payload = {
+			request: data
+		}
+
+		return this.httpClient.post(url, payload).pipe(map(res => res));
+	}
+
+}

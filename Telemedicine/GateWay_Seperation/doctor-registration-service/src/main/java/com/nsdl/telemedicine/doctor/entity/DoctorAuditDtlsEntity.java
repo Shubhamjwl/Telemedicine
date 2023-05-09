@@ -1,0 +1,270 @@
+package com.nsdl.telemedicine.doctor.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+/**
+ * The persistent class for the aud_dr_reg_dtls database table.
+ * 
+ */
+@Entity
+@Table(name="aud_dr_reg_dtls",schema="audit")
+public class DoctorAuditDtlsEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="drd_id_pk", unique=true, nullable=false)
+	private Integer drdIdPk;
+
+	@Column(name="drd_consul_fee")
+	private Integer drdConsulFee;
+
+	@Column(name="drd_dr_name", nullable=false, length=50)
+	private String drdDrName;
+
+	@Column(name="drd_email", length=100)
+	private String drdEmail;
+
+	@Column(name="drd_is_reg_by_ipan", nullable=false, length=1)
+	private String drdIsRegByIpan;
+
+	@Column(name="drd_isverified", nullable=false, length=1)
+	private String drdIsverified;
+
+	@Column(name="drd_mci_number", nullable=false, length=50)
+	private String drdMciNumber;
+
+	@Column(name="drd_mobile_no", nullable=false, length=10)
+	private String drdMobileNo;
+
+	@Column(name="drd_modified_by", length=50)
+	private String drdModifiedBy;
+
+	@Column(name="drd_modified_tmstmp")
+	private Timestamp drdModifiedTmstmp;
+
+	@Column(name="drd_opti_version")
+	private Long drdOptiVersion;
+
+	@Column(name="drd_otp_refid_fk")
+	private Integer drdOtpRefidFk;
+
+	@Column(name="drd_password", nullable=false, length=50)
+	private String drdPassword;
+
+	@Column(name="drd_smc_number", nullable=false, length=50)
+	private String drdSmcNumber;
+
+	@Column(name="drd_specialiazation", nullable=false, length=100)
+	private String drdSpecialiazation;
+
+	@Column(name="drd_user_id", nullable=false, length=50)
+	private String drdUserId;
+
+	@Column(name="drd_verified_lvl1_by", length=50)
+	private String drdVerifiedLvl1By;
+
+	@Column(name="drd_verified_lvl1_tmstmp")
+	private Timestamp drdVerifiedLvl1Tmstmp;
+
+	@Column(name="drd_verified_lvl2_by", length=50)
+	private String drdVerifiedLvl2By;
+
+	@Column(name="drd_verified_lvl2_tmstmp")
+	private Timestamp drdVerifiedLvl2Tmstmp;
+
+	@Column(nullable=false)
+	private Timestamp timestamp;
+
+	@Column(name="user_id", nullable=false, length=2147483647)
+	private String userId;
+
+	public DoctorAuditDtlsEntity() {
+	}
+
+	public Integer getDrdIdPk() {
+		return this.drdIdPk;
+	}
+
+	public void setDrdIdPk(Integer drdIdPk) {
+		this.drdIdPk = drdIdPk;
+	}
+
+	public Integer getDrdConsulFee() {
+		return this.drdConsulFee;
+	}
+
+	public void setDrdConsulFee(Integer drdConsulFee) {
+		this.drdConsulFee = drdConsulFee;
+	}
+
+	public String getDrdDrName() {
+		return this.drdDrName;
+	}
+
+	public void setDrdDrName(String drdDrName) {
+		this.drdDrName = drdDrName;
+	}
+
+	public String getDrdEmail() {
+		return this.drdEmail;
+	}
+
+	public void setDrdEmail(String drdEmail) {
+		this.drdEmail = drdEmail;
+	}
+
+	public String getDrdIsRegByIpan() {
+		return this.drdIsRegByIpan;
+	}
+
+	public void setDrdIsRegByIpan(String drdIsRegByIpan) {
+		this.drdIsRegByIpan = drdIsRegByIpan;
+	}
+
+	public String getDrdIsverified() {
+		return this.drdIsverified;
+	}
+
+	public void setDrdIsverified(String drdIsverified) {
+		this.drdIsverified = drdIsverified;
+	}
+
+	public String getDrdMciNumber() {
+		return this.drdMciNumber;
+	}
+
+	public void setDrdMciNumber(String drdMciNumber) {
+		this.drdMciNumber = drdMciNumber;
+	}
+
+	public String getDrdMobileNo() {
+		return this.drdMobileNo;
+	}
+
+	public void setDrdMobileNo(String drdMobileNo) {
+		this.drdMobileNo = drdMobileNo;
+	}
+
+	public String getDrdModifiedBy() {
+		return this.drdModifiedBy;
+	}
+
+	public void setDrdModifiedBy(String drdModifiedBy) {
+		this.drdModifiedBy = drdModifiedBy;
+	}
+
+	public Timestamp getDrdModifiedTmstmp() {
+		return this.drdModifiedTmstmp;
+	}
+
+	public void setDrdModifiedTmstmp(Timestamp drdModifiedTmstmp) {
+		this.drdModifiedTmstmp = drdModifiedTmstmp;
+	}
+
+	public Long getDrdOptiVersion() {
+		return this.drdOptiVersion;
+	}
+
+	public void setDrdOptiVersion(Long drdOptiVersion) {
+		this.drdOptiVersion = drdOptiVersion;
+	}
+
+	public Integer getDrdOtpRefidFk() {
+		return this.drdOtpRefidFk;
+	}
+
+	public void setDrdOtpRefidFk(Integer drdOtpRefidFk) {
+		this.drdOtpRefidFk = drdOtpRefidFk;
+	}
+
+	public String getDrdPassword() {
+		return this.drdPassword;
+	}
+
+	public void setDrdPassword(String drdPassword) {
+		this.drdPassword = drdPassword;
+	}
+
+	public String getDrdSmcNumber() {
+		return this.drdSmcNumber;
+	}
+
+	public void setDrdSmcNumber(String drdSmcNumber) {
+		this.drdSmcNumber = drdSmcNumber;
+	}
+
+	public String getDrdSpecialiazation() {
+		return this.drdSpecialiazation;
+	}
+
+	public void setDrdSpecialiazation(String drdSpecialiazation) {
+		this.drdSpecialiazation = drdSpecialiazation;
+	}
+
+	public String getDrdUserId() {
+		return this.drdUserId;
+	}
+
+	public void setDrdUserId(String drdUserId) {
+		this.drdUserId = drdUserId;
+	}
+
+	public String getDrdVerifiedLvl1By() {
+		return this.drdVerifiedLvl1By;
+	}
+
+	public void setDrdVerifiedLvl1By(String drdVerifiedLvl1By) {
+		this.drdVerifiedLvl1By = drdVerifiedLvl1By;
+	}
+
+	public Timestamp getDrdVerifiedLvl1Tmstmp() {
+		return this.drdVerifiedLvl1Tmstmp;
+	}
+
+	public void setDrdVerifiedLvl1Tmstmp(Timestamp drdVerifiedLvl1Tmstmp) {
+		this.drdVerifiedLvl1Tmstmp = drdVerifiedLvl1Tmstmp;
+	}
+
+	public String getDrdVerifiedLvl2By() {
+		return this.drdVerifiedLvl2By;
+	}
+
+	public void setDrdVerifiedLvl2By(String drdVerifiedLvl2By) {
+		this.drdVerifiedLvl2By = drdVerifiedLvl2By;
+	}
+
+	public Timestamp getDrdVerifiedLvl2Tmstmp() {
+		return this.drdVerifiedLvl2Tmstmp;
+	}
+
+	public void setDrdVerifiedLvl2Tmstmp(Timestamp drdVerifiedLvl2Tmstmp) {
+		this.drdVerifiedLvl2Tmstmp = drdVerifiedLvl2Tmstmp;
+	}
+
+	public Timestamp getTimestamp() {
+		return this.timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+}

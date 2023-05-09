@@ -1,0 +1,215 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators, FormArray, FormGroupName, ControlContainer } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { PasswordPatternValidator } from 'src/app/shared/commonBuildBlocks/validators/password-pattern.validator';
+
+@Component({
+  selector: 'app-reset-change-password',
+  templateUrl: './reset-change-password.component.html',
+  styleUrls: ['./reset-change-password.component.scss']
+})
+export class ResetChangePasswordComponent implements OnInit {
+
+  form: FormGroup;
+  
+  hideOldPassword:boolean = true;
+  hidePassword:boolean = true;
+  hideReEnterPassword:boolean = true;
+  randomStringForCaptcha;
+  captcha;
+  fromWhere:any;
+  userId:any;
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,    
+    private toastarMessage: ToastMessageService,
+    private router: Router,
+	  public route: ActivatedRoute,
+    private dataPassingService: DataPassingService
+  ) {
+    this.route.queryParams.subscribe((param)=> {
+        if(param && param.fromWhere){
+			this.fromWhere = param.fromWhere;
+			this.userId = this.dataPassingService.userId;
+		}else {
+			this.fromWhere = "change";
+		}
+	});
+
+	if(this.fromWhere == 'forgot' && !this.dataPassingService.userId){
+		this.back();
+	}
+
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    )
+   }
+
+  ngOnInit(): void {
+    this.formValidation();
+    this.generateCaptcha();
+    this.onChanges();
+	if(this.fromWhere == 'change'){
+		this.getOtp();
+	}
+  }
+  onChanges(){
+	  this.form.get('newPassword').valueChanges.pipe(debounceTime(500)).subscribe((value)=>{
+		this.form.get('confirmPassword').updateValueAndValidity();
+	  })
+  }
+
+  randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i)
+      result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
+
+  formValidation() {
+    this.form = this.fb.group({
+      //oldPassword: ['', [Validators.required]],
+	  userId: [''],
+      otp:['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(8),PasswordPatternValidator.strong, Validators.maxLength(25)]],
+      confirmPassword: ['', [Validators.required, this.reEnterPasswordValidator.bind(this)]],
+      captcha : ['', [Validators.required]],
+    })
+	if(this.fromWhere == 'forgot'){
+		this.form.get('userId').setValidators([Validators.required]);
+		this.form.get('userId').patchValue(this.userId);
+	}
+  }
+
+  generateCaptcha() {
+    this.authService.generateCaptcha(this.randomStringForCaptcha)
+      .subscribe((result) => {
+        this.createImageFromBlob(result);
+      },(error) => {
+        // console.log('error', JSON.stringify(error))
+        this.toastarMessage.showErrorMsg(error.message, 'Error');
+      });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.captcha = reader.result;
+      },
+      false
+    );
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  /**
+   * Used to get New CPACHA image from API response
+   */
+  refreshCpacha() {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+    this.form.controls['captcha'].setValue(null);
+    this.generateCaptcha();
+  }
+
+  verifyCaptcha() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    } else {
+      let captcha = this.form.get('captcha').value;
+      this.authService
+        .verifyCaptcha(this.randomStringForCaptcha, captcha)
+        .subscribe((result) => {
+          if (result['status']) {
+            this.updatePassword();
+          } else {
+            if (result['errors']) {
+              this.toastarMessage.showErrorMsg( result['errors'][0].message, 'Error');
+            }
+          }
+        },error => {
+          // console.log('error', error);
+          this.toastarMessage.showErrorMsg(error.errors[0].message, 'Error');
+        });
+    }
+  }
+
+  updatePassword() {
+    if(this.dataPassingService.userId){
+    let {otp, newPassword, confirmPassword, captcha} = this.form.value
+	let id;
+	if(this.fromWhere == 'forgot'){
+		id = this.form.get('userId').value;
+	} else {
+		id = this.dataPassingService.userId;
+	}
+    let payload = {
+      userId: id,
+      otp: otp,
+      newPwd: newPassword,
+      confirmPwd: confirmPassword
+    }
+    this.authService.updatePassword(payload, this.randomStringForCaptcha, captcha).subscribe(result => {
+      if(result.status && result.response){              
+        // this.router.navigate(['']);
+        this.router.navigate(['sign-in']);
+        this.toastarMessage.showSuccessMsg(result.response.message, "Success");
+      }else if(result.errors && result.status == false) {
+        this.refreshCpacha();
+        this.toastarMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      // console.log(error.errors);
+      this.refreshCpacha();
+      this.toastarMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+}
+
+  reset() {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.refreshCpacha();
+  }
+  back(){
+	  // this.router.navigate(['']);
+    this.router.navigate(['sign-in']);
+  }
+  reEnterPasswordValidator(contorl:FormControl){
+      if(!contorl || !contorl.parent){
+        return null;
+	  }
+	  let group = contorl.parent;
+	  let newPass = group.get('newPassword').value;
+	  if(newPass && contorl.value){
+		  if(newPass != contorl.value){
+			  return { passwordMismatch : true};
+		  }
+	  }
+  }
+  getOtp(){
+    let userId = this.dataPassingService.userId ? this.dataPassingService.userId : this.authService.getUserId() ? this.authService.getUserId() : ''; 
+    let fromWhere = "change";
+    this.authService.getUserDetailsAndSendOTP(userId, fromWhere).subscribe((result:any) => {
+      if(result.status && result.response){              
+        this.toastarMessage.showSuccessMsg(result.response.description, "Success");
+      }else if(result.errors && result.status == false) {
+        this.toastarMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      this.toastarMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+}

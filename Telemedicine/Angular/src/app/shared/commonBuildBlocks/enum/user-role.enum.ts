@@ -1,0 +1,9 @@
+export enum UserRole {
+  DOCTOR,
+  SCRIBE,
+  PATIENT,
+  CALLCENTRE,
+  RECEPTIONIST,
+  SYSTEMUSER,
+  ADMIN,
+}

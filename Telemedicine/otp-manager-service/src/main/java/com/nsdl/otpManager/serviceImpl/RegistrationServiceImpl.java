@@ -1,0 +1,205 @@
+package com.nsdl.otpManager.serviceImpl;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.otpManager.Exception.OTPException;
+import com.nsdl.otpManager.Exception.ServiceErrors;
+import com.nsdl.otpManager.constant.AppConstant;
+import com.nsdl.otpManager.enumeration.ErrorConstant;
+import com.nsdl.otpManager.dto.MainRequestDTO;
+import com.nsdl.otpManager.dto.MainResponseDTO;
+import com.nsdl.otpManager.dto.RegistrationRequest;
+import com.nsdl.otpManager.dto.RegistrationResponse;
+import com.nsdl.otpManager.entity.DoctorRegDtlsEntity;
+import com.nsdl.otpManager.repository.DoctorRegRepository;
+import com.nsdl.otpManager.repository.UserRepository;
+import com.nsdl.otpManager.service.RegistrationService;
+import com.nsdl.otpManager.utility.Utility;
+
+
+
+@Service
+@Transactional
+public class RegistrationServiceImpl implements RegistrationService{
+	
+	private static final Logger logger = LoggerFactory.getLogger(RegistrationServiceImpl.class);
+	
+	@Autowired
+	UserRepository userRepo;
+	
+	@Autowired
+	DoctorRegRepository docRegRepo;
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<RegistrationResponse> checkUniqueValue(MainRequestDTO<RegistrationRequest> regRequest) {
+		MainResponseDTO<RegistrationResponse> response = null;
+		RegistrationResponse regResponse = new RegistrationResponse();
+		RegistrationRequest request = regRequest.getRequest();
+	/*	if(Utility.stringIsNullOrEmpty(request.getUserId()) && (Utility.stringIsNullOrEmpty(request.getEmail()) && (Utility.stringIsNullOrEmpty(request.getMobile()) && (Utility.stringIsNullOrEmpty(request.getSmcNo())) && (Utility.stringIsNullOrEmpty(request.getMciNo())))))
+		{
+			logger.info("Invalid Request. Required atleast one parameter, found zero. ");
+			throw new OTPException(new ServiceErrors(ErrorConstant.BAD_PARAMETER.getCode(),ErrorConstant.BAD_PARAMETER.getMessage()));
+		}*/
+		if(isValidRequest(request))
+		{
+			//UserId
+			if(!Utility.stringIsNullOrEmpty(request.getUserId()))
+			{
+				int existUserId=userRepo.getUniqueUserId(request.getUserId().toLowerCase());
+				if(existUserId==0)
+				{
+					logger.info("User Id does not exist");
+					 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+					 regResponse.setMessage(AppConstant.USER_NOT_EXIST);
+					 regResponse.setIsavailable(true);
+					 response.setStatus(true); 	  
+				}
+				else
+				{
+					  logger.info("This User Id is already in use ");
+					  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+					  regResponse.setMessage(AppConstant.USER_EXIST);
+					  regResponse.setIsavailable(false);
+					  response.setStatus(false); 
+				}
+			}
+			
+			//Email
+			else if(!Utility.stringIsNullOrEmpty(request.getEmail()))
+			{
+				int existEmail=userRepo.getUniqueEmail(request.getEmail().toLowerCase());
+				if(existEmail==0)
+				{
+					logger.info("Email ID does not exist");
+					 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+					 regResponse.setMessage(AppConstant.EMAIL_NOT_EXIST);
+					 regResponse.setIsavailable(true);
+					 response.setStatus(true); 	    
+				}
+				else
+				{
+					  logger.info("Email Id is already in use ");
+					  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+					  regResponse.setMessage(AppConstant.EMAIL_EXIST);
+					  regResponse.setIsavailable(false);
+					  response.setStatus(false);  
+				}
+			}
+			
+			//Mobile
+			else if(!Utility.stringIsNullOrEmpty(request.getMobile()))
+					{
+						int existMobileCount=userRepo.getUniqueMobile(request.getMobile());
+						if(existMobileCount==0)
+						{
+							logger.info("Mobile No does not exist");
+							 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							 regResponse.setMessage(AppConstant.MOBILE_NOT_EXIST);
+							 regResponse.setIsavailable(true);
+							 response.setStatus(true); 	
+						}
+						else
+						{
+							  logger.info("Mobile No is already in use ");
+							  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							  regResponse.setMessage(AppConstant.MOBILE_EXIST);
+							  regResponse.setIsavailable(false);
+							  response.setStatus(false);  	 
+						}
+					}
+			
+					//SMC
+					else if(!Utility.stringIsNullOrEmpty(request.getSmcNo()))
+							{
+								int existSmcCount=userRepo.getUniqueSmcNo(request.getSmcNo().toLowerCase());
+								if(existSmcCount==0)
+								{
+									logger.info("SMC No does not exist");
+									 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+									 regResponse.setMessage(AppConstant.SMC_NOT_EXIST);
+									 regResponse.setIsavailable(true);
+									 response.setStatus(true); 	
+								}
+								else
+								{
+									  logger.info("SMC No is already in use ");
+									  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+									  regResponse.setMessage(AppConstant.SMC_EXIST);
+									  regResponse.setIsavailable(false);
+									  response.setStatus(false);  	 
+								}
+							}
+			
+			       //association number
+					else if(!Utility.stringIsNullOrEmpty(request.getAssociationNumber()))
+					{
+						String asociationNumber = docRegRepo.findByDrdAssociationNumber(request.getAssociationNumber()).getDrdAssociationNumber();
+						if(asociationNumber==null)
+						{
+							logger.info("Assciation number does not exist");
+							 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							 regResponse.setMessage(AppConstant.ASSOCIATION_NUMBER_NOT_EXIST);
+							 regResponse.setIsavailable(true);
+							 response.setStatus(true); 	
+						}
+						else
+						{
+							  logger.info("Assciation number is already in use ");
+							  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							  regResponse.setMessage(AppConstant.ASSOCIATION_NUMBER_EXIST);
+							  regResponse.setIsavailable(false);
+							  response.setStatus(false);  	 
+						}
+					}
+			//MCI
+			else if(!Utility.stringIsNullOrEmpty(request.getMciNo()))
+					{
+						int existMciCount=userRepo.getUniqueMciNo(request.getMciNo().toLowerCase());
+						//System.out.println("MCI Count:"+existMciCount);
+						if(existMciCount==0)
+						{
+							logger.info("MCI No does not exist");
+							 response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							 regResponse.setMessage(AppConstant.MCI_NOT_EXIST);
+							 regResponse.setIsavailable(true);
+							 response.setStatus(true); 	
+						}
+						else
+						{
+							  logger.info("MCI No is already in use ");
+							  response =(MainResponseDTO<RegistrationResponse>)Utility.getMainResponseDto(regRequest);
+							  regResponse.setMessage(AppConstant.MCI_EXIST);
+							  regResponse.setIsavailable(false);
+							  response.setStatus(false);  
+						}
+					}
+
+		
+		}
+	
+		response.setResponse(regResponse);
+		return response;
+	}
+
+	private boolean isValidRequest(RegistrationRequest request) {
+		boolean isValid=false;
+		if(Utility.stringIsNullOrEmpty(request.getUserId()) && (Utility.stringIsNullOrEmpty(request.getMobile()) && (Utility.stringIsNullOrEmpty(request.getSmcNo())) && (Utility.stringIsNullOrEmpty(request.getMciNo()))))//condition changed by girishk
+		{//&& (Utility.stringIsNullOrEmpty(request.getEmail())
+			logger.info("Invalid Request body. Required atleast one parameter with name : userId/ email/mobile/smcNo/mciNo.Found zero. ");
+			throw new OTPException(new ServiceErrors(ErrorConstant.INVALID_REQUEST.getCode(),ErrorConstant.INVALID_REQUEST.getMessage()));
+		}
+		else
+		{
+			isValid=true;
+		}
+		return isValid;
+	}
+
+
+
+}

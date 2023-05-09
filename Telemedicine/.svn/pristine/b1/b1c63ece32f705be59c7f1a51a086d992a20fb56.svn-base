@@ -1,0 +1,10 @@
+package com.nsdl.telemedicine.service;
+
+import com.nsdl.telemedicine.dto.DoctorSpeakFlagRequest;
+import com.nsdl.telemedicine.dto.DoctorSpeakFlagResponse;
+
+public interface FeatureCategoryMapService {
+
+	public DoctorSpeakFlagResponse getDoctorSpeakDtlsByDrEmailId(DoctorSpeakFlagRequest featureFlagRequest);
+
+}

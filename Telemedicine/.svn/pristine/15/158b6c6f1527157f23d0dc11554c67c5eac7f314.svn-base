@@ -1,0 +1,186 @@
+#custom-tooltip {
+  display: none;
+  margin-left: 40px;
+  padding: 5px 12px;
+  background-color: #000000df;
+  border-radius: 4px;
+  color: #fff;
+}
+#custom-tooltip1 {
+  display: none;
+  margin-left: 40px;
+  padding: 5px 12px;
+  background-color: #000000df;
+  border-radius: 4px;
+  color: #fff;
+}
+.container {
+  margin-top: 100px;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 47px;
+    height: 23px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 13px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .tooltip.show {
+    opacity: 1;
+  }
+  .tooltip > .tooltip-inner  {
+    background-color: #5d7271 !important;
+    font-weight: 500;
+  }
+
+.fileUpload {
+  background: #94d7ff;
+  list-style-type: none;
+  li {
+      padding: 8px;
+      // display: inline;
+  }
+  .fa {
+      font-size: 20px;
+  }
+  
+}
+
+.input-border {
+  display: block;
+  /* width: 100%; */
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 0px;
+  /* border-radius: 0.25rem; */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.button {
+  width: 107px;
+  height: 35px;
+  color: #fff;
+  background: #e43927;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  font-family: Poppins-Regular, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #e43927;
+  transition: 0.5s;
+  letter-spacing: 0.2px;
+}
+
+.error {
+  color: #f44336;
+}
+
+.yes-no-button {
+  width: 65px;
+  height: 32px;
+  color: #fff;
+  background: #e43927;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  font-family: Poppins-Regular, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #e43927;
+  transition: 0.5s;
+  letter-spacing: 0.2px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  /* width: 80%; Could be more or less, depending on screen size */
+}
+.modal-cntr {
+  width: 115%;
+}
+.modal-head {
+  width: 107%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  /* padding: 1rem 1rem; */
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.input-radio-btn {
+  margin-right: 10px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin-top: 168px;
+  }
+}

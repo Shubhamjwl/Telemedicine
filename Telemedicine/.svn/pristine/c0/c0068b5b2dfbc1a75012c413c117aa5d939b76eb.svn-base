@@ -1,0 +1,13 @@
+<div mat-dialog-title>
+  Notification
+  <a class="close mr-2" (click)="dialogRef.close()"><img _ngcontent-dss-c373="" src="assets/img/close.svg" alt=""></a>
+</div>
+<div mat-dialog-content>
+  {{data.notification}}
+
+  <div
+    *ngIf="data.notificationType===NotificationTypeEnum.PasswordExpiry10Days || data.notificationType===NotificationTypeEnum.PasswordExpiry1Day"
+    class="mt-1">
+    <a class="text-primary" role="button" (click)="onClickChangePass()">Click Here </a>to change your password.
+  </div>
+</div>

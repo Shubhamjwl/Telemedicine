@@ -1,0 +1,79 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.DiscoverRequestDTO;
+import com.nsdl.ndhm.dto.ExceptionJSONInfoDTO;
+import com.nsdl.ndhm.entity.PatientDiscoveryEntity;
+import com.nsdl.ndhm.repository.PatientDiscoveryRepository;
+import com.nsdl.ndhm.service.DiscoveryAndLinkingService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+
+@Service
+public class DiscoveryAndLinkingServiceImpl implements DiscoveryAndLinkingService {
+	private static final Logger logger = LoggerFactory.getLogger(DiscoveryAndLinkingServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	PatientDiscoveryRepository patientDiscoveryRepository;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${discover}")
+	String discover;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+
+	/* gateway method for patient discovery */
+	@Override
+	public Map<String, String> discover(Map<String, String> headers, DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Receives for Discover Starts");
+		String url = discover;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(discoverRequestDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmId(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful()) {
+				PatientDiscoveryEntity patientDiscoveryEntity = PatientDiscoveryEntity.builder()
+						.requestId(discoverRequestDTO.getRequestId()).timestamp(discoverRequestDTO.getTimestamp())
+						.status(false).build();
+
+				patientDiscoveryRepository.save(patientDiscoveryEntity);
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+
+			} else {
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+			}
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.EXPECTATION_FAILED.toString());
+			logger.info("Error in discover {} ", e);
+		}
+		logger.info("Request Receives for Discovery Ends ");
+		return map;
+	}
+}

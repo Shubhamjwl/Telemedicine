@@ -1,0 +1,506 @@
+<!-- <ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner> -->
+<!-- <div class="login-container"> -->
+<!-- ############################################################################################################## -->
+<div
+  *ngIf="!isOTPShow"
+  class="sample main-cntr"
+  style="background-color: white; padding-left: 3%"
+>
+  <!-- <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">Verify ABHA ID</p>
+  </nav> -->
+  <form #autherForm="ngForm" novalidate autocomplete="off">
+    <div class="login-panel" *ngIf="!isOTPShow">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2>Map ABHA ID-Mobile otp<span class="error">*</span></h2>
+        </div>
+      </div>
+      <div
+        class="login-form-box"
+        style="
+          width: 700px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        "
+      >
+        <div class="row mt-3">
+          <div class="col-md-3 lable">
+            <p class="mt-1">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ABHA ID<span
+                class="error"
+                >*</span
+              >
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthId"
+                name="healthidname"
+                class="form-control input"
+                placeholder="Health ID"
+                #healthidname="ngModel"
+                required
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="healthidname.valid || healthidname.untouched"
+            >
+              Enter Valid ABHA ID
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 84px">
+              <div class="col-md-1" style="margin-top: 5%">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="isConsentChecked"
+                  name="consentName"
+                  required
+                />
+              </div>
+              <div class="col-md-10">
+                <p
+                  style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                    width: 110%;
+                  "
+                >
+                  I hearby authorize and provide my consent to share my details
+                  with NHA(ABDM) for verfifying my ABHA ID
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="back()"
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="sendOtp()"
+            [disabled]="!autherForm.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  *ngIf="isOTPShow && !showData"
+  class="sample main-cntr"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">Verify ABHA ID</p>
+  </nav>
+
+  <div>
+    <div class="row">
+      <p
+        style="
+          font-size: 22px;
+          font-family: Poppins-Regular, sans-serif;
+          margin-left: 8%;
+          margin-right: 2%;
+        "
+      >
+        An OTP has been sent to your mobile number - {{ CodedMobileNo }}<br />
+      </p>
+    </div>
+    <form #OTPForm="ngForm" novalidate autocomplete="off" style="width: 100%">
+      <div class="row col-12" style="margin-top: 6%">
+        <div class="col-3">
+          <p
+            class="mt-1"
+            style="
+              font-size: 20px;
+              color: black;
+              font-family: Poppins-Regular, sans-serif;
+              font-weight: 800;
+            "
+          >
+            Enter OTP:
+          </p>
+        </div>
+        <div class="col-3 form-group">
+          <input
+            type="text"
+            style="border-bottom: 1px solid #e43927 !important; width: 100%"
+            [(ngModel)]="otp"
+            class="input-box input"
+            name="otpe"
+            #otpe="ngModel"
+            pattern="{{ PATTERN.OTP }}"
+            maxlength="6"
+            required
+          />
+          <div class="error" [hidden]="otpe.valid || otpe.untouched">
+            {{ ERR.OTP }}
+          </div>
+        </div>
+        <div class="col-1">
+          <label
+            style="
+              background-color: white;
+              text-align: center;
+              border: 2px solid black;
+              padding: 3px;
+            "
+            >00:{{ timeLeft }}</label
+          >
+        </div>
+        <div class="col-3" style="margin-left: 8%">
+          <button
+            class="btn button"
+            (click)="sendOtp()"
+            [disabled]="timeLeft > 0"
+          >
+            RESEND OTP
+          </button>
+        </div>
+      </div>
+      <div class="row col-12">
+        <div class="col-3" style="margin-left: 35%; margin-top: 15%">
+          <button
+            class="btn button"
+            [disabled]="!OTPForm.valid"
+            (click)="submit()"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row form-otp">
+    <div class="col-2 col-lg-3"></div>
+    <div class="col-4 col-lg-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-4 col-lg-3">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="showData"
+  class="sample main-cntr"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">ABHA ID Details</p>
+  </nav>
+
+  <div class="row">
+    <div class="col-4 col-lg-4">
+      <p class="lable input-text" style="margin-top: 13%">
+        Enter ABHA ID<span class="error">*</span>
+      </p>
+    </div>
+    <div class="col-8 col-lg-8">
+      <div class="form-group">
+        <input
+          type="text"
+          [(ngModel)]="healthId"
+          name="healthidname"
+          class="input-box input"
+          placeholder="Health ID"
+          #healthidname="ngModel"
+          style="border-bottom: 1px solid #e43927 !important; width: 90%"
+          required
+        />
+        <div
+          class="error"
+          [hidden]="healthidname.valid || healthidname.untouched"
+        >
+          Enter Valid ABHA ID
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-lg-4">
+      <p class="lable input-text" style="margin-top: 15%">
+        Name<span class="error">*</span>
+      </p>
+    </div>
+    <div class="col-8 col-lg-8">
+      <div class="form-group">
+        <input
+          type="text"
+          [(ngModel)]="namesel"
+          name="name"
+          #name="ngModel"
+          [readonly]="isNameDisabled"
+          required
+          class="input-box input"
+          placeholder="Name"
+          style="width: 90%; border-bottom: 1px solid #e43927 !important"
+        />
+        <div class="error" [hidden]="name.valid || name.untouched">
+          Enter Valid Name
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-lg-4">
+      <p class="lable input-text" style="margin-top: 15%">
+        Date of Birth<span class="error">*</span>
+      </p>
+    </div>
+    <div class="col-8 col-lg-8">
+      <div class="form-group">
+        <input
+          type="date"
+          [(ngModel)]="dateOfBirth"
+          name="dob"
+          #dob="ngModel"
+          required
+          class="input-box input"
+          placeholder="DD/MM/YYYY"
+          style="width: 90%; border-bottom: 1px solid #e43927 !important"
+        />
+        <div class="error" [hidden]="dob.valid || dob.untouched">
+          Enter Valid DOB
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-lg-4">
+      <p class="lable input-text" style="margin-top: 15%">
+        Gender<span class="error">*</span>
+      </p>
+    </div>
+    <div class="col-8 col-lg-8">
+      <div class="form-group">
+        <input
+          type="text"
+          [(ngModel)]="gender"
+          name="genders"
+          #genders="ngModel"
+          required
+          class="input-box input"
+          placeholder="M/F"
+          style="width: 90%; border-bottom: 1px solid #e43927 !important"
+        />
+        <div class="error" [hidden]="genders.valid || genders.untouched">
+          Enter Valid Gender
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4 col-lg-4">
+      <p class="lable input-text" style="margin-top: 15%">
+        Mobile No<span class="error">*</span>
+      </p>
+    </div>
+    <div class="col-8 col-lg-8">
+      <div class="form-group">
+        <input
+          type="text"
+          disabled
+          class="input-box input mr-2 mobile-pre"
+          placeholder="+91"
+          style="float: left; border-bottom: 1px solid #e43927 !important"
+        />
+        <input
+          type="tel"
+          name="mobileNo"
+          #mobileNo="ngModel"
+          [(ngModel)]="mobileNoSel"
+          maxlength="10"
+          [readonly]="isMobileNoDisabled"
+          pattern="{{ PATTERN.MOBILE_NUMBER }}"
+          required
+          class="input-box input mobile-post"
+          placeholder="Mobile Number"
+          style="
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e43927 !important;
+            margin-right: 6%;
+          "
+        />
+        <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+          Enter Valid Mobile no
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row col-12">
+    <div class="col-2"></div>
+    <div class="col-10 form-group" style="width: 299px">
+      <input
+        type="checkbox"
+        [(ngModel)]="isChecked"
+        name="isCheckedV"
+        #isCheckedV="ngModel"
+        required
+        style="margin-top: 20px"
+      />
+      <p
+        style="
+          background-color: white;
+          font-size: 14px;
+          font-family: Poppins-Regular, sans-serif;
+          margin-left: 36px;
+          width: 100%;
+          margin-top: -22px;
+        "
+      >
+        I hereby authorize and provide my consent to share my deals with ADBM
+        for verifying my ABHA ID
+      </p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="hideData">
+    <div class="col-1">
+      <input
+        type="radio"
+        id="verifay_demographic_data"
+        value="verifay_demographic_data"
+        [(ngModel)]="selectanyoption"
+        name=" selectanyoptions"
+        #selectanyoptions="ngModel"
+        required
+      />
+    </div>
+    <div class="col-md-4 lable">
+      <label for="verifay_demographic_data"
+        >verifay with Demographic Data</label
+      >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-2 col-lg-2"></div>
+    <div class="col-3 col-lg-3">
+      <button class="btn button mr-3" (click)="back()">BACK</button>
+    </div>
+    <div class="col-3 col-lg-3" style="margin-left: 13%">
+      <button
+        class="btn button"
+        [disabled]="showPopupButtonFlag"
+        (click)="openPopup()"
+      >
+        CONFIRM
+      </button>
+    </div>
+
+    <div
+      class="modal"
+      tabindex="-1"
+      role="dialog"
+      [ngStyle]="{ display: displayStyle }"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+        style="max-width: 35%; margin-left: 40%"
+      >
+        <div class="modal-content modal-cntr" style="border: 1px solid #e43927">
+          <div class="modal-body" style="width: 84%">
+            <p
+              style="
+                background-color: white;
+                width: 118%;
+                margin-top: 14px;
+                text-align: center;
+                font-size: 21px;
+              "
+            >
+              SUCCESS
+            </p>
+            <p style="text-align: center; margin-left: 21px; font-size: 15px">
+              ABHA ID Number {{ healthIdNumber }} has been linked to your
+              Patient Profile for Protean clinic
+            </p>
+            <button
+              style="
+                width: 77px;
+                height: 30px;
+                color: #fff;
+                background: #e43927;
+                border-radius: 14px;
+                font-size: 15px;
+                text-transform: uppercase;
+                font-family: Poppins-Regular, sans-serif;
+                font-weight: 600;
+                cursor: pointer;
+                border: 2px solid #e43927;
+                transition: 0.5s;
+                letter-spacing: 0.2px;
+                margin-left: 44%;
+              "
+              (click)="closePopup()"
+            >
+              CLOSE
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row form-groupBlogg">
+    <div class="col-2 col-lg-3"></div>
+    <div class="col-4 col-lg-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-4 col-lg-3">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>

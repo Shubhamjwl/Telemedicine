@@ -1,0 +1,14 @@
+package com.nsdl.ndhm.service;
+
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+
+import com.nsdl.ndhm.dto.DiscoverRequestDTO;
+
+public interface DiscoveryAndLinkingService {
+
+	Map<String, String> discover(Map<String, String> headers, DiscoverRequestDTO discoverRequestDTO);
+
+	ResponseEntity<String> discoverDemo(DiscoverRequestDTO discoverRequestDTO);
+}

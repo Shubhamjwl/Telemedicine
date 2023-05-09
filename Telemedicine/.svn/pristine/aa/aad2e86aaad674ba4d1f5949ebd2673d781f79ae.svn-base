@@ -1,0 +1,179 @@
+package com.nsdl.captcha.service.impl;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.captcha.constant.Constants;
+import com.nsdl.captcha.dto.CaptchaResponseDTO;
+import com.nsdl.captcha.dto.MainResponseDTO;
+import com.nsdl.captcha.exception.DataParsingException;
+import com.nsdl.captcha.exception.ServiceError;
+import com.nsdl.captcha.service.CaptchaService;
+import com.nsdl.captcha.utility.DateUtils;
+
+@Service
+public class CaptchaServiceImpl implements CaptchaService {
+
+	private static final Logger logger = LoggerFactory.getLogger(CaptchaServiceImpl.class);
+
+	@Value("${captcha.expiry.time}")
+	String captchaExpiryLimit;
+
+	@Value("${verifyCaptchaByPass.flag}")
+	String verifyCaptchaByPassFlag;
+
+	Random random = new Random();
+
+	Map<String, Integer> sessionMap = new HashMap<String, Integer>();
+	Map<Integer, LocalDateTime> timerMap = new HashMap<Integer, LocalDateTime>();
+	private static final String[] OPERATIONS = { "+", "-", "&times;" };
+
+	@Override
+	public byte[] generateCaptcha(String sessionId) {
+		CaptchaServiceImpl captcha = new CaptchaServiceImpl();
+		Map<String, Object> captchaMap = captcha.captchaCalculation(sessionId);
+		int width = 100;
+		int height = 30;
+		Color bg = new Color(224,224,224);
+		Color fg = new Color(8,8,8);
+		Font font = new Font("SERIF", Font.ITALIC, 20);
+		BufferedImage cpimg = new BufferedImage(width, height, BufferedImage.OPAQUE);
+		Graphics g = cpimg.createGraphics();
+		g.setFont(font);
+		g.setColor(bg);
+		g.fillRect(0, 0, width, height);
+		g.setColor(fg);
+		g.drawString(String.valueOf(captchaMap.get("captchaString")), 20, 20);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(cpimg, "png", baos);
+			baos.flush();
+		} catch (IOException e) {
+			logger.error("Exception while generating Captcha : " + e.getMessage());
+			e.printStackTrace();
+		}
+		byte[] imageInByte = baos.toByteArray();
+		try {
+			baos.close();
+		} catch (IOException e) {
+			logger.error("Exception while generating Captcha : " + e.getMessage());
+			e.printStackTrace();
+		}
+		if (sessionMap.containsKey(sessionId)) {
+			sessionMap.replace(sessionId, (Integer) captchaMap.get("result"));
+		} else {
+			sessionMap.put(sessionId, (Integer) captchaMap.get("result"));
+		}
+		timerMap.put((Integer) captchaMap.get("result"), DateUtils.getCurrentLocalDateTime());
+		logger.info("Catpcha generation : Success");
+		return imageInByte;
+
+	}
+
+	@Override
+	public MainResponseDTO<CaptchaResponseDTO> verifyCaptcha(String sessionId, String captchaValue, String flagValue) {
+		LocalDateTime verifyCaptchaTime = DateUtils.getCurrentLocalDateTime();
+		MainResponseDTO<CaptchaResponseDTO> mainResponse = null;
+		CaptchaResponseDTO captchaResponse = null;
+
+		// Added code for performance testing:start
+		if (verifyCaptchaByPassFlag.equals("Y")) {
+			mainResponse = new MainResponseDTO<CaptchaResponseDTO>();
+			captchaResponse = new CaptchaResponseDTO();
+			captchaResponse.setResponseMsg(Constants.VERIFY_CAPTCHA_SUCCESS.getMessage());
+			mainResponse.setId("captcha");
+			mainResponse.setVersion("v1");
+			mainResponse.setResponsetime(DateUtils.getCurrentLocalDateTime());
+			mainResponse.setStatus(true);
+			mainResponse.setResponse(captchaResponse);
+			mainResponse.setStatusCode("200");
+			if (flagValue.equalsIgnoreCase("true")) {
+				sessionMap.remove(sessionId);
+				timerMap.remove(Integer.valueOf(captchaValue));
+			}
+			logger.info("Catpcha Verification Bypass: Success");
+		}
+		// Added code for performance testing:end
+		else {
+			if (sessionMap.containsKey(sessionId)) {
+				int verifyCaptcha = sessionMap.get(sessionId);
+				if (captchaValue.equals(String.valueOf(verifyCaptcha))) {
+					if (DateUtils.timeDifferenceInSeconds(timerMap.get(Integer.valueOf(captchaValue)),
+							verifyCaptchaTime) <= (Integer.parseInt(captchaExpiryLimit))) {
+						mainResponse = new MainResponseDTO<CaptchaResponseDTO>();
+						captchaResponse = new CaptchaResponseDTO();
+						captchaResponse.setResponseMsg(Constants.VERIFY_CAPTCHA_SUCCESS.getMessage());
+						mainResponse.setId("captcha");
+						mainResponse.setVersion("v1");
+						mainResponse.setResponsetime(DateUtils.getCurrentLocalDateTime());
+						mainResponse.setStatus(true);
+						mainResponse.setResponse(captchaResponse);
+						mainResponse.setStatusCode("200");
+						if (flagValue.equalsIgnoreCase("true")) {
+							sessionMap.remove(sessionId);
+							timerMap.remove(Integer.valueOf(captchaValue));
+						}
+						logger.info("Catpcha Verification : Success");
+					} else {
+						logger.error("Catpcha Expired");
+						throw new DataParsingException(new ServiceError(Constants.CAPTCHA_EXPIRED.getCode(),
+								Constants.CAPTCHA_EXPIRED.getMessage()));
+					}
+				} else {
+					logger.error("Catpcha Verification : Failed");
+					throw new DataParsingException(new ServiceError(Constants.VERIFY_CAPTCHA_FAILED.getCode(),
+							Constants.VERIFY_CAPTCHA_FAILED.getMessage()));
+				}
+			} else {
+				logger.error("Catpcha Session Id not Found");
+				throw new DataParsingException(new ServiceError(Constants.SESSION_NOT_FOUND.getCode(),
+						Constants.SESSION_NOT_FOUND.getMessage()));
+			}
+		}
+
+		return mainResponse;
+	}
+
+	private Map<String, Object> captchaCalculation(String sessionId) {
+		logger.info("Inside captchaCalculation() method");
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		int first, second, third, op;
+		String operand = null;
+		op = random.nextInt(OPERATIONS.length);
+		logger.info("Calculating captcha");
+		switch (op) {
+		case 1: // subtraction
+			first = random.nextInt(100);
+			second = random.nextInt(10);
+			third = first - second;
+			operand = "-";
+			break;
+		default: // addition
+			first = random.nextInt(100);
+			second = random.nextInt(10);
+			third = first + second;
+			operand = "+";
+			break;
+		}
+		String captchaString = (first + operand + second + "=");
+		responseMap.put("captchaString", captchaString);
+		responseMap.put("result", third);
+		logger.info("captchaCalculation() method excecution completed");
+		return responseMap;
+	}
+}

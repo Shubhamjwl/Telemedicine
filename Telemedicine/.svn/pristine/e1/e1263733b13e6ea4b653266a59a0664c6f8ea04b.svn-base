@@ -1,0 +1,19 @@
+spring.application.name=consultation-manager-service
+server.port=7078
+server.servlet.context-path=/consultation
+consultation.manager.service.version=v1.0
+consultation.manager.service.id=consultation
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888/config
+spring.cloud.config.label=1.0.1
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+
+consultation.manager.diagnosis.response.msg=Diagnosis details saved successfully
+consultation.manager.chief.complain.response.msg=chief complaint details saved successfully
+consultation.manager.investigation.response.msg=Investigation details saved successfully
+consultation.manager.verifyPrescription.response.msg=Prescription has been verified sucessfully
+consultation.manager.advice.response.msg=Consultation Advice details saved successfully
+consultation.manager.savePrescription.response.msg=Prescription saved successfully and send for verification
+consultation.manager.savePatient.report.response.msg=Patient Report saved sucessfully
+consultation.manager.service.prescription.email=http://172.30.151.100:7076/OTPManager/sendNotification

@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ResetChangePasswordComponent } from './change-password/reset-change-password/reset-change-password.component';
+
+const routes: Routes = [
+  {
+      path: 'change-password',
+      loadChildren: () => import('./change-password/change-password.module').then(m => m.ChangePasswordModule)
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class UserManagementRoutingModule { }

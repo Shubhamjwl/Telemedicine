@@ -1,0 +1,17 @@
+package com.nsdl.telemedicine.service;
+
+
+import com.nsdl.telemedicine.dto.MarketPlaceDetailsDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDtlsResponseDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsResponse;
+
+public interface MarketPlaceService {
+
+	public MarketPlaceDtlsResponseDTO saveMarketPlaceDetailsUrl(MarketPlaceDetailsDTO marketPlaceDtls);	
+	public OrderDetailsResponse saveOrderPlaceDetails(OrderDetailsDTO orderPlaceDtls);
+
+	
+	
+
+}

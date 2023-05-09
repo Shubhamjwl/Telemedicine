@@ -1,0 +1,187 @@
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { CheckerService } from 'src/app/shared/commonBuildBlocks/services/checkerServices/checker.service';
+import { DocumentService } from 'src/app/shared/commonBuildBlocks/services/documentServices/document.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+
+@Component({
+  selector: 'app-canceled-appointment',
+  templateUrl: './canceled-appointment.component.html',
+  styleUrls: ['./canceled-appointment.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class CanceledAppointmentComponent implements OnInit {
+  displayedColumns = [];
+	dataSource = new MatTableDataSource<any>();
+	@ViewChild(MatSort) sort: MatSort;
+    searchFormDate:FormGroup
+	searchForm: FormGroup;
+	isValid = false;
+	startDate:Date = new Date();
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+
+	constructor(
+		public fb: FormBuilder,
+        private appointmentService: AppointmentService,
+		public patientService: PatientService,
+		public authService: AuthService,
+		public datePipe : DatePipe,
+		public checkerService: CheckerService,
+		public documentService: DocumentService,
+		public toastMessage: ToastMessageService
+	) { 
+		this.createForm();
+		if(this.authService.isUserDoctor() || this.authService.isUserScribe()){
+			this.displayedColumns = ['appointmentId','date','time'];
+		} else {
+			this.displayedColumns = ['appointmentId','date','time'];
+		}
+	}
+
+	ngOnInit(): void {
+		this.search();
+		this.onChnages();
+		this.dataSource.filterPredicate = (data:any, filter: string) => {
+			return data.appointmentId == filter;
+		};
+	}
+	ngAfterViewInit() {
+		this.dataSource.paginator = this.paginator;
+	}
+	onChnages(){
+		this.searchForm.get('fromDate').valueChanges.subscribe((value)=>{
+			 this.searchForm.get('toDate').markAsTouched();
+			 this.searchForm.get('toDate').updateValueAndValidity();
+		})
+	}
+
+	createForm(){
+		this.searchForm = this.fb.group({
+			apptId:[],
+			name: [],
+			fromDate:[],
+			toDate:['', this.validatorforToDate.bind(this)]
+		});
+
+		// this.searchFormDate = this.fb.group({
+		// 	fromDate:[],
+		// 	toDate:['', this.validatorforToDate.bind(this)]
+		// });
+
+		// this.searchForm.valueChanges.subscribe((value) => {
+		// 	let { apptId } = this.searchForm.controls;
+		// 	if (
+		// 		apptId.value &&
+		// 		apptId.valid 
+			 
+		// 	) {
+		// 	  this.isValid = true;
+		// 	  this.searchFormDate.reset();
+		// 	  this.searchFormDate.disable({ emitEvent: false });
+		// 	} else {
+		// 	  this.isValid = false;
+		// 	  this.searchFormDate.enable({ emitEvent: false });
+		// 	}
+		//   });
+
+		//   this.searchFormDate.valueChanges.subscribe((value) => {
+		// 	let { fromDate,toDate } = this.searchFormDate.controls;
+		// 	if (
+		// 		fromDate.value &&
+		// 		fromDate.valid &&
+		// 		toDate.value &&
+		// 		toDate.valid
+			 
+		// 	) {
+		// 	  this.isValid = true;
+		// 	  this.searchForm.reset();
+		// 	  this.searchForm.disable({ emitEvent: false });
+		// 	} else {
+		// 	  this.isValid = false;
+		// 	  this.searchForm.enable({ emitEvent: false });
+		// 	}
+		//   });
+	}
+	search(){
+        this.dataSource.data = [];
+
+		this.patientService.getCancelAppointListDocorPatient().subscribe((resp:any)=> {
+      console.log("canceled appt");
+			if(resp && resp.response && resp.status) {
+				 this.dataSource.data = resp.response;
+				 setTimeout(() => {
+					this.dataSource.paginator = this.paginator;
+				  }, 500)
+				
+			   }else if(resp && resp.errors && !resp.status) {
+				 this.toastMessage.showErrorMsg( resp.errors[0].message, 'Error');
+			   }
+			 },error => {
+			   this.toastMessage.showErrorMsg( error.errors[0].message, 'Error');
+		})
+	}
+
+
+	searchByFilter(){
+        if(!this.searchForm.valid){
+			return;
+		}
+		let data = this.searchForm.getRawValue();
+
+		let payload:any = {
+			appointmentId : data.apptId,
+			fromDate : this.datePipe.transform(data.fromDate,"yyyy-MM-dd"),
+			toDate : this.datePipe.transform(data.toDate,"yyyy-MM-dd")
+		}
+		this.dataSource.data = [];
+
+		this.patientService.getCancelAppointListByFilter(payload).subscribe((resp:any)=> {
+      console.log("canceled appt");
+			if(resp && resp.response && resp.status) {
+				 this.dataSource.data = resp.response;
+				 setTimeout(() => {
+					this.dataSource.paginator = this.paginator;
+				  }, 500)
+				
+			   }else if(resp.errors) {
+				 this.toastMessage.showErrorMsg( resp.errors[0].message, 'Error');
+			   }
+			 },error => {
+			   this.toastMessage.showErrorMsg( "No cancel appointments found", 'Error');
+		})
+	}
+	clear(){
+		this.searchForm.reset();
+		//this.searchFormDate.reset();
+		this.search();
+	}
+
+	validatorforToDate(control: FormControl){
+		if(!control) return;
+
+		if(!control.parent) return;
+
+		let group = control.parent;
+		let fromDate = group.get('fromDate').value;
+
+		if(!control.value && fromDate){
+			return { required : true };
+		} else {
+			if(fromDate){
+				let fd = new Date(this.datePipe.transform(fromDate,"yyyy-MM-dd")).getTime();
+				let td = new Date(this.datePipe.transform(control.value,"yyyy-MM-dd")).getTime();
+				 if(fd > td){
+						return { max : true};
+				 }
+			}
+		}
+		return null;
+	}
+}

@@ -1,0 +1,270 @@
+<app-breadcrumb></app-breadcrumb>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="dashboard-wrapper container">
+  <div class="doctor-details-wrapper mt-4">
+    <h1>Configuration</h1>
+  </div>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="card borderRadius10 mt-3">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Select State</mat-label>
+                    <mat-select formControlName="state">
+                      <mat-option *ngFor="let state of states" [value]="state.stateName">{{ state.stateName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('state').errors && (form.get('state').touched || form.get('state').dirty)">
+                      <span *ngIf="form.get('state').errors.required">{{"errStateRequired" | l10n}}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Select City</mat-label>
+                    <mat-select formControlName="city">
+                      <mat-option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('city').errors &&(form.get('city').touched || form.get('city').dirty)">
+                      <span *ngIf="form.get('city').errors.required">{{"errCityRequired" | l10n}}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Select Specialization</mat-label>
+                    <mat-select formControlName="speciality">
+                      <mat-option *ngFor="let sp of specializationList" [value]="sp.masterValue">{{sp.masterValue}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('speciality').errors &&(form.get('speciality').touched ||  form.get('speciality').dirty)">
+                      <span *ngIf="form.get('speciality').errors.required">{{"errSpecilasationRequired" | l10n}}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Select Association Name</mat-label>
+                    <mat-select formControlName="associationName">
+                      <mat-option *ngFor="let association of associationList" [value]="association.associationName">
+                        {{association.associationName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('associationName').errors &&(form.get('associationName').touched ||  form.get('associationName').dirty)">
+                      <span *ngIf="form.get('associationName').errors.required"> Association Name is required</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Set Date Criteria</mat-label>
+                    <mat-select formControlName="setDateCriteria">
+                      <mat-option value="register">Registered between </mat-option>
+                      <mat-option value="loggedin">Logged in between</mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('setDateCriteria').errors &&(form.get('setDateCriteria').touched ||  form.get('setDateCriteria').dirty)">
+                      <span *ngIf="form.get('setDateCriteria').errors.required">Set Date Criteria is required</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>From Date</mat-label>
+                    <input matInput [matDatepicker]="datePicker" [max]="startDate" formControlName="fromDate" readonly
+                    [disabled]='disableTextbox'>
+                    <mat-datepicker-toggle matSuffix [for]="datePicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>To Date</mat-label>
+                    <input matInput [matDatepicker]="picker" [max]="startDate" formControlName="toDate" readonly
+                    [disabled]='disableTextbox' >
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error
+                      *ngIf="form.get('toDate').errors && (form.get('toDate').touched || form.get('toDate').dirty)">
+                      <span *ngIf="form.get('toDate').errors.required">Please select to date</span>
+                      <span *ngIf="form.get('toDate').errors.max">To date should be greater than fromdate</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>Select Features Category</mat-label>
+                    <mat-select formControlName="categoryName" multiple >
+                      <mat-option *ngFor="let category of categoryNameList" [value]="category.categoryName">
+                        {{category.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                    <!-- <mat-error
+                      *ngIf="form.get('categoryName').errors &&(form.get('categoryName').touched ||  form.get('categoryName').dirty)">
+                      <span *ngIf="form.get('categoryName').errors.required">Category Name is required</span>
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-center">
+              <button class="btn btn-danger mr-3" (click)="clear()">Clear</button>
+              <button class="btn btn-danger" (click)="doctorLinkList()">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-5 mb-5">
+    <div class=" example-container mat-elevation-z8" *ngIf="historyData.data.length">
+      <table mat-table [dataSource]="historyData">
+        <ng-container matColumnDef="doctorName" class="col-padding">
+          <th mat-header-cell *matHeaderCellDef >Doctor Name</th>
+          <td mat-cell *matCellDef="let element">{{element.drFullName}}</td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef> Select </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox></mat-checkbox>
+          </td>
+        </ng-container>  -->
+
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef class="col-padding"> City </th>
+          <td mat-cell *matCellDef="let element" class="col-padding">{{element.city}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="associationName">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding"> Association <br>Name </th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">{{element.associateName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="registeredOn">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding">Registered <br> On </th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">{{element.registerOn | date: 'dd/MM/yyyy hh:mm a'}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="createLinkABHA">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding">Create/Link ABHA</th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">
+            <mat-checkbox (change)="valueChange($event, element, FeaturesCategoryEnum.CREATE_LINK_ABHA)"
+              [checked]="getFeatureSelection(element,FeaturesCategoryEnum.CREATE_LINK_ABHA)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- (change)='onFeatureSelect($event, element, FeaturesCategoryEnum.CREATE_LINK_ABHA)'  -->
+
+        <ng-container matColumnDef="doctorWebsiteLink">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding">Doctor Website Link</th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.DOCTOR_WEBSITE_LINK)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.DOCTOR_WEBSITE_LINK)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- (change)='onFeatureSelect($event, element, FeaturesCategoryEnum.DOCTOR_WEBSITE_LINK)' -->
+
+        <ng-container matColumnDef="doctorSpeakLink">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding">Doctor Speak</th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.DOCTOR_SPEAK)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.DOCTOR_SPEAK)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- (change)='onFeatureSelect($event, element, FeaturesCategoryEnum.DOCTOR_SPEAK)' -->
+
+        <ng-container matColumnDef="appointmentBookLink">
+          <th mat-header-cell *matHeaderCellDef  class="col-padding">Appointment Book <br>Link</th>
+          <td mat-cell *matCellDef="let element"  class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.APPOINTMENT_BOOK_LINK)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.APPOINTMENT_BOOK_LINK)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- (change)='onFeatureSelect($event, element, FeaturesCategoryEnum.APPOINTMENT_BOOK_LINK)' -->
+
+        <ng-container matColumnDef="preAssessmentLink">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Pre-Assessment <br>Link</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.PRE_ASSESSMENT_LINK)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.PRE_ASSESSMENT_LINK)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- (change)='onFeatureSelect($event, element, FeaturesCategoryEnum.PRE_ASSESSMENT_LINK)' -->
+       
+        <ng-container matColumnDef="routineDiagnosticServices">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Routine Diagnostic <br>Services</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.ROUTINE_DIAGNOSTIC_SERVICES)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.ROUTINE_DIAGNOSTIC_SERVICES)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+         
+        <ng-container matColumnDef="specialist">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Specialist</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.SPECIALIST)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.SPECIALIST)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="specializedServices">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Specialized Services</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            <mat-checkbox (change)='valueChange($event, element, FeaturesCategoryEnum.SPEIALIZED_SERVICES)'
+            [checked]="getFeatureSelection(element,FeaturesCategoryEnum.SPEIALIZED_SERVICES)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]">
+      </mat-paginator>
+
+      <div class="row" *ngIf="!(historyData && historyData.data.length >0)">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3" style="padding: 0 50px 0 90px;">
+          <p class="p-5 bg-white text-center">No Data Found!</p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col text-center">
+          <button class="btn btn-danger" (click)='onFeatureSelect()'>Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

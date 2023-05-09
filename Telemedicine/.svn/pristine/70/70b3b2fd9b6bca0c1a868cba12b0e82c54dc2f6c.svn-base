@@ -1,0 +1,12 @@
+export interface IAPIRequestWrapper<T> {
+  version: string;
+  id: string;
+  requesttime: string;
+  request: IRequestDetails<T>;
+}
+
+export interface IRequestDetails<T> {
+  appointID: string;
+  tabID: string;
+  data: T;
+}

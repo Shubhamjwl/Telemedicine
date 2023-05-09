@@ -1,0 +1,28 @@
+package com.nsdl.telemedicine.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "dr_reg_dtls", schema = "registration")
+public class DoctorRegDetailsEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "drd_id_pk")
+	private Integer drdIdPk;
+
+	@Column(name = "drd_dr_name")
+	private String drdDrName;
+
+	@Column(name = "drd_email")
+	private String drdEmail;
+
+}

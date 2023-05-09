@@ -1,0 +1,691 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar headerBackgroundColor">
+    <div class="header-panel" >
+        <div class="header-left header-left2" >
+           <img src="assets/img/protean-clinic-logo.png" alt="">
+        </div>
+         <div class="header-right">
+           <div class="welcome-user">
+              <div class="User-area">
+                 <div class="User-avtar">
+                 </div>
+                 <div class="User-Dropdown">
+                    <div class="User-Dropdown-inside">
+                       <div class="profile-img">
+                          <div class="User-avtar">
+                             <img matTooltip="Info about the action" aria-label="Button that displays a tooltip when focused or hovered over"src="assets/img/user-img.png" alt="">
+                          </div>
+                          <!-- <button mat-raised-button
+        matTooltip="Info about the action"
+        aria-label="Button that displays a tooltip when focused or hovered over">
+  Action
+</button> -->
+                       </div>
+                       <div class="doc-name">Ravindra Sharma</div>
+                       <div class="doc-email"><a href="mailto:ravindra.sharma@gmail.com">ravindra.sharma@gmail.com</a></div>
+                       <form>
+                          <div class="input-group half-col">
+                             <a class="reg-patient">Register Patient</a>
+                             <a class="chng-pass">Change Password</a>
+                             <button type="submit" class="submit-main-btn">Logout</button>
+                          </div>
+                       </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="notify-area"><img src="assets/img/notification.svg" alt=""><span class="not-count">3</span></div>
+        </div>
+        <div class="header-left">
+           <img src="assets/img/logos.png" alt="">
+        </div>
+       
+     </div>
+</nav>
+
+<ng-template #login>
+    <div class="custom-popover">
+        <div class="popover-wrap">
+            <div>
+                <ng-container *ngIf="userRole === 'DOCTOR'">
+                    <div class="logoutOption disableC">
+                        <!-- General Physician, MBBS | Family Specialist -->
+                        <span *ngIf="userLoggedIn==true">{{profileDetails?.specialization ?
+                            profileDetails.specialization : '-'}}</span>
+                    </div>
+                    <hr class="hrAlign">
+                </ng-container>
+                <div class="logoutOption disableC">
+                    <!-- +91 8332999907 -->
+                    <span *ngIf="userLoggedIn==true">Mobile No : {{profileDetails?.mobileNo ? profileDetails.mobileNo :
+                        '-'}}</span>
+                </div>
+                <hr class="hrAlign">
+                <div class="logoutOption disableC">
+                    <!-- abc@gmail.com -->
+                    <span *ngIf="userLoggedIn==true">Email Id : {{profileDetails?.emailId ? profileDetails.emailId :
+                        '-'}}</span>
+                </div>
+                <ng-container *ngIf="userRole === 'PATIENT'">
+                    <div class="logoutOption disableC">
+                        <span *ngIf="userLoggedIn==true">Health Id Number : {{profileDetails?.healthNumber ? profileDetails.healthNumber :
+                            '-'}}</span>
+                    </div> 
+                </ng-container>
+                <ng-container *ngIf="userRole === 'DOCTOR'">
+                    <hr class="hrAlign">
+                    <div class="logoutOption disableC">
+                        <!-- SMC123 |MCI123 -->
+                        <span class="d-block" *ngIf="userLoggedIn==true">SMC Number : {{profileDetails?.smcNo ?
+                            profileDetails.smcNo : '-'}} </span>
+                        <span class="d-block" *ngIf="userLoggedIn==true"> MCI Number : {{profileDetails.mciNo ?
+                            profileDetails.mciNo : '-'}}</span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <ng-container>
+                <div class="mt-3 clearfix">
+                    <button type="button" *ngIf="userRole === 'DOCTOR'"
+                        class="btn docDetailsbtn editBtn float-left mr-2" (click)="editProfile()"> Edit Profile
+                    </button>
+                    <button type="button" *ngIf="userRole === 'DOCTOR'" class="btn docDetailsbtn presBtn float-right"
+                        (click)="onClickPrescription()"> Prescription Templates </button>
+                    <button type="button" *ngIf="userRole === 'PATIENT' || userRole === 'SCRIBE'"
+                        class="btn docDetailsbtn editBtn float-left mr-2  w-100" (click)="editProfile()"> Edit Profile
+                    </button>
+                    <button type="button"
+                        *ngIf="userRole === 'SYSTEMUSER' || userRole === 'RECEPTIONIST' || userRole === 'CALLCENTRE'"
+                        class="btn docDetailsbtn editBtn float-left mr-2 w-100" (click)="editProfile()"> View Profile
+                    </button>
+                </div>
+                <div *ngIf="userRole === 'DOCTOR'">
+                    <div class="textClr mt-2">
+                        <span>Scribe</span>
+                        <span class="float-right" (click)="onClickAddScribe()">+ Add New</span>
+                    </div>
+                    <hr class="hrAlign">
+                    <div class="textClr mt-2">
+                        <ng-container *ngIf="scribeList && scribeList.length">
+                            <div class="mb-1" *ngFor="let scribe of scribeList">
+                                <!-- Rahul Verma 9021733444 -->
+                                <span>{{scribe.scrbFullName ? scribe.scrbFullName : '-'}} | Mob No:
+                                    {{scribe.scrbMobileNo ? scribe.scrbMobileNo : '-'}}</span>
+                                <span class="float-right">
+                                    <i *ngIf="scribe.isDefaultScribe == 'N'" class="fa fa-trash float-right"
+                                        aria-hidden="true" (click)="changeStatus($event,scribe, 'N')"></i>
+                                </span>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="scribeList && !scribeList.length">
+                            <div class="mb-1">
+                                <span>No Scribe Found</span>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+<!-- <ng-template #login>
+    <div class="text-center logoutOption">
+        <a *ngIf="userLoggedIn==true" href="javascript:;" (click) = "onClickLogout()">
+            Logout
+        </a>
+    </div>
+    <div class="text-center logoutOption"> 
+        <a *ngIf="userLoggedIn==true" href="javascript:;" class="mt-2" (click) = "editProfile()">
+            Update Profile
+        </a>
+    </div>
+</ng-template> -->
+<!-- <div class="header">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row headerItems">
+            
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 logo">
+                
+                <img src="assets/images/medicine.jpeg" class="rounded mx-auto d-block" alt="Logo">
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center options">
+                <div>Home</div>
+                <div>About Us</div>
+                <div>Programs</div>
+            </div>
+
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 user">
+                <div *ngIf="enableChecker=='Yes'" class="text-truncate float-right userName">
+                    {{ checker }}
+                </div>
+                <div *ngIf="enableChecker=='Yes'" class="float-right userImage">
+                    <img src="assets/images/img_avatar.png" alt="User-Photo" height="55px" width="55px" class="rounded-circle">
+                </div>
+            </div>
+            
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center btnsDeRegisterContactUs">
+                <button *ngIf="enableChecker=='Yes'" type="button" class="btn btn-outline-default DeRegisterBtn">
+                    De-Register
+                </button>
+                <button type="button" class="btn btn-success ContactUsBtn">
+                    Contact Us
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+<div class="sidebar sidebarBackgroundColor" [style.width]="widthToggle ? '260px' : '56px'">
+    <mat-sidenav
+    mode="side"
+    opened
+    class="mat-elevation-z8"
+    mode="side"
+    height
+    opened
+  >
+    <mat-accordion>
+      <mat-panel-title>
+        <button
+          mat-button
+          class="menu-button"
+          (click)="widthToggle = !widthToggle"
+        >
+          <mat-icon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12.121"
+              height="21.414"
+              viewBox="0 0 12.121 21.414"
+              [class.rotate]="!widthToggle"
+            >
+              <path
+                id="back_arrow"
+                data-name="back arrow"
+                d="M0,10,10,0,20,10"
+                transform="translate(1.414 20.707) rotate(-90)"
+                fill="none"
+                stroke="#000"
+                stroke-width="2"
+              />
+            </svg>
+          </mat-icon>
+          <span></span>
+        </button>
+      </mat-panel-title>
+      <mat-panel-title>
+        <button mat-button class="menu-button">
+          <mat-icon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <g id="dashboard" transform="translate(-2 -2)">
+                <g
+                  id="Group_25"
+                  data-name="Group 25"
+                  transform="translate(15.386 12.585)"
+                >
+                  <path
+                    id="Path_29"
+                    data-name="Path 29"
+                    d="M25.6,27.729H19.016A2.059,2.059,0,0,1,17,25.634V17.1A2.059,2.059,0,0,1,19.016,15H25.6a2.059,2.059,0,0,1,2.016,2.1v8.539A2.059,2.059,0,0,1,25.6,27.729ZM19.016,16.7a.391.391,0,0,0-.383.4v8.539a.391.391,0,0,0,.383.4H25.6a.391.391,0,0,0,.383-.4V17.1a.391.391,0,0,0-.383-.4Z"
+                    transform="translate(-17 -14.314)"
+                    fill="#e43927"
+                  />
+                </g>
+                <g
+                  id="Group_26"
+                  data-name="Group 26"
+                  transform="translate(15.386 2)"
+                >
+                  <path
+                    id="Path_30"
+                    data-name="Path 30"
+                    d="M25.6,10.994H19.016A2.02,2.02,0,0,1,17,8.976V4.019A2.02,2.02,0,0,1,19.016,2H25.6a2.02,2.02,0,0,1,2.016,2.019V8.976A2.02,2.02,0,0,1,25.6,10.994ZM19.016,3.635a.383.383,0,0,0-.383.383V8.976a.383.383,0,0,0,.383.383H25.6a.383.383,0,0,0,.383-.383V4.019a.383.383,0,0,0-.383-.383Z"
+                    transform="translate(-17 -2)"
+                    fill="#e43927"
+                  />
+                </g>
+                <g
+                  id="Group_27"
+                  data-name="Group 27"
+                  transform="translate(2 2)"
+                >
+                  <path
+                    id="Path_31"
+                    data-name="Path 31"
+                    d="M11.418,14.309H4.208A2.126,2.126,0,0,1,2,12.283V4.026A2.126,2.126,0,0,1,4.208,2h7.21a2.126,2.126,0,0,1,2.208,2.026v8.257A2.126,2.126,0,0,1,11.418,14.309ZM4.208,3.641a.4.4,0,0,0-.419.385v8.257a.4.4,0,0,0,.419.385h7.21a.4.4,0,0,0,.419-.385V4.026a.4.4,0,0,0-.419-.385Z"
+                    transform="translate(-2 -2)"
+                    fill="#e43927"
+                  />
+                </g>
+                <g
+                  id="Group_28"
+                  data-name="Group 28"
+                  transform="translate(2 16.162)"
+                >
+                  <path
+                    id="Path_32"
+                    data-name="Path 32"
+                    d="M11.418,28.838H4.208A2.211,2.211,0,0,1,2,26.63V21.208A2.211,2.211,0,0,1,4.208,19h7.21a2.211,2.211,0,0,1,2.208,2.208V26.63A2.211,2.211,0,0,1,11.418,28.838Zm-7.21-8.049a.419.419,0,0,0-.419.419V26.63a.419.419,0,0,0,.419.419h7.21a.419.419,0,0,0,.419-.419V21.208a.419.419,0,0,0-.419-.419Z"
+                    transform="translate(-2 -19)"
+                    fill="#e43927"
+                  />
+                </g>
+              </g>
+            </svg>
+          </mat-icon>
+          <span>Dashboard</span>
+        </button>
+      </mat-panel-title>
+      <mat-panel-title>
+        <button mat-button class="menu-button">
+          <mat-icon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22.919"
+              height="24.327"
+              viewBox="0 0 22.919 24.327"
+            >
+              <g id="my-profile" transform="translate(-17.532 -36.224)">
+                <g
+                  id="Group_30"
+                  data-name="Group 30"
+                  transform="translate(17.532 49.097)"
+                >
+                  <g
+                    id="Group_29"
+                    data-name="Group 29"
+                    transform="translate(0)"
+                  >
+                    <path
+                      id="Path_33"
+                      data-name="Path 33"
+                      d="M28.9,288.389c-7.39,0-11.46,3.728-11.46,10.5a.929.929,0,0,0,.9.957H39.462a.929.929,0,0,0,.9-.957C40.359,292.117,36.289,288.389,28.9,288.389Zm-9.632,9.54c.353-5.061,3.589-7.626,9.632-7.626s9.279,2.564,9.632,7.626Z"
+                      transform="translate(-17.44 -288.389)"
+                      fill="#3190cf"
+                    />
+                  </g>
+                </g>
+                <path
+                  id="Path_47"
+                  data-name="Path 47"
+                  d="M91.009,11.355a5.677,5.677,0,1,1,5.677-5.677A5.684,5.684,0,0,1,91.009,11.355Zm0-9.651a3.974,3.974,0,1,0,3.974,3.974,4.176,4.176,0,0,0-.713-2.269A3.853,3.853,0,0,0,91.009,1.7Zm0,0"
+                  transform="translate(-62.397 36.224)"
+                  fill="#3190cf"
+                />
+              </g>
+            </svg>
+          </mat-icon>
+          <span>My Profile</span>
+        </button>
+      </mat-panel-title>
+      <mat-expansion-panel
+        hideToggle
+        [disabled]="!widthToggle"
+        [expanded]="widthToggle && rotateToggle"
+        id="member"
+      >
+        <mat-expansion-panel-header
+          (click)="
+            rotateToggle = !rotateToggle; rotateToggle2 = rotateToggle3 = false
+          "
+        >
+          <mat-panel-title class="patient-registration">
+            <button mat-button class="menu-button" [class.focus]="rotateToggle">
+              <mat-icon>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="17.784"
+                  viewBox="0 0 24 17.784"
+                >
+                  <g
+                    id="patient-registration"
+                    transform="translate(-0.995 -4.999)"
+                  >
+                    <path
+                      id="Path_1171"
+                      data-name="Path 1171"
+                      d="M14.877,13.623a4.144,4.144,0,0,0,3.951-4.312A4.143,4.143,0,0,0,14.877,5a4.143,4.143,0,0,0-3.951,4.312A4.148,4.148,0,0,0,14.877,13.623Zm0-6.878a2.466,2.466,0,0,1,2.352,2.567,2.466,2.466,0,0,1-2.352,2.567,2.466,2.466,0,0,1-2.352-2.567,2.47,2.47,0,0,1,2.352-2.567Z"
+                      transform="translate(-1.989 0)"
+                      fill="#6e3588"
+                    />
+                    <path
+                      id="Path_1172"
+                      data-name="Path 1172"
+                      d="M5.772,16.817A3.187,3.187,0,0,0,8.811,13.5a3.187,3.187,0,0,0-3.039-3.316A3.187,3.187,0,0,0,2.733,13.5a3.187,3.187,0,0,0,3.039,3.316Zm0-4.887a1.577,1.577,0,0,1,0,3.142,1.577,1.577,0,0,1,0-3.142Z"
+                      transform="translate(-0.348 -1.17)"
+                      fill="#6e3588"
+                    />
+                    <path
+                      id="Path_1173"
+                      data-name="Path 1173"
+                      d="M24.439,16.817A3.187,3.187,0,0,0,27.478,13.5a3.187,3.187,0,0,0-3.039-3.316A3.187,3.187,0,0,0,21.4,13.5a3.187,3.187,0,0,0,3.039,3.316Zm0-4.887A1.577,1.577,0,1,1,23,13.5,1.509,1.509,0,0,1,24.439,11.93Z"
+                      transform="translate(-4.087 -1.17)"
+                      fill="#6e3588"
+                    />
+                    <path
+                      id="Path_1174"
+                      data-name="Path 1174"
+                      d="M20.458,18.793a4.768,4.768,0,0,0-2,.448,6.974,6.974,0,0,0-10.919,0,4.768,4.768,0,0,0-2-.448C2.912,18.9.888,20.807,1,23.056a.75.75,0,0,0,.8.687.75.75,0,0,0,.8-.687,2.9,2.9,0,0,1,2.933-2.89,2.958,2.958,0,0,1,1.261.288,6.074,6.074,0,0,0-.569,2.562.75.75,0,0,0,.8.687.75.75,0,0,0,.8-.687,5.174,5.174,0,0,1,10.343,0,.809.809,0,0,0,1.6,0,6.074,6.074,0,0,0-.569-2.562,2.958,2.958,0,0,1,1.261-.288,2.9,2.9,0,0,1,2.933,2.89.809.809,0,0,0,1.6,0c.111-2.249-1.913-4.153-4.532-4.263Z"
+                      transform="translate(0 -0.96)"
+                      fill="#6e3588"
+                    />
+                  </g>
+                </svg>
+              </mat-icon>
+              <span>Patient Registration</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="8.121"
+                height="13.414"
+                viewBox="0 0 8.121 13.414"
+                [class.down]="rotateToggle"
+              >
+                <path
+                  id="menu_arrow"
+                  d="M1864.5,261.777l6,6,6-6"
+                  transform="translate(-261.07 1877.207) rotate(-90)"
+                  fill="none"
+                  stroke="#e43927"
+                  stroke-width="2"
+                  [style.visibility]="widthToggle ? 'visible' : 'hidden'"
+                />
+              </svg>
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test1</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test2</span>
+            </a>
+          </li>
+        </ul>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        hideToggle
+        [disabled]="!widthToggle"
+        [expanded]="widthToggle && rotateToggle2"
+        id="member2"
+      >
+        <mat-expansion-panel-header
+          (click)="
+            rotateToggle2 = !rotateToggle2; rotateToggle = rotateToggle3 = false
+          "
+        >
+          <mat-panel-title class="scribe-management">
+            <button
+              mat-button
+              class="menu-button"
+              [class.focus2]="rotateToggle2"
+            >
+              <mat-icon>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24.609"
+                  height="28"
+                  viewBox="0 0 24.609 28"
+                >
+                  <g id="scribe-management" transform="translate(-31)">
+                    <path
+                      id="Path_1163"
+                      data-name="Path 1163"
+                      d="M40.023,392H33.461A2.464,2.464,0,0,0,31,394.461v4.1H42.484v-4.1A2.464,2.464,0,0,0,40.023,392Zm.82,4.922h-8.2v-2.461a.821.821,0,0,1,.82-.82h6.563a.821.821,0,0,1,.82.82Z"
+                      transform="translate(0 -370.562)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1164"
+                      data-name="Path 1164"
+                      d="M82.563,275.281a3.281,3.281,0,1,0-3.281,3.281A3.285,3.285,0,0,0,82.563,275.281Zm-3.281,1.641a1.641,1.641,0,1,1,1.641-1.641A1.642,1.642,0,0,1,79.281,276.922Z"
+                      transform="translate(-42.539 -257.125)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1165"
+                      data-name="Path 1165"
+                      d="M280.023,392h-6.563A2.464,2.464,0,0,0,271,394.461v4.1h11.484v-4.1A2.464,2.464,0,0,0,280.023,392Zm.82,4.922h-8.2v-2.461a.821.821,0,0,1,.82-.82h6.563a.821.821,0,0,1,.82.82Z"
+                      transform="translate(-226.875 -370.562)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1166"
+                      data-name="Path 1166"
+                      d="M322.562,275.281a3.281,3.281,0,1,0-3.281,3.281A3.285,3.285,0,0,0,322.562,275.281Zm-3.281,1.641a1.641,1.641,0,1,1,1.641-1.641A1.643,1.643,0,0,1,319.281,276.922Z"
+                      transform="translate(-269.414 -257.125)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1167"
+                      data-name="Path 1167"
+                      d="M65.922,9.844v3.688l4.4-3.688h2.685l4.4,3.688V9.844a4.922,4.922,0,1,0,0-9.844H65.922a4.922,4.922,0,1,0,0,9.844Zm0-8.2H77.406a3.281,3.281,0,1,1,0,6.563H75.766v1.813L73.6,8.2H69.725l-2.162,1.813V8.2H65.922a3.281,3.281,0,1,1,0-6.563Z"
+                      transform="translate(-28.359)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1168"
+                      data-name="Path 1168"
+                      d="M241,75h1.641v1.641H241Z"
+                      transform="translate(-198.516 -70.898)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1169"
+                      data-name="Path 1169"
+                      d="M181,75h1.641v1.641H181Z"
+                      transform="translate(-141.797 -70.898)"
+                      fill="#54ac47"
+                    />
+                    <path
+                      id="Path_1170"
+                      data-name="Path 1170"
+                      d="M301,75h1.641v1.641H301Z"
+                      transform="translate(-255.234 -70.898)"
+                      fill="#54ac47"
+                    />
+                  </g>
+                </svg>
+              </mat-icon>
+              <span>Scribe Manager</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="8.121"
+                height="13.414"
+                viewBox="0 0 8.121 13.414"
+                [class.down]="rotateToggle2"
+              >
+                <path
+                  data-name="menu arrow"
+                  d="M1864.5,261.777l6,6,6-6"
+                  transform="translate(-261.07 1877.207) rotate(-90)"
+                  fill="none"
+                  stroke="#e43927"
+                  stroke-width="2"
+                  [style.visibility]="widthToggle ? 'visible' : 'hidden'"
+                />
+              </svg>
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test3</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test4</span>
+            </a>
+          </li>
+        </ul>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        hideToggle
+        [disabled]="!widthToggle"
+        [expanded]="widthToggle && rotateToggle3"
+        id="member3"
+      >
+        <mat-expansion-panel-header
+          (click)="
+            rotateToggle3 = !rotateToggle3; rotateToggle = rotateToggle2 = false
+          "
+        >
+          <mat-panel-title class="appointment">
+            <button
+              mat-button
+              class="menu-button nav-link"
+              [class.focus3]="rotateToggle3"
+            >
+              <mat-icon>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    id="Path_35"
+                    data-name="Path 35"
+                    d="M241.225,247.783a6.558,6.558,0,1,1,6.558-6.558A6.565,6.565,0,0,1,241.225,247.783Zm0-11.6a5.044,5.044,0,1,0,5.044,5.044A5.05,5.05,0,0,0,241.225,236.181Zm0,0"
+                    transform="translate(-223.783 -223.783)"
+                    fill="#eb7e25"
+                  />
+                  <path
+                    id="Path_36"
+                    data-name="Path 36"
+                    d="M359.854,304.721a.751.751,0,0,1-.535-.222l-1.765-1.765a.756.756,0,0,1-.222-.535v-2.774a.757.757,0,0,1,1.513,0v2.461l1.544,1.544a.757.757,0,0,1-.535,1.292Zm0,0"
+                    transform="translate(-340.605 -284.709)"
+                    fill="#eb7e25"
+                  />
+                  <path
+                    id="Path_37"
+                    data-name="Path 37"
+                    d="M90.376,10.088a5.044,5.044,0,1,1,5.044-5.044A5.05,5.05,0,0,1,90.376,10.088Zm0-8.575a3.531,3.531,0,1,0,3.531,3.531,3.711,3.711,0,0,0-.634-2.016,3.423,3.423,0,0,0-2.9-1.515Zm0,0"
+                    transform="translate(-81.357 0)"
+                    fill="#eb7e25"
+                  />
+                  <path
+                    id="Path_38"
+                    data-name="Path 38"
+                    d="M9.544,265.08H.757A.757.757,0,0,1,0,264.323C0,258.15,4.216,256,6.858,256h3.685a.757.757,0,1,1,0,1.513H6.858c-1.808,0-5.345,1.471-5.345,6.053h8.03a.757.757,0,0,1,0,1.513Zm0,0"
+                    transform="translate(0 -244.106)"
+                    fill="#eb7e25"
+                  />
+                </svg>
+              </mat-icon>
+              <span>Appointment</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="8.121"
+                height="13.414"
+                viewBox="0 0 8.121 13.414"
+                [class.down]="rotateToggle3"
+              >
+                <path
+                  data-name="menu arrow"
+                  d="M1864.5,261.777l6,6,6-6"
+                  transform="translate(-261.07 1877.207) rotate(-90)"
+                  fill="none"
+                  stroke="#e43927"
+                  stroke-width="2"
+                  [style.visibility]="widthToggle ? 'visible' : 'hidden'"
+                />
+              </svg>
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test5</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#">
+              <span class="menu-title">Test6</span>
+            </a>
+          </li>
+        </ul>
+      </mat-expansion-panel>
+      <mat-panel-title>
+        <button mat-button class="menu-button">
+          <mat-icon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="26.14"
+              viewBox="0 0 24 26.14"
+            >
+              <g id="order-history" transform="translate(-16.5)">
+                <path
+                  id="Path_40"
+                  data-name="Path 40"
+                  d="M85.26,145H81.252a.752.752,0,1,0,0,1.5H85.26a.752.752,0,1,0,0-1.5Z"
+                  transform="translate(-60.793 -137.588)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_41"
+                  data-name="Path 41"
+                  d="M85.26,225H81.252a.752.752,0,1,0,0,1.5H85.26a.752.752,0,1,0,0-1.5Z"
+                  transform="translate(-60.793 -213.499)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_42"
+                  data-name="Path 42"
+                  d="M85.26,305H81.252a.752.752,0,0,0,0,1.5H85.26a.752.752,0,0,0,0-1.5Z"
+                  transform="translate(-60.793 -289.41)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_43"
+                  data-name="Path 43"
+                  d="M35.239,14.036V7.045a3.845,3.845,0,0,0-1.075-2.682L31.114,1.149l0,0A3.747,3.747,0,0,0,28.429,0H18.755A2.279,2.279,0,0,0,16.5,2.3v19.86a2.279,2.279,0,0,0,2.255,2.3H30.371a5.884,5.884,0,0,0,4.117,1.685,6.08,6.08,0,0,0,.752-12.1ZM18,22.158V2.3a.76.76,0,0,1,.752-.766h9.675a2.249,2.249,0,0,1,1.607.685L33.085,5.43l0,0a2.307,2.307,0,0,1,.647,1.611v6.993a6.046,6.046,0,0,0-5.211,6.027,6.129,6.129,0,0,0,.7,2.859H18.755A.76.76,0,0,1,18,22.158Zm16.484,2.451A4.544,4.544,0,1,1,39,20.065,4.507,4.507,0,0,1,34.487,24.609Z"
+                  transform="translate(0 0)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_44"
+                  data-name="Path 44"
+                  d="M333.536,354.176a.752.752,0,0,0-1.059.1l-1.268,1.522-.288-.576a.752.752,0,0,0-1.344.672l.8,1.6a.752.752,0,0,0,1.25.145l2-2.405A.752.752,0,0,0,333.536,354.176Z"
+                  transform="translate(-297.314 -335.867)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_45"
+                  data-name="Path 45"
+                  d="M241.252,146.5h.8a.752.752,0,1,0,0-1.5h-.8a.752.752,0,1,0,0,1.5Z"
+                  transform="translate(-212.777 -137.588)"
+                  fill="#deb217"
+                />
+                <path
+                  id="Path_46"
+                  data-name="Path 46"
+                  d="M242.8,225.752a.752.752,0,0,0-.752-.752h-.8a.752.752,0,1,0,0,1.5h.8A.752.752,0,0,0,242.8,225.752Z"
+                  transform="translate(-212.777 -213.499)"
+                  fill="#deb217"
+                />
+              </g>
+            </svg>
+          </mat-icon>
+          <span>Order History</span>
+        </button>
+      </mat-panel-title>
+    </mat-accordion>
+  </mat-sidenav>
+</div>
+
+

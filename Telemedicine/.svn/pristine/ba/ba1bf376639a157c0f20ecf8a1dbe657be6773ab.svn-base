@@ -1,0 +1,12 @@
+spring.application.name=master-management-service
+spring.profiles.active=dev
+server.port=7074
+mstrmgmt.api.version=v1
+server.servlet.context-path=/masterManagement/${mstrmgmt.api.version}
+spring.cloud.config.uri= http://localhost:8888
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+
+
+
+

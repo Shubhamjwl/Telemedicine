@@ -1,0 +1,285 @@
+package com.nsdl.telemedicine.patient.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * The persistent class for the dr_mstr_dtls database table.
+ * 
+ */
+@Entity
+@Table(name="dr_mstr_dtls", schema = "registration")
+public class DoctorMstrDtlsEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="dmd_id_pk")
+	private Integer dmdIdPk;
+
+	@Column(name="dmd_consul_fee")
+	private Integer dmdConsulFee;
+
+	@Column(name="dmd_dr_name")
+	private String dmdDrName;
+
+	@Column(name="dmd_email")
+	private String dmdEmail;
+
+	@Column(name="dmd_gender")
+	private String dmdGender;
+
+	@Column(name="dmd_is_reg_by_ipan")
+	private String dmdIsRegByIpan;
+
+	@Column(name="dmd_isverified")
+	private Boolean dmdIsverified;
+
+	@Column(name="dmd_mci_number")
+	private String dmdMciNumber;
+
+	@Column(name="dmd_mobile_no")
+	private Long dmdMobileNo;
+
+	@Column(name="dmd_modified_by")
+	private String dmdModifiedBy;
+
+	@Column(name="dmd_modified_tmstmp")
+	private Timestamp dmdModifiedTmstmp;
+
+	@Column(name="dmd_opti_version")
+	private String dmdOptiVersion;
+
+	@Column(name="dmd_password")
+	private String dmdPassword;
+
+	@Column(name="dmd_smc_number")
+	private String dmdSmcNumber;
+
+	@Column(name="dmd_specialiazation")
+	private String dmdSpecialiazation;
+	
+	@Column(name="dmd_user_id")
+	private String dmdUserId;
+
+    @Column(name="srd_dr_user_id_fk")
+	private String scrbRegDtls;
+
+	@Column(name="dmd_photo_path")
+	private String profilePhoto;
+	
+	@Column(name="dmd_address1")
+	private String dmdAddress1;
+	
+	@Column(name="dmd_address2")
+	private String dmdAddress2;
+	
+	@Column(name="dmd_address3")
+	private String dmdAddress3;
+	
+	@Column(name="dmd_state")
+	private String dmdState;
+	
+	@Column(name="dmd_city")
+	private String dmdCity;
+	
+	public DoctorMstrDtlsEntity() {
+	}
+
+	public Integer getDmdIdPk() {
+		return dmdIdPk;
+	}
+
+	public void setDmdIdPk(Integer dmdIdPk) {
+		this.dmdIdPk = dmdIdPk;
+	}
+
+	public Integer getDmdConsulFee() {
+		return dmdConsulFee;
+	}
+
+	public void setDmdConsulFee(Integer dmdConsulFee) {
+		this.dmdConsulFee = dmdConsulFee;
+	}
+
+	public String getDmdDrName() {
+		return dmdDrName;
+	}
+
+	public void setDmdDrName(String dmdDrName) {
+		this.dmdDrName = dmdDrName;
+	}
+
+	public String getDmdEmail() {
+		return dmdEmail;
+	}
+
+	public void setDmdEmail(String dmdEmail) {
+		this.dmdEmail = dmdEmail;
+	}
+
+	public String getDmdGender() {
+		return dmdGender;
+	}
+
+	public void setDmdGender(String dmdGender) {
+		this.dmdGender = dmdGender;
+	}
+
+	public String getDmdIsRegByIpan() {
+		return dmdIsRegByIpan;
+	}
+
+	public void setDmdIsRegByIpan(String dmdIsRegByIpan) {
+		this.dmdIsRegByIpan = dmdIsRegByIpan;
+	}
+
+	public Boolean getDmdIsverified() {
+		return dmdIsverified;
+	}
+
+	public void setDmdIsverified(Boolean dmdIsverified) {
+		this.dmdIsverified = dmdIsverified;
+	}
+
+	public String getDmdMciNumber() {
+		return dmdMciNumber;
+	}
+
+	public void setDmdMciNumber(String dmdMciNumber) {
+		this.dmdMciNumber = dmdMciNumber;
+	}
+
+	public Long getDmdMobileNo() {
+		return dmdMobileNo;
+	}
+
+	public void setDmdMobileNo(Long dmdMobileNo) {
+		this.dmdMobileNo = dmdMobileNo;
+	}
+
+	public String getDmdModifiedBy() {
+		return dmdModifiedBy;
+	}
+
+	public void setDmdModifiedBy(String dmdModifiedBy) {
+		this.dmdModifiedBy = dmdModifiedBy;
+	}
+
+	public Timestamp getDmdModifiedTmstmp() {
+		return dmdModifiedTmstmp;
+	}
+
+	public void setDmdModifiedTmstmp(Timestamp dmdModifiedTmstmp) {
+		this.dmdModifiedTmstmp = dmdModifiedTmstmp;
+	}
+
+	public String getDmdOptiVersion() {
+		return dmdOptiVersion;
+	}
+
+	public void setDmdOptiVersion(String dmdOptiVersion) {
+		this.dmdOptiVersion = dmdOptiVersion;
+	}
+
+	public String getDmdPassword() {
+		return dmdPassword;
+	}
+
+	public void setDmdPassword(String dmdPassword) {
+		this.dmdPassword = dmdPassword;
+	}
+
+	public String getDmdSmcNumber() {
+		return dmdSmcNumber;
+	}
+
+	public void setDmdSmcNumber(String dmdSmcNumber) {
+		this.dmdSmcNumber = dmdSmcNumber;
+	}
+
+	public String getDmdSpecialiazation() {
+		return dmdSpecialiazation;
+	}
+
+	public void setDmdSpecialiazation(String dmdSpecialiazation) {
+		this.dmdSpecialiazation = dmdSpecialiazation;
+	}
+
+	public String getDmdUserId() {
+		return dmdUserId;
+	}
+
+	public void setDmdUserId(String dmdUserId) {
+		this.dmdUserId = dmdUserId;
+	}
+
+	public String getScrbRegDtls() {
+		return scrbRegDtls;
+	}
+
+	public void setScrbRegDtls(String scrbRegDtls) {
+		this.scrbRegDtls = scrbRegDtls;
+	}
+
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+
+	public String getDmdAddress1() {
+		return dmdAddress1;
+	}
+
+	public void setDmdAddress1(String dmdAddress1) {
+		this.dmdAddress1 = dmdAddress1;
+	}
+
+	public String getDmdAddress2() {
+		return dmdAddress2;
+	}
+
+	public void setDmdAddress2(String dmdAddress2) {
+		this.dmdAddress2 = dmdAddress2;
+	}
+
+	public String getDmdAddress3() {
+		return dmdAddress3;
+	}
+
+	public void setDmdAddress3(String dmdAddress3) {
+		this.dmdAddress3 = dmdAddress3;
+	}
+
+	public String getDmdState() {
+		return dmdState;
+	}
+
+	public void setDmdState(String dmdState) {
+		this.dmdState = dmdState;
+	}
+
+	public String getDmdCity() {
+		return dmdCity;
+	}
+
+	public void setDmdCity(String dmdCity) {
+		this.dmdCity = dmdCity;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+}

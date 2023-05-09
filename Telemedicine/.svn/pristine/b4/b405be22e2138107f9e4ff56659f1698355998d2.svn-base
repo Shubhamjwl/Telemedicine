@@ -1,0 +1,7 @@
+package com.nsdl.telemedicine.constant;
+
+public class MarketPlaceConstant {
+	
+	public final static String OrderHistoryDirectory="orderHistory";
+
+}

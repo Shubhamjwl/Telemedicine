@@ -1,0 +1,20 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Docfilter } from './commonBuildBlocks/pipes/search.pipe';
+import { NumberOnlyDirective } from './commonBuildBlocks/derectives/common.directive';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
+const modules = [
+  NgxSpinnerModule
+];
+
+@NgModule({
+  declarations: [Docfilter, NumberOnlyDirective],
+  imports: [
+    CommonModule,
+    ...modules
+  ],
+  exports: [...modules, Docfilter, NumberOnlyDirective],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class SharedModule { }

@@ -1,0 +1,73 @@
+import { TmCreateSlotComponent } from './slots/tm-create-slot/tm-create-slot.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/shared/autherization_Authentication/guards/auth.guard';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { TmDoctorAppointmentsDashboardComponent } from './appointment/tm-doctor-appointments-dashboard/tm-doctor-appointments-dashboard.component';
+import { AssignScribeComponent } from './Scribe/assign-scribe/assign-scribe.component';
+import { ScribeStatusComponent } from './Scribe/scribe-status/scribe-status.component';
+import { ModifyTimeSlotComponent } from './slots/modify-time-slot/modify-time-slot.component';
+import { TmCreateSlotDashboardComponent } from './slots/tm-create-slot-dashboard/tm-create-slot-dashboard.component';
+import { DiagnosticSupportComponent } from '../shared-modules/components/diagnostic-support/diagnostic-support.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: TmDoctorAppointmentsDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'time',
+    component: TmCreateSlotDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'modify-time-slot',
+    component: ModifyTimeSlotComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'scribe-status',
+    component: ScribeStatusComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'assign-scribe',
+    component: AssignScribeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'diagnosticSupport', 
+    component: DiagnosticSupportComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'register-patient',
+    loadChildren: () =>
+      import('../registrations/register-patient/register-patient.module').then(
+        (m) => m.RegisterPatientModule
+      ),
+  },
+  {
+    path: 'coming-soon',
+    loadChildren: () =>
+      import('../../comming-soon/comming-soon.module').then(
+        (m) => m.CommingSoonModule
+      ),
+  },
+  {
+    path: `${RoutesConstant.CONSULTATION}`,
+    loadChildren: () =>
+      import('./consultation/consultation.module').then(
+        (m) => m.ConsultationModule
+      ),
+    canActivate: [AuthGuard],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class DoctorRoutingModule {}

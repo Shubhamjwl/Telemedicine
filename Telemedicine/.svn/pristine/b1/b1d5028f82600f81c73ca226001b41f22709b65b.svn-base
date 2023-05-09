@@ -1,0 +1,12 @@
+export interface Notification {
+  notificationId: number;
+  notification: string;
+  notificationType: NotificationTypeEnum;
+  createdTmstp: string;
+  unReadFlag: boolean;
+}
+
+export enum NotificationTypeEnum {
+  PasswordExpiry10Days = 'PasswordExpiry10Days',
+  PasswordExpiry1Day = 'PasswordExpiry1Day'
+}

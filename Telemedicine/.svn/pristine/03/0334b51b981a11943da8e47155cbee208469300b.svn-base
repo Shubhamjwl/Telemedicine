@@ -1,0 +1,27 @@
+package com.nsdl.telemedicine.patient.dto;
+
+import java.util.Date;
+import lombok.Data;
+@Data
+public class PersonalDetailDto {
+
+	private String ptFullName;
+	private Long ptMobNo;
+	private String ptEmail;
+	private Double height;
+
+	private Double weight;
+
+	private String bloodgrp;
+
+	private Date dob;
+
+	private String ptProfilePhoto;
+
+	private AddressDto address = new AddressDto();
+	
+	private String ptGender;
+	private String ptCity;
+	private String ptState;
+	private String ptCountry;
+}

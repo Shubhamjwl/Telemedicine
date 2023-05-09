@@ -1,0 +1,9 @@
+package com.nsdl.telemedicine.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.nsdl.telemedicine.entity.MarketPlaceDetailsEntity;
+
+public interface MarketPlaceDtlsRepo extends CrudRepository<MarketPlaceDetailsEntity, Long> {
+
+}

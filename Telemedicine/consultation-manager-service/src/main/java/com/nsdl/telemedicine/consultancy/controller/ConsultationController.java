@@ -1,0 +1,428 @@
+package com.nsdl.telemedicine.consultancy.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.telemedicine.consultancy.dto.AppointmentDTO;
+import com.nsdl.telemedicine.consultancy.dto.ChiefComplaintsDtls;
+import com.nsdl.telemedicine.consultancy.dto.ConsultAdviceDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultAdviceDetailsDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultMedicationDtlsDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultPresDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultationDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultationDtlDTO;
+import com.nsdl.telemedicine.consultancy.dto.ConsultationResponseDTO;
+import com.nsdl.telemedicine.consultancy.dto.DocumentReportDTO;
+import com.nsdl.telemedicine.consultancy.dto.DrAppointmentDTO;
+import com.nsdl.telemedicine.consultancy.dto.InvestigationDetailsDTO;
+import com.nsdl.telemedicine.consultancy.dto.InvestigationRequestDTO;
+import com.nsdl.telemedicine.consultancy.dto.MainRequestDTO;
+import com.nsdl.telemedicine.consultancy.dto.MainResponseDTO;
+import com.nsdl.telemedicine.consultancy.dto.PatientDetailsRequestDTO;
+import com.nsdl.telemedicine.consultancy.dto.PatientDocumentsDtlsDTO;
+import com.nsdl.telemedicine.consultancy.dto.PatientDtls;
+import com.nsdl.telemedicine.consultancy.dto.PatientReportDTO;
+import com.nsdl.telemedicine.consultancy.dto.PrescriprionVerifyRequestDTO;
+import com.nsdl.telemedicine.consultancy.dto.PrescriptionDTO;
+import com.nsdl.telemedicine.consultancy.dto.PrescriptionDetailsDTO;
+import com.nsdl.telemedicine.consultancy.dto.PrescriptionRequestDTO;
+import com.nsdl.telemedicine.consultancy.dto.PtAppointmentDTO;
+import com.nsdl.telemedicine.consultancy.dto.ScribeDtlsDTO;
+import com.nsdl.telemedicine.consultancy.dto.TokenDTO;
+import com.nsdl.telemedicine.consultancy.logger.LoggingClientInfo;
+import com.nsdl.telemedicine.consultancy.service.AppointmentService;
+import com.nsdl.telemedicine.consultancy.service.ConsultationService;
+import com.nsdl.telemedicine.consultancy.service.PatientService;
+
+@RestController
+@RequestMapping(value = "/appointment")
+//@CrossOrigin("*")
+@LoggingClientInfo
+public class ConsultationController {
+
+	@Autowired
+	private AppointmentService appointmentService;
+
+	@Autowired
+	private PatientService patientService;
+
+	@Autowired
+	private ConsultationService consultationService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ConsultationController.class);
+
+	@PostMapping("/getAppointmentListByPatientID")
+	private ResponseEntity<MainResponseDTO<PtAppointmentDTO>> getAppointmentListByPatientID() {
+		MainResponseDTO<PtAppointmentDTO> responseWrapper = new MainResponseDTO<PtAppointmentDTO>();
+		responseWrapper.setResponse(appointmentService.getAppointmentListByPatientID());
+		logger.debug("Returning from Get Appointment List By Patient ID of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param appointmentRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getConsultationListByDoctorID")
+	private ResponseEntity<MainResponseDTO<DrAppointmentDTO>> getConsultationListByDoctorID(@RequestBody MainRequestDTO<AppointmentDTO> appointmentRequest) {
+		MainResponseDTO<DrAppointmentDTO> responseWrapper = new MainResponseDTO<DrAppointmentDTO>();
+		responseWrapper.setResponse(appointmentService.getAppointmentListByDrID(appointmentRequest.getRequest().getAppointmentDate()));
+		logger.debug("Returning from Get Consultation List By Doctor ID of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param patientDtlsRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getPatientDetails")
+	private ResponseEntity<MainResponseDTO<PatientDtls>> getPatientDetails(@RequestBody MainRequestDTO<PatientDetailsRequestDTO> patientDtlsRequest) {
+		MainResponseDTO<PatientDtls> responseWrapper = new MainResponseDTO<PatientDtls>();
+		responseWrapper.setResponse(patientService.getPatientDetails(patientDtlsRequest.getRequest().getAppointmentId(), patientDtlsRequest.getRequest().getDrRegId(), 
+				patientDtlsRequest.getRequest().getPtRegId()));
+		logger.debug("Returning from Get Patient Details of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	// save investigation details..
+	@PostMapping(value = "/saveConsultationInvestigation")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> saveConsultationInvestigation(
+			@RequestBody @Valid MainRequestDTO<InvestigationRequestDTO> investigationRequest) {
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.saveInvestigationDetails(investigationRequest.getRequest()));
+		logger.debug("Returning from Save Consultation Investigation of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @return Method added by SayaliA to upload patient reports.
+	 * @throws IOException 
+	 */
+	@PostMapping(value = "/saveConsultationPatientReports")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> saveConsultationPatientReports(@RequestBody @Valid MainRequestDTO<PatientDocumentsDtlsDTO<DocumentReportDTO>> request) throws IOException {
+		logger.info("save patient reports request received input file size is:"
+				+ "and appointment id is:");
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.saveConsultationPatientReports(request));
+		logger.debug("Returning from Save Consultation Patient Reports of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	@PostMapping("/saveConsultationDiagnosis")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> saveConsultationDiagnosis(
+			@RequestBody @Valid MainRequestDTO<ConsultationDTO<String>> request) {
+		logger.info("Save Diagnosis Details Request Received");
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.saveConsultationDiagnosisService(request.getRequest()));
+		logger.debug("Returning from Save Consultation Diagnosis of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param scribeListRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getListOfScribeByDoctor")
+	private ResponseEntity<MainResponseDTO<ScribeDtlsDTO>> getListOfScribeByDoctor(@RequestBody MainRequestDTO<String> scribeListRequest) {
+		MainResponseDTO<ScribeDtlsDTO> responseWrapper = new MainResponseDTO<ScribeDtlsDTO>();
+		responseWrapper.setResponse(consultationService.getListOfScribeByDoctor());
+		logger.debug("Returning from Get List Of Scribe By Doctor of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param diagnosisRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getConsultationDiagnosisDtls")
+	private ResponseEntity<MainResponseDTO<ConsultationDTO<String>>> getConsultationDiagnosisDtls(@RequestBody MainRequestDTO<ConsultationDtlDTO> diagnosisRequest) {
+		logger.info("Get Diagnosis Details Request Received");
+		MainResponseDTO<ConsultationDTO<String>> responseWrapper = new MainResponseDTO<ConsultationDTO<String>>();
+		responseWrapper.setResponse(consultationService.getConsultationDiagnosisService(diagnosisRequest.getRequest().getCtApptId()));
+		logger.debug("Returning from Get Consultation Diagnosis Dtls of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	@PostMapping("/saveConsultationChiefComplaint")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> saveConsultationChiefComplaint(
+			@RequestBody @Valid MainRequestDTO<ConsultationDTO<ChiefComplaintsDtls>> request) {
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.saveConsultationChiefComplaint(request.getRequest()));
+		logger.debug("Returning from Save Consultation Chief Complaint of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param chiefComplaintRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getConsultationChiefComplaint")
+	private ResponseEntity<MainResponseDTO<ConsultationDTO<ChiefComplaintsDtls>>> getConsultationChiefComplaint(@RequestBody MainRequestDTO<ConsultationDtlDTO> chiefComplaintRequest) {
+		MainResponseDTO<ConsultationDTO<ChiefComplaintsDtls>> responseWrapper = new MainResponseDTO<ConsultationDTO<ChiefComplaintsDtls>>();
+		responseWrapper.setResponse(consultationService.getConsultationChiefComplaint(chiefComplaintRequest.getRequest().getCtApptId()));
+		logger.debug("Returning from Get Consultation Chief Complaint of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param investigationRequest
+	 * @return
+	 * This method has been changed by girishk from GET to POST.
+	 */
+	@PostMapping("/getConsultationInvestigationDtls")
+	private ResponseEntity<MainResponseDTO<ConsultationDTO<InvestigationDetailsDTO>>> getConsultationInvestigationDtls(@RequestBody MainRequestDTO<ConsultationDtlDTO> investigationRequest) {
+		MainResponseDTO<ConsultationDTO<InvestigationDetailsDTO>> responseWrapper = new MainResponseDTO<ConsultationDTO<InvestigationDetailsDTO>>();
+		responseWrapper.setResponse(consultationService.getConsultationInvestigationDtls(investigationRequest.getRequest().getCtApptId()));
+		logger.debug("Returning from Get Consultation Investigation Dtls of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param medicationRequest
+	 * @return method added by girishk to save medication details.
+	 */
+	@PostMapping(value = "/saveConsultationMedicationDtls", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<?>> saveConsultationMedicationDtls(
+			@RequestBody MainRequestDTO<List<ConsultMedicationDtlsDTO>> medicationRequest) {
+		logger.debug("Returning from Save Consultation Medication Dtls of Controller");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(consultationService.saveConsultationMedicationDtls(medicationRequest));
+	}
+
+	@PostMapping("/getPrescriptionList")
+	private ResponseEntity<MainResponseDTO<List<AppointmentDTO>>> getPrescriptionListByDoctorId(
+			@RequestBody MainRequestDTO<PrescriptionRequestDTO> prescriptionRequest) {
+
+		MainResponseDTO<List<AppointmentDTO>> response = new MainResponseDTO<>();
+		List<AppointmentDTO> appointmentList = null;
+		PrescriptionRequestDTO prescriptionRequestDTO = null;
+		prescriptionRequestDTO = prescriptionRequest.getRequest();
+		appointmentList = consultationService.getPrescriptionListByDoctorId(prescriptionRequestDTO.getRegDocName());
+		response.setId(prescriptionRequest.getAPI());
+		response.setVersion(prescriptionRequest.getVersion());
+		response.setResponseTime(prescriptionRequest.getRequestTime());
+		response.setResponse(appointmentList);
+		logger.debug("Returning from Get Prescription List of Controller");
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/viewPrescriptionByApptID", produces = MediaType.APPLICATION_JSON_VALUE)
+	private MainResponseDTO<PrescriptionDTO> viewPrescriptionByApptID(
+			@RequestBody MainRequestDTO<AppointmentDTO> appointmentDTO) {
+		logger.debug("Returning from View Prescription By Appt ID of Controller");
+		return consultationService.viewPrescriptionByApptID(appointmentDTO);
+	}
+
+	@PutMapping("/verifyPrescription")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> verifyPrescription(
+			@RequestBody @Valid MainRequestDTO<PrescriprionVerifyRequestDTO> prescriptionVerificationReq) {
+		MainResponseDTO<ConsultationResponseDTO> response = new MainResponseDTO<ConsultationResponseDTO>();
+		response.setId(prescriptionVerificationReq.getAPI());
+		response.setVersion(prescriptionVerificationReq.getVersion());
+		response.setResponseTime(prescriptionVerificationReq.getRequestTime());
+		response.setResponse(consultationService.verifyPrescriptionByAppId(prescriptionVerificationReq.getRequest()));
+		logger.debug("Returning from Verify Prescription of Controller");
+		return ResponseEntity.ok().body(response);
+	}
+
+	/**
+	 * @param request
+	 * @return method added by SayaliA to save Advice details.
+	 */
+	@PostMapping("/saveConsultationAdvice")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> saveConsultationAdvice(
+			@RequestBody @Valid MainRequestDTO<ConsultationDTO<ConsultAdviceDTO>> request) {
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.saveConsultationAdvice(request.getRequest()));
+		logger.debug("Returning from Save Consultation Advice of Controller");
+		return ResponseEntity.status(HttpStatus.OK).body(responseWrapper);
+	}
+
+	/**
+	 * @param request
+	 * @return method added by SayaliA to get Advice details
+	 */
+	@PostMapping("/getConsultationAdvice")
+	private ResponseEntity<MainResponseDTO<ConsultationDTO<ConsultAdviceDTO>>> getConsultationAdvice(
+			@RequestBody @Valid MainRequestDTO<ConsultAdviceDetailsDTO> request) {
+		MainResponseDTO<ConsultationDTO<ConsultAdviceDTO>> responseWrapper = new MainResponseDTO<ConsultationDTO<ConsultAdviceDTO>>();
+		responseWrapper.setResponse(consultationService.getConsultationAdvice(request.getRequest().getAppointID()));
+		logger.debug("Returning from Get Consultation Advice of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	@PostMapping("/savePrescriptionDetails")
+	private ResponseEntity<MainResponseDTO<ConsultationResponseDTO>> savePrescriptionDetails(
+			@RequestBody @Valid MainRequestDTO<ConsultPresDTO> request) throws IOException {
+		MainResponseDTO<ConsultationResponseDTO> responseWrapper = new MainResponseDTO<ConsultationResponseDTO>();
+		responseWrapper.setResponse(consultationService.savePrescriptionDetails(request.getRequest()));
+		logger.debug("Returning from Save Prescription Details of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param request
+	 * @return method added by SayaliA To get All tab details to view prescription
+	 */
+	@PostMapping("/getDetailsForPrescription")
+	private ResponseEntity<MainResponseDTO<PrescriptionDetailsDTO>> getDetailsForPrescription(
+			@RequestBody @Valid MainRequestDTO<ConsultAdviceDetailsDTO> request) throws IOException {
+		MainResponseDTO<PrescriptionDetailsDTO> responseWrapper = new MainResponseDTO<PrescriptionDetailsDTO>();
+		responseWrapper.setResponse(consultationService.getDetailsForPrescription(request.getRequest().getAppointID()));
+		logger.debug("Returning from Get Details For Prescription of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+
+	/**
+	 * @param medicationRequest
+	 * @return
+	 * 
+	 *         Method added by girishk to get patient medication details.
+	 */
+	@PostMapping(value = "/getPatientMedicationDtls", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<?>> getPatientMedicationDtls(
+			@RequestBody MainRequestDTO<ConsultMedicationDtlsDTO> medicationRequest) {
+		logger.debug("Returning from Get Patient Medication Dtls of Controller");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(consultationService.getPatientMedicationDtls(medicationRequest));
+	}
+
+	/**
+	 * @param consultationRequest
+	 * @return method added by girishk to save consultation details.
+	 */
+	@PostMapping(value = "/saveConsultationDtls", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<?>> saveConsultationDtls(
+			@RequestBody MainRequestDTO<ConsultationDtlDTO> consultationRequest) {
+		logger.debug("Returning from Save Consultation Dtls of Controller");
+		return ResponseEntity.status(HttpStatus.OK).body(consultationService.saveConsultationDtls(consultationRequest));
+	}
+
+	/**
+	 * @param consultationRequest
+	 * @return
+	 * @throws IOException Method added by girishk to get prescription details.
+	 */
+	@PostMapping(value = "/getPrescriptionDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<PrescriptionDetailsDTO>> getPrescriptionDetails(
+			@RequestBody @Valid MainRequestDTO<ConsultationDtlDTO> consultationRequest) throws IOException {
+		MainResponseDTO<PrescriptionDetailsDTO> responseWrapper = new MainResponseDTO<PrescriptionDetailsDTO>();
+		responseWrapper.setResponse(consultationService.getPrescriptionDetails(consultationRequest.getRequest()));
+		logger.debug("Returning from Get Prescription Details of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	/**
+	 * @param consultationRequest
+	 * @return
+	 * @throws IOException
+	 * 
+	 * Method added by girishk to get consultation details.
+	 */
+	@PostMapping(value="/getConsultationDetails" , produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<ConsultationDtlDTO>> getConsultationDetails(@RequestBody MainRequestDTO<ConsultationDtlDTO> consultationRequest) throws IOException {
+		MainResponseDTO<ConsultationDtlDTO> responseWrapper = new MainResponseDTO<ConsultationDtlDTO>();
+		responseWrapper.setResponse(consultationService.getConsultationDetails(consultationRequest.getRequest()));
+		responseWrapper.setStatus(true);
+		logger.debug("Returning from Get Consultation Details of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	/**
+	 * @param consultationRequest
+	 * @return
+	 * @throws IOException
+	 * 
+	 * Method added by girishk to update status and prescription path in consultation.
+	 */
+	@PostMapping(value="/updateConsultationStatus" , produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<?>> updateConsultationStatus(@RequestBody MainRequestDTO<ConsultationDtlDTO> consultationRequest) throws IOException {
+		logger.debug("Returning from Update Consultation Status of Controller");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(consultationService.updateConsultationStatus(consultationRequest));
+	}
+	
+	/**
+	 * @param consultationRequest
+	 * @return
+	 * @throws IOException
+	 * 
+	 * Addded by girishk to get count of consultation.
+	 */
+	@PostMapping(value="/getCountOfConsultation" , produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<Long>> getCountOfConsultation(@RequestBody MainRequestDTO<String> consultationCountRequest) throws IOException {
+		MainResponseDTO<Long> responseWrapper = new MainResponseDTO<Long>();
+		responseWrapper.setResponse(consultationService.getCountOfConsultation());
+		responseWrapper.setStatus(true);
+		logger.debug("Returning from Get Count Of Consultation of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	/**
+	 * @param consultationRequest
+	 * @return
+	 * Added by girishk to upload doctor prescription template.
+	 */
+	@PostMapping(value = "/uploadPrescriptionTemplate", produces = MediaType.APPLICATION_JSON_VALUE)
+	private ResponseEntity<MainResponseDTO<?>> uploadPrescriptionTemplate(@RequestBody MainRequestDTO<ConsultationDtlDTO> prescriptionUploadRequest) {
+		logger.debug("Returning from Upload Prescription Template of Controller");
+		return ResponseEntity.status(HttpStatus.OK).body(consultationService.uploadPrescriptionTemplate(prescriptionUploadRequest));
+	}
+	
+	/**
+	 * @return Method added by SayaliA to download patient All reports.
+	 *List<PatientReportDTO> will get return
+	 */
+	@PostMapping(value = "/downloadPatientReport", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<List<PatientReportDTO>>> downloadDocument(@RequestBody MainRequestDTO<AppointmentDTO> request,HttpServletResponse res) {
+		MainResponseDTO<List<PatientReportDTO>> responseWrapper = new MainResponseDTO<List<PatientReportDTO>>();
+		responseWrapper=consultationService.getPatientReportDetails(request);
+		logger.debug("Returning from Download Patient Report of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	
+	@PostMapping("/bookAppointmentOnline")
+	private ResponseEntity<MainResponseDTO<DrAppointmentDTO>> bookAppointmentOnline(@RequestBody MainRequestDTO<TokenDTO> request) {
+		MainResponseDTO<DrAppointmentDTO> responseWrapper = new MainResponseDTO<DrAppointmentDTO>();
+		responseWrapper.setResponse(appointmentService.getAppointmentListForDrID(request));
+		logger.debug("Returning from Book Appointment Online of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	 }
+	@PostMapping("/getScheduledAndRescheduledConsultationList")
+	private ResponseEntity<MainResponseDTO<DrAppointmentDTO>> getScheduledAndRescheduledConsultationList(@RequestBody MainRequestDTO<AppointmentDTO> appointmentRequest) {
+		MainResponseDTO<DrAppointmentDTO> responseWrapper = new MainResponseDTO<DrAppointmentDTO>();
+		responseWrapper.setResponse(appointmentService.getScheduledAndRescheduledAppointments(appointmentRequest.getRequest().getAppointmentDate()));
+		logger.debug("Returning from Get Consultation List By Doctor ID of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	@PostMapping("/getScheduledAndRescheduledConsultationListByPatientId")
+	private ResponseEntity<MainResponseDTO<PtAppointmentDTO>> getScheduledAndRescheduledAppointmentByPatientId() {
+		MainResponseDTO<PtAppointmentDTO> responseWrapper = new MainResponseDTO<PtAppointmentDTO>();
+		responseWrapper.setResponse(appointmentService.getScheduledAndRescheduledAppointmentByPatientId());
+		logger.info("Returning from Get Appointment List By Patient ID of Controller");
+		return ResponseEntity.ok().body(responseWrapper);
+	}
+	
+	}

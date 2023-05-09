@@ -1,0 +1,89 @@
+import { Notification } from './../../model/notification.model';
+import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { IAPIResponseWrapper } from '../../interfaces/api-response-wrapper.interface';
+import { tap } from 'rxjs/operators';
+import { ToastMessageService } from '../../toaster/toast-message.service';
+@Injectable({
+  providedIn: 'root',
+})
+export class NotificationService {
+  private baseUrl = `alert`;
+
+  notifications$ = new BehaviorSubject<Notification[]>([]);
+  constructor(private http: HttpClient, private angularFireMessaging: AngularFireMessaging, private toastMessageService: ToastMessageService) { }
+
+  getAllNotifications(): void {
+    /*  const not = [
+       {
+         createdTmstp: '21212',
+         notification: 'asfaf',
+         notificationType: 'PasswordExpiry10Days',
+         notificationId: 1,
+         unReadFlag: true,
+       },
+       {
+         createdTmstp: '21212',
+         notification: 'PasswordExpiry1Day',
+         notificationType: 'PasswordExpiry1Day',
+         notificationId: 2,
+         unReadFlag: true,
+       },
+       {
+         createdTmstp: '21212',
+         notification: 'asfasfa',
+         notificationType: 'PasswordExpiry10Days',
+         notificationId: 3,
+         unReadFlag: false,
+       },
+     ] as Notification[];
+     this.notifications$.next(not); */
+    this.http.get(`${this.baseUrl}/getNotifications`).subscribe({
+      next: (res: IAPIResponseWrapper<Notification[]>) => {
+        if (res.status) {
+          this.notifications$.next(res.response);
+        }
+      },
+    });
+  }
+
+  readNotification(id: number): void {
+    this.http.put(`${this.baseUrl}/updateNotificationReadFlag?notificationId=${id}`, {}).subscribe({
+      next: (res: IAPIResponseWrapper<any>) => {
+        if (res.status) {
+          this.getAllNotifications();
+        } else {
+          this.toastMessageService.showErrorMsg(res.errors[0]?.message, 'Error');
+        }
+      },
+      error: (err => {
+        this.toastMessageService.showErrorMsg(err.error?.errors[0]?.message, 'Error');
+      })
+    });
+  }
+
+  requestPermission(): void {
+    this.angularFireMessaging.requestToken
+      .pipe(
+        tap((token) => {
+          console.log('firebase token', token);
+          this.http.put(`${this.baseUrl}/updateRegistrationTokenForUser?token=${token}`, {}).subscribe();
+        }),
+      )
+      .subscribe(() => this.receiveMessage());
+  }
+
+  private receiveMessage() {
+    console.log('start receiving message');
+    this.angularFireMessaging.messages.subscribe((msg: any) => {
+      console.log('new message', msg);
+      /* const notification = JSON.parse(msg.notification.body);
+      const notifications = this.notifications$.getValue();
+      notifications.push(notification);
+      this.notifications$.next([...notifications]); */
+      this.getAllNotifications();
+    });
+  }
+}

@@ -1,0 +1,239 @@
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ScribeService } from 'src/app/shared/commonBuildBlocks/services/scribeServices/scribe.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
+@Component({
+  selector: 'app-delete-appointment-modal',
+  templateUrl: './delete-appointment-modal.component.html',
+  styleUrls: ['./delete-appointment-modal.component.scss']
+})
+export class DeleteAppointmentModalComponent implements OnInit {
+  selectedDate;
+  drRegID: string;
+  drConsultFee: number = 0;
+  appointmentSlotsList: any = [];
+  slotsList = [];
+  errorMsg: String;
+  form: FormGroup;
+  startDate: Date = new Date();
+  public filteredSlotsMulti: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
+  slotDetails = new FormControl([]);
+  userID: any;
+  modelRef: any;
+  reasonModelRef: any;
+  deleteSlotArray=[];
+  arrayLength: any;
+  drconvenienceCharge: number = 0;
+  constructor(
+    public dialogRef: MatDialogRef<DeleteAppointmentModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private AppointmentService: AppointmentService,
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService,
+    private appointmentService: AppointmentService,
+		private dataPassingService: DataPassingService,
+		private consultationService: ConsultationService,
+		private patientService: PatientService,
+		private toastrMessage: ToastMessageService,
+		private scribeService: ScribeService,
+		private authService: AuthService,
+		private modelService: NgbModal,
+		private dialog: MatDialog,
+		private router: Router,
+		private activateRoute: ActivatedRoute,
+  ) {
+    this.form = this.fb.group({
+      slotName: new FormControl(),
+      SelectedDate : new FormControl('',Validators.required),
+    })
+    this.userID = authService.getUserId() ? authService.getUserId() : null;
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
+
+
+  displayFn = (): string => '';
+  displayFn2 = (): string => '';
+  displayFn3 = (): string => '';
+  displayFn4 = (): string => '';
+
+  protected _onDestroy = new Subject<void>();
+  
+
+  ngOnInit(): void {
+    this.getAppointmentListForDoc();
+    this.selectedDate = this.datePipe.transform(this.startDate, "yyyy-MM-dd");
+// this.getSlotDetails();
+//     this.slotDetails.valueChanges
+//     .subscribe(() => {
+//       this.AppointmentService.SlotDetailsChanged(
+//         Array.prototype.map.call(this.slotDetails.value, function (item) {
+//           return item.name;
+//         }).join(", "));
+//     });
+  }
+
+  // getSlotDetails() {
+  //   var response = this.AppointmentService.slotDetails
+  //   var slotsTiming = this.AppointmentService.slotDetails.slots
+  //   console.log(response,slotsTiming,"responseeeeeeeeeee")
+  //     this.filteredSlotsMulti.next(response[slotsTiming].slice());
+
+  //     // set selected symptoms into form
+  //     let selectedSymptoms = JSON.parse(localStorage.getItem('selectedSymptoms'));
+  //     if (selectedSymptoms !== null) {
+  //       const selectedSymptomsIds = selectedSymptoms.map(element => element.id);
+  //       let alteredArray = response.filter((option) => {
+  //         if (selectedSymptomsIds.includes(option.id)) {
+  //           option.selected = !option.selected;
+  //           return true;
+  //         }
+  //       });
+
+  //       this.slotDetails.setValue(alteredArray);
+  //     }
+  //     // listen for search field value changes
+  //     this.form.controls.symptomName.valueChanges
+  //       .pipe(takeUntil(this._onDestroy))
+  //       .subscribe(() => {
+  //         this.filterDetails(response, this.form.controls.slotName.value, this.filteredSlotsMulti);
+  //       });
+  // }
+
+  protected filterDetails(details: any, searchValue: string, subject: BehaviorSubject<any>) {
+    if (!details) {
+      return;
+    }
+
+    if (!searchValue) {
+      subject.next(details.slice());
+      this.sort(subject);
+      return;
+    } else {
+      searchValue = searchValue.toLowerCase();
+    }
+    // filter the details
+    subject.next(
+      details.filter((obj) => obj.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
+    );
+    this.sort(subject);
+  }
+
+
+  sort(subject: BehaviorSubject<any>) {
+    subject.getValue().sort(function (x, y) {
+      return (x.ruleEngineData === y.ruleEngineData) ? 0 : x.ruleEngineData ? -1 : 1;
+    });
+  }
+
+  onClickClose() {
+    this.dialogRef.close();
+  }
+  slotOptionClicked(){
+
+  }
+  symptomToggleSelection() { }
+  saveDetails() { }
+  getAppointmentListForDoc() {
+		this.spinner.show();
+		this.appointmentService.getAppointmentListOfDoc(this.userID, this.selectedDate).subscribe((result: any) => {
+			if (result.response && result.status) {
+				this.spinner.hide();
+				this.drRegID = result.response.drRegID ? result.response.drRegID : null;
+				this.drConsultFee = result.response.doctorConsultFee ? result.response.doctorConsultFee : null;
+				this.appointmentSlotsList = result.response ? result.response.apptDtls ? result.response.apptDtls.Today ? result.response.apptDtls.Today : [] : [] : [];
+				this.slotsList = this.appointmentSlotsList.slots ? this.appointmentSlotsList.slots : [];
+        this.drconvenienceCharge = result.response.convenienceCharge ? result.response.convenienceCharge : null;
+				// this.appointmentService.slotDetails = this.appointmentSlotsList;
+			} else if (result.errors) {
+				this.spinner.hide();
+				this.appointmentSlotsList = [];
+				this.slotsList = [];
+				this.errorMsg = result.errors ? result.errors[0] ? result.errors[0].message ? result.errors[0].message : null : null : null;
+			}
+		}, error => {
+			this.spinner.hide();
+			this.appointmentSlotsList = [];
+			this.slotsList = [];
+			this.errorMsg = error.errors ? error.errors[0] ? error.errors[0].message ? error.errors[0].message : null : null : null;
+		})
+	}
+  changeDate(event) {
+     this.selectedDate = this.datePipe.transform(event.target.value, "yyyy-MM-dd");
+     this.getAppointmentListForDoc();
+  }
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+
+  isChecked(appointmentTime){
+    
+    let index=this.deleteSlotArray.findIndex(slot=> slot==appointmentTime)
+       if(index==-1){
+         this.deleteSlotArray.push(appointmentTime);
+       }else{
+         this.deleteSlotArray.splice(index, 1);
+       }
+     
+   this.arrayLength=this.deleteSlotArray.length
+ }
+
+ deleteSlots(){
+   this.spinner.show();
+  let request = {
+    "id":"slot.delete",
+     "version":"v1",
+     "requesttime":"2020-11-28T05:48:03.125Z",
+    "request": {
+      "slotDate":this.selectedDate,
+      "slotTime":this.deleteSlotArray
+    }
+  }
+    this.appointmentService.deleteSlotDetails(request).subscribe((result: any) => {
+      if (result) {
+        const response = result.body;
+        this.spinner.hide();
+        if (response.errors) {
+          this.toastrMessage.showErrorMsg(response.errors.message, 'Error');
+        } else {
+          this.toastrMessage.showSuccessMsg(result.response, "Slots deleted successfully..");
+          this.dialogRef.close(true);
+        }
+      } 
+      else  if(result){
+        this.toastrMessage.showErrorMsg(result.errors.message, "Can't delete appointed slots");
+      }
+
+		},error => {
+        this.spinner.hide();
+        this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error'); 
+      
+		});
+
+  }
+
+
+
+}

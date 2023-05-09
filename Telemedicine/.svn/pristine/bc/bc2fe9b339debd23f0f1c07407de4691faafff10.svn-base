@@ -1,0 +1,228 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.AuthInitDTO;
+import com.nsdl.ndhm.dto.ConfirmAadhaarBioDTO;
+import com.nsdl.ndhm.dto.ConfirmDemograpicsDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpResp;
+import com.nsdl.ndhm.dto.ConfirmPasswordDTO;
+import com.nsdl.ndhm.dto.ExceptionJSONInfoDTO;
+import com.nsdl.ndhm.dto.GenerateOtpResp;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.SearchExistHealthIdRespDTO;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.service.GenerateXTService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+
+@Service
+@LoggingClientInfo
+public class GenerateXTServiceImpl implements GenerateXTService {
+	private static final Logger logger = LoggerFactory.getLogger(GenerateXTServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${authInitHealthId}")
+	String authInit;
+
+	@Value("${authConfirmWithAadhaarOtp}")
+	String confirmWithAadhaarOtp;
+
+	@Value("${authConfirmWithMobileOtp}")
+	String confirmWithMobileOtp;
+
+	@Value("${authConfirmWithPassword}")
+	String confirmWithPassword;
+
+	@Value("${authConfirmWithAadhaarBio}")
+	String confirmWithAadhaarBio;
+
+	@Value("${authConfirmWithDemograpics}")
+	String confirmWithDemograpics;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	ExceptionJSONInfoDTO exceptionJSONInfoDTO = null;
+
+	@Override
+	public MainResponseDTO<GenerateOtpResp> authInit(Map<String, String> headers, AuthInitDTO authInitDTO) {
+		logger.info("Request Receives for authInit");
+		String url = authInit;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<GenerateOtpResp> resp = new MainResponseDTO<>();
+		GenerateOtpResp respData = null;
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authInitDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), GenerateOtpResp.class); // Json to response mapping
+			if (null != respData) {
+				resp.setResponse(respData);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error in authInit {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			logger.error("Error in authInit {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.UNAUTHORIZED.getCode(),
+					HealthIdCreationConstands.UNAUTHORIZED.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("AuthInit response TxnId is: {}", resp.getResponse().getTxnId());
+		return resp;
+	}
+
+	@Override
+	public MainResponseDTO<ConfirmOtpResp> confirmAadhaarOTP(Map<String, String> headers, ConfirmOtpDTO confirmOtpDTO) {
+		logger.info("Request Receives for confirm Aadhaar OTP");
+		String url = confirmWithAadhaarOtp;
+		String encryptedString = new Gson().toJson(confirmOtpDTO);
+		String methodName = "AadhaarOTP";
+		return confirmMethod(headers, encryptedString, url, methodName);
+	}
+
+	@Override
+	public MainResponseDTO<ConfirmOtpResp> confirmMobileOTP(Map<String, String> headers, ConfirmOtpDTO confirmOtpDTO) {
+		logger.info("Request Receives for confirm Mobile OTP");
+		String url = confirmWithMobileOtp;
+		String encryptedString = new Gson().toJson(confirmOtpDTO);
+		String methodName = "MobileOTP";
+		return confirmMethod(headers, encryptedString, url, methodName);
+	}
+
+	@Override
+	public MainResponseDTO<ConfirmOtpResp> confirmByPassword(Map<String, String> headers,
+			ConfirmPasswordDTO confirmPasswordDTO) {
+		logger.info("Request Receives for confirmByPassword");
+		String url = confirmWithPassword;
+		String encryptedString = new Gson().toJson(confirmPasswordDTO);
+		String methodName = "Password";
+		return confirmMethod(headers, encryptedString, url, methodName);
+	}
+
+	@Override
+	public MainResponseDTO<ConfirmOtpResp> confirmAadhaarBio(Map<String, String> headers,
+			ConfirmAadhaarBioDTO confirmAadhaarBioDTO) {
+		logger.info("Request Receives for confirmAadhaarBio");
+		String url = confirmWithAadhaarBio;
+		String encryptedString = new Gson().toJson(confirmAadhaarBioDTO);
+		String methodName = "AadhaarBio";
+		return confirmMethod(headers, encryptedString, url, methodName);
+	}
+
+	@Override
+	public MainResponseDTO<SearchExistHealthIdRespDTO> confirmDemograpics(Map<String, String> headers,
+			ConfirmDemograpicsDTO confirmDemograpicsDTO) {
+		logger.info("Request Receives for confirmDemograpics");
+		String url = confirmWithDemograpics;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<SearchExistHealthIdRespDTO> resp = new MainResponseDTO<>();
+		SearchExistHealthIdRespDTO respData = null;
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(confirmDemograpicsDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), SearchExistHealthIdRespDTO.class); // Json to response
+																								// mapping
+			if (null != respData) {
+				resp.setResponse(respData);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error in confirm Demograpics {} ", e.getMessage());
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			logger.error("Error in confirm Demograpics " + e.getMessage());
+			logger.info("error " + e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.SERVICE_FAIL_STATUS.getCode(),
+					HealthIdCreationConstands.SERVICE_FAIL_STATUS.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Confirm Demograpics response status is: {}", resp.getResponse().getStatus());
+		return resp;
+	}
+
+	private MainResponseDTO<ConfirmOtpResp> confirmMethod(Map<String, String> headers, String encryptedString,
+			String url, String methodName) {
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<ConfirmOtpResp> resp = new MainResponseDTO<>();
+		ConfirmOtpResp respData = null;
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), ConfirmOtpResp.class); // Json to response mapping
+			if (null != respData) {
+				resp.setResponse(respData);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error in confirm {} {} ", methodName, " ", e.getMessage());
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			logger.error("Error in confirm " + methodName + " " + e.getMessage());
+			logger.info("error " + e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Confirm  {} ", methodName, " response Token is: {}", resp.getResponse().getToken());
+		return resp;
+	}
+}

@@ -1,0 +1,258 @@
+package com.nsdl.telemedicine.master.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.telemedicine.master.constant.ErrorConstants;
+import com.nsdl.telemedicine.master.dto.CityDto;
+import com.nsdl.telemedicine.master.dto.CountryDto;
+import com.nsdl.telemedicine.master.dto.ExceptionJSONInfoDTO;
+import com.nsdl.telemedicine.master.dto.MainRequestDTO;
+import com.nsdl.telemedicine.master.dto.MainResponseDTO;
+import com.nsdl.telemedicine.master.dto.MasterDetailsDTO;
+import com.nsdl.telemedicine.master.dto.MasterRequestDto;
+import com.nsdl.telemedicine.master.dto.StateDto;
+import com.nsdl.telemedicine.master.entity.AudtMasterEntity;
+import com.nsdl.telemedicine.master.entity.DoctorRedFlagUrlMstrEntity;
+import com.nsdl.telemedicine.master.entity.MasterEntity;
+import com.nsdl.telemedicine.master.exception.DateParsingException;
+import com.nsdl.telemedicine.master.exception.ServiceErrors;
+import com.nsdl.telemedicine.master.logger.LoggingClientInfo;
+import com.nsdl.telemedicine.master.repository.AudRepo;
+import com.nsdl.telemedicine.master.repository.CityRepo;
+import com.nsdl.telemedicine.master.repository.CountryRepo;
+import com.nsdl.telemedicine.master.repository.MasterRepo;
+import com.nsdl.telemedicine.master.repository.RedFlagUrlRepo;
+import com.nsdl.telemedicine.master.repository.StateRepo;
+import com.nsdl.telemedicine.master.service.MasterManagementService;
+import com.nsdl.telemedicine.master.utility.DateUtils;
+import com.nsdl.telemedicine.master.utility.MasterUtility;
+
+@Service
+@LoggingClientInfo
+public class MasterManagementServiceImpl implements MasterManagementService {
+	@Autowired
+	MasterRepo masterRepo;
+
+	@Autowired
+	AudRepo autidRepo;
+
+	@Autowired
+	CountryRepo countryRepo;
+
+	@Autowired
+	StateRepo stateRepo;
+
+	@Autowired
+	CityRepo cityRepo;
+
+	@Autowired
+	RedFlagUrlRepo redFlagUrlRepo;
+
+	private static final Logger logger = LoggerFactory.getLogger(MasterManagementServiceImpl.class);
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<List<MasterDetailsDTO>> getMasterDetailsListByMasterName(
+			MainRequestDTO<MasterRequestDto> masterRequest) {
+		List<MasterDetailsDTO> masterDtoList = new ArrayList<MasterDetailsDTO>();
+		MainResponseDTO<List<MasterDetailsDTO>> responseDTO = (MainResponseDTO<List<MasterDetailsDTO>>) MasterUtility
+				.getMainResponseDto(masterRequest);
+		logger.info("Fetching records from DB");
+		List<Object[]> masterList = masterRepo
+				.getMasterDetailsListByMasterName(masterRequest.getRequest().getMasterName());
+		logger.info("Records fetched from DB");
+		for (Object[] objects : masterList) {
+			Object[] o = objects;
+			MasterDetailsDTO dto = new MasterDetailsDTO();
+			dto.setMasterName(String.valueOf(o[0]));
+			dto.setMasterValue(String.valueOf(o[1]));
+			dto.setMasterUnit(String.valueOf(o[2]));
+			masterDtoList.add(dto);
+		}
+		responseDTO.setStatus(true);
+		responseDTO.setResponse(masterDtoList);
+		return responseDTO;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<List<MasterDetailsDTO>> getMasterList(MainRequestDTO<?> masterRequest) {
+		List<MasterDetailsDTO> masterDtoList = new ArrayList<MasterDetailsDTO>();
+		MainResponseDTO<List<MasterDetailsDTO>> responseDTO = (MainResponseDTO<List<MasterDetailsDTO>>) MasterUtility
+				.getMainResponseDto(masterRequest);
+		logger.info("Fetching records from DB");
+		List<Object[]> masterList = masterRepo.getMasterList();
+		logger.info("Records fetched from DB");
+		for (Object[] objects : masterList) {
+			Object[] o = objects;
+			MasterDetailsDTO dto = new MasterDetailsDTO();
+			dto.setMasterName(String.valueOf(o[0]));
+			masterDtoList.add(dto);
+		}
+		responseDTO.setStatus(true);
+		responseDTO.setResponse(masterDtoList);
+		return responseDTO;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<String> saveMasterDetails(MainRequestDTO<List<MasterDetailsDTO>> masterRequest) {
+		MainResponseDTO<String> responseDTO = null;
+		List<ExceptionJSONInfoDTO> errorList = null;
+		try {
+			responseDTO = (MainResponseDTO<String>) MasterUtility.getMainResponseDto(masterRequest);
+			for (MasterDetailsDTO request : masterRequest.getRequest()) {
+
+				String masterName = request.getMasterName();
+				String masterValue = request.getMasterValue();
+				String masterUnit = request.getMasterUnit() == null ? "null" : request.getMasterUnit();
+				MasterEntity masterEntity = new MasterEntity();
+				masterEntity.setCreatedBy("admin");
+				masterEntity.setCreatedTmstmp(DateUtils.getCurrentLocalDateTime());
+				masterEntity.setMasterName(masterName);
+				masterEntity.setMasterValue(masterValue);
+				masterEntity.setMasterUnit(masterUnit);
+				masterEntity.setIsactiveFlg("Y");
+				try {
+					AudtMasterEntity audMaster = new AudtMasterEntity(masterEntity, "admin");
+					logger.info("Saving audit details");
+					autidRepo.save(audMaster);
+					logger.info("Audit details save");
+					logger.info("Saving master details");
+					masterRepo.save(masterEntity);
+					logger.info("Master details save");
+				} catch (DataIntegrityViolationException e) {
+					errorList = MasterUtility.getExceptionList(errorList,
+							ErrorConstants.MASTER_ALREADY_AVAILABLE.getCode(),
+							ErrorConstants.MASTER_ALREADY_AVAILABLE.getMessage() + masterName);
+					logger.error(ErrorConstants.MASTER_ALREADY_AVAILABLE.getMessage());
+					continue;
+				} catch (Exception e) {
+					logger.error(ErrorConstants.SOMETHING_WENT_WRONG.getMessage(), e);
+					throw e;
+				}
+			}
+		} catch (Exception e) {
+			logger.error(ErrorConstants.SOMETHING_WENT_WRONG.getMessage(), e);
+			throw e;
+		}
+		if (errorList != null) {
+			responseDTO.setStatus(false);
+			responseDTO.setErrors(errorList);
+			if (masterRequest.getRequest().size() == errorList.size()) {
+				responseDTO.setResponse(ErrorConstants.FAIL_TO_SAVE_RECORD.getMessage());
+				logger.error(ErrorConstants.FAIL_TO_SAVE_RECORD.getMessage());
+			} else {
+				responseDTO.setResponse("info: " + errorList.size() + " Records are failure out of "
+						+ masterRequest.getRequest().size() + ". Please refer error details !");
+				logger.error("info: " + errorList.size() + " Records are failure out of "
+						+ masterRequest.getRequest().size() + ". Please refer error details !");
+			}
+		} else {
+			responseDTO.setStatus(true);
+			responseDTO.setResponse(ErrorConstants.MASTER_SAVE.getMessage());
+			logger.error(ErrorConstants.MASTER_SAVE.getMessage());
+		}
+		return responseDTO;
+
+	}
+
+	@Override
+	public MainResponseDTO<String> modifyMasterDetails(MainRequestDTO<List<MasterDetailsDTO>> masterRequest) {
+
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<List<StateDto>> getStateList(MainRequestDTO<CountryDto> masterRequest) {
+		List<StateDto> masterDtoList = new ArrayList<StateDto>();
+		MainResponseDTO<List<StateDto>> responseDTO = (MainResponseDTO<List<StateDto>>) MasterUtility
+				.getMainResponseDto(masterRequest);
+		logger.info("Fetching records from DB");
+		List<String> stateList = stateRepo.getStateList(masterRequest.getRequest().getCountryName().toUpperCase());
+		logger.info("Records fetched from DB");
+		for (String objects : stateList) {
+			// Object[] o=objects;
+			StateDto dto = new StateDto();
+			dto.setStateName(objects);
+			masterDtoList.add(dto);
+		}
+		responseDTO.setStatus(true);
+		responseDTO.setResponse(masterDtoList);
+		return responseDTO;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<List<CountryDto>> getCountryList(MainRequestDTO<?> masterRequest) {
+		List<CountryDto> masterDtoList = new ArrayList<CountryDto>();
+		MainResponseDTO<List<CountryDto>> responseDTO = (MainResponseDTO<List<CountryDto>>) MasterUtility
+				.getMainResponseDto(masterRequest);
+		logger.info("Fetching records from DB");
+		List<Object[]> countryList = countryRepo.getCountryList();
+		logger.info("Records fetched from DB");
+		for (Object[] objects : countryList) {
+			Object[] o = objects;
+			CountryDto dto = new CountryDto();
+			dto.setCountryName(String.valueOf(o[0]));
+			masterDtoList.add(dto);
+		}
+		responseDTO.setStatus(true);
+		responseDTO.setResponse(masterDtoList);
+		return responseDTO;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<List<CityDto>> getCityList(MainRequestDTO<StateDto> masterRequest) {
+		List<CityDto> masterDtoList = new ArrayList<CityDto>();
+		MainResponseDTO<List<CityDto>> responseDTO = (MainResponseDTO<List<CityDto>>) MasterUtility
+				.getMainResponseDto(masterRequest);
+		logger.info("Fetching records from DB");
+		List<String> cityList = cityRepo.getCityList(masterRequest.getRequest().getStateName().toUpperCase());
+		logger.info("Records fetched from DB");
+		for (String objects : cityList) {
+			// Object[] o=objects;
+			CityDto dto = new CityDto();
+			dto.setCityName(objects);
+			masterDtoList.add(dto);
+		}
+		responseDTO.setStatus(true);
+		responseDTO.setResponse(masterDtoList);
+		return responseDTO;
+	}
+
+	@Override
+	public Long getCountOfSpeciality() {
+		Long count = 0L;
+		try {
+			count = masterRepo.getCountOfSpeciality();
+		} catch (Exception e) {
+			logger.error("Exception while getting count of doctor speciality.");
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	@Override
+	public String getRedFlagUrl(String drID, String redflag) {
+		DoctorRedFlagUrlMstrEntity entity = redFlagUrlRepo.findBydrumDrUseridAndDrumRedflag(drID, redflag);
+		if (entity == null) {
+			logger.error("redFlag url not available for drId {}", drID);
+			ServiceErrors error = new ServiceErrors(ErrorConstants.REDFLAG_URL_NOT_FOUND.getCode(),
+					ErrorConstants.REDFLAG_URL_NOT_FOUND.getMessage());
+			throw new DateParsingException(error);
+		} else {
+			logger.info("getRedFlagUrl method ended");
+			return entity.getDrumUrl();
+		}
+	}
+}

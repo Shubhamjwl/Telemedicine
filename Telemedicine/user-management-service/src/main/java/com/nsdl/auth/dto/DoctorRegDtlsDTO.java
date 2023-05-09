@@ -1,0 +1,27 @@
+package com.nsdl.auth.dto;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+/**
+ * @author SayaliA
+ *
+ */
+@Data
+@Builder
+@EqualsAndHashCode
+public class DoctorRegDtlsDTO {
+	
+	private String drMobNo;
+	private String drEmail;
+	private String drUserID;
+	private String drSMCNo;
+	private String drMCINo;
+	//private int drConsultFee;
+	private String drSpecilization;
+	private String drFullName;
+	private String currentStatus;
+	private String associationName;
+	private String associationNumber;
+	
+}

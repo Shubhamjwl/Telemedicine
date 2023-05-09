@@ -1,0 +1,96 @@
+package com.nsdl.ndhm.controller;
+
+import com.nsdl.ndhm.dto.*;
+import com.nsdl.ndhm.service.SearchHealthIdService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@CrossOrigin
+public class SearchApiController {
+	private static final Logger logger = LoggerFactory.getLogger(SearchApiController.class);
+
+	@Autowired
+	SearchHealthIdService searchApiService;
+
+	/*
+	 * for search exists by healthId
+	 */
+	@PostMapping(value = "/searchExistsByHealthId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<SearchExistHealthIdRespDTO>> existsByHealthId(
+			@RequestHeader Map<String, String> headers,
+			@RequestBody MainRequestDTO<SearchByHealthIdDTO> searchByHealthIdDTO) {
+		MainResponseDTO<SearchExistHealthIdRespDTO> mainResponse = null;
+		logger.info("Search Exists By HealthId Request Received");
+		try {
+			mainResponse = searchApiService.checkExistsByHealthId(headers, searchByHealthIdDTO);
+		} catch (Exception e) {
+			logger.error("Error in existsByHealthId {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for search by mobile number
+	 */
+	@PostMapping(value = "/searchByMobile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<SearchByMobRespDTO>> searchByMobile(
+			@RequestHeader Map<String, String> headers, @RequestBody MainRequestDTO<SearchByMobDTO> searchByMobDTO) {
+		MainResponseDTO<SearchByMobRespDTO> mainResponse = null;
+		logger.info("Search Health Id By Mobile Request Received");
+		try {
+			mainResponse = searchApiService.searchByMobile(headers, searchByMobDTO);
+		} catch (Exception e) {
+			logger.error("Error in searchByMobile {} ", e);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(mainResponse);
+	}
+
+	/*
+	 * for search by health Id
+	 */
+	@PostMapping(value = "/searchByHealthId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<SearchByMobRespDTO>> searchByHealthId(
+			@RequestHeader Map<String, String> headers,
+			@RequestBody MainRequestDTO<SearchByHealthIdDTO> searchByHealthIdDTO) {
+		MainResponseDTO<SearchByMobRespDTO> mainResponse = null;
+		logger.info("Search By HealthId Request Received");
+		try {
+			mainResponse = searchApiService.searchByHealthId(headers, searchByHealthIdDTO);
+		} catch (Exception e) {
+			logger.error("Error in searchByHealthId {} ", e);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(mainResponse); 
+	}
+
+	/*
+	 * for search by Aadhar number
+	 */
+	@PostMapping(value = "/searchByAadhar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<SearchByMobRespDTO>> searchByAadhar(
+			@RequestHeader Map<String, String> headers,
+			@RequestBody MainRequestDTO<SearchByAadharDTO> searchByAadharDTO) {
+		MainResponseDTO<SearchByMobRespDTO> mainResponse = null;
+		logger.info("Search Health Id By Mobile Request Received");
+		try {
+			mainResponse = searchApiService.searchByAadhar(headers, searchByAadharDTO);
+		} catch (Exception e) {
+			logger.error("Error in searchByAadhar {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+}

@@ -1,0 +1,98 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="main-container">
+  <div class="app-top-area">
+    <div class="page-title mt-3">Upload Patient Care Documents</div>
+  </div>
+  <mat-card class="mt-4">
+  <form [formGroup]="form" class="my-4">
+    <div class="row">
+      <div class="col-3">
+        <div class="input-group half-col">
+          <label>Document Type<sup class="spanColor">*</sup></label>
+          <select id="documentName" class="select-area" formControlName="documentName" required>
+            <option *ngFor="let dS of documentNameList" [value]="dS.documentName">
+              {{ dS.documentName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <label>Upload Document <sup class="spanColor">*</sup></label>
+        <input
+          type="text"
+          (click)="inputFile.click()"
+          placeholder="Note:Upload atleast one document"
+          class="col-10 browse_file"
+        />
+        <input #inputFile type="file" class="d-none" accept=".xlsx" multiple />
+        <img src="assets/img/attachment.svg" (click)="fileInput.click()" class="upload-sample" alt="" />
+        <input
+          hidden
+          (change)="onFileSelected($event)"
+          #fileInput
+          type="file"
+          required
+          formControlName="filesToUpload"
+        />
+        <span *ngIf="selectedFile?.name" class="ml-4"
+          >{{ selectedFile?.name }} <a role="button" (click)="removeFile()" class="ml-2 text-danger">X</a></span
+        >
+      </div>
+    </div>
+    <div class="d-flex  mt-5 leftSidePadding">
+      <button class="btn btn-primary" [disabled]="form.invalid" (click)="uploadDocuments()">Upload</button>
+    </div>
+  </form>
+</mat-card>
+
+  <div class="container mt-5 mb-5">
+    <div class="example-container mat-elevation-z8" *ngIf="uploadedDataList.data.length">
+      <table mat-table [dataSource]="uploadedDataList">
+        <ng-container matColumnDef="documentName" class="col-padding">
+          <th mat-header-cell *matHeaderCellDef>Document Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.documentName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="documentType">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Document Type</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">{{ element.documentType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateofUpload">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Date of Upload</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            {{ element.uploadDate | date: 'dd/MM/yyyy hh:mm a' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="uploadedBy">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Uploaded By</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">{{ element.uploadedBy }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="col-padding">Action</th>
+          <td mat-cell *matCellDef="let element" class="col-padding">
+            <i role="button" (click)="download(element.documentPath)" class="fa fa-download text-secondary"></i>
+            <i role="button" class="fa fa-trash-o text-secondary ml-2" (click)="deletePatientDocument(element.docId)"></i>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"> </mat-paginator>
+
+      <div class="row" *ngIf="!(uploadedDataList && uploadedDataList.data.length > 0)">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3" style="padding: 0 50px 0 90px">
+          <p class="p-5 bg-white text-center">No Data Found!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

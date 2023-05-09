@@ -1,0 +1,66 @@
+package com.nsdl.telemedicine.service.impl;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.telemedicine.constant.ErrorConstants;
+import com.nsdl.telemedicine.dto.MarketPlaceDetailsDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDtlsResponseDTO;
+import com.nsdl.telemedicine.entity.MarketPlaceDetailsEntity;
+import com.nsdl.telemedicine.exception.DateParsingException;
+import com.nsdl.telemedicine.exception.ServiceErrors;
+import com.nsdl.telemedicine.repository.MarketPlaceDtlsRepo;
+import com.nsdl.telemedicine.service.MarketPlaceService;
+
+@Service
+public class MarketPlaceServiceImpl implements MarketPlaceService {
+
+	@Autowired
+	private MarketPlaceDtlsRepo marketRepo;
+
+	@Autowired
+	private Environment environment;
+
+	private static final Logger logger = LoggerFactory.getLogger(MarketPlaceServiceImpl.class);
+
+	@Override
+	public MarketPlaceDtlsResponseDTO saveMarketPlaceDetailsUrl(MarketPlaceDetailsDTO marketPlaceDtls) {
+		MarketPlaceDtlsResponseDTO marketResponse = new MarketPlaceDtlsResponseDTO();
+		MarketPlaceDetailsEntity marketDtlsEntity = new MarketPlaceDetailsEntity();
+		marketDtlsEntity.setModTranstIid(marketPlaceDtls.getTranstId());
+		marketDtlsEntity.setModDrEmail(marketPlaceDtls.getDrEmail());
+		marketDtlsEntity.setModPtNname(marketPlaceDtls.getPtNname());
+		marketDtlsEntity.setModPtMobile(marketPlaceDtls.getPtMobile());
+		MarketPlaceDetailsEntity saveDetails = marketRepo.save(marketDtlsEntity);
+		if (saveDetails != null) {
+			String clientSecret = environment.getProperty("market.place.client.secret");
+			marketResponse.setClientSecret(clientSecret);
+			return marketResponse;
+		} else {
+			logger.error("Market place details not saved in DB");
+			ServiceErrors error = new ServiceErrors(ErrorConstants.REDFLAG_DATA_NOT_AVAILABLE.getCode(),
+					ErrorConstants.REDFLAG_DATA_NOT_AVAILABLE.getMessage());
+			throw new DateParsingException(error);
+		}
+	}
+
+	@Override
+	public boolean validateRequest(MarketPlaceDetailsDTO marketPlaceDtls) {
+
+		String regex = "[0-9]+";
+        
+        // compiling regex
+        Pattern pattern = Pattern.compile(regex);
+          
+        // Creates a matcher that will match input1 against regex
+        Matcher m = pattern.matcher(marketPlaceDtls.getPtMobile());
+		return m.matches();
+	}
+
+}

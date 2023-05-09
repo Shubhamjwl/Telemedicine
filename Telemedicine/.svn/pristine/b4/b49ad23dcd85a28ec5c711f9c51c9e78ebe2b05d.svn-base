@@ -1,0 +1,100 @@
+package com.nsdl.ndhm.controller;
+
+import com.nsdl.ndhm.dto.*;
+import com.nsdl.ndhm.service.ForgotHealthIdAndNumService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@CrossOrigin
+public class ForgotHealthIdAndNumController {
+
+	private static final Logger logger = LoggerFactory.getLogger(ForgotHealthIdAndNumController.class);
+
+	@Autowired
+	ForgotHealthIdAndNumService forgotHealthIdAndNumService;
+
+	/*
+	 * for forgot healthId generate aadhaar OTP
+	 */
+	@PostMapping(value = "/forgotHealthIdAadhaarOTP", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateOtpResp>> genForgotHealthIdAadhaarOTP(
+			@RequestHeader Map<String, String> headers, @RequestBody GenerateOtpDTO generateOTPDTO) {
+		MainResponseDTO<GenerateOtpResp> mainResponse = null;
+		logger.info("Generate Aadhaar OTP for Forgot HealthId Request Received");
+		try {
+			mainResponse = forgotHealthIdAndNumService.generateAadhaarOTP(headers, generateOTPDTO);
+		} catch (Exception e) {
+			logger.error("Error in genForgotHealthIdAadhaarOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for get healthId and number by aadhaar
+	 */
+	@PostMapping(value = "/getForgotHealthIdAadhaar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateHealthIdAndNumRespDTO>> genForgotHealthIdAadhaar(
+			@RequestHeader Map<String, String> headers, @RequestBody ConfirmOtpDTO confirmOtpDTO) {
+		MainResponseDTO<GenerateHealthIdAndNumRespDTO> mainResponse = null;
+		logger.info("Confirm Aadhaar OTP for Forgot HealthId Request Received");
+		try {
+			mainResponse = forgotHealthIdAndNumService.getHealthIdByAadhaar(headers, confirmOtpDTO);
+		} catch (Exception e) {
+			logger.error("Error in genForgotHealthIdAadhaar {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for forgot healthId generate mobile OTP
+	 */
+	@PostMapping(value = "/forgotHealthIdMobileOTP", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateOtpResp>> genForgotHealthIdMobileOTP(
+			@RequestHeader Map<String, String> headers, @RequestBody GenerateOtpDTO generateOTPDTO) {
+		MainResponseDTO<GenerateOtpResp> mainResponse = null;
+		logger.info("Generate Mobile OTP for Forgot HealthId Request Received");
+		try {
+			mainResponse = forgotHealthIdAndNumService.generateMobileOTP(headers, generateOTPDTO);
+		} catch (Exception e) {
+			logger.error("Error in genForgotHealthIdMobileOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for get healthId and number by mobile
+	 */
+	@PostMapping(value = "/getForgotHealthIdMobile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateHealthIdAndNumRespDTO>> genForgotHealthIdMobile(
+			@RequestHeader Map<String, String> headers, @RequestBody ForgotHealthByMobileReqDTO healthByMobileReqDTO) {
+		MainResponseDTO<GenerateHealthIdAndNumRespDTO> mainResponse = null;
+		logger.info("Generate Mobile OTP for Forgot HealthId Request Received");
+		try {
+			mainResponse = forgotHealthIdAndNumService.getHealthIdByMobile(headers, healthByMobileReqDTO);
+		} catch (Exception e) {
+			logger.error("Error in genForgotHealthIdMobile {}", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+}

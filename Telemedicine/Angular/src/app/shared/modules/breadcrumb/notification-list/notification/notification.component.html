@@ -1,0 +1,27 @@
+<div mat-dialog-title>
+  Notification
+  <a class="close mr-2" (click)="dialogRef.close()"><img _ngcontent-dss-c373="" src="assets/img/close.svg" alt="" /></a>
+</div>
+<div mat-dialog-content>
+  <div>
+    {{ data.notification }}
+  </div>
+
+  <div class="mt-2" *ngIf="data.template" [innerHTML]="data.template"></div>
+  <div class="mt-1 mb-2">
+    <div
+      *ngIf="
+        data.notificationType === NotificationTypeEnum.PasswordExpiry10Days ||
+        data.notificationType === NotificationTypeEnum.PasswordExpiry1Day
+      "
+    >
+      <a class="text-primary" role="button" (click)="onClickChangePass()">Click Here </a>to change your password.
+    </div>
+    <div *ngIf="data.attachmentPath">
+      <a class="text-primary" role="button" (click)="downloadFile()">Click Here </a>to download file.
+    </div>
+  </div>
+</div>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,6 @@
+server.port=8001
+server.context-path=/razorpayapp
+spring.thymeleaf.mode=LEGACYHTML5
+#security.require-ssl=true
+razorpay.key.id=rzp_test_WW4lRgT2ig0uT2
+razorpay.key.secret=lrY2iLO3YcjYfmrWVvPPQ3rr

@@ -1,0 +1,278 @@
+import { DatePipe } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { IConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/interfaces/consultation-patient-details.interface';
+import { IDoctorDetails } from 'src/app/shared/commonBuildBlocks/interfaces/doctor-details.interface';
+import { IPatientPersonalDetails } from 'src/app/shared/commonBuildBlocks/interfaces/patient-personal-details.interface';
+import { IPatientDetailsByAppointmentIDSaveSpec } from 'src/app/shared/commonBuildBlocks/saveSpecs/patient-details-by-appointment-id.savespec';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { DoctorService } from 'src/app/shared/commonBuildBlocks/services/doctorServices/doctor.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+import { PrescriptionDataSharingService } from '../prescription-data-sharing.service';
+
+@Component({
+  selector: 'app-tm-consultation',
+  templateUrl: './tm-consultation.component.html',
+  styleUrls: ['./tm-consultation.component.scss'],
+})
+export class TmConsultationComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') private myStepper: MatStepper;
+  isExpanded = false;
+  plusMinus = this.isExpanded ? '-' : '+';
+  symptomDetails: any;
+  diagnosisDetails: any;
+  medicineDetails: any;
+  adviceDetails: any;
+  ptSymptomsDetails: any;
+  selectedDate: any;
+  slotDate: any;
+  clientSecret: string;
+  transactionID: any;
+  emailid: any;
+  private drRegID: string;
+  appointmentTime: string;
+  patientProfilePic = 'assets/images/img_avatar.png';
+  userID: any;
+  drConsultFee: number = 0;
+  appointmentSlotsList: any = [];
+  startDate: Date = new Date();
+  slotsList = [];
+  drconvenienceCharge: number = 0;
+  errorMsg: String;
+  drMobileNumber: string;
+  bBBVC = false;
+  @ViewChild('form') formPre: ElementRef;
+  actionURL = environment.prescribedUrl;
+
+  patientDetailsByAppointment: IPatientDetailsByAppointmentIDSaveSpec;
+  /**
+   * Used to store response of Patient Details
+   */
+  patientDetails: IConsultationPatientDetails;
+
+  doctorDetails: IDoctorDetails;
+  ptPersonalDetails: IPatientPersonalDetails;
+
+  constructor(
+    private consultationService: ConsultationService,
+    private dataPassingService: DataPassingService,
+    private prescriptionDataSharingService: PrescriptionDataSharingService,
+    private toastrMessage: ToastMessageService,
+    public patientService: PatientService,
+    private spinner: NgxSpinnerService,
+    private appointmentService: AppointmentService,
+    private authService: AuthService,
+    private datePipe: DatePipe,
+    private doctorService: DoctorService,
+  ) {
+    this.userID = this.authService.getUserId() ? this.authService.getUserId() : null;
+    this.doctorDetails = this.doctorService.doctorDetails;
+  }
+
+  ngOnInit(): void {
+    this.patientDetailsByAppointment =
+      this.dataPassingService.patientDetailsByAppointment || ({} as IPatientDetailsByAppointmentIDSaveSpec);
+    this.getPatientDetails();
+    this.getAppointmentListForDoc();
+    this.selectedDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
+
+    this.prescriptionDataSharingService.symptomDetailsChanged.subscribe((res) => {
+      this.symptomDetails = res;
+    });
+    this.prescriptionDataSharingService.diagnosisDetailsChanged.subscribe((res) => {
+      this.diagnosisDetails = res;
+    });
+    this.prescriptionDataSharingService.medicineDetailsChanged.subscribe((res) => {
+      this.medicineDetails = res;
+    });
+    this.prescriptionDataSharingService.adviceDetailsChanged.subscribe((res) => {
+      this.adviceDetails = res;
+    });
+  }
+
+  goBack() {
+    this.myStepper.previous();
+  }
+
+  goForward() {
+    this.myStepper.next();
+  }
+
+  ngOnDestroy(): void {
+    this.consultationService.clearConsulationData();
+  }
+
+  /**
+   * Used to get Patient Details from API Call
+   */
+  private getPatientDetails() {
+    this.consultationService.getPatientDeailsByAppointmenttID(this.patientDetailsByAppointment).subscribe((res) => {
+      if (res.response) {
+        this.patientDetails = res.response;
+        this.ptPersonalDetails = this.patientDetails.ptPersonalDetals;
+        this.ptSymptomsDetails = this.patientDetails.symptoms;
+        this.prescriptionDataSharingService.ptPersonalDetails = this.ptPersonalDetails;
+        this.patientProfilePic = this.ptPersonalDetails?.profilePhotoPath?.replace('/var/telemedicine/', `${environment.baseUrl}`) || 'assets/images/img_avatar.png';
+        this.ptPersonalDetails.dob = this.ptPersonalDetails.dob?.replace(/\s/g, '/') || '';
+      }
+    });
+  }
+
+  /**
+   * Used to get doctors Details from API Call
+   */
+
+  private getAppointmentListForDoc() {
+    this.spinner.show();
+    this.appointmentService.getAppointmentListOfDoc(this.userID, this.selectedDate).subscribe(
+      (result: any) => {
+        this.spinner.hide();
+        if (result.response && result.status) {
+          this.drRegID = result.response?.drRegID || null;
+          this.drMobileNumber = result.response?.drMobileNumber || null;
+          this.drConsultFee = result.response?.doctorConsultFee || null;
+          this.appointmentSlotsList = result?.response?.apptDtls?.Today || [];
+          this.appointmentTime = result.response.apptDtls.Today.appointmentTime
+            ? result.response.apptDtls.Today.appointmentTime
+            : null;
+          this.slotsList = this.appointmentSlotsList?.slots || [];
+          this.drconvenienceCharge = result.response?.convenienceCharge || null;
+        } else if (result.errors) {
+          this.appointmentSlotsList = [];
+          this.slotsList = [];
+          this.errorMsg = result?.errors[0]?.message || '';
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.appointmentSlotsList = [];
+        this.slotsList = [];
+        this.errorMsg = error?.errors[0]?.message || '';
+      },
+    );
+  }
+
+  /**
+   * Used to redirect prescribed page
+   */
+  onClickPrescribed() {
+    this.paymentApi();
+  }
+
+  private paymentApi() {
+    let dummyPayload = {
+      docUserID: this.patientDetailsByAppointment.drRegID,
+      ptUserID: this.patientDetailsByAppointment.ptRegID,
+      bookedFor: 'n',
+      appointmentSlot: this.patientDetailsByAppointment.slotTime,
+      appointmentDate: this.slotDate,
+      appointmentType: this.patientDetailsByAppointment.slotType,
+    };
+    this.spinner.show();
+    this.patientService.dummyPaymentApi(dummyPayload).subscribe(
+      (result) => {
+        this.spinner.hide();
+        this.transactionID = result;
+        this.saveMarketPlaceDetails(this.transactionID);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.toastrMessage.showErrorMsg(ErrorSuccessMessage.APIFAILD, 'Error');
+      },
+    );
+  }
+
+  saveMarketPlaceDetails(transactionID: string) {
+    this.emailid = sessionStorage.getItem('emailID');
+    let data = {
+      request: {
+        transtId: transactionID,
+        drEmail: this.emailid,
+        ptNname: this.ptPersonalDetails.name,
+        ptMobile: this.ptPersonalDetails.mobileNo,
+      },
+    };
+    this.spinner.show();
+    this.consultationService.saveMarketPlaceDetails(data).subscribe((result) => {
+      this.spinner.hide();
+      this.clientSecret = result.response.clientSecret;
+      setTimeout(() => {
+        this.formPre.nativeElement.submit();
+      }, 1000);
+    });
+  }
+
+  bigBlueButtonVCToken() {
+    if (!this.bBBVC) {
+      let appID = this.patientDetailsByAppointment.apptID;
+      const slotTime = this.patientDetailsByAppointment.slotTime;
+      appID = appID?.replace(/-/g, '');
+      const payload = {
+        meetingId: appID,
+        name: this.selectedDate,
+        duration: slotTime,
+        moderatorPassword: this.drMobileNumber,
+        moderatorId: this.userID,
+        attendeePassword: this.ptPersonalDetails.mobileNo,
+        redirect: true,
+        record: false,
+      };
+      this.spinner.show();
+      this.consultationService.createMeetingBBB(payload).subscribe(
+        (result) => {
+          this.spinner.hide();
+          if (result.response && result.status) {
+            this.bBBVC = true;
+            this.joinMeeting();
+          } else if (result.errors) {
+            this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          this.joinMeeting();
+          this.toastrMessage.showErrorMsg(error.error?.message, 'Error');
+        },
+      );
+    } else {
+      this.joinMeeting();
+    }
+  }
+
+  private joinMeeting() {
+    let appID = this.patientDetailsByAppointment.apptID;
+    appID = appID?.replace(/-/g, '');
+    let joinpayload = {
+      meetingID: appID,
+      userDisplayName: this.userID,
+      password: this.ptPersonalDetails.mobileNo,
+      redirect: true,
+    };
+    this.spinner.show();
+    this.consultationService.joinMeetingBBB(joinpayload).subscribe(
+      (result) => {
+        this.spinner.hide();
+        if (result.response && result.status) {
+          window.open(result.response.url);
+        } else {
+          this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.toastrMessage.showErrorMsg(error.error?.message, 'Error');
+      },
+    );
+  }
+
+  setPlusMinus(): void {
+    this.plusMinus = this.isExpanded ? '-' : '+';
+  }
+}

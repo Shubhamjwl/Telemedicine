@@ -1,0 +1,7 @@
+spring.application.name=captcha-service
+#server.port=8073
+server.servlet.context-path=/captcha
+server.use-forward-headers=true
+captcha.expiry.time=1800
+verifyCaptchaByPass.flag=N
+spring.profiles.active=dev

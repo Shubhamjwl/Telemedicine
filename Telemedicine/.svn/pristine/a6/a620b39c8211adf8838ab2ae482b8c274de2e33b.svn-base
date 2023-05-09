@@ -1,0 +1,27 @@
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-left: 55px;
+  // height: 200px;
+}
+.footer-left {
+  width: 299px;
+  height: 146px;
+  margin: 0px;
+}
+.footer-right {
+  width: 469px;
+  height: 229px;
+  margin: 0px;
+}
+
+.copyright {
+  font-size: 13px;
+  color: white;
+  letter-spacing: 0.78px;
+  position: absolute;
+  margin-bottom: 25px;
+  margin-left: 20px;
+}

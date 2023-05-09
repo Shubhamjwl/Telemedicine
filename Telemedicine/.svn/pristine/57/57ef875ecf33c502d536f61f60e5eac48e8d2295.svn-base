@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "protean-clinic",
+  "private_key_id": "a486564e15c0631648df7d19f8e9d37f8adad737",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDJnJ5k97eiRPU6\nTDe/GlmS8Wy+FcHbUcpByE3b/70FQJCV/8hFjlCu4J5wmW9iYVEa90874hOMso+S\n8n6VBjmLkQOjJ0Mdh7nUbNwRI/I5Q70FFFJWxlDfW3Vz8fTzBCpqae4S8+ODi+Jj\nv4mk61Ivy/rXpUBAMn9Fn29fGR+TZyg9ZHn8vppCXeK/R/2A3SvESu+GdWMwWcNL\nb++TCA5q8HRhQ+OOs6Lk0agc2Jgh/1XWdiLaW99PVN1wPrYvXUQOLz0sHFvkdP29\nYvqOAKDGHS7pR5EC8oRcM48Ze3Bbq3lI5ILqkgewDlybTaEw3u70GjQeCH+oYT1r\naHILeVJlAgMBAAECggEAB1SnfSTbtSECqKq/5fYDkHn9gGDipY9qn9Jno4qMn5Q3\nXaWvoF9tgOcgChiUifqsLzz56tCMcboS/RHnqkWc0iQRwlaWYTLy8RQloVLrbXHq\nCmhj53QhDMOmBUzK+wrpYhxCOmEXVYxnACwx/IB/XC3Z/yOeIgEKcY6u4KgvDRYF\nEUBxYGh4eRDc2y2pAoZB4snWLNEfn9M3UZ6O8bG9roywZ6NLWThggC1HAAwtXCUP\nOYyi62Hqbb9G/RE87XevB7jZLcAC8ApdBvI2x7RhpnbWh7TlToOXcNHV9ohH7Ynq\nQ+ji20mSCB4vCOlFWuMMZltQT5lTEC01nLOAHcbzEQKBgQDn76xJIlDVRPGZnyDz\nU5MWUfy5q2UDTLKQrMyZ9+9CaXTyevam41NQJVWfv6OMRquns6CN/pNNjhbqZPlW\nelu3QQ/5GwjHq7qGgptSaH67rfHciVfx/v7QzmLbFP1FvUg4d//3BtpDgTPUE24X\nNq//3MgdjY6I0f8xyjg2CgQwsQKBgQDeh4QCVKQsjGRnPpiraihE5LMlCCWliUSd\niRLs/CfuU0WdYJV2q1SfMzXXKJXKnhsbBUo179TbrmttDX3vrFiS5bRTIkhNMFJm\n43Tc+SB7ewcG9wXJsj8Re+uCQQvcKRoWcAdJmk7gCRRjrs9/eaSkEoA/tWmRsS13\nEFFhR+iJ9QKBgF5BJymdWW4iE3DTmydnWknizaqCfY1muNZUct1LRZ8ejhkQYXYW\nwb+7PF2sGoGiIpYHSIML5r7ItIVSvYUoOmdxeFVKaDoEjsuk/gvyTTZmDPkLk4LT\nlqgyhzfzAq45qsTP92RjE4YFVpOjxcSHQ+TdyzE/WqI9fNC2FjvXvDYxAoGAQMPs\nNclwps6NgkcDpBAXfEWbphGC83TKFZeJfJO/A2wU/MLZfVpMHLGI4AAd6ISvmuOl\nP6F3sCBJf8nHd3QPq2FTZEa8CEsiEHPu1UlknMunte07MALCvFH2r0hDLWaBAzrD\nxDY28plx57k/BvjeZCpGTUR9XzvT4a1MIiYNlekCgYAhQsXZhbGTZjWhTcWgOeKf\nKPijzfclkBPExX2LCuZV1MUcgygL5eWdMZtfR1uWj8zt+ZWRE2Fw4dc6LsY+k14L\nv4EvQE+q65qTxaE81OSjXKj41mEB47Zar3tnIlR9ZiZQj/WTVYGqN6RVdJIUpQDJ\nUOC4cExgI9m+cJ71ZvAt7Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-50ush@protean-clinic.iam.gserviceaccount.com",
+  "client_id": "116565655115302853359",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-50ush%40protean-clinic.iam.gserviceaccount.com"
+}

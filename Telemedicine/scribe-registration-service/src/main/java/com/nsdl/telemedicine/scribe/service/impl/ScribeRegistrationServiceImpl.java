@@ -1,0 +1,631 @@
+package com.nsdl.telemedicine.scribe.service.impl;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.bind.DatatypeConverter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.nsdl.telemedicine.scribe.constants.ScribeConstants;
+import com.nsdl.telemedicine.scribe.constants.ScribeRegConstants;
+import com.nsdl.telemedicine.scribe.dto.CaptchaResponseDto;
+import com.nsdl.telemedicine.scribe.dto.CreateUserRequestDTO;
+import com.nsdl.telemedicine.scribe.dto.CreateUserResponseDTO;
+import com.nsdl.telemedicine.scribe.dto.ExceptionJSONInfoDTO;
+import com.nsdl.telemedicine.scribe.dto.MainRequestDTO;
+import com.nsdl.telemedicine.scribe.dto.MainResponseDTO;
+import com.nsdl.telemedicine.scribe.dto.ScribeRegDTO;
+import com.nsdl.telemedicine.scribe.dto.UserDTO;
+import com.nsdl.telemedicine.scribe.entity.AuditScribeRegEntity;
+import com.nsdl.telemedicine.scribe.entity.DocMstrDtlsEntity;
+import com.nsdl.telemedicine.scribe.entity.ScribeRegEntity;
+import com.nsdl.telemedicine.scribe.jpa.repository.AuditScribeRegistrationJpaRepository;
+import com.nsdl.telemedicine.scribe.jpa.repository.DoctorMasterDetailsJpaRepo;
+import com.nsdl.telemedicine.scribe.jpa.repository.ScribeRegistrationRepositoryJpa;
+import com.nsdl.telemedicine.scribe.loggers.LoggingClientInfo;
+import com.nsdl.telemedicine.scribe.service.ScribeRegistrationService;
+import com.nsdl.telemedicine.scribe.utility.CommonValidationUtil;
+
+
+
+@Service
+@LoggingClientInfo
+public class ScribeRegistrationServiceImpl implements ScribeRegistrationService {
+
+	private static final Logger logger = LoggerFactory.getLogger(ScribeRegistrationServiceImpl.class);
+
+	@Value("${CREATE_USER_URL}")
+	private String createUserURL;
+
+	@Value("${OTP_GENERATE_URL}")
+	private String generateOtpURL;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${UPDATE_USER_URL}")
+	private String updateUserURL;
+
+	@Value("${SCRIBE_PHOTO_PATH}")
+	private String byteDataScrbPath;
+
+	@Value("${PROFILE_PHOTO_SIZE}")
+	private String profilephotosize;
+
+	@Value("${CAPTCHA_VERIFICATION_URL}")
+	private String captchaVerificationURL;
+
+	@Autowired
+	private ScribeRegistrationRepositoryJpa scribeRegistrationJpaRepo;
+
+	@Autowired
+	private DoctorMasterDetailsJpaRepo doctorMasterDetailsJpaRepo;
+
+	@Autowired
+	private AuditScribeRegistrationJpaRepository auditScribeRegJpaRepository;
+
+	@Autowired
+	private UserDTO userDetails;
+
+	@Autowired
+	@Qualifier("scribeCommonValidation")
+	private CommonValidationUtil validate;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	ExceptionJSONInfoDTO exceptionJSONInfoDTO = null;
+	MainResponseDTO<String> mainResponse = null;
+
+	@Override
+	public MainResponseDTO<String> saveScribeDetails(MainRequestDTO<ScribeRegDTO> requestScribeRegDTO) {
+		MainResponseDTO<String>  mainResponse ;
+		ScribeRegEntity scribeRegEntity = new ScribeRegEntity();
+		ScribeRegDTO scribeRegDTO  = requestScribeRegDTO.getRequest();
+		mainResponse = validateRequestFields(scribeRegDTO);
+		if(mainResponse != null) {
+			if(!mainResponse.getErrors().isEmpty()) {
+				logger.error("Request body data is invalid");
+				return mainResponse;
+			}
+		}
+		scribeRegDTO = convertDataToUpperCase(scribeRegDTO);
+		ScribeRegEntity persistEntity = null;
+		mainResponse = new MainResponseDTO<>();
+		BeanUtils.copyProperties(scribeRegDTO, scribeRegEntity);
+		scribeRegEntity.setScrbMobNo(Long.valueOf(scribeRegDTO.getScrbMobNo()));
+		scribeRegEntity.setScrbisActive(ScribeRegConstants.ACTIVE_STATUS.getValidate());
+
+		/*Load the Scribe Profile photo to file system*/
+		mainResponse = loadScribeProfilePhotoToFile(scribeRegEntity, scribeRegDTO);
+
+		if(!mainResponse.isStatus()) {
+			return mainResponse;
+		}
+		mainResponse = verifyUniqueField(scribeRegDTO);
+		if(!mainResponse.isStatus()) {
+			return mainResponse;
+		}
+		String isDefaultScribe = "";
+		List<ScribeRegEntity> responseList = scribeRegistrationJpaRepo.findByScrbdrUserIDfk(scribeRegDTO.getScrbdrUserIDfk());
+		if(!responseList.isEmpty()) {
+			if(scribeRegDTO.getIsDefaultScribe()!=null && !scribeRegDTO.getIsDefaultScribe().isEmpty()) {
+				if(scribeRegDTO.getIsDefaultScribe().equalsIgnoreCase("Y") ) {
+					for(ScribeRegEntity entity : responseList) {
+						if(entity.getIsDefaultScribe().equalsIgnoreCase("Y")) {
+							scribeRegistrationJpaRepo.updateByScrbdrUserIDfk("N" , scribeRegDTO.getScrbdrUserIDfk());
+						}
+					}
+					isDefaultScribe = "Y";
+				}else {
+					isDefaultScribe = "N";
+				}
+			}
+			else {
+				isDefaultScribe = "N";
+			}
+		}else {
+			//first default entry
+			isDefaultScribe = "Y";
+		}
+		scribeRegEntity.setIsDefaultScribe(isDefaultScribe);
+		scribeRegEntity.setScrbCreadtedBy(userDetails.getUserName());
+		scribeRegEntity.setScrbModifiedBy(userDetails.getUserName());
+		logger.info("saving the scribe user details");
+		persistEntity = scribeRegistrationJpaRepo.save(scribeRegEntity);
+		logger.info("saved scribe details successfully");
+		//Audit Scribe Registration
+		auditScribeReg(persistEntity);
+		boolean responseUsrCreate = false;
+		if(persistEntity != null) {
+			//User creation call for new scribe
+			logger.info("Create user Api called from scribe registration");
+			responseUsrCreate = createUserForScribe(persistEntity);
+		}else {
+			return throwExceptionScribeDtlsSaveFail();	
+		}	
+		if(responseUsrCreate) {
+			mainResponse.setResponse(ScribeRegConstants.REGISTRATION_SUCCESS.toString());
+			mainResponse.setStatus(ScribeRegConstants.SERVICE_SUCCESS_STATUS.isStatus());
+		}else {
+			return throwExceptionUserManagementFail();
+		}
+		return mainResponse;
+	}
+
+	public MainResponseDTO<CaptchaResponseDto> verifyCaptcha(String captchaValue, String sessionId)
+	{
+		logger.info("Captcha Varification Api called from scribe registration");
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.add("sessionId", sessionId);
+		requestHeaders.add("captchaValue", captchaValue);
+		requestHeaders.add("flagValue" , "true");
+		HttpEntity<MainRequestDTO<CaptchaResponseDto>> requestEntity = new HttpEntity<MainRequestDTO<CaptchaResponseDto>>(
+				requestHeaders);
+		ParameterizedTypeReference<MainResponseDTO<CaptchaResponseDto>> parameterizedResponse = new 			ParameterizedTypeReference<MainResponseDTO<CaptchaResponseDto>>(){};
+		ResponseEntity<MainResponseDTO<CaptchaResponseDto>> response = restTemplate.exchange(captchaVerificationURL,
+				HttpMethod.POST, requestEntity, parameterizedResponse);
+		logger.info("Captcha Api status : ");
+		return response.getBody();
+	}
+
+	private void auditScribeReg(ScribeRegEntity persistEntity) {
+		AuditScribeRegEntity auditScribeRegEntity = new AuditScribeRegEntity();
+		BeanUtils.copyProperties(persistEntity, auditScribeRegEntity);
+		auditScribeRegEntity.setUserId(userDetails.getUserName());
+		auditScribeRegJpaRepository.save(auditScribeRegEntity);
+
+	}
+
+	private ScribeRegDTO convertDataToUpperCase(ScribeRegDTO scribeRegDTO) {
+		logger.info("Converting data to uppercase");
+		scribeRegDTO.setScrbFullName(scribeRegDTO.getScrbFullName().toUpperCase());
+		scribeRegDTO.setScrbUserID(scribeRegDTO.getScrbUserID().toUpperCase());
+		scribeRegDTO.setScrbdrUserIDfk(scribeRegDTO.getScrbdrUserIDfk().toUpperCase());
+		scribeRegDTO.setScrbEmail(null != scribeRegDTO.getScrbEmail() && !scribeRegDTO.getScrbEmail().isEmpty() ? scribeRegDTO.getScrbEmail().toUpperCase() : scribeRegDTO.getScrbEmail());
+		if(scribeRegDTO.getScrbAdd1() != null) {
+			scribeRegDTO.setScrbAdd1(scribeRegDTO.getScrbAdd1().toUpperCase());
+		}
+		if(scribeRegDTO.getScrbAdd2() != null) {
+			scribeRegDTO.setScrbAdd2(scribeRegDTO.getScrbAdd2().toUpperCase());
+		}
+		if(scribeRegDTO.getScrbAdd3() != null) {
+			scribeRegDTO.setScrbAdd3(scribeRegDTO.getScrbAdd3().toUpperCase());
+		}
+		if(scribeRegDTO.getScrbAdd4() != null) {
+			scribeRegDTO.setScrbAdd4(scribeRegDTO.getScrbAdd4().toUpperCase());
+		}
+		logger.info("Converted successfully");
+		return scribeRegDTO;
+
+	}
+
+	private MainResponseDTO<String> verifyUniqueField(ScribeRegDTO scribeRegDTO) {
+		mainResponse = new MainResponseDTO<>();
+		logger.info("verifying the doctor, scribe users and scribe mobile number");
+		if(doctorMasterDetailsJpaRepo.findBydmdUserId(scribeRegDTO.getScrbdrUserIDfk()) == null) {
+			logger.error("doctor is already exist");
+			listOfExceptions = new ArrayList<>();
+			exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+			exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.DOCTOR_USERID_EXIST.getCode());
+			exceptionJSONInfoDTO.setMessage(ScribeRegConstants.DOCTOR_USERID_EXIST.getMsg());
+			listOfExceptions.add(exceptionJSONInfoDTO);
+			mainResponse.setStatus(ScribeRegConstants.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(listOfExceptions);
+			return mainResponse;
+		}else if(scribeRegistrationJpaRepo.findByscrbUserID(scribeRegDTO.getScrbUserID()).isPresent()){
+			logger.error("scribe is already exist");
+			listOfExceptions = new ArrayList<>();
+			exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+			exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.USER_ID_EXIST.getCode());
+			exceptionJSONInfoDTO.setMessage(ScribeRegConstants.USER_ID_EXIST.getMsg());
+			listOfExceptions.add(exceptionJSONInfoDTO);
+			mainResponse.setStatus(ScribeRegConstants.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(listOfExceptions);
+			return mainResponse;
+		}else if(scribeRegistrationJpaRepo.findByscrbMobNo(Long.valueOf(scribeRegDTO.getScrbMobNo())).isPresent()) {
+			logger.error("scribe mobile number is already exist");
+			listOfExceptions = new ArrayList<>();
+			exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+			exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.MOBILE_EXIST.getCode());
+			exceptionJSONInfoDTO.setMessage(ScribeRegConstants.MOBILE_EXIST.getMsg());
+			listOfExceptions.add(exceptionJSONInfoDTO);
+			mainResponse.setStatus(ScribeRegConstants.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(listOfExceptions);
+			return mainResponse;
+		}else if(null != scribeRegDTO.getScrbEmail() && !scribeRegDTO.getScrbEmail().isEmpty() && scribeRegistrationJpaRepo.findByscrbEmail(scribeRegDTO.getScrbEmail()).isPresent()) {
+			logger.error("scribe email id is already exist");
+			listOfExceptions = new ArrayList<>();
+			exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+			exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.EMAILID_EXIST.getCode());
+			exceptionJSONInfoDTO.setMessage(ScribeRegConstants.EMAILID_EXIST.getMsg());
+			listOfExceptions.add(exceptionJSONInfoDTO);
+			mainResponse.setStatus(ScribeRegConstants.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(listOfExceptions);
+			return mainResponse;
+		}
+		logger.info("successfully verified doctor, scribe users and scribe mobile number");
+		mainResponse.setStatus(ScribeRegConstants.SERVICE_SUCCESS_STATUS.isStatus());
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> loadScribeProfilePhotoToFile(ScribeRegEntity scribeRegEntity, ScribeRegDTO scribeRegDTO) {
+		File byteStorePath = null;
+		String tempPath = null;
+		MainResponseDTO<String> mainResponse = new MainResponseDTO<>();
+		logger.info("Loading the scribe profile photo to file system");
+		if(scribeRegDTO.getScribeProfilePhoto() != null && !scribeRegDTO.getScribeProfilePhoto().isEmpty()) {
+			if(scribeRegDTO.getScribeProfilePhoto().getBytes().length<Long.parseLong(profilephotosize)) {
+				byteStorePath = new File(byteDataScrbPath);
+				String[] strings = scribeRegDTO.getScribeProfilePhoto().split(",");
+				String extension = "jpeg"; 
+				byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
+				try {
+					createDirectory(ScribeConstants.DoctorProfileDirectory);
+					tempPath = byteStorePath + File.separator + ScribeConstants.DoctorProfileDirectory;
+					String path = tempPath + File.separator + scribeRegEntity.getScrbMobNo()+"_"+scribeRegEntity.getScrbUserID()+"."+ extension;
+					scribeRegEntity.setProfilePhotoPath(path);
+					File file = new File(path);
+					try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+						outputStream.write(data);
+					} catch (IOException e) {
+						mainResponse = new MainResponseDTO<>();
+						listOfExceptions = new ArrayList<>();
+						exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+						exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.SCRIBE_PATH_PHOTO.getCode());
+						exceptionJSONInfoDTO.setMessage(ScribeRegConstants.SCRIBE_PATH_PHOTO.getMsg());
+						listOfExceptions.add(exceptionJSONInfoDTO);
+						mainResponse.setStatus(ScribeRegConstants.SERVICE_FAIL_STATUS.isStatus());
+						mainResponse.setErrors(listOfExceptions);
+						return mainResponse;
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+
+		/*byteStorePath = File.createTempFile(scribeRegDTO.getScrbMobNo()+"_"+scribeRegDTO.getScrbUserID(),".JPEG", byteStorePath);
+		scribeRegEntity.setProfilePhotoPath(byteStorePath.toString());
+		if(byteStorePath.exists()) {
+			try(FileOutputStream fileInputStream = new FileOutputStream(byteStorePath)){
+				fileInputStream.write(scribeRegDTO.getScribeProfilePhoto().getBytes());
+			}
+		}*/
+		logger.info("loaded scribe profile photo successfully to file system");
+		mainResponse.setStatus(ScribeRegConstants.SERVICE_SUCCESS_STATUS.isStatus());
+		return mainResponse;
+
+	}
+
+
+
+	private MainResponseDTO<String> throwExceptionScribeDtlsSaveFail() {
+		listOfExceptions = new ArrayList<>();
+		mainResponse = new MainResponseDTO<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.SCRIBE_SAVE_FAIL.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.SCRIBE_SAVE_FAIL.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> throwExceptionUserManagementFail() {
+		listOfExceptions = new ArrayList<>();
+		mainResponse = new MainResponseDTO<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.USER_MANAGEMENT_FAIL.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.USER_MANAGEMENT_FAIL.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> validateRequestFields(ScribeRegDTO scribeRegDTO) {
+
+		logger.info("Validating the request body fields");
+		MainResponseDTO<CaptchaResponseDto> responseCaptcha=null;
+		logger.info("Captcha Varification Api called from scribe registration");
+		responseCaptcha=verifyCaptcha(scribeRegDTO.getCaptchaCode(),scribeRegDTO.getSessionId());
+		//bypass captcha
+		responseCaptcha.setStatus(true);
+		/*if(!responseCaptcha.isStatus()) {
+			logger.error("Captcha Code validation : Failed"); 
+			return throwExceptionForCaptcha();
+		}*/
+		if(scribeRegDTO.getScrbFullName() != null && scribeRegDTO.getScrbFullName().isEmpty() || scribeRegDTO.getScrbFullName().length()<1 || scribeRegDTO.getScrbFullName().length()>99) {
+			logger.error("Scribe full name is empty");
+			return throwExceptionForScribeFullName();
+		}else if(scribeRegDTO.getScrbFullName() != null && !validate.validateFullName(scribeRegDTO.getScrbFullName()))
+		{
+			logger.error("Scribe full name is in wrong format");
+			return throwExceptionForFullName();
+		}
+		else if((!scribeRegDTO.getScrbMobNo().isEmpty() || scribeRegDTO.getScrbMobNo() != null) && !validate.validateMobileNo(Long.valueOf(scribeRegDTO.getScrbMobNo()))) {
+			logger.error("Scribe mobile number pattern or is empty. Please check");
+			return thrownExceptionForMobile();
+		}
+		else if((!scribeRegDTO.getScrbEmail().isEmpty() || scribeRegDTO.getScrbEmail() != null) && !validate.validateEmail(scribeRegDTO.getScrbEmail())) {
+			logger.error("Scribe emailID pattern or is empty. Please check");
+			return throwExceptionForEmail();
+		}
+		else if(scribeRegDTO.getScrbPassword() != null && !validate.validatePassword(scribeRegDTO.getScrbPassword())) {
+			logger.error("Scribe password pattern or is empty. Please check");
+			return throwExceptionForScribePassword();
+		}
+		else if(scribeRegDTO.getScrbUserID() != null && scribeRegDTO.getScrbUserID().isEmpty() || scribeRegDTO.getScrbUserID().length()<8 || scribeRegDTO.getScrbUserID().length()>25) {
+			logger.error("Scribe user ID should not be null or empty. Please check");
+			return throwExceptionForSCribeUserID();
+		}
+
+		return null;
+
+	}
+
+	private boolean createUserForScribe(ScribeRegEntity persistEntity) {
+		logger.info("Create user Api called from scribe registration");
+		MainRequestDTO<CreateUserRequestDTO> mainRequestDTO = new MainRequestDTO<>();
+		CreateUserRequestDTO createUser = new CreateUserRequestDTO();
+		createUser.setUserFullName(persistEntity.getScrbFullName());
+		createUser.setEmail(persistEntity.getScrbEmail());
+		createUser.setMobileNumber(persistEntity.getScrbMobNo());
+		createUser.setPassword(persistEntity.getScrbPassword());
+//		createUser.setRoleName(ScribeRegConstants.SCRIBE.getValidate());
+		createUser.setUserId(persistEntity.getScrbUserID());
+		createUser.setUserType(ScribeRegConstants.SCRIBE.getValidate());
+		mainRequestDTO.setRequest(createUser);
+		HttpEntity<MainRequestDTO<CreateUserRequestDTO>> requestEntity = new HttpEntity<>(mainRequestDTO);
+		ParameterizedTypeReference<MainResponseDTO<CreateUserResponseDTO>> parameterizedResponse = new ParameterizedTypeReference<MainResponseDTO<CreateUserResponseDTO>>() {
+		};
+		logger.info("Restcall to create user");
+		ResponseEntity<MainResponseDTO<CreateUserResponseDTO>> response = restTemplate.exchange(createUserURL, HttpMethod.POST, requestEntity, parameterizedResponse);
+		logger.info("Created userID for new scribe user successfully");
+		return response.getBody().isStatus();
+
+	}
+
+	private MainResponseDTO<String> throwExceptionForScribePassword() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.PASSWORD_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.PASSWORD_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> throwExceptionForSCribeUserID() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.USERID_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.USERID_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> throwExceptionForEmail() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.EMAIL_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.EMAIL_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+	private MainResponseDTO<String> throwExceptionForFullName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.FULLNAME_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.FULLNAME_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> thrownExceptionForMobile() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.MOBILE_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.MOBILE_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	private MainResponseDTO<String> throwExceptionForScribeFullName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.SCRIBE_FULLNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.SCRIBE_FULLNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	public  String getFilePathBasedOnOS() throws IOException {
+		/*final String os = System.getProperty("os.name").toLowerCase();
+			return ((os.contains("windows")) ? LoadPropertyValues.WindowsDocumentPath
+					: LoadPropertyValues.LinuxDocumentPath);*/
+		return byteDataScrbPath;
+	}
+	public  void createDirectory(String folder_name) throws IOException {
+		String directoryFilePath = getFilePathBasedOnOS() + "/" + folder_name;
+		File file = new File(directoryFilePath);
+		if (!file.exists()) {
+			try {
+				file.mkdir();
+			} catch (Exception e) {
+			}
+		} else {
+		}
+	}
+
+	@Override
+	public MainResponseDTO<String> updateScribeProfile(MainRequestDTO<ScribeRegDTO> profileUpdateRequest) {
+		MainResponseDTO<String> mainResponseDTO = new MainResponseDTO<String>();
+		ScribeRegEntity updateScribeRegEntity = new ScribeRegEntity();
+		Optional<ScribeRegEntity> scribeRegEntity = null ;
+		ScribeRegDTO request = profileUpdateRequest.getRequest();
+		String userId = userDetails.getUserName().trim().toUpperCase();
+		Optional<ScribeRegEntity> entity = scribeRegistrationJpaRepo.findByscrbUserID(userId);
+		if(entity!=null) {
+			BeanUtils.copyProperties(entity.get(), updateScribeRegEntity);
+			if(request.getScrbEmail()!=null && !entity.get().getScrbEmail().equalsIgnoreCase(request.getScrbEmail())) {
+				scribeRegEntity = scribeRegistrationJpaRepo.findByscrbEmail(request.getScrbEmail());
+				if(!scribeRegEntity.isPresent()) {
+					updateScribeRegEntity.setScrbEmail(request.getScrbEmail());
+				}else {
+					return throwExceptionForEmail();
+				}
+			}
+			if(request.getScrbMobNo()!=null && entity.get().getScrbMobNo()!=Long.parseLong(request.getScrbMobNo())) {
+				scribeRegEntity = scribeRegistrationJpaRepo.findByscrbMobNo(Long.parseLong(request.getScrbMobNo()));
+				if(!scribeRegEntity.isPresent()) {
+					updateScribeRegEntity.setScrbMobNo(Long.parseLong(request.getScrbMobNo()));
+				}else {
+					return thrownExceptionForMobile();
+				}
+			}
+			updateScribeRegEntity.setScrbFullName(request.getScrbFullName()== null?entity.get().getScrbFullName():request.getScrbFullName());
+			updateScribeRegEntity.setScrbdrUserIDfk(request.getScrbdrUserIDfk()== null?entity.get().getScrbdrUserIDfk():request.getScrbdrUserIDfk());
+			updateScribeRegEntity.setScrbPassword(request.getScrbPassword()== null?entity.get().getScrbPassword():request.getScrbPassword());
+			updateScribeRegEntity.setScrbAdd1(request.getScrbAdd1()== null?entity.get().getScrbAdd1():request.getScrbAdd1());
+			updateScribeRegEntity.setScrbAdd2(request.getScrbAdd2()== null?entity.get().getScrbAdd2():request.getScrbAdd2());
+			updateScribeRegEntity.setScrbAdd3(request.getScrbAdd3()== null?entity.get().getScrbAdd3():request.getScrbAdd3());
+			updateScribeRegEntity.setScrbAdd4(request.getScrbAdd4()== null?entity.get().getScrbAdd4():request.getScrbAdd4());
+			updateScribeRegEntity.setScrbGender(request.getScrbGender()== null?entity.get().getScrbGender():request.getScrbGender());
+			updateScribeRegEntity.setScrbState(request.getScrbState()== null?entity.get().getScrbState():request.getScrbState());
+			updateScribeRegEntity.setScrbCity(request.getScrbCity()== null?entity.get().getScrbCity():request.getScrbCity());
+			if(request.getScribeProfilePhoto()!=null && !request.getScribeProfilePhoto().isEmpty()) {
+				loadScribeProfilePhotoToFile(updateScribeRegEntity, request);
+			}
+			try {
+				updateScribeRegEntity = scribeRegistrationJpaRepo.save(updateScribeRegEntity);
+				if(updateScribeRegEntity!=null) {
+					if(!updateUserForScribe(updateScribeRegEntity)) {
+						return throwExceptionUserManagementFail();
+					}
+				}
+			}catch(Exception e) {
+				logger.error(" Exception while updating Scribe profile : ");
+				e.printStackTrace();
+				throw e;
+			}
+
+			mainResponseDTO.setResponse("Profile Updated Successfully..");
+			mainResponseDTO.setStatus(true);
+			mainResponseDTO.setResponsetime(OffsetDateTime.now().toInstant().toString());
+			logger.info(" returning response");
+			return mainResponseDTO;
+
+		}
+		return null;
+	}
+
+	private boolean updateUserForScribe(ScribeRegEntity persistEntity) {
+		logger.info("USER MANAGEMENT API Called");
+		MainRequestDTO<CreateUserRequestDTO> mainRequestDTO = new MainRequestDTO<>();
+		CreateUserRequestDTO createUser = new CreateUserRequestDTO();
+		createUser.setUserId(persistEntity.getScrbUserID());
+		createUser.setUserFullName(persistEntity.getScrbFullName());
+		createUser.setEmail(persistEntity.getScrbEmail());
+		createUser.setMobileNumber(persistEntity.getScrbMobNo());
+		mainRequestDTO.setRequest(createUser);
+		logger.info("USER MANAGEMENT API Called with userID "+createUser.getUserId() +"And UserName "+createUser.getUserFullName());
+		HttpEntity<MainRequestDTO<CreateUserRequestDTO>> requestEntity = new HttpEntity<>(mainRequestDTO);
+		ParameterizedTypeReference<MainResponseDTO<CreateUserResponseDTO>> parameterizedResponse = new ParameterizedTypeReference<MainResponseDTO<CreateUserResponseDTO>>() {
+		};
+		ResponseEntity<MainResponseDTO<CreateUserResponseDTO>> response = restTemplate.exchange(updateUserURL,
+				HttpMethod.POST, requestEntity, parameterizedResponse);
+
+		if(!response.getBody().isStatus()) {
+			logger.info("USER MANAGEMENT API Status : "+response.getBody().isStatus()+" due to :"+response.getBody().getErrors().get(0).getMessage());
+		}
+		return response.getBody().isStatus();
+	}
+
+	@Override
+	public MainResponseDTO<?> getScribeDetails() {
+		MainResponseDTO<ScribeRegDTO> response = new MainResponseDTO<ScribeRegDTO>();
+		ScribeRegEntity scribeRegEntity=null;
+		ScribeRegDTO scribeRegDTO = new ScribeRegDTO();
+		response.setId("registration");
+		response.setVersion("1.0");
+		response.setResponsetime(LocalDateTime.now().toString());
+		String userId = userDetails.getUserName().trim().toUpperCase();
+		Optional<ScribeRegEntity> entity = scribeRegistrationJpaRepo.findByscrbUserID(userId);
+		if(entity==null) {
+			return throwExceptionForInvalidSCribeUserID();
+		}else {
+			scribeRegEntity = entity.get(); 
+			DocMstrDtlsEntity drMstrEntity = doctorMasterDetailsJpaRepo.findByDmdUserId(scribeRegEntity.getScrbdrUserIDfk());
+			//System.out.println(scribeRegEntity.getScrbdrUserIDfk()+" response "+drMstrEntity.getDmdDrName());
+			scribeRegDTO.setScrbDrName(drMstrEntity.getDmdDrName());
+			scribeRegDTO.setScrbAdd1(scribeRegEntity.getScrbAdd1());
+			scribeRegDTO.setScrbAdd2(scribeRegEntity.getScrbAdd2());
+			scribeRegDTO.setScrbAdd3(scribeRegEntity.getScrbAdd3());
+			scribeRegDTO.setScrbAdd4(scribeRegEntity.getScrbAdd4());
+			scribeRegDTO.setScrbdrUserIDfk(scribeRegEntity.getScrbdrUserIDfk());
+			scribeRegDTO.setScrbEmail(scribeRegEntity.getScrbEmail());
+			scribeRegDTO.setScrbFullName(scribeRegEntity.getScrbFullName());
+			scribeRegDTO.setScrbMobNo(scribeRegEntity.getScrbMobNo().toString());
+			scribeRegDTO.setScrbUserID(scribeRegEntity.getScrbUserID());
+			scribeRegDTO.setScribeProfilePhoto(scribeRegEntity.getProfilePhotoPath());
+			scribeRegDTO.setIsDefaultScribe(scribeRegEntity.getIsDefaultScribe());
+			scribeRegDTO.setScrbGender(scribeRegEntity.getScrbGender());
+			scribeRegDTO.setScrbState(scribeRegEntity.getScrbState());
+			scribeRegDTO.setScrbCity(scribeRegEntity.getScrbCity());
+		}
+		response.setResponse(scribeRegDTO);
+		return response;
+	}
+
+	private MainResponseDTO<String> throwExceptionForInvalidSCribeUserID() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(ScribeRegConstants.USERID_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(ScribeRegConstants.USERID_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+
+}

@@ -1,0 +1,14 @@
+app-notification {
+  .mat-dialog-title {
+    font-size: 20px;
+    letter-spacing: 0.8px;
+    text-align: left;
+    background: #e43927;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-left: 30px;
+    padding-top: 8px;
+    margin: -24px -24px 20px -24px;
+  }
+}

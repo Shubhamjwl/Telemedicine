@@ -1,0 +1,173 @@
+import { DatePipe } from '@angular/common';
+import { identifierModuleUrl } from '@angular/compiler';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { CheckerService } from 'src/app/shared/commonBuildBlocks/services/checkerServices/checker.service';
+import { DocumentService } from 'src/app/shared/commonBuildBlocks/services/documentServices/document.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+
+@Component({
+  selector: 'app-completed-appointments',
+  templateUrl: './completed-appointments.component.html',
+  styleUrls: ['./completed-appointments.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class CompletedAppointmentsComponent implements OnInit {
+	displayedColumns = [];
+	dataSource = new MatTableDataSource<any>();
+	@ViewChild(MatSort) sort: MatSort;
+
+	searchForm: FormGroup;
+	startDate:Date = new Date();
+	@ViewChild(MatPaginator) paginator: MatPaginator;
+
+	constructor(
+		public fb: FormBuilder,
+		public patientService: PatientService,
+		public authService: AuthService,
+		public datePipe : DatePipe,
+		public checkerService: CheckerService,
+		public documentService: DocumentService,
+		public toastMessage: ToastMessageService
+	) { 
+		this.createForm();
+		if(this.authService.isUserDoctor() || this.authService.isUserScribe()){
+			this.displayedColumns = ['appointmentId','name','date','view','download'];
+		} else {
+			this.displayedColumns = ['appointmentId','date','view','download'];
+		}
+	}
+
+	ngOnInit(): void {
+		this.search();
+		this.onChnages();
+		this.dataSource.filterPredicate = (data:any, filter: string) => {
+			return data.appointmentId == filter;
+		};
+	}
+	ngAfterViewInit() {
+		this.dataSource.paginator = this.paginator;
+	}
+	onChnages(){
+		this.searchForm.get('fromDate').valueChanges.subscribe((value)=>{
+			 this.searchForm.get('toDate').markAsTouched();
+			 this.searchForm.get('toDate').updateValueAndValidity();
+		})
+	}
+
+	createForm(){
+		this.searchForm = this.fb.group({
+			apptId:[],
+			name: [],
+			fromDate:[],
+			toDate:['', this.validatorforToDate.bind(this)]
+		})
+	}
+	search(){
+
+		if(!this.searchForm.valid){
+			return;
+		}
+		let data = this.searchForm.getRawValue();
+
+		let payload:any = {
+			apptId : data.apptId,
+		//	doctorName : data.name,
+			fromDate : this.datePipe.transform(data.fromDate,"dd-MM-yyyy"),
+			toDate : this.datePipe.transform(data.toDate,"dd-MM-yyyy")
+		}
+		if(this.authService.isUserPatient()){
+			payload.doctorName = data.name
+		}else {	
+			payload.patientName = data.name
+		}
+
+		this.dataSource.data = [];
+
+		this.patientService.searchCompletedAppointments(payload).subscribe((resp:any)=> {
+			if(resp && resp.response && resp.status) {
+				 this.dataSource.data = resp.response;
+				 setTimeout(() => {
+					this.dataSource.paginator = this.paginator;
+				  }, 500)
+				
+			   }else if(resp && resp.errors && !resp.status) {
+				 this.toastMessage.showErrorMsg( resp.errors[0].message, 'Error');
+			   }
+			 },error => {
+			   this.toastMessage.showErrorMsg( error.errors[0].message, 'Error');
+		})
+	}
+	clear(){
+		this.searchForm.reset();
+		this.search();
+	}
+	getPrescriptionDetails(data, type){
+		let postData = {
+			request: {
+				ctApptId : data.appointmentId, 
+				ctDoctorId : data.doctorId, 
+				ctPatientId : this.authService.isUserPatient() ? this.authService.getUserId() : data.patientId
+			},
+		}
+		this.patientService.getPrescriptionDetails(postData).subscribe((resp:any)=> {
+			if(resp && resp.response && resp.status) {
+				var pdfpath = resp.response.pdfpath
+				var filename = pdfpath.substring(pdfpath.lastIndexOf('/')+1);
+				var  name =filename.split('.').slice(0, -1).join('.');
+                sessionStorage.setItem('ctAppId',name);
+				if(resp && resp.response.pdfData){
+					if(type =='view'){
+						this.documentService.downloadFileAndView(resp.response.pdfData,'application/pdf');
+					}else {
+						this.documentService.downloadFileToBrowser(resp.response.pdfData, 'application/pdf');
+					}
+				}
+				 //this.toastMessage.showSuccessMsg(resp.response.message, "Success");
+			   }else if(resp && resp.errors && !resp.status) {
+				 this.toastMessage.showErrorMsg( resp.errors.message, 'Error');
+			   }
+			 },error => {
+			   this.toastMessage.showErrorMsg( error.errors.message, 'Error');
+		})
+	}
+
+	validatorforToDate(control: FormControl){
+		if(!control) return;
+
+		if(!control.parent) return;
+
+		let group = control.parent;
+		let fromDate = group.get('fromDate').value;
+
+		if(!control.value && fromDate){
+			return { required : true };
+		} else {
+			if(fromDate){
+				let fd = new Date(this.datePipe.transform(fromDate,"dd-MM-yyyy")).getTime();
+				let td = new Date(this.datePipe.transform(control.value,"dd-MM-yyyy")).getTime();
+				 if(fd > td){
+						return { max : true};
+				 }
+			}
+		}
+		return null;
+	}
+// Functions not mention and called .
+
+	// applykkFilter(filterValue: string) {
+	// 	filterValue = filterValue.trim();
+	// 	filterValue = filterValue.toLowerCase();
+	// 	this.dataSource.filter = filterValue;
+	// }
+	// applyFilter(event: Event) {
+	// 	const filterValue = (event.target as HTMLInputElement).value;
+	// 	this.dataSource.filter = filterValue.trim().toLowerCase();
+	// }
+	
+}

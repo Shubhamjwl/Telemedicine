@@ -1,0 +1,16 @@
+package com.nsdl.ndhm.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class OnDiscoverDTO {
+
+	private String requestId;
+	private String timestamp;
+	private String transactionId;
+	private OnDiscoverPatientDTO patient;
+	private ErrorDTO error;
+	private RespDTO resp;
+}

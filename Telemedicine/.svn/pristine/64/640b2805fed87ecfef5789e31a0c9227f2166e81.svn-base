@@ -1,0 +1,7 @@
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+eureka.client.service-url.defaultZone=http://172.30.151.100:8761/eureka
+spring.application.name=master-management-service
+
+#eureka.client.service-url.defaultZone=http://localhost:8761/eureka

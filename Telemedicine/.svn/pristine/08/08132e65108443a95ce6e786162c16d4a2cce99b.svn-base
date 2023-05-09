@@ -1,0 +1,195 @@
+package com.nsdl.telemedicine.doctor.batch;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.nsdl.telemedicine.doctor.dto.CsvBulkDoctorRequest;
+import com.nsdl.telemedicine.doctor.entity.CityMstrEntity;
+import com.nsdl.telemedicine.doctor.entity.DoctorRegDtlsEntity;
+import com.nsdl.telemedicine.doctor.entity.StateMstrEntity;
+import com.nsdl.telemedicine.doctor.repository.AssociationRepository;
+import com.nsdl.telemedicine.doctor.repository.CityRepo;
+import com.nsdl.telemedicine.doctor.repository.MasterRepo;
+import com.nsdl.telemedicine.doctor.repository.RegistrationRepo;
+import com.nsdl.telemedicine.doctor.repository.StateRepo;
+import com.nsdl.telemedicine.doctor.utility.CommonUtility;
+import com.nsdl.telemedicine.doctor.utility.CommonValidationUtil;
+
+public class DoctorRegistrationProcessor implements ItemProcessor<CsvBulkDoctorRequest, DoctorRegDtlsEntity> {
+
+	@Autowired
+	private CommonUtility utility;
+
+	@Autowired
+	@Qualifier("doctorCommonValidation")
+	private CommonValidationUtil validate;
+
+	@Autowired
+	AssociationRepository associationRepository;
+
+	@Autowired
+	MasterRepo masterRepo;
+
+	@Autowired
+	CityRepo cityRepo;
+
+	@Autowired
+	StateRepo stateRepo;
+
+	@Autowired
+	RegistrationRepo registrationRepo;
+
+	@Value("${doctor.registration.hardcoded.password}")
+	private String hardcodedPasswordForDoctorRegistration;
+
+	@Value("#{jobParameters['JobId']}")
+	private String JobId;
+
+	List<String> associationNames;
+	List<StateMstrEntity> stateList;
+	List<String> specializations;
+	List<String> genders;
+
+	@PostConstruct
+	private void init() {
+		associationNames = associationRepository.findAssociationNamesByActiveFlag();
+		stateList = stateRepo.findAll();
+		specializations = masterRepo.getMasterDetailsListByMasterName("doctor Specialiazation");
+		genders = masterRepo.getMasterDetailsListByMasterName("gender");
+		if (!validate.validatePassword(hardcodedPasswordForDoctorRegistration)) {
+			hardcodedPasswordForDoctorRegistration = null;
+		}
+	}
+
+	@Override
+	public DoctorRegDtlsEntity process(CsvBulkDoctorRequest doctor) throws Exception {
+
+		// field validation
+		if (!validate.validateFullName(doctor.getName()) || !validate.validateMobileNo(doctor.getMobile())
+				|| validate.isEmptyNullCheck(doctor.getAddress1()) || validate.isEmptyNullCheck(doctor.getState())
+				|| validate.isEmptyNullCheck(doctor.getCity()) || validate.isEmptyNullCheck(doctor.getGender())
+				|| validate.isEmptyNullCheck(doctor.getSpecialization()) || doctor.getConsultationFee() == null
+				|| validate.isEmptyNullCheck(doctor.getSmcNumber()) || validate.isEmptyNullCheck(doctor.getMciNumber())
+				|| hardcodedPasswordForDoctorRegistration == null) {
+			return null;
+		}
+		
+		// validation for same number used for smc and mci
+		if (doctor.getMciNumber().equalsIgnoreCase(doctor.getSmcNumber())) {
+			return null;
+		}
+
+		// check if specialization matched against master
+		if (!specializations.contains(doctor.getSpecialization().toUpperCase())) {
+			return null;
+		}
+
+		// check if gender matched against master
+		if (!genders.contains(doctor.getGender().toUpperCase())) {
+			return null;
+		}
+
+		// check if state matched against master
+		StateMstrEntity state = stateList.stream().filter(s -> s.getSmStateName().equalsIgnoreCase(doctor.getState()))
+				.findFirst().orElse(null);
+		if (state == null) {
+			return null;
+		}
+
+		// check if city matched against master
+		CityMstrEntity city = state.getCityDetails().stream()
+				.filter(c -> c.getCmCityName().equalsIgnoreCase(doctor.getCity())).findFirst().orElse(null);
+		if (city == null) {
+			return null;
+		}
+
+		// association field check
+		if (doctor.getAssociationName() != null && !doctor.getAssociationName().isEmpty()
+				&& !doctor.getAssociationName().equalsIgnoreCase("NOT SELECTED")) {
+			if (doctor.getAssociationNumber() == null || doctor.getAssociationNumber().isEmpty()
+					|| !associationNames.contains(doctor.getAssociationName().toUpperCase())) {
+				return null;
+			}
+		}
+
+		// check duplicate for association, smc and mci number
+		List<DoctorRegDtlsEntity> entity = null;
+		if (doctor.getAssociationNumber() != null && !doctor.getAssociationNumber().isEmpty()) {
+			entity = registrationRepo
+					.findByDrdAssociationNumberIgnoreCaseOrDrdSmcNumberIgnoreCaseOrDrdMciNumberIgnoreCase(
+							doctor.getAssociationNumber(), doctor.getSmcNumber(), doctor.getMciNumber());
+		} else {
+			entity = registrationRepo.findByDrdSmcNumberIgnoreCaseOrDrdMciNumberIgnoreCase(doctor.getSmcNumber(),
+					doctor.getMciNumber());
+		}		
+		
+		if (entity != null && !entity.isEmpty()) {
+			return null;
+		}
+
+		// duplicate check for email
+		if (doctor.getEmail() != null && !doctor.getEmail().isEmpty() && validate.validateEmail(doctor.getEmail())
+				&& registrationRepo.findByDocEmail(doctor.getEmail().toUpperCase()).isPresent()) {
+			return null;
+		}
+
+		// duplicate check for mobile
+		if (registrationRepo.findByDocMobNo(String.valueOf(doctor.getMobile())).isPresent()) {
+			return null;
+		}
+
+		String userId = utility.createUserId(doctor.getName().toUpperCase());
+		if (userId == null) {
+			return null;
+		}
+
+		DoctorRegDtlsEntity doctorrRegDtlsEntity = new DoctorRegDtlsEntity();
+		doctorrRegDtlsEntity.setDrdDrName(doctor.getName().toUpperCase());
+		doctorrRegDtlsEntity.setDrdConsulFee(doctor.getConsultationFee());
+		doctorrRegDtlsEntity.setDrdEmail(
+				null != doctor.getEmail() && !doctor.getEmail().isEmpty() ? doctor.getEmail().toUpperCase() : "");
+		doctorrRegDtlsEntity.setDrdMobileNo(String.valueOf(doctor.getMobile()));
+		doctorrRegDtlsEntity.setDrdIsRegByIpan("N");
+		// otp is removed so changed status to R directly previous it was O
+		doctorrRegDtlsEntity.setDrdIsverified("R");
+		doctorrRegDtlsEntity.setDrdModifiedBy(doctor.getName().toUpperCase());
+		doctorrRegDtlsEntity.setDrdOptiVersion(Long.valueOf(1));
+
+		doctorrRegDtlsEntity.setDrdUserId(userId);
+		doctorrRegDtlsEntity.setDrdMciNumber(doctor.getMciNumber());
+		doctorrRegDtlsEntity.setDrdSmcNumber(doctor.getSmcNumber());
+		doctorrRegDtlsEntity.setDrdSpecialiazation(doctor.getSpecialization().toUpperCase());
+		doctorrRegDtlsEntity.setDrdOtpRefidFk(0);
+		doctorrRegDtlsEntity.setDrdGender(doctor.getGender().toUpperCase());
+		doctorrRegDtlsEntity.setDrdPassword(hardcodedPasswordForDoctorRegistration);
+		doctorrRegDtlsEntity.setDrdAddress1(doctor.getAddress1().toUpperCase());
+		if (doctor.getAddress2() != "") {
+			doctorrRegDtlsEntity.setDrdAddress2(doctor.getAddress2().toUpperCase());
+		}
+		if (doctor.getAddress3() != "") {
+			doctorrRegDtlsEntity.setDrdAddress3(doctor.getAddress3().toUpperCase());
+		}
+		doctorrRegDtlsEntity.setDrdState(doctor.getState().toUpperCase());
+		doctorrRegDtlsEntity.setDrdCity(doctor.getCity().toUpperCase());
+		doctorrRegDtlsEntity.setDrdAssociationName(
+				doctor.getAssociationName() == null || doctor.getAssociationName().isEmpty() ? null
+						: doctor.getAssociationName());
+		doctorrRegDtlsEntity.setDrdAssociationNumber(
+				doctor.getAssociationNumber() == null || doctor.getAssociationNumber().isEmpty() ? null
+						: doctor.getAssociationNumber());
+		doctorrRegDtlsEntity.setDrdPreassessmentFlag(false);
+		doctorrRegDtlsEntity.setDrdPreassessmentLink(null);
+		doctorrRegDtlsEntity.setDrdIsIpanorMarsha(null);
+		doctorrRegDtlsEntity.setDrdTcFlag(false);
+		doctorrRegDtlsEntity.setDrdJobId(JobId);
+
+		return doctorrRegDtlsEntity;
+	}
+
+}

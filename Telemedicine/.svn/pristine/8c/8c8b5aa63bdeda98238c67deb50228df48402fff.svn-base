@@ -1,0 +1,187 @@
+<div>
+   <app-tm-breadcrumb></app-tm-breadcrumb>
+   <ngx-spinner>
+      <p class="loading">Loading...</p>
+   </ngx-spinner>
+   <div class="main-container">
+      <div class="app-top-area left">
+         <div class="breadcrumb-area"><a routerLink="/appointments">Home</a></div>
+         <div class="page-title" *ngIf="router.url != '/doctor-reschedule-book-appointments'">Appointment</div>
+         <div class="page-title" *ngIf="router.url != '/appointments'">Booked Appointment</div>
+      </div>
+
+      <div class="app-top-area right">
+         <input type="text" [(ngModel)]="selectedDate" #appointmentDate (focus)="picker.open()"
+            (dateChange)="changeDate($event)" class="select-app" id="datepicker" placeholder="Select Appointment Date*"
+            [matDatepicker]="picker">
+         <mat-datepicker #picker (closed)="appointmentDate.blur()"></mat-datepicker>
+         <ng-container *ngIf="userRole !== 'RECEPTIONIST' && userRole !== 'SCRIBE' && router.url != '/doctor-reschedule-book-appointments'">
+            <button class="create-slot-btn" (click)="onClickTimeSlot()">Create Slot</button>
+            <button class="delete-slot" (click)="onClickDeleteTimeSlot()">Delete Slot</button>
+            <a (click)="reloadCurrentRoute()" class="refreash-slot"></a>
+         </ng-container>
+
+      </div>
+      <div class="month-text">{{selectedDate | date: 'dd MMM yyyy'}}</div>
+      <div class="month-text2">
+         <div class="month-icon"><img src="assets/img/tel-consulting.svg" alt=""></div>
+         <div class="text1">Tele Consultation</div>
+         <div class="month-icon"><img src="assets/img/in-clinic.svg" alt=""></div>
+         <div class="text1">In-Clinic</div>
+      </div>
+      <div class="app-area">
+         <div class="app-box">
+            <div class="app-title">
+               <div class="app-icon"><img src="assets/img/morning.svg" alt=""></div>
+               <div class="app-text">Morning <br><span>(12AM - 12PM)</span></div>
+            </div>
+            <ng-container *ngTemplateOutlet="slotsTemplate; context:{slots:slotList.morning}">
+            </ng-container>
+         </div>
+         <div class="app-box">
+            <div class="app-title">
+               <div class="app-icon"><img src="assets/img/afternoon.svg" alt=""></div>
+               <div class="app-text">Afternoon <br><span>(12PM - 6PM)</span></div>
+            </div>
+            <ng-container *ngTemplateOutlet="slotsTemplate; context:{slots:slotList.afternoon}">
+            </ng-container>
+         </div>
+         <div class="app-box">
+            <div class="app-title">
+               <div class="app-icon"><img src="assets/img/evening.svg" alt=""></div>
+               <div class="app-text">Evening <br><span>(6PM - 12AM)</span></div>
+            </div>
+            <ng-container *ngTemplateOutlet="slotsTemplate; context:{slots:slotList.evening}">
+            </ng-container>
+         </div>
+      </div>
+   </div>
+</div>
+<app-footer></app-footer>
+
+<ng-template #slotsTemplate let-slots="slots">
+   <ng-container *ngFor="let slot of slots">
+      <div [ngClass]="{
+            'inclinic-available': (slot.slotType == 'In-Clinic' && slot.status === 'Available'),
+            'inclinic-scheduled': (slot.slotType == 'In-Clinic' && (slot.status === 'Scheduled' || slot.status === 'Resheduled')),
+            'inclinic-completed': (slot.slotType == 'In-Clinic' && (slot.status === 'Completed' || slot.status === 'Cancel')),
+            'teleconsult-available': (slot.slotType == 'Teleconsultation' && slot.status === 'Available'),
+            'teleconsult-scheduled': (slot.slotType == 'Teleconsultation' && (slot.status === 'Scheduled' || slot.status === 'Resheduled')),
+            'teleconsult-scheduledWP': (slot.slotType == 'Teleconsultation' && slot.status === 'ScheduleWP'),
+            'teleconsult-completed': (slot.slotType == 'Teleconsultation' && (slot.status === 'Completed' || slot.status === 'Cancel')),
+            'available': ((slot.slotType != 'In-Clinic' && slot.slotType != 'Teleconsultation') && slot.status === 'Available')
+         }">
+         <ng-container
+            [ngTemplateOutlet]="(slot.status == 'Scheduled' || slot.status == 'ScheduleWP' || slot.status === 'Resheduled') ? scheduledSlot : normalSlot"
+            [ngTemplateOutletContext]="{ slot: slot }"></ng-container>
+      </div>
+   </ng-container>
+</ng-template>
+
+<ng-template #normalSlot let-slot="slot">
+   <div class="small-box" (click)="clickToBookAppointment(slot)">
+      {{slot.appointmentTimeLabel}}
+
+      <!--  {{slot.slotType}} {{slot.status}}} -->
+   </div>
+</ng-template>
+
+<ng-template #scheduledSlot let-slot="slot">
+   <div class="small-box">
+      {{slot.appointmentTimeLabel}}
+   </div>
+   <div class="acc-green">
+      <div class="green-icon tool"><img src="assets/img/name2.svg" [ngbTooltip]="slot.patientName"></div>
+      <div class="green-icon tool"><img src="assets/img/modify2.svg"
+            *ngIf="slot.status === 'Scheduled'  || slot.status === 'Resheduled'" (click)="openModel(appDetails,slot)"
+            ngbTooltip="Modify"></div>
+      <div class="green-icon tool"><img src="assets/img/video2.svg"
+            *ngIf="slot.slotType !== 'In-Clinic' && (slot.status === 'Scheduled' ||  slot.status === 'Resheduled')"
+            (click)="onClickAppointment(slot)" ngbTooltip="Video Consultation"></div>
+   </div>
+</ng-template>
+
+
+<!-- Model -->
+<ng-template #appDetails let-modal>
+   <div class="modify-popup-selector">
+      <a class="modify-close" (click)="modal.dismiss('Cross click')"><img src="assets/img/close.svg"></a>
+      <div class="popup book-app detail-app">
+         <div class="doc-info">
+            <div class="doc-photo"><img
+                  [src]="authService.isUserDoctor() && profilePhoto ? profilePhoto : user.profilePhoto ? user.profilePhoto : 'assets/img/dr-photo.png'">
+            </div>
+            <div class="doc-name">DR. {{user.doctorName}}</div>
+            <div class="doc-name2"> {{user.doctorSpeciality}}</div>
+         </div>
+         <div class="book-col2 first">
+            <div class="book-left"><img src="assets/img/Appointment-id.svg" alt=""></div>
+            <div class="book-text">
+               <span class="doc-title">Patient Name </span>
+               <span class="doc-name">{{user.patientName}}</span>
+            </div>
+         </div>
+         <div class="book-col2">
+            <div class="book-left"><img src="assets/img/Appointment-id.svg" alt=""></div>
+            <div class="book-text">
+               <span class="doc-title">Appointment ID </span>
+               <span class="doc-name">{{user.appointmentID}}</span>
+            </div>
+         </div>
+         <div class="book-col2 last">
+            <div class="book-left"><img src="assets/img/appointment-time.svg" alt=""></div>
+            <div class="book-text">
+               <span class="doc-title">Appointment Time </span>
+               <span class="doc-name">{{user.appointmentDate}} | {{user.appointmentTime}}</span>
+            </div>
+         </div>
+         <div class="popup-tagline popup-tagline3">{{timer}}</div>
+
+         <div class="input-group btn-area">
+            <button *ngIf="timer != 'Appointment is not attended by Patient.'  && userRole !== 'RECEPTIONIST' && router.url != '/doctor-reschedule-book-appointments'"
+               type="button" (click)="onClickAppointment(user, 'today')" class="submit-main-btn">Start
+               Prescription</button>
+            <button type="button"
+               *ngIf="timer !== 'Appointment is not attended by Patient.' && userRole !== 'SCRIBE' && !Valid"
+               (click)="rescheduleAppointment()" class="submit-main-btn cancel">Reschedule</button>
+            <button type="button"
+               *ngIf="timer !== 'Appointment is not attended by Patient.' && userRole !== 'SCRIBE' && !Valid"
+               (click)="openReasonModel(reason, user.appointmentID)" class="submit-main-btn cancel2">Cancel</button>
+         </div>
+      </div>
+   </div>
+
+</ng-template>
+<!-- reason model -->
+<ng-template #reason let-modal>
+   <div class="model-wrapper cancel-container">
+      <div class="modal-header">
+         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      <form [formGroup]="reasonGroup">
+         <div class="modal-body px-4">
+            <div class="row">
+               <div class="col-sm 12">
+                  <label class="d-block mb-4">Do you want to cancel the appointment ?</label>
+                  <div class="feedback" *ngIf="reasonGroup.get('error').value">
+                     <p class="text-danger">{{ reasonGroup.get('error').value}}</p>
+                  </div>
+                  <div class="text-right">
+                     <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor mr-2"
+                        (click)="cancelAppointment()">Yes</button>
+                     <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor"
+                        (click)="modal.dismiss('Cross click')">No</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</ng-template>
+
+
+<div *ngIf="isPayLater">
+   <app-payment-option-modal></app-payment-option-modal>
+</div>

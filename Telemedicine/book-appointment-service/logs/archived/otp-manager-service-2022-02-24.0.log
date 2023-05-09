@@ -1,0 +1,177 @@
+[2022-02-24 15:27:45,478] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a19fe4e9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-02-24 15:27:45,877] INFO  Booking-Appointment, , [main], ,  , ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+[2022-02-24 15:27:46,409] INFO  Booking-Appointment, , [main], ,  , ConfigServicePropertySourceLocator log | Located environment: name=Booking-Appointment, profiles=[dev], label=1.0.1, version=null, state=null
+[2022-02-24 15:27:46,410] INFO  Booking-Appointment, , [main], ,  , PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+[2022-02-24 15:27:46,459] INFO  Booking-Appointment, , [main], ,  , BookAppointmentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+[2022-02-24 15:27:47,683] INFO  Booking-Appointment, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+[2022-02-24 15:27:47,811] INFO  Booking-Appointment, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 119ms. Found 11 repository interfaces.
+[2022-02-24 15:27:48,090] INFO  Booking-Appointment, , [main], ,  , GenericScope setSerializationId | BeanFactory id=8beaa64d-abd3-32fd-83ce-544e3d60ba90
+[2022-02-24 15:27:48,412] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8585e1ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-02-24 15:27:48,474] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a19fe4e9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-02-24 15:27:49,287] INFO  Booking-Appointment, , [main], ,  , TomcatWebServer initialize | Tomcat initialized with port(s): 7079 (http)
+[2022-02-24 15:27:49,304] INFO  Booking-Appointment, , [main], ,  , Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7079"]
+[2022-02-24 15:27:49,314] INFO  Booking-Appointment, , [main], ,  , StandardService log | Starting service [Tomcat]
+[2022-02-24 15:27:49,314] INFO  Booking-Appointment, , [main], ,  , StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+[2022-02-24 15:27:49,325] INFO  Booking-Appointment, , [main], ,  , AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+[2022-02-24 15:27:49,495] INFO  Booking-Appointment, , [main], ,  , [/book/v1] log | Initializing Spring embedded WebApplicationContext
+[2022-02-24 15:27:49,495] INFO  Booking-Appointment, , [main], ,  , ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3024 ms
+[2022-02-24 15:27:50,122] INFO  Booking-Appointment, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Starting...
+[2022-02-24 15:27:50,922] INFO  Booking-Appointment, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Start completed.
+[2022-02-24 15:27:51,018] INFO  Booking-Appointment, , [main], ,  , LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[2022-02-24 15:27:51,128] INFO  Booking-Appointment, , [main], ,  , Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+[2022-02-24 15:27:51,129] INFO  Booking-Appointment, , [main], ,  , Environment <clinit> | HHH000206: hibernate.properties not found
+[2022-02-24 15:27:51,338] INFO  Booking-Appointment, , [main], ,  , Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[2022-02-24 15:27:51,620] INFO  Booking-Appointment, , [main], ,  , Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[2022-02-24 15:27:51,647] INFO  Booking-Appointment, , [main], ,  , LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+[2022-02-24 15:27:51,659] INFO  Booking-Appointment, , [main], ,  , BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@2f498f21
+[2022-02-24 15:28:03,671] INFO  Booking-Appointment, , [main], ,  , LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2022-02-24 15:28:04,724] INFO  Booking-Appointment, , [main], ,  , QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+[2022-02-24 15:28:05,593] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+[2022-02-24 15:28:05,605] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+[2022-02-24 15:28:05,606] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 12 ms
+[2022-02-24 15:28:05,741] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+[2022-02-24 15:28:05,743] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+[2022-02-24 15:28:05,743] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 2 ms
+[2022-02-24 15:28:06,130] INFO  Booking-Appointment, , [main], ,  , ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+[2022-02-24 15:28:06,259] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+[2022-02-24 15:28:06,260] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+[2022-02-24 15:28:06,260] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 1 ms
+[2022-02-24 15:28:06,264] WARN  Booking-Appointment, , [main], ,  , JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2022-02-24 15:28:06,787] INFO  Booking-Appointment, , [main], ,  , ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+[2022-02-24 15:28:07,230] INFO  Booking-Appointment, , [main], ,  , Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7079"]
+[2022-02-24 15:28:07,260] INFO  Booking-Appointment, , [main], ,  , TomcatWebServer start | Tomcat started on port(s): 7079 (http) with context path '/book/v1'
+[2022-02-24 15:28:07,263] INFO  Booking-Appointment, , [main], ,  , BookAppointmentServiceApplication logStarted | Started BookAppointmentServiceApplication in 22.687 seconds (JVM running for 24.58)
+[2022-02-24 15:28:28,706] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , [/book/v1] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2022-02-24 15:28:28,706] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+[2022-02-24 15:28:28,737] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , DispatcherServlet initServletBean | Completed initialization in 31 ms
+[2022-02-24 15:28:28,765] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+[2022-02-24 15:28:28,774] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+[2022-02-24 15:28:29,238] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+[2022-02-24 15:28:29,239] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 465 ms
+[2022-02-24 15:28:29,240] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+[2022-02-24 15:28:29,243] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+[2022-02-24 15:28:29,244] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 4 ms
+[2022-02-24 15:28:29,268] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of UserDTO.setRole
+[2022-02-24 15:28:29,271] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of UserDTO.setRole
+[2022-02-24 15:28:29,272] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 4 ms
+[2022-02-24 15:28:29,273] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+[2022-02-24 15:28:29,274] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of UserDTO.setUserName
+[2022-02-24 15:28:29,274] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+[2022-02-24 15:28:29,275] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+[2022-02-24 15:28:29,276] INFO  Booking-Appointment, , [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 512 ms
+[2022-02-24 15:28:29,381] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of AppointmentController.getPatientDetails
+[2022-02-24 15:28:29,391] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.getPatientDetails
+[2022-02-24 15:28:29,404] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of PatientRegDtlsRepository.findByPrdUserId
+[2022-02-24 15:28:29,889] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of PatientRegDtlsRepository.findByPrdUserId
+[2022-02-24 15:28:29,890] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of PatientRegDtlsRepository.findByPrdUserId :: 486 ms
+[2022-02-24 15:28:29,891] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentServiceImpl getPatientDetails | Fetching patient details from database for patient Id: P9960266722
+[2022-02-24 15:28:29,893] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptId
+[2022-02-24 15:28:30,395] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptId
+[2022-02-24 15:28:30,396] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptId :: 504 ms
+[2022-02-24 15:28:30,397] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of ConsultationHistoryRepo.getFlagStatus
+[2022-02-24 15:28:30,644] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of ConsultationHistoryRepo.getFlagStatus
+[2022-02-24 15:28:30,645] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of ConsultationHistoryRepo.getFlagStatus :: 248 ms
+[2022-02-24 15:28:30,646] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentServiceImpl getPatientDetails | Calling saveConsultationHistory method()
+[2022-02-24 15:28:30,647] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentServiceImpl saveConsultationHistory | Inside saveConsultationHistory method() to save data in consultation_history2022022309312314
+[2022-02-24 15:28:30,650] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of JpaRepository.saveAndFlush
+[2022-02-24 15:28:30,992] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of JpaRepository.saveAndFlush
+[2022-02-24 15:28:30,992] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of JpaRepository.saveAndFlush :: 342 ms
+[2022-02-24 15:28:30,994] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentServiceImpl saveConsultationHistory | returning from saveConsultationHistory method()
+[2022-02-24 15:28:30,994] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentServiceImpl getPatientDetails | Returning from getPatientDetails()
+[2022-02-24 15:28:30,995] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.getPatientDetails
+[2022-02-24 15:28:30,995] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.getPatientDetails :: 1604 ms
+[2022-02-24 15:28:30,996] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , AppointmentController getPatientDetails | Returning Response
+[2022-02-24 15:28:30,997] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of AppointmentController.getPatientDetails
+[2022-02-24 15:28:30,997] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of AppointmentController.getPatientDetails :: 1616 ms
+[2022-02-24 15:28:31,029] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+[2022-02-24 15:28:31,031] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+[2022-02-24 15:28:31,031] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+[2022-02-24 15:28:31,033] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+[2022-02-24 15:28:31,033] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+[2022-02-24 15:28:31,034] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], b73ae2822b897c6a, b73ae2822b897c6a , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+[2022-02-24 15:29:00,016] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,024] INFO  Booking-Appointment, , [scheduling-1], e07cbd19b65040db, e07cbd19b65040db , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-02-24 15:29:00,062] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,063] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,306] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,309] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 246 ms
+[2022-02-24 15:29:00,312] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,313] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 251 ms
+[2022-02-24 15:29:00,316] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:29:00,317] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 301 ms
+[2022-02-24 15:30:00,011] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,015] INFO  Booking-Appointment, , [scheduling-1], 31fa2d0065b03d75, 31fa2d0065b03d75 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-02-24 15:30:00,017] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,020] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,286] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,288] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 268 ms
+[2022-02-24 15:30:00,289] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,291] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 273 ms
+[2022-02-24 15:30:00,292] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:30:00,293] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 282 ms
+[2022-02-24 15:31:00,003] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:31:00,008] INFO  Booking-Appointment, , [scheduling-1], 4301b782a4aa6f29, 4301b782a4aa6f29 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-02-24 15:31:00,011] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:31:00,013] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:31:03,295] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-02-24 15:31:03,297] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 3284 ms
+[2022-02-24 15:31:03,300] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:03,301] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:05,381] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:05,396] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:05,398] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:07,452] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:07,461] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:07,462] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:09,484] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:09,493] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:09,494] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:11,522] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:11,530] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:11,532] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:13,578] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:13,586] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:13,588] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:15,614] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:15,621] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:15,623] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:17,648] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:17,653] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:17,654] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:19,696] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:19,704] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:19,705] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:19,805] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+[2022-02-24 15:31:19,809] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , ThreadPoolTaskScheduler shutdown | Shutting down ExecutorService 'taskScheduler'
+[2022-02-24 15:31:19,809] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+[2022-02-24 15:31:19,813] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+[2022-02-24 15:31:19,816] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown initiated...
+[2022-02-24 15:31:19,828] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown completed.
+[2022-02-24 15:31:19,830] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7079"]
+[2022-02-24 15:31:19,860] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , StandardService log | Stopping service [Tomcat]
+[2022-02-24 15:31:19,863] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , [/book/v1] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+[2022-02-24 15:31:19,867] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7079"]
+[2022-02-24 15:31:19,871] INFO  Booking-Appointment, , [RMI TCP Connection(7)-127.0.0.1], ,  , Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7079"]
+[2022-02-24 15:31:21,728] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:21,732] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:21,732] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:23,783] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:23,786] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:23,787] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:25,818] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:25,823] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:25,824] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:27,866] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:27,871] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:27,872] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:29,896] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:29,903] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:29,904] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:31,928] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:31,935] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:31,936] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+[2022-02-24 15:31:33,972] ERROR Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+[2022-02-24 15:31:33,979] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationBeforeAppointmentStart | Calling another API of email and sms notification
+[2022-02-24 15:31:33,980] INFO  Booking-Appointment, , [scheduling-1], ,  , AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service

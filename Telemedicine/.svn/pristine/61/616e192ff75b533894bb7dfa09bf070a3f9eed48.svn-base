@@ -1,0 +1,51 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+
+<div class="content-area content-area2 login-form">
+    <div class="page-title">Diagnostic Support</div>
+    <div class="register-form register-form2">
+        <form [formGroup]="form">
+            <ng-container>
+                <div class="input-group half-col last-col">
+                    <h3>Search Patient by Name</h3>
+                    <hr>
+                      <mat-form-field class="w-100">
+                      <input type="text" matInput placeholder="Enter Name" formControlName="searchPtByName" [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange) = "onSelectPtOption($event)">
+                          <div>
+                          </div>
+                          <div class="row mt-1">
+                              <div class="col-md-2">
+                                  <ngx-avatar size="40" [style]= "customStyle" fgColor="black" [name]="option.ptFullName"></ngx-avatar>
+                              </div>
+                              <div class="col-md-6">
+                                  <h4>{{option.ptFullName}}</h4>
+                                  <h4>{{option.ptMobNo}}</h4>
+                              </div>
+
+                          </div>
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field>
+                 </div> 
+            </ng-container>
+             <div class="input-group full-col btn-area">
+                <button type="button" class="submit-main-btn submit-main-btn2 mr-2">Prescribe Service</button>
+              </div>
+        </form>
+
+        <!-- <form  #form  [action]="actionURL" method="post" target="_blank">
+            <input type="hidden" name="patient_name"  [value]="ptPersonalDetals?.name">
+            <input type="hidden" name="patient_phone"  [value]="ptPersonalDetals?.mobileNo">
+            <input type="hidden" name="doctor_mobile" [value]="mobileNo">
+            <input type="hidden" name="doctor_email"  [value]="emailid">
+            <input type="hidden" name="client_secret_key" [value]="clientSecret"> 
+            <input type="hidden" name="telmed_trans_id" [value]="this.transactionID"> 
+          </form> 
+        (click)="onClickPrescribed()"-->
+       </div>
+
+</div>

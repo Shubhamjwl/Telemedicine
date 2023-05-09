@@ -1,0 +1,181 @@
+package com.nsdl.ndhm.transfer.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.RespDTO;
+import com.nsdl.ndhm.repository.CareContextRepository;
+import com.nsdl.ndhm.repository.HipRequestRepository;
+import com.nsdl.ndhm.transfer.dto.*;
+import com.nsdl.ndhm.transfer.entity.HipRequestEntity;
+import com.nsdl.ndhm.transfer.service.DataTranferRequestService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static com.nsdl.ndhm.utility.FhirEncryptDecryptUtil.*;
+
+@Service
+public class DataTranferRequestServiceImpl implements DataTranferRequestService {
+
+	private static final Logger logger = LoggerFactory.getLogger(DataTranferRequestServiceImpl.class);
+
+	@Autowired
+	CareContextRepository careContextRepository;
+
+	@Autowired
+	HipRequestRepository hipRequestRepository;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${ndhm.onRequest}")
+	String onRequest;
+	
+	@Value("${ndhm.transfer.onNotify}")
+	String transferNotify;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	private OnRequestRespDTO prepareRequestDummyData(DataRequestDTO dataRequestDTO) {
+		SimpleDateFormat format1 = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return OnRequestRespDTO.builder()
+				.requestId(UUID.randomUUID().toString()).timestamp(format1.format(new Date()))
+				.hiRequest(HiRequestRespDTo.builder().transactionId(dataRequestDTO.getTransactionId())
+				.sessionStatus("ACKNOWLEDGED").build()).resp(RespDTO.builder()
+						.requestId(dataRequestDTO.getRequestId()).build()).build();
+	}
+
+	/*
+	 * for demo request call
+	 */
+	@Override
+	public ResponseEntity<String> requestDemo(DataRequestDTO dataRequestDTO) {
+		logger.info("Request Receives for Request Starts");
+
+		String url = onRequest;
+		ResponseEntity<String> result = null;
+		URI uri;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(prepareRequestDummyData(dataRequestDTO));
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			logger.info("requestEntity {}", requestEntity);
+			logger.info("On-request result {}", result);
+
+			if (result.getStatusCode().is2xxSuccessful()) {
+				hipRequestRepository.save(prepareHipRequestSaveData(dataRequestDTO));
+//				logger.info("DataRequestDTO {}", dataRequestDTO);
+				uri = new URI(dataRequestDTO.getHiRequest().getDataPushUrl());
+				logger.info("URI: {}", uri);
+				encryptedString = new Gson().toJson(prepareDataTransferDTO(dataRequestDTO));
+				logger.info("encryptedString length: {}", encryptedString.length());
+				requestEntity = new HttpEntity<>(encryptedString,
+						commonHeadersUtil.getHeadersWithRefreshTokenFromServer());
+				result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+				logger.info("Data Transfer Request: {}", requestEntity);
+				logger.info("After Data Transfer result: {}", result);
+			}
+
+		} catch (Exception e) {
+			logger.info("Error in On-Request {} ", e);
+		}
+		return result;
+	}
+
+	private HipRequestEntity prepareHipRequestSaveData(DataRequestDTO dataRequestDTO){
+		HiRequestDTO hiRequestDTO = dataRequestDTO.getHiRequest();
+		DateRangeDTO dateRangeDTO = hiRequestDTO.getDateRange();
+		KeyMaterialDTO keyMaterialDTO = hiRequestDTO.getKeyMaterial();
+		DhPublicKeyDTO dhPublicKeyDTO = keyMaterialDTO.getDhPublicKey();
+		return HipRequestEntity.builder().requestId(dataRequestDTO.getRequestId())
+				.timestamp(dataRequestDTO.getTimestamp()).transactionId(dataRequestDTO.getTransactionId())
+				.consentId(hiRequestDTO.getConsent().getId()).dateRangeFrom(dateRangeDTO.getFrom())
+				.dateRangeTo(dateRangeDTO.getTo()).dataPushUrl(hiRequestDTO.getDataPushUrl())
+				.cryptoAlg(keyMaterialDTO.getCryptoAlg()).curve(keyMaterialDTO.getCurve())
+				.dhPublicKeyExpiry(dhPublicKeyDTO.getExpiry()).dhPublicKeyParameters(dhPublicKeyDTO.getParameters())
+				.keyValue(dhPublicKeyDTO.getKeyValue()).nonce(keyMaterialDTO.getNonce()).build();
+	}
+
+	private DataTransferDTO prepareDataTransferDTO(DataRequestDTO dataRequestDTO) throws Exception {
+		senderPublicPrivateKeygen();
+		String senderPublicKey = getSenderPublicKey();
+		String randomKeySender = senderNonce();
+		KeyMaterialDTO receiverKeyMaterial = dataRequestDTO.getHiRequest().getKeyMaterial();
+		logger.info("senderPublicKey {}", senderPublicKey);
+		logger.info("randomKeySender {}", randomKeySender);
+		logger.info("ReceiverPublicKey {}", receiverKeyMaterial.getDhPublicKey().getKeyValue());
+		logger.info("randomKeyReceiver {}", receiverKeyMaterial.getNonce());
+		String encryptedFhir = encrypt(receiverKeyMaterial.getNonce(),receiverKeyMaterial.getDhPublicKey().getKeyValue());
+
+//		logger.info("encryptedFhir {}", encryptedFhir);
+
+		EntryDTO entryDTO = EntryDTO.builder()
+				.content(encryptedFhir)
+				.media("application/fhir+json").checksum("")
+				.careContextReference("CARE_CNTX_55009").build();
+
+		logger.info("ReceiverKeyMaterialDTO {}", receiverKeyMaterial);
+
+
+		KeyMaterialDTO keyMaterialDTO = KeyMaterialDTO.builder().cryptoAlg(receiverKeyMaterial.getCryptoAlg())
+				                        .curve(receiverKeyMaterial.getCurve())
+				                        .dhPublicKey(DhPublicKeyDTO.builder().expiry("2022-02-21T12:00:50.810Z")
+												.parameters(receiverKeyMaterial.getDhPublicKey().getParameters())
+												.keyValue(senderPublicKey).build())
+				                        .nonce(randomKeySender).build();
+
+		return DataTransferDTO.builder()
+				.pageCount(1)
+				.pageNumber(1)
+				.transactionId(dataRequestDTO.getTransactionId())
+				.entries(Arrays.asList(entryDTO))
+                .keyMaterial(keyMaterialDTO)
+				.build();
+	}
+	
+	NotifyRequestDTO prepareNotifyDummy(DataRequestDTO dataRequestDTO) {
+		NotifyNotificationDTO notifyNotificationDTO = NotifyNotificationDTO.builder().build();
+		notifyNotificationDTO.setNotifier(NotifyNotifierDTO.builder().build());
+		return NotifyRequestDTO.builder()
+				.requestId(UUID.randomUUID().toString())
+				.notification(notifyNotificationDTO)
+				
+				.build();
+	}
+	
+	ResponseEntity<String> callNotify(DataRequestDTO dataRequestDTO){
+		String url = transferNotify;
+		ResponseEntity<String> result = null;
+		URI uri;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(prepareNotifyDummy(dataRequestDTO));
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+		} catch (Exception e1) {
+			logger.info("Error in on-discover health id missing  {} ", e1);
+			result = new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+		return result;
+	}
+}

@@ -1,0 +1,159 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="modal fade modifySlotModel" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title mb-0 ml-3" id="staticBackdropLabel">Mark / Cancel Holiday</h2>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <div class="col-12">
+            <form class="mt-4 mb-4" [formGroup]="form" (ngSubmit)="confirmHoliday(form.value)">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-radio-group formControlName="holiday">
+                            <mat-radio-button value="setHoliday" [disabled]="disableIsHoliday === true" class="mr-3"> <b>Set Holiday</b> </mat-radio-button>
+                            <mat-radio-button value="cancelHoliday" [disabled]="disableCancelHoliday === true"> <b>Cancel Set Holiday</b> </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-8">
+                        <label class="mb-1 labelSize14"> <b> Dates of Month:</b> </label>
+                        <div class="pb-1 ml-2" *ngFor="let item of selectedUnselectedDays">
+                            {{ item.selectedDate | date: 'dd/MM/yyyy'}} - {{ item.flag }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field class="example-full-width w-100" appearance="outline">
+                            <mat-label class="labelSize14"> <b>Reason</b> </mat-label>
+                            <textarea matInput rows="5" formControlName="reason" placeholder="Enter Reason"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button type="reset" class="btn btnColor float-left" data-dismiss="modal" aria-label="Close" (click)="cancel()">Cancel</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btnColor float-right">Confirm</button>
+                    </div>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- <div class="col-2 selectedUnselectedHolidays">
+    <div class="card p-2 text-center">
+        <h3 class="card-title mb-2"> <b>Selected Holidays</b> </h3>
+        <div class="card-body p-0 text-center">
+            <div *ngFor="let item of selectedUnselectedDays">
+                {{ item | date: 'dd/MM/yyyy'}}
+                <hr class="mt-1 mb-1" />
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container">
+    <div class="modify-time-slot-wrapper">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3 text-left">
+                <!-- heading -->
+                <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <h1 class="mb-2 mb-2">
+                                Block / Unblock Holiday
+                            </h1>
+                        </div>
+                        <div class="col-8">
+                            <!-- <small> -->
+                                <ul class="text-danger pl-0">
+                                    <li> Red color is a holiday </li>
+                                    <li> White color is a working day </li>
+                                </ul>
+                            <!-- </small> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Modify design slot  -->
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 bg-light bgShadowStyle newSlotDesign">
+           <div class="col-12">
+                <div class="row pt-3">
+                    <div *ngFor="let item of slotsOfMonth; let i=index;">
+                        <button type="button" class="btn btn-secondary btn-sm m-2" (click)="getMonthDetails(i)">
+                            {{item.monthTodisplay}}
+                        </button>
+                    </div>
+                </div>
+           </div>
+           <div class="col-12 mt-2">
+               <div class="col-12 text-center">
+                   <h2>
+                       <b>{{ viewDate | date: 'MMMM/yyyy' }}</b>
+                   </h2>
+               </div>
+           </div>
+           <div class="row"  [class.disabled]="!(authService.isUserDoctor() || authService.isUserScribe())">
+               <div class="col-12 p-0 border-top">
+                    <ng-template #customCellTemplate let-day="day" let-locale="locale">
+                        <div class="cal-cell-top">
+                            <!-- <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">
+                                {{ day.badgeTotal }}
+                            </span> -->
+                            <span class="cal-day-number" *ngIf="day && day.date ">
+                                {{ day.date | calendarDate:'monthViewDayNumber':locale }}
+                            </span>
+                        </div>
+                        <p class="ml-2 mr-auto">
+                            {{ day?.events[0]?.title }}
+                        </p>
+                    </ng-template>
+                    <div>
+                        <mwl-calendar-month-view
+                        [viewDate]="viewDate"
+                        [events]="events"
+                        [cellTemplate]="customCellTemplate"
+                        [refresh]="refresh"
+                        (beforeViewRender)="beforeMonthViewRender($event)"
+                        (dayClicked)="dayClicked($event.day)">
+                        </mwl-calendar-month-view>
+                    </div>
+               </div>
+           </div>
+        </div>
+
+        <!-- End Modify design slot  -->
+        <div *ngIf="authService.isUserDoctor() || authService.isUserScribe()" class="col-sm-12 offset-md-1 col-md-10 offset-lg-1 col-lg-10 offset-xl-1 col-xl-10 mt-3 pb-3">
+            <div class="row justify-content-center">
+                <!-- <div class="col">
+                    <button type="button" class="btn btnColor float-right">Modify</button>
+                </div> -->
+                <div class="col col-3 text-center">
+                    <!--  (click)="openDialog()"-->
+                    <button type="button" class="btn btnColor" data-toggle="modal" data-target="#staticBackdrop" (click)="resetFilterOptions()">Block / Unblock Holiday</button>
+                </div>
+                <!-- <div class="col">
+                    <button type="reset" class="btn btnColor float-left">Clear</button>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,187 @@
+  [2022-02-23 14:58:40,119], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-23 14:58:40,142], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-23 14:58:40,506], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b90aba79] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 14:58:40,854], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-23 14:58:42,429], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-23 14:58:42,430], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-23 14:58:42,545], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-23 14:58:43,987], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-23 14:58:44,109], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 109ms. Found 5 JPA repository interfaces.
+  [2022-02-23 14:58:44,407], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-23 14:58:44,950], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 14:58:45,029], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b90aba79] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 14:58:46,131], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-23 14:58:46,189], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 14:58:46,191], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-23 14:58:46,191], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-23 14:58:46,575], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-23 14:58:46,576], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4013 ms
+  [2022-02-23 14:58:48,549], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-23 14:58:48,749], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-23 14:58:49,208], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-23 14:58:49,421], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-23 14:58:51,339], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-23 14:58:52,243], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-23 14:59:07,682], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-23 14:59:09,466], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-23 14:59:09,669], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-23 14:59:09,895], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-23 14:59:12,337], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-23 14:59:12,548], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-23 14:59:14,094], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-23 14:59:14,243], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 14:59:14,303], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-23 14:59:14,310], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 35.12 seconds (JVM running for 37.475)
+  [2022-02-23 15:42:56,867], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-02-23 15:42:56,878], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-23 15:42:56,879], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-23 15:42:56,901], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2022-02-23 15:42:56,904], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2022-02-23 15:42:56,906], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 15:42:56,930], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-23 15:42:56,940], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 15:42:56,944], , [RMI TCP Connection(48)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 15:43:33,871], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-23 15:43:33,888], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-23 15:43:34,227], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bed277d9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 15:43:34,539], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-23 15:43:36,195], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-23 15:43:36,196], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-23 15:43:36,253], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-23 15:43:37,545], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-23 15:43:37,650], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 93ms. Found 5 JPA repository interfaces.
+  [2022-02-23 15:43:37,961], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-23 15:43:38,433], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 15:43:38,492], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bed277d9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-23 15:43:39,256], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-23 15:43:39,270], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 15:43:39,271], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-23 15:43:39,271], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-23 15:43:39,432], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-23 15:43:39,433], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3109 ms
+  [2022-02-23 15:43:40,846], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-23 15:43:40,980], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-23 15:43:41,210], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-23 15:43:41,380], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-23 15:43:42,823], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-23 15:43:43,703], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-23 15:43:57,400], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-23 15:43:59,140], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-23 15:44:01,865], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-23 15:44:02,342], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-23 15:44:04,679], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-23 15:44:04,897], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-23 15:44:06,284], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-23 15:44:06,424], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-23 15:44:06,478], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-23 15:44:06,487], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 33.344 seconds (JVM running for 35.63)

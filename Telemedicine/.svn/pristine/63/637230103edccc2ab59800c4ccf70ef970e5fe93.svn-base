@@ -1,0 +1,64 @@
+:host {
+  display: flex;
+  height: 100%;
+  background-color: white;
+}
+
+.main-container {
+  width: 100%;
+  margin-right: 20px;
+}
+
+.diagnosis-container {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .diagnosis {
+    padding: 5px 15px;
+    background-color: #ebf4fb;
+    margin: 2px;
+    // color: black;
+    // border: 1px solid black;
+    border-radius: 5px;
+  }
+}
+::ng-deep {
+  .mat-autocomplete-panel.ng-star-inserted.mat-autocomplete-visible::-webkit-scrollbar {
+    height: 12px;
+    width: 18px;
+    background: #aaa;
+  }
+  .mat-autocomplete-panel.ng-star-inserted.mat-autocomplete-visible::-webkit-scrollbar-thumb {
+    background-color: #818b99;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background-clip: content-box;
+  }
+}
+
+.condSym {
+  background-color: #e43927;
+  border-radius: 20px;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 15px;
+  color: white;
+}
+.valueTags {
+  display: flex;
+  flex-wrap: wrap;
+  .tags {
+    background-color: #e43927;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 5px 20px;
+    display: flex;
+    align-items: center;
+    margin: 5px 5px;
+  }
+}

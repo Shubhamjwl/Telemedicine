@@ -1,0 +1,33 @@
+package com.nsdl.ndhm.dto;
+
+import java.util.List;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class HealthIDResp {
+	 public List<String> authMethods;
+	    public String dayOfBirth;
+	    public String districtCode;
+	    public String districtName;
+	    public String email;
+	    public String firstName;
+	    public String gender;
+	    public String healthId;
+	    public String healthIdNumber;
+	    public String kycPhoto;
+	    public String lastName;
+	    public String middleName;
+	    public String mobile;
+	    public String monthOfBirth;
+	    public String name;
+	    public boolean New;
+	    public String profilePhoto;
+	    public String stateCode;
+	    public String stateName;
+	    public TagsDTO tags;
+	    public String token;
+	    public String yearOfBirth;
+}

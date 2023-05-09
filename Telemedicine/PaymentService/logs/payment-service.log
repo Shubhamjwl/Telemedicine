@@ -1,0 +1,585 @@
+  [2022-02-01 16:31:47,070], , [restartedMain], payment-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-01 16:31:47,594], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$4851dec5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:31:48,012], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-01 16:31:52,250], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=payment-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-01 16:31:52,251], , [restartedMain], payment-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-01 16:31:52,451], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-01 16:31:54,822], , [restartedMain], payment-service, INFO  GenericScope setSerializationId | BeanFactory id=36b18998-071e-3726-83c8-f4a286476d01
+  [2022-02-01 16:31:55,220], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$4851dec5] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:31:56,311], , [restartedMain], payment-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8001 (http)
+  [2022-02-01 16:31:56,345], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:31:56,349], , [restartedMain], payment-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-01 16:31:56,350], , [restartedMain], payment-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-02-01 16:31:56,619], , [restartedMain], payment-service, INFO  [/Payment] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-01 16:31:56,620], , [restartedMain], payment-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4102 ms
+  [2022-02-01 16:31:57,333], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:31:57,345], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:31:57,346], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 17 ms
+  [2022-02-01 16:31:58,133], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:31:58,402], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:31:58,403], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 268 ms
+  [2022-02-01 16:31:58,777], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 16:31:58,933], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:31:58,934], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:31:58,935], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 1 ms
+  [2022-02-01 16:31:59,471], , [restartedMain], payment-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-01 16:31:59,909], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:31:59,942], , [restartedMain], payment-service, INFO  TomcatWebServer start | Tomcat started on port(s): 8001 (http) with context path '/Payment'
+  [2022-02-01 16:31:59,945], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStarted | Started PaymentServiceApplication in 13.554 seconds (JVM running for 15.65)
+  [2022-02-01 16:44:26,036], , [http-nio-8001-exec-1], payment-service, INFO  Http11Processor log | Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:415)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:260)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:860)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1598)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+  [2022-02-01 16:44:35,154], , [http-nio-8001-exec-4], payment-service, INFO  [/Payment] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-01 16:44:35,157], , [http-nio-8001-exec-4], payment-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-01 16:44:35,292], , [http-nio-8001-exec-4], payment-service, INFO  DispatcherServlet initServletBean | Completed initialization in 134 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:35,363], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:35,385], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,147], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,147], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 763 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,148], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,150], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,151], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 2 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,216], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,221], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,222], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 5 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,222], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,223], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,224], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,224], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,225], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 864 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,329], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,337], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,345], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,346], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,347], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,372], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,380], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:36,385], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"aa418d08-33ad-4677-a200-9ed7b0697064"}
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:38,919], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:38,921], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:38,941], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqizKQvbXDs3fm","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:38,942], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,687], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl updateRecord | Called update payment service, status is : true
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,688], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order before checkout :RazorPay(applicationFee=10000, razorpayOrderId=order_IqizKQvbXDs3fm, secretKey=rzp_test_WW4lRgT2ig0uT2, paymentId=null, notes=null, imageURL=null, theme=null, merchantName=telemed, purchaseDescription=Consultation charge, customerName=null, customerEmail=null, customerContact=null)
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,689], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,690], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 3352 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,691], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,691], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 3361 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,719], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,719], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,720], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 1 ms
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,721], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,722], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+3fc5951ced0fbcff 3fc5951ced0fbcff [2022-02-01 16:44:39,723], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+  [2022-02-01 16:46:02,579], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-02-01 16:46:02,590], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 16:46:02,600], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:46:02,622], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-01 16:46:02,625], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  [/Payment] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-02-01 16:46:02,636], , [RMI TCP Connection(18)-127.0.0.1], payment-service, WARN  WebappClassLoaderBase log | The web application [Payment] appears to have started a thread named [OkHttp ConnectionPool] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@15.0.1/java.lang.Object.wait(Native Method)
+ java.base@15.0.1/java.lang.Object.wait(Object.java:455)
+ app//okhttp3.internal.connection.RealConnectionPool.lambda$new$0(RealConnectionPool.java:62)
+ app//okhttp3.internal.connection.RealConnectionPool$$Lambda$600/0x00000001005d16f0.run(Unknown Source)
+ java.base@15.0.1/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base@15.0.1/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+ java.base@15.0.1/java.lang.Thread.run(Thread.java:832)
+  [2022-02-01 16:46:02,638], , [RMI TCP Connection(18)-127.0.0.1], payment-service, WARN  WebappClassLoaderBase log | The web application [Payment] appears to have started a thread named [Okio Watchdog] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base@15.0.1/java.lang.Object.wait(Native Method)
+ app//okio.AsyncTimeout.awaitTimeout(AsyncTimeout.java:348)
+ app//okio.AsyncTimeout$Watchdog.run(AsyncTimeout.java:313)
+  [2022-02-01 16:46:02,641], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:46:02,644], , [RMI TCP Connection(18)-127.0.0.1], payment-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:46:29,931], , [restartedMain], payment-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-01 16:46:30,413], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a6182154] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:46:30,964], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-01 16:46:32,133], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=payment-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-01 16:46:32,134], , [restartedMain], payment-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-01 16:46:32,208], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-01 16:46:33,420], , [restartedMain], payment-service, INFO  GenericScope setSerializationId | BeanFactory id=36b18998-071e-3726-83c8-f4a286476d01
+  [2022-02-01 16:46:34,010], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a6182154] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:46:35,236], , [restartedMain], payment-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8001 (http)
+  [2022-02-01 16:46:35,261], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:46:35,263], , [restartedMain], payment-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-01 16:46:35,264], , [restartedMain], payment-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-02-01 16:46:35,400], , [restartedMain], payment-service, INFO  [/Payment] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-01 16:46:35,401], , [restartedMain], payment-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3165 ms
+  [2022-02-01 16:46:35,933], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:46:35,944], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:46:35,945], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 13 ms
+  [2022-02-01 16:46:36,636], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:46:36,846], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:46:36,847], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 210 ms
+  [2022-02-01 16:46:37,220], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 16:46:37,388], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:46:37,390], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:46:37,390], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 2 ms
+  [2022-02-01 16:46:37,940], , [restartedMain], payment-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-01 16:46:38,547], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:46:38,592], , [restartedMain], payment-service, INFO  TomcatWebServer start | Tomcat started on port(s): 8001 (http) with context path '/Payment'
+  [2022-02-01 16:46:38,596], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStarted | Started PaymentServiceApplication in 9.391 seconds (JVM running for 18.978)
+  [2022-02-01 16:47:15,652], , [restartedMain], payment-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-01 16:47:15,981], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$36a5d3c7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:47:16,314], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-01 16:47:16,926], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=payment-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-01 16:47:16,926], , [restartedMain], payment-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-01 16:47:16,971], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-01 16:47:17,934], , [restartedMain], payment-service, INFO  GenericScope setSerializationId | BeanFactory id=36b18998-071e-3726-83c8-f4a286476d01
+  [2022-02-01 16:47:18,419], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$36a5d3c7] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 16:47:19,291], , [restartedMain], payment-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8001 (http)
+  [2022-02-01 16:47:19,308], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:47:19,308], , [restartedMain], payment-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-01 16:47:19,309], , [restartedMain], payment-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-02-01 16:47:19,472], , [restartedMain], payment-service, INFO  [/Payment] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-01 16:47:19,472], , [restartedMain], payment-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2477 ms
+  [2022-02-01 16:47:19,916], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:47:19,925], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 16:47:19,925], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 10 ms
+  [2022-02-01 16:47:20,697], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:47:20,885], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 16:47:20,885], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 187 ms
+  [2022-02-01 16:47:21,196], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 16:47:21,368], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:47:21,369], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 16:47:21,370], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 1 ms
+  [2022-02-01 16:47:21,906], , [restartedMain], payment-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-01 16:47:22,409], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 16:47:22,463], , [restartedMain], payment-service, INFO  TomcatWebServer start | Tomcat started on port(s): 8001 (http) with context path '/Payment'
+  [2022-02-01 16:47:22,466], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStarted | Started PaymentServiceApplication in 7.495 seconds (JVM running for 9.855)
+  [2022-02-01 16:47:30,698], , [http-nio-8001-exec-2], payment-service, INFO  [/Payment] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-01 16:47:30,699], , [http-nio-8001-exec-2], payment-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-01 16:47:30,832], , [http-nio-8001-exec-2], payment-service, INFO  DispatcherServlet initServletBean | Completed initialization in 132 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:30,880], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:30,897], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,339], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,340], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 443 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,342], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,344], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,345], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 3 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,360], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,365], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,366], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 5 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,367], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,368], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,369], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,370], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,370], , [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 491 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,423], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:31,437], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:48,667], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:48,990], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:49,547], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:52,588], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:55,749], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:47:56,179], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"aa418d08-33ad-4677-a200-9ed7b0697064"}
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:48:06,970], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:48:07,316], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:48:08,536], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_Iqj2yYaxFfENqB","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:48:26,570], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:48:32,548], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,561], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,699], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,741], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,743], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 43 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,744], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,760], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,761], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 16 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,840], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,848], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,849], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 9 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,851], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,852], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,853], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 2 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,854], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,854], , [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 294 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,864], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:49:49,865], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,194], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,197], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 148759 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,201], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,202], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 148778 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,290], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,291], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,293], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,298], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,301], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+5baf67a6a29a2a7e 5baf67a6a29a2a7e [2022-02-01 16:50:00,302], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-2], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 3 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,490], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,492], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,493], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,498], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,499], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:05,500], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"aa418d08-33ad-4677-a200-9ed7b0697064"}
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:06,116], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:06,117], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:06,118], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_Iqj55bl7hOn9IF","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:50:13,911], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,684], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,686], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,693], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,695], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 9 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,699], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,708], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,710], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 11 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,822], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,862], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,888], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 65 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,894], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,896], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,898], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 3 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,899], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,900], , [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 216 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,903], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:21,929], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:25,973], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,023], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,025], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 96159 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,029], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,032], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 96167 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,039], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,041], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,044], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 4 ms
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,045], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,046], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+ee98776e04b88d8a ee98776e04b88d8a [2022-02-01 16:51:26,048], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-3], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,516], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,517], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,520], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,528], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,531], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:27,532], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"aff64df3-debb-44c2-af65-a1c37c847114"}
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:28,251], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:28,251], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:28,252], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_Iqj6XHKtZsZ1Jg","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:34,539], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:51:44,876], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl updateRecord | Called update payment service, status is : true
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,501], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,617], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,726], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,730], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 112 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,731], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,733], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:17,738], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 6 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,211], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,253], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,253], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 42 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,255], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,256], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,256], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,257], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,257], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 766 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,305], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:18,310], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,488], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order before checkout :RazorPay(applicationFee=10000, razorpayOrderId=order_Iqj6XHKtZsZ1Jg, secretKey=rzp_test_WW4lRgT2ig0uT2, paymentId=null, notes=null, imageURL=null, theme=null, merchantName=telemed, purchaseDescription=Consultation charge, customerName=null, customerEmail=null, customerContact=null)
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,510], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,512], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 499582 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,516], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,517], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 499613 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,575], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,576], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,577], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 1 ms
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,577], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,578], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+e648b9cf6fa5dec0 e648b9cf6fa5dec0 [2022-02-01 16:59:41,578], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-5], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:42,724], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:43,167], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:43,168], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:43,179], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:43,181], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:43,184], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"a8bbb762-d533-41fd-a2da-440ff1d9d1eb"}
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:44,384], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:44,385], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:44,387], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjFGmtgLQitC3","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 16:59:50,444], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+  [2022-02-01 17:00:35,089], , [restartedMain], payment-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-01 17:00:35,600], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2fa4c330] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 17:00:36,164], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-01 17:00:37,262], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=payment-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-01 17:00:37,264], , [restartedMain], payment-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-01 17:00:37,445], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-01 17:00:38,956], , [restartedMain], payment-service, INFO  GenericScope setSerializationId | BeanFactory id=36b18998-071e-3726-83c8-f4a286476d01
+  [2022-02-01 17:00:39,501], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2fa4c330] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 17:00:40,550], , [restartedMain], payment-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8001 (http)
+  [2022-02-01 17:00:40,565], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:00:40,567], , [restartedMain], payment-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-01 17:00:40,567], , [restartedMain], payment-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-02-01 17:00:40,742], , [restartedMain], payment-service, INFO  [/Payment] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-01 17:00:40,743], , [restartedMain], payment-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3267 ms
+  [2022-02-01 17:00:41,491], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 17:00:41,501], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 17:00:41,501], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 11 ms
+  [2022-02-01 17:00:42,250], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 17:00:45,633], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 17:00:45,634], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 3383 ms
+  [2022-02-01 17:00:46,292], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 17:00:46,646], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 17:00:46,649], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 17:00:46,649], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 2 ms
+  [2022-02-01 17:00:47,314], , [restartedMain], payment-service, WARN  OptionalLiveReloadServer startServer | Unable to start LiveReload server
+  [2022-02-01 17:00:47,866], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:00:47,892], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:00:47,892], , [restartedMain], payment-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-01 17:00:47,902], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:00:47,902], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:00:47,905], , [restartedMain], payment-service, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-02-01 17:00:47,910], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 17:00:47,913], , [restartedMain], payment-service, ERROR LoggingFailureAnalysisReporter report | 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8001 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8001 or configure this application to listen on another port.
+
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,398], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,508], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,617], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,622], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 112 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,623], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,624], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,625], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 2 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:24,982], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,023], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,023], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 41 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,024], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,025], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,025], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 0 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,027], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,027], , [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 646 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,054], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:25,056], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,347], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl updateRecord | Called update payment service, status is : true
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,379], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order before checkout :RazorPay(applicationFee=10000, razorpayOrderId=order_IqjFGmtgLQitC3, secretKey=rzp_test_WW4lRgT2ig0uT2, paymentId=null, notes=null, imageURL=null, theme=null, merchantName=telemed, purchaseDescription=Consultation charge, customerName=null, customerEmail=null, customerContact=null)
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,384], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,386], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 130076 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,388], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,389], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 130083 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,400], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,401], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,402], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,403], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,405], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+9478b19e6086f70e 9478b19e6086f70e [2022-02-01 17:01:28,405], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,595], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,597], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,598], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,604], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,607], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:29,610], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"0dc92d80-872d-4090-a3cb-27db16ee123c"}
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:30,045], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:30,045], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:30,048], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjH8AmCk5mf6u","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:31,774], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,078], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl updateRecord | Called update payment service, status is : true
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,079], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order before checkout :RazorPay(applicationFee=10000, razorpayOrderId=order_IqjH8AmCk5mf6u, secretKey=rzp_test_WW4lRgT2ig0uT2, paymentId=null, notes=null, imageURL=null, theme=null, merchantName=telemed, purchaseDescription=Consultation charge, customerName=null, customerEmail=null, customerContact=null)
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,079], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,081], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 7025 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,082], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,083], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 7029 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,086], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,087], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,088], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 1 ms
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,088], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,089], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+4eb927b258198bea 4eb927b258198bea [2022-02-01 17:01:32,090], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-9], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+  [2022-02-01 17:05:15,222], , [restartedMain], payment-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-01 17:05:15,687], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$8a2d0731] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 17:05:16,048], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-01 17:05:16,507], , [restartedMain], payment-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=payment-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-01 17:05:16,508], , [restartedMain], payment-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-01 17:05:16,547], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-01 17:05:17,432], , [restartedMain], payment-service, INFO  GenericScope setSerializationId | BeanFactory id=36b18998-071e-3726-83c8-f4a286476d01
+  [2022-02-01 17:05:17,943], , [restartedMain], payment-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$8a2d0731] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-01 17:05:18,803], , [restartedMain], payment-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8001 (http)
+  [2022-02-01 17:05:18,816], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:05:18,817], , [restartedMain], payment-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-01 17:05:18,817], , [restartedMain], payment-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-02-01 17:05:18,958], , [restartedMain], payment-service, INFO  [/Payment] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-01 17:05:18,958], , [restartedMain], payment-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2390 ms
+  [2022-02-01 17:05:19,615], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 17:05:19,641], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-02-01 17:05:19,642], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 30 ms
+  [2022-02-01 17:05:20,295], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 17:05:20,532], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-02-01 17:05:20,533], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 238 ms
+  [2022-02-01 17:05:20,865], , [restartedMain], payment-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 17:05:21,003], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 17:05:21,004], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-02-01 17:05:21,005], , [restartedMain], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 2 ms
+  [2022-02-01 17:05:21,550], , [restartedMain], payment-service, WARN  OptionalLiveReloadServer startServer | Unable to start LiveReload server
+  [2022-02-01 17:05:22,029], , [restartedMain], payment-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-8001"]
+  [2022-02-01 17:05:22,093], , [restartedMain], payment-service, INFO  TomcatWebServer start | Tomcat started on port(s): 8001 (http) with context path '/Payment'
+  [2022-02-01 17:05:22,099], , [restartedMain], payment-service, INFO  PaymentServiceApplication logStarted | Started PaymentServiceApplication in 7.507 seconds (JVM running for 9.947)
+  [2022-02-01 17:06:43,822], , [http-nio-8001-exec-1], payment-service, INFO  [/Payment] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-01 17:06:43,823], , [http-nio-8001-exec-1], payment-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-01 17:06:43,856], , [http-nio-8001-exec-1], payment-service, INFO  DispatcherServlet initServletBean | Completed initialization in 33 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:43,881], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:43,887], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,210], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,211], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 323 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,211], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,213], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,214], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 2 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,230], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,234], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,234], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 4 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,236], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,236], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,237], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,238], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,238], , [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 357 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,308], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:44,319], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,800], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,804], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,806], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,831], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,838], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:49,842], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"d7be11f2-f5d7-49b5-8e90-0d9312edb0a8"}
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:52,051], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:52,053], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:06:52,065], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjMncMULJ15IW","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:07:00,061], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:07:14,511], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:44,834], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:44,864], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:45,082], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:45,086], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 221 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:45,087], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:45,091], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:45,092], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 5 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,671], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,693], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,693], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 22 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,694], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,695], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,696], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,697], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,699], , [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 7876 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,763], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,766], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,767], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,768], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,770], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,788], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,794], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:52,796], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"d7be11f2-f5d7-49b5-8e90-0d9312edb0a8"}
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:53,336], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:53,338], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:53,344], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjNsVkABOWUgo","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:53,346], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:55,418], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:56,093], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:56,095], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 3329 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:56,680], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:07:56,981], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 4217 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:07:59,902], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:01,081], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 76761 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:01,252], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:01,255], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 76946 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:01,996], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:01,998], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:02,000], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 4 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,000], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,003], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,004], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 3 ms
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,063], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:02,063], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,065], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+61affefe89fb37ca 61affefe89fb37ca [2022-02-01 17:08:02,065], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-4], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:02,065], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+4417f7ccaf99b192 4417f7ccaf99b192 [2022-02-01 17:08:02,068], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-1], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 5 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,447], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,448], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,450], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,451], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 3 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,452], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,455], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,456], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 4 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,470], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,479], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,479], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 8 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,480], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,481], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,481], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,483], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,483], , [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 36 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,485], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,488], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,488], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,490], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,490], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,491], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,492], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:02,492], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"f87a306d-36e3-46d7-8398-1ec2db3c3ebe"}
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:03,000], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:03,004], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:03,006], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjQA5phYvvOvT","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:03,009], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,083], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,093], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentServiceImpl.createOrderForLink
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,095], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentServiceImpl.createOrderForLink :: 2607 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,096], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of PaymentController.createOrderForLink
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,098], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of PaymentController.createOrderForLink :: 2612 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,101], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,103], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,104], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,105], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,106], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+4b91544a54484598 4b91544a54484598 [2022-02-01 17:10:05,107], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-6], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,969], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,971], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,974], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,974], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 3 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,975], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,976], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,976], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 1 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,987], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setRole
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,997], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setRole
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,997], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 10 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,998], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,998], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | END of UserDTO.setUserName
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,998], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 0 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:48,999], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:49,000], , [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 30 ms
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:49,001], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentController.createOrderForLink
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:49,001], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  LoggingAspect profileAllMethods | Start of PaymentServiceImpl.createOrderForLink
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,049], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,050], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,056], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,175], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,182], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:53,183], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"8995e529-58db-4733-b6d6-e16e5ecbcac"}
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:54,524], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:54,525], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:15:54,527], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjWLlRWfEm0hV","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:08,848], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:18,718], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, ERROR PaymentServiceImpl createOrderForLink | Exception while calling update payment service
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,210], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Inside createOrder Method..
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,218], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Final total charges calculation added for patient........
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,222], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl calculateTotalChargesForpatient | Final total charges calculation added for patient......
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,246], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Razorpay Client created Successfully with KeyID..rzp_test_WW4lRgT2ig0uT2..and Key Secret..lrY2iLO3YcjYfmrWVvPPQ3rr
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,250], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Trying to connect with razorpay....
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,254], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested payload for order creation:{"amount":"10000","payment_capture":1,"currency":"INR","receipt":"8995e529-58db-4733-b6d6-e16e5ecbcac"}
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,786], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Connected Successsfully!!
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,789], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Order Created Successsfully!!
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:47,796], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl createOrderForLink | Requested order :{"statusCode":200,"razorPay":{"applicationFee":"10000","razorpayOrderId":"order_IqjXHvbu6qv7Hl","secretKey":"rzp_test_WW4lRgT2ig0uT2","merchantName":"telemed","purchaseDescription":"Consultation charge"}}
+0787d8c3e854151b 0787d8c3e854151b [2022-02-01 17:16:53,860], 0:0:0:0:0:0:0:1, [http-nio-8001-exec-10], payment-service, INFO  PaymentServiceImpl updateRecord | Calling update payment service

@@ -1,0 +1,246 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenerateSessionRespDTO } from 'src/app/models/common/GenerateSessionRespDTO';
+import { MainResponseDTO } from 'src/app/models/common/MainResponseDTO';
+import { GenerateOtpResp } from 'src/app/models/healthidMobile/GenerateOtpResp';
+import { OnFetchModesRequestDTO } from 'src/app/models/verifyHealthid/OnFetchModesRequestDTO';
+import { VerifyHealthIdQueryDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdQueryDTO';
+import { VerifyHealthIdRequesterDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdRequesterDTO';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ERR_MSGS, REGEX } from 'src/config/constant';
+import { HealthidCreationServiceService } from '../../healthid-creation-service.service';
+import * as uuid from 'uuid';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-patient-kycp',
+  templateUrl: './patient-kycp.component.html',
+  styleUrls: ['./patient-kycp.component.css'],
+})
+export class PatientKYCpComponent implements OnInit {
+  ERR = ERR_MSGS;
+  PATTERN = REGEX;
+  mobileNoSel: any;
+  namesel: any;
+  gender: any;
+  dateOfBirth: any;
+  healthId: any;
+  authMode: any;
+  verifyWithMobileOTPFlag: boolean = false;
+  verifyWithMobileIVRFlag: boolean = false;
+  verifyWithAadhaarOTPFlag: boolean = false;
+  verifyWithAadhaarBioMetricFlag: boolean = false;
+  enableVerifyWithMobileOTPFlag: boolean = true;
+  enableVerifyWithMobileIVRFlag: boolean = true;
+  enableVerifyWithAadhaarOTPFlag: boolean = true;
+  enableVerifyWithAadhaarBioMetricFlag: boolean = true;
+  getOnFetchModesFlag: boolean = false;
+  txnId: any;
+  accessToken: any;
+  activecss: any;
+  requestId: any;
+  timestamp: any;
+  responseToken: MainResponseDTO<GenerateSessionRespDTO>;
+  verifyHealthIdQueryDTO: VerifyHealthIdQueryDTO;
+  requester: VerifyHealthIdRequesterDTO;
+  mainOnFetchModesRequestDTO: MainResponseDTO<OnFetchModesRequestDTO>;
+  hideData: boolean = false;
+  bgColorMobileOTP: string = 'green';
+  bgColorMobileIVR: string = 'green';
+  bgColorAadhaarOTP: string = 'green';
+  bgColorAadhaarBioMetric: string = 'green';
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastrMessage: ToastMessageService,
+    private _servises: HealthidCreationServiceService,
+    private spinner: NgxSpinnerService,
+    private _location: Location
+  ) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      //console.log(params);
+      if (params && params.healthId) {
+        this.healthId = params.healthId;
+      }
+      if (params && params.namesel) {
+        this.namesel = params.namesel;
+      }
+      if (params && params.gender) {
+        this.gender = params.gender;
+      }
+      if (params && params.dateOfBirth) {
+        this.dateOfBirth = params.dateOfBirth;
+      }
+      if (params && params.mobileNoSel) {
+        this.mobileNoSel = params.mobileNoSel;
+      }
+    });
+    this.getAccessToken();
+  }
+  getAccessToken() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.accessToken = result.response.accessToken;
+        //console.log('this.accssToken::', this.accessToken);
+        if (this.responseToken && this.responseToken.response && this.responseToken.response.accessToken) {
+          this.fetchModes(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+
+  fetchModes(accessToken) {
+    this.spinner.show();
+    var myUUID = uuid.v4();
+    //console.log('myUUID::' + myUUID);
+    this.requestId = myUUID;
+    //console.log('this.requestId::', this.requestId);
+    this.timestamp = this.currentTimestamp();
+    //console.log('this.timestamp::', this.timestamp);
+    this.verifyHealthIdQueryDTO = new VerifyHealthIdQueryDTO();
+    //console.log('this.healthId::', this.healthId);
+    this.verifyHealthIdQueryDTO.id = this.healthId;
+    this.verifyHealthIdQueryDTO.purpose = 'KYC_AND_LINK';
+    //this.verifyHealthIdQueryDTO.authMode = 'MOBILE_OTP';
+    this.requester = new VerifyHealthIdRequesterDTO();
+    this.requester.type = 'HIP';
+    this.requester.id = 'NASHIPDEV';
+    this.verifyHealthIdQueryDTO.requester = this.requester;
+    this._servises.getFetchModes(this.requestId, this.timestamp, this.verifyHealthIdQueryDTO, accessToken).subscribe(
+      (result) => {
+        //console.log('getFetchModes result::', result);
+        this.getOnFetchModes();
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to get fetch modes', 'Error');
+
+      }
+    );
+  }
+  getOnFetchModes() {
+    //console.log('this.requestId::', this.requestId);
+    //console.log('this.timestamp::', this.timestamp);
+    //console.log('this.accessToken::', this.accessToken);
+    this._servises.getOnFetchModes(this.requestId, this.timestamp, this.accessToken).subscribe(
+      (result) => {
+        if (result) {
+          //console.log('result::', result);
+          //console.log('result.status::', result.status);
+          this.getOnFetchModesFlag = result.status;
+          //console.log('this.getOnFetchModesFlag::', this.getOnFetchModesFlag);
+          if (this.getOnFetchModesFlag) {
+            this.mainOnFetchModesRequestDTO = result;
+            console.log('result auth::', this.mainOnFetchModesRequestDTO.response.auth.modes);
+            for (let index = 0; index < this.mainOnFetchModesRequestDTO.response.auth.modes.length; index++) {
+              const element = this.mainOnFetchModesRequestDTO.response.auth.modes[index];
+              //console.log('result element::', element);
+              if (element === 'DEMOGRAPHICS') {
+                this.enableVerifyWithAadhaarBioMetricFlag = false;
+              }
+              if (element === 'AADHAAR_OTP') {
+                this.enableVerifyWithAadhaarOTPFlag = false;
+              }
+              if (element === 'MOBILE_OTP') {
+                this.enableVerifyWithMobileOTPFlag = false;
+              }
+              this.spinner.hide();
+            }
+          } else {
+            this.getOnFetchModes();
+          }
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        //this.toastrMessage.showErrorMsg('Unable to get OnFetchModes', 'Error');
+
+      }
+    );
+  }
+  verifyWithMobileOTP(first) {
+    this.bgColorMobileOTP = 'blue';
+    //console.log('verifyWithMobileOTP');
+    //console.log('', first);
+    this.activecss = first;
+    this.verifyWithMobileOTPFlag = true;
+  }
+  verifyWithMobileIVR(first) {
+    this.bgColorMobileIVR = 'blue';
+    //console.log('verifyWithMobileIVR');
+    this.activecss = first;
+    this.verifyWithMobileIVRFlag = true;
+  }
+  verifyWithAadhaarOTP(first) {
+    this.bgColorAadhaarOTP = 'blue';
+    //console.log('verifyWithAadhaarOTP');
+    this.activecss = first;
+    this.verifyWithAadhaarOTPFlag = true;
+  }
+  verifyWithAadhaarBioMetric(first) {
+    this.bgColorAadhaarBioMetric = 'blue';
+    this.activecss = first;
+    this.verifyWithAadhaarBioMetricFlag = true;
+    //console.log('verifyWithAadhaarBioMetric');
+  }
+  verify() {
+    if (this.verifyWithMobileOTPFlag) {
+      this.authMode = 'MOBILE_OTP';
+      this.router.navigate(['/PatienAuther'], {
+        queryParams: { healthId: this.healthId, namesel: this.namesel, gender: this.gender, dateOfBirth: this.dateOfBirth, mobileNoSel: this.mobileNoSel, authMode: this.authMode },skipLocationChange: true
+      });
+    } else if (this.verifyWithMobileIVRFlag) {
+      this.router.navigate(['/PatienAuther'], {
+        queryParams: { healthId: this.healthId },skipLocationChange: true
+      });
+    } else if (this.verifyWithAadhaarOTPFlag) {
+      this.authMode = 'AADHAAR_OTP';
+      this.router.navigate(['/PatienAuther'], {
+        queryParams: { healthId: this.healthId, authMode: this.authMode },skipLocationChange: true
+      });
+    } else if (this.verifyWithAadhaarBioMetricFlag) {
+      this.router.navigate(['/PatienAuther'], {
+        queryParams: { healthId: this.healthId },skipLocationChange: true
+      });
+    }
+  }
+
+  currentTimestamp() {
+    const event = new Date();
+    if (!Date.prototype.toISOString) {
+      (function () {
+
+        function pad(number) {
+          if (number < 10) {
+            return '0' + number;
+          }
+          return number;
+        }
+
+        Date.prototype.toISOString = function () {
+          return this.getUTCFullYear() +
+            '-' + pad(this.getUTCMonth() + 1) +
+            '-' + pad(this.getUTCDate()) +
+            'T' + pad(this.getUTCHours()) +
+            ':' + pad(this.getUTCMinutes()) +
+            ':' + pad(this.getUTCSeconds()) +
+            '.' + (this.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
+            'Z';
+        };
+
+      }());
+    }
+    return event.toISOString();
+  }
+  back() {
+    this._location.back();
+  }
+}

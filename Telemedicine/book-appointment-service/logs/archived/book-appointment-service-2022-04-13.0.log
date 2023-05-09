@@ -1,0 +1,204 @@
+[2022-04-13 16:22:58,507] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$45f8bd84] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-04-13 16:22:58,877] INFO  Booking-Appointment, , [main], ,  , ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+[2022-04-13 16:23:00,650] INFO  Booking-Appointment, , [main], ,  , ConfigServicePropertySourceLocator log | Located environment: name=Booking-Appointment, profiles=[dev], label=1.0.0, version=212, state=null
+[2022-04-13 16:23:00,651] INFO  Booking-Appointment, , [main], ,  , PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='configClient'}, MapPropertySource {name='http://172.16.11.166/telemed-ivv/branches/1.0.0/application-dev.properties'}]}
+[2022-04-13 16:23:00,719] INFO  Booking-Appointment, , [main], ,  , BookAppointmentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+[2022-04-13 16:23:02,370] INFO  Booking-Appointment, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+[2022-04-13 16:23:02,489] INFO  Booking-Appointment, , [main], ,  , RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 109ms. Found 11 repository interfaces.
+[2022-04-13 16:23:02,786] INFO  Booking-Appointment, , [main], ,  , GenericScope setSerializationId | BeanFactory id=8beaa64d-abd3-32fd-83ce-544e3d60ba90
+[2022-04-13 16:23:03,129] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$29deba87] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-04-13 16:23:03,183] INFO  Booking-Appointment, , [main], ,  , PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$45f8bd84] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2022-04-13 16:23:03,984] INFO  Booking-Appointment, , [main], ,  , TomcatWebServer initialize | Tomcat initialized with port(s): 7079 (http)
+[2022-04-13 16:23:04,006] INFO  Booking-Appointment, , [main], ,  , Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7079"]
+[2022-04-13 16:23:04,018] INFO  Booking-Appointment, , [main], ,  , StandardService log | Starting service [Tomcat]
+[2022-04-13 16:23:04,019] INFO  Booking-Appointment, , [main], ,  , StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+[2022-04-13 16:23:04,038] INFO  Booking-Appointment, , [main], ,  , AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+[2022-04-13 16:23:04,217] INFO  Booking-Appointment, , [main], ,  , [/book/v1] log | Initializing Spring embedded WebApplicationContext
+[2022-04-13 16:23:04,217] INFO  Booking-Appointment, , [main], ,  , ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3483 ms
+[2022-04-13 16:23:04,885] INFO  Booking-Appointment, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Starting...
+[2022-04-13 16:23:05,869] INFO  Booking-Appointment, , [main], ,  , HikariDataSource getConnection | HikariPool-1 - Start completed.
+[2022-04-13 16:23:05,993] INFO  Booking-Appointment, , [main], ,  , LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+[2022-04-13 16:23:06,150] INFO  Booking-Appointment, , [main], ,  , Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+[2022-04-13 16:23:06,154] INFO  Booking-Appointment, , [main], ,  , Environment <clinit> | HHH000206: hibernate.properties not found
+[2022-04-13 16:23:06,469] INFO  Booking-Appointment, , [main], ,  , Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+[2022-04-13 16:23:06,779] INFO  Booking-Appointment, , [main], ,  , Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[2022-04-13 16:23:06,806] INFO  Booking-Appointment, , [main], ,  , LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+[2022-04-13 16:23:06,818] INFO  Booking-Appointment, , [main], ,  , BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@60fe75f7
+[2022-04-13 16:23:18,720] INFO  Booking-Appointment, , [main], ,  , LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2022-04-13 16:23:19,740] INFO  Booking-Appointment, , [main], ,  , QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+[2022-04-13 16:23:20,632] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+[2022-04-13 16:23:20,643] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+[2022-04-13 16:23:20,643] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 12 ms
+[2022-04-13 16:23:20,777] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+[2022-04-13 16:23:20,779] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+[2022-04-13 16:23:20,780] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 3 ms
+[2022-04-13 16:23:21,207] INFO  Booking-Appointment, , [main], ,  , ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+[2022-04-13 16:23:21,340] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+[2022-04-13 16:23:21,341] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+[2022-04-13 16:23:21,341] INFO  Booking-Appointment, , [main], ,  , LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 1 ms
+[2022-04-13 16:23:21,346] WARN  Booking-Appointment, , [main], ,  , JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2022-04-13 16:23:21,826] INFO  Booking-Appointment, , [main], ,  , ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+[2022-04-13 16:23:22,317] INFO  Booking-Appointment, , [main], ,  , Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7079"]
+[2022-04-13 16:23:22,355] INFO  Booking-Appointment, , [main], ,  , TomcatWebServer start | Tomcat started on port(s): 7079 (http) with context path '/book/v1'
+[2022-04-13 16:23:22,358] INFO  Booking-Appointment, , [main], ,  , BookAppointmentServiceApplication logStarted | Started BookAppointmentServiceApplication in 24.812 seconds (JVM running for 27.074)
+[2022-04-13 16:24:00,048] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,067] INFO  Booking-Appointment, , [scheduling-1], 0de872d832592d5f, 0de872d832592d5f , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:24:00,069] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,086] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,502] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,505] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 419 ms
+[2022-04-13 16:24:00,507] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,509] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 441 ms
+[2022-04-13 16:24:00,512] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:24:00,513] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 466 ms
+[2022-04-13 16:25:00,002] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,008] INFO  Booking-Appointment, , [scheduling-1], 886587849f58d022, 886587849f58d022 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:25:00,012] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,015] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,334] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,335] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 320 ms
+[2022-04-13 16:25:00,337] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,338] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 326 ms
+[2022-04-13 16:25:00,339] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:25:00,341] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 339 ms
+[2022-04-13 16:25:35,780] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , [/book/v1] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2022-04-13 16:25:35,781] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+[2022-04-13 16:25:35,882] INFO  Booking-Appointment, , [http-nio-7079-exec-2], ,  , DispatcherServlet initServletBean | Completed initialization in 100 ms
+[2022-04-13 16:25:35,921] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+[2022-04-13 16:25:35,939] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+[2022-04-13 16:25:36,757] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+[2022-04-13 16:25:36,758] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 819 ms
+[2022-04-13 16:25:36,758] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+[2022-04-13 16:25:36,760] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+[2022-04-13 16:25:36,760] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 2 ms
+[2022-04-13 16:25:36,781] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of UserDTO.setRole
+[2022-04-13 16:25:36,787] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of UserDTO.setRole
+[2022-04-13 16:25:36,788] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 7 ms
+[2022-04-13 16:25:36,789] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of UserDTO.setUserName
+[2022-04-13 16:25:36,789] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of UserDTO.setUserName
+[2022-04-13 16:25:36,789] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 0 ms
+[2022-04-13 16:25:36,790] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+[2022-04-13 16:25:36,790] INFO  Booking-Appointment, , [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 869 ms
+[2022-04-13 16:25:36,850] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of AppointmentController.getCancelAppointmentListByFilter
+[2022-04-13 16:25:36,852] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentController getCancelAppointmentListByFilter | Call for get list of cancel appointments
+[2022-04-13 16:25:36,854] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.getCancelAppointmentsByFilter
+[2022-04-13 16:25:36,855] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentServiceImpl getCancelAppointmentsByFilter | Get cancel appointment list
+[2022-04-13 16:25:36,856] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentServiceImpl getCancelAppointmentsByFilter | getCancelAppointmentList() method start time::2022-04-13T16:25:36.856813600
+[2022-04-13 16:25:36,858] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of UserDTO.getRole
+[2022-04-13 16:25:36,859] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of UserDTO.getRole
+[2022-04-13 16:25:36,860] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 2 ms
+[2022-04-13 16:25:36,862] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of UserDTO.getRole
+[2022-04-13 16:25:36,862] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of UserDTO.getRole
+[2022-04-13 16:25:36,864] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 2 ms
+[2022-04-13 16:25:36,873] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of UserDTO.getUserName
+[2022-04-13 16:25:36,875] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of UserDTO.getUserName
+[2022-04-13 16:25:36,876] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 3 ms
+[2022-04-13 16:25:36,880] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByPrdUserIdAndAppointIdFilter
+[2022-04-13 16:25:38,053] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByPrdUserIdAndAppointIdFilter
+[2022-04-13 16:25:38,055] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByPrdUserIdAndAppointIdFilter :: 1175 ms
+[2022-04-13 16:25:38,057] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentServiceImpl getCancelAppointmentsByFilter | Fetched cancel appointment data count::3
+[2022-04-13 16:25:38,061] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentServiceImpl getCancelAppointmentsByFilter | getCancelAppointmentList() method end time::2022-04-13T16:25:38.061534600
+[2022-04-13 16:25:38,063] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.getCancelAppointmentsByFilter
+[2022-04-13 16:25:38,066] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.getCancelAppointmentsByFilter :: 1212 ms
+[2022-04-13 16:25:38,069] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , AppointmentController getCancelAppointmentListByFilter | Returning Response
+[2022-04-13 16:25:38,071] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of AppointmentController.getCancelAppointmentListByFilter
+[2022-04-13 16:25:38,072] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of AppointmentController.getCancelAppointmentListByFilter :: 1222 ms
+[2022-04-13 16:25:38,137] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+[2022-04-13 16:25:38,138] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+[2022-04-13 16:25:38,139] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+[2022-04-13 16:25:38,141] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+[2022-04-13 16:25:38,142] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+[2022-04-13 16:25:38,142] INFO  Booking-Appointment, 0:0:0:0:0:0:0:1, [http-nio-7079-exec-2], 8c26a88ff021f1e4, 8c26a88ff021f1e4 , LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+[2022-04-13 16:26:00,010] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,015] INFO  Booking-Appointment, , [scheduling-1], 4a53db7ea44c63a1, 4a53db7ea44c63a1 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:26:00,019] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,023] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,383] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,384] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 361 ms
+[2022-04-13 16:26:00,384] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,384] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 365 ms
+[2022-04-13 16:26:00,385] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:26:00,385] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 375 ms
+[2022-04-13 16:27:00,001] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,004] INFO  Booking-Appointment, , [scheduling-1], 33cfaab8027962cf, 33cfaab8027962cf , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:27:00,009] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,014] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,303] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,307] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 293 ms
+[2022-04-13 16:27:00,310] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,312] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 303 ms
+[2022-04-13 16:27:00,314] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:27:00,316] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 315 ms
+[2022-04-13 16:28:00,015] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,019] INFO  Booking-Appointment, , [scheduling-1], 963d83eb92a77c26, 963d83eb92a77c26 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:28:00,022] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,025] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,295] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,297] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 272 ms
+[2022-04-13 16:28:00,299] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,300] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 278 ms
+[2022-04-13 16:28:00,301] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:28:00,302] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 287 ms
+[2022-04-13 16:29:00,001] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,004] INFO  Booking-Appointment, , [scheduling-1], d5a5accba74cc3b3, d5a5accba74cc3b3 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:29:00,009] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,012] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,396] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,397] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 384 ms
+[2022-04-13 16:29:00,397] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,398] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 388 ms
+[2022-04-13 16:29:00,398] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:29:00,398] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 397 ms
+[2022-04-13 16:30:00,014] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,019] INFO  Booking-Appointment, , [scheduling-1], 24186609d5a86a81, 24186609d5a86a81 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:30:00,033] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,034] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,550] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,551] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 517 ms
+[2022-04-13 16:30:00,552] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,553] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 519 ms
+[2022-04-13 16:30:00,553] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:30:00,555] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 541 ms
+[2022-04-13 16:31:00,011] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,013] INFO  Booking-Appointment, , [scheduling-1], 0580854e459952aa, 0580854e459952aa , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:31:00,015] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,018] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,487] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,488] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 470 ms
+[2022-04-13 16:31:00,488] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,488] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 473 ms
+[2022-04-13 16:31:00,489] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:31:00,489] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 478 ms
+[2022-04-13 16:32:00,012] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,017] INFO  Booking-Appointment, , [scheduling-1], d0ac3ba1ef880d97, d0ac3ba1ef880d97 , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:32:00,021] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,026] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,423] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,424] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 399 ms
+[2022-04-13 16:32:00,425] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,427] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 405 ms
+[2022-04-13 16:32:00,427] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:32:00,428] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 416 ms
+[2022-04-13 16:33:00,010] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,017] INFO  Booking-Appointment, , [scheduling-1], ff86ea71c120fcab, ff86ea71c120fcab , AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+[2022-04-13 16:33:00,019] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,023] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,496] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,497] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 474 ms
+[2022-04-13 16:33:00,498] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,500] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 481 ms
+[2022-04-13 16:33:00,501] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+[2022-04-13 16:33:00,502] INFO  Booking-Appointment, , [scheduling-1], ,  , LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 493 ms
+[2022-04-13 16:33:04,192] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+[2022-04-13 16:33:04,390] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , ThreadPoolTaskScheduler shutdown | Shutting down ExecutorService 'taskScheduler'
+[2022-04-13 16:33:04,403] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+[2022-04-13 16:33:04,423] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+[2022-04-13 16:33:04,561] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown initiated...
+[2022-04-13 16:33:04,626] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , HikariDataSource close | HikariPool-1 - Shutdown completed.
+[2022-04-13 16:33:04,649] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7079"]
+[2022-04-13 16:33:04,708] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , StandardService log | Stopping service [Tomcat]
+[2022-04-13 16:33:04,741] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , [/book/v1] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+[2022-04-13 16:33:04,809] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7079"]
+[2022-04-13 16:33:04,828] INFO  Booking-Appointment, , [RMI TCP Connection(13)-127.0.0.1], ,  , Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7079"]

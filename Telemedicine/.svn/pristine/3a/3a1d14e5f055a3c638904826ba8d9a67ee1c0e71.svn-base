@@ -1,0 +1,15 @@
+#Database properties
+spring.profiles.active=dev
+server.port=7077
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto =update
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+hibernate.show_sql=true
+Spring.application.name=slot-management
+mstrmgmt.api.version=v1
+server.servlet.context-path=/slotManagement/${mstrmgmt.api.version}
+
+auth.jwt.secret=sshhhhhh!!!
+auth.jwt.base=Bearer
+auth.jwt.expiry=86400000
+auth.token.header=Authorization   

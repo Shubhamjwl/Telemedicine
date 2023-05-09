@@ -1,0 +1,26 @@
+package com.nsdl.telemedicine.dto;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class MarketPlaceDetailsDTO {
+	
+	private Long idPk;
+	private String transtId;
+	private String drEmail;
+	private String ptNname;
+	private String ptMobile;
+	private String orderId ;
+	private Date orderDate;
+	private String orderPrescriptionPath;
+	private String orderStatus ;
+	private Timestamp creationTmstmp;
+	private String creationBy;
+	private Timestamp modifyTmstmp ;
+	private String modifyBy;
+
+
+}

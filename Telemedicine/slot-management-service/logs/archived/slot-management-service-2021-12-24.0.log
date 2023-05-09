@@ -1,0 +1,213 @@
+  [2021-12-24 17:40:39,609], , [main], slot-management, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$13f7dbc9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2021-12-24 17:40:39,959], , [main], slot-management, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2021-12-24 17:40:41,573], , [main], slot-management, INFO  ConfigServicePropertySourceLocator log | Located environment: name=slot-management, profiles=[dev], label=1.0.1, version=null, state=null
+  [2021-12-24 17:40:41,574], , [main], slot-management, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2021-12-24 17:40:41,624], , [main], slot-management, INFO  SlotManagementApplication logStartupProfileInfo | The following profiles are active: dev
+  [2021-12-24 17:40:42,920], , [main], slot-management, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2021-12-24 17:40:43,012], , [main], slot-management, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 84ms. Found 7 repository interfaces.
+  [2021-12-24 17:40:43,351], , [main], slot-management, INFO  GenericScope setSerializationId | BeanFactory id=5224a8e4-ad37-3643-831d-d724e93bc0d8
+  [2021-12-24 17:40:43,644], , [main], slot-management, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f7ddd8cc] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2021-12-24 17:40:43,728], , [main], slot-management, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$13f7dbc9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2021-12-24 17:40:44,471], , [main], slot-management, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7077 (http)
+  [2021-12-24 17:40:44,490], , [main], slot-management, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7077"]
+  [2021-12-24 17:40:44,500], , [main], slot-management, INFO  StandardService log | Starting service [Tomcat]
+  [2021-12-24 17:40:44,501], , [main], slot-management, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2021-12-24 17:40:44,512], , [main], slot-management, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2021-12-24 17:40:44,689], , [main], slot-management, INFO  [/slotManagement/v1] log | Initializing Spring embedded WebApplicationContext
+  [2021-12-24 17:40:44,689], , [main], slot-management, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3054 ms
+  [2021-12-24 17:40:46,222], , [main], slot-management, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2021-12-24 17:40:54,055], , [main], slot-management, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2021-12-24 17:40:54,158], , [main], slot-management, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2021-12-24 17:40:54,315], , [main], slot-management, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2021-12-24 17:40:54,318], , [main], slot-management, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2021-12-24 17:40:54,621], , [main], slot-management, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2021-12-24 17:40:54,840], , [main], slot-management, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2021-12-24 17:40:54,874], , [main], slot-management, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2021-12-24 17:40:54,884], , [main], slot-management, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@16a14076
+  [2021-12-24 17:41:09,768], , [main], slot-management, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2021-12-24 17:41:09,919], , [main], slot-management, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2021-12-24 17:41:13,715], , [main], slot-management, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2021-12-24 17:41:13,729], , [main], slot-management, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2021-12-24 17:41:13,730], , [main], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 16 ms
+  [2021-12-24 17:41:14,701], , [main], slot-management, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2021-12-24 17:41:15,001], , [main], slot-management, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2021-12-24 17:41:15,003], , [main], slot-management, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2021-12-24 17:41:15,004], , [main], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 3 ms
+  [2021-12-24 17:41:15,010], , [main], slot-management, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2021-12-24 17:41:17,471], , [main], slot-management, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2021-12-24 17:41:17,773], , [main], slot-management, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7077"]
+  [2021-12-24 17:41:17,817], , [main], slot-management, INFO  TomcatWebServer start | Tomcat started on port(s): 7077 (http) with context path '/slotManagement/v1'
+  [2021-12-24 17:41:18,104], , [main], slot-management, INFO  SlotManagementApplication logStarted | Started SlotManagementApplication in 39.474 seconds (JVM running for 41.919)
+  [2021-12-24 17:42:45,842], , [http-nio-7077-exec-1], slot-management, INFO  [/slotManagement/v1] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2021-12-24 17:42:45,843], , [http-nio-7077-exec-1], slot-management, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2021-12-24 17:42:46,028], , [http-nio-7077-exec-1], slot-management, INFO  DispatcherServlet initServletBean | Completed initialization in 184 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,186], , [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,195], , [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,195], , [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 9 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,413], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of SlotManagementController.saveSlotDetail
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,422], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  SlotManagementController saveSlotDetail | Receive request
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,555], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of SlotManagementServiceImpl.saveSlot
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,574], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  SlotManagementServiceImpl saveSlot | Inside method save slot details
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,596], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of UserDTO.getUserName
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,603], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of UserDTO.getUserName
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,604], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 8 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,605], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of DoctorMstrRepo.findByDmdUserId
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,791], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of DoctorMstrRepo.findByDmdUserId
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:46,793], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of DoctorMstrRepo.findByDmdUserId :: 188 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,058], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, ERROR SlotManagementController saveSlotDetail | Error occured while processing request :
+java.lang.NullPointerException: Cannot invoke "com.nsdl.telemedicine.slot.entity.DoctorMstrDtlsEntity.getDmdDrLink()" because "doctorMstrDtlsEntity" is null
+	at com.nsdl.telemedicine.slot.service.impl.SlotManagementServiceImpl.saveSlot(SlotManagementServiceImpl.java:309)
+	at com.nsdl.telemedicine.slot.service.impl.SlotManagementServiceImpl$$FastClassBySpringCGLIB$$b35847b9.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.nsdl.telemedicine.slot.logger.LoggingAspect.profileAllMethods(LoggingAspect.java:36)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.nsdl.telemedicine.slot.logger.LoggingAspect.logPerformance(LoggingAspect.java:67)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:175)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.nsdl.telemedicine.slot.service.impl.SlotManagementServiceImpl$$EnhancerBySpringCGLIB$$7b4be4d4.saveSlot(<generated>)
+	at com.nsdl.telemedicine.slot.controller.SlotManagementController.saveSlotDetail(SlotManagementController.java:102)
+	at com.nsdl.telemedicine.slot.controller.SlotManagementController$$FastClassBySpringCGLIB$$8b886d5.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.nsdl.telemedicine.slot.logger.LoggingAspect.profileAllMethods(LoggingAspect.java:36)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.nsdl.telemedicine.slot.logger.LoggingAspect.logPerformance(LoggingAspect.java:67)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:175)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.nsdl.telemedicine.slot.controller.SlotManagementController$$EnhancerBySpringCGLIB$$b25d627b.saveSlotDetail(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:189)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:65)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:90)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter.doFilter(ExceptionLoggingFilter.java:50)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:82)
+	at org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration$LazyTracingFilter.doFilter(TraceWebServletAutoConfiguration.java:143)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:117)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:679)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,148], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of SlotManagementController.saveSlotDetail
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,149], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of SlotManagementController.saveSlotDetail :: 736 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,304], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,306], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,308], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 4 ms
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,311], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,312], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+2528e6ef77727d47 2528e6ef77727d47 [2021-12-24 17:42:47,313], 0:0:0:0:0:0:0:1, [http-nio-7077-exec-1], slot-management, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+  [2021-12-24 17:52:36,010], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2021-12-24 17:52:36,745], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2021-12-24 17:52:36,818], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2021-12-24 17:52:37,168], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2021-12-24 17:52:37,259], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2021-12-24 17:52:37,306], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7077"]
+  [2021-12-24 17:52:37,398], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  StandardService log | Stopping service [Tomcat]
+  [2021-12-24 17:52:37,470], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  [/slotManagement/v1] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2021-12-24 17:52:37,613], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7077"]
+  [2021-12-24 17:52:37,637], , [RMI TCP Connection(15)-127.0.0.1], slot-management, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7077"]

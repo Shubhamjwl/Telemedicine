@@ -1,0 +1,204 @@
+
+<div class="popup2">
+    <a class="close" (click)="dialogRef.close()"><img src="assets/img/close.svg" alt=""></a>
+    <div class="content">
+       <div class="popup-inside">
+          <div class="popup-title">Create Slot</div>
+          <div class="register-form create-slot">
+             <form [formGroup]="slotBookForm">
+                <div class="input-group full-col no-border slot-area" *ngIf="slotBookForm">
+                   <label>Create Slot For Months</label>
+                   <div class="moth-slot">
+                      <ul>
+                        <li *ngFor="let slot of slotMonths"><a
+                            [class.selected]="slotBookForm.get('selectedRepeatMonths').value==slot"
+                            (click)="repeatForMonths(slot)">{{slot}}</a></li>
+                        </ul>
+                   </div>
+                </div>
+                <div class="input-group half-col no-border repeat-area left">
+                   <label>Auto Repeat<sup>*</sup></label>
+                   <div class="repeat-inside">
+                      <input id="radio-1" [value]="true" class="radio-custom" type="radio"
+                      formControlName="autRepeat">
+                      <label for="radio-1" class="radio-custom-label">Yes</label>
+  
+                     <input id="radio-2" [value]="false" class="radio-custom" type="radio"
+                      formControlName="autRepeat">
+                     <label for="radio-2" class="radio-custom-label">No</label>
+                   </div>
+                </div>
+                <div class="input-group half-col repeat-area right">
+                   <label>Create Slots For<sup>*</sup></label>
+                   <div class="repeat-inside">
+                    <input id="teleconsultation" value="Teleconsultation" class="radio-custom" type="radio"
+                        formControlName="slotType">
+                    <label for="teleconsultation" class="radio-custom-label">Tele Consultation</label>
+
+                    <input id="in-Clinic" value="In-Clinic" class="radio-custom" type="radio"
+                        formControlName="slotType">
+                    <label for="in-Clinic" class="radio-custom-label">In-Clinic</label>
+                </div>
+                </div>
+                <div class="input-group full-col no-border slot-area">
+                   <label>Set Working Days<sup>*</sup></label>
+                   <div class="days-area">
+                      <ul>
+                        <li *ngFor="let day of slotWorkingDayList"><a
+                            [class.selected]="slotBookForm.get('slotWorkingDays')?.value?.includes(day.property)"
+                            (click)="selectSlotWorkingDays(day.property)">{{day.label}}</a></li>
+                      </ul>
+                   </div>
+                </div>
+                <div class="input-group full-col no-border slot-area repeat-area" formArrayName="workingTimeArray">
+                   <label>Set Working time (24-hr)<sup>*</sup></label>
+                   <label class="time-col col-5" style="padding: 0px;
+                   margin: 0px 15px 0 0;">Start Time<sup>*</sup></label>
+                   <label class="End Time col-5">End Time<sup>*</sup></label>
+                   <ng-container
+                   *ngFor="let item of slotBookForm.get('workingTimeArray')['controls']; let i = index; let first = first"
+                   [formGroupName]="i">
+                   <div class="time-col">
+                       <input type="time" formControlName="startTime" (change)="startTimeValidation(i)"
+                           class="form-control">
+                   </div>
+                   <div class="End Time">
+                       <input type="time" formControlName="endTime" (change)="startTimeValidation(i)"
+                           class="form-control">
+                   </div>
+                   <div *ngIf="first" class="add"><img role="button" (click)="addWorkingTime()"
+                    src="assets/img/add.svg" />
+                     </div>
+                    <div *ngIf="!first" class="cancel"><img role="button" (click)="removeWorkingTime(i)"
+                    src="assets/img/remove.svg" />
+                   </div>
+               </ng-container>
+                </div>
+                <div class="input-group full-col no-border slot-area left">
+                   <label>Slot Duration ( in minutes): <sup>*</sup></label>
+                   <div class="moth-slot">
+                      <ul>
+                        <!-- <div class="btn-group p-0" role="group" aria-label="First group"> -->
+                            <input type="text" class="form-control text-center inputControl" numberOnly length="2" formControlName="selectedTimeSlotDuration" placeholder="--">
+                        <!-- </div> -->
+                        <li *ngFor="let slot of slotDurations"><a
+                            [class.selected]="slotBookForm.get('selectedTimeSlotDuration').value==slot"
+                            (click)="selectedSlotDuration(slot)">{{slot}}</a></li>
+                      </ul>
+                   </div>
+                </div>
+                <div class="input-group btn-area">
+                   <button type="submit" class="submit-main-btn"  (click)="saveTimeSlot(slotBookForm.value)" [disabled]="!slotBookForm.valid">Create Slot</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <!-- <form [formGroup]="slotBookForm">
+    <ng-template matStepLabel>
+        <div class="stepper-header">
+            <span class="tab-icon"><img src="assets/img/create-slots.svg" alt=""></span><span
+                class="tab-title">Create<br> Slots</span>
+        </div>
+    </ng-template>
+    <div class="register-form">
+        <div class="input-group full-col no-border slot-area" *ngIf="slotBookForm">
+            <label>Create Slot For Months<sup>*</sup></label>
+
+            <div class="moth-slot">
+                <ul>
+                    <li *ngFor="let slot of slotMonths"><a
+                            [class.selected]="slotBookForm.get('selectedRepeatMonths').value==slot"
+                            (click)="repeatForMonths(slot)">{{slot}}</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="input-group half-col no-border repeat-area left">
+            <label>Auto Repeat<sup>*</sup></label>
+
+            <div class="repeat-inside">
+
+                <input id="radio-1" [value]="true" class="radio-custom" type="radio"
+                    formControlName="autRepeat">
+                <label for="radio-1" class="radio-custom-label">Yes</label>
+
+                <input id="radio-2" [value]="false" class="radio-custom" type="radio"
+                    formControlName="autRepeat">
+                <label for="radio-2" class="radio-custom-label">No</label>
+
+            </div>
+
+        </div>
+        <div class="input-group half-col repeat-area right">
+            <label>Create Slots For <sup>*</sup></label>
+
+
+            <div class="repeat-inside">
+
+                <input type="checkbox" id="weekday-1"
+                    [checked]="slotBookForm.get('slotType').value=='Teleconsultation'"
+                    (change)="selectedSlotType('Teleconsultation')">
+                <label for="weekday-1">Tele Consultation</label>
+
+                <input type="checkbox" id="weekday-2"
+                    [checked]="slotBookForm.get('slotType').value=='In-Clinic'"
+                    (change)="selectedSlotType('In-Clinic')">
+                <label for="weekday-2">In-Clinic</label>
+
+            </div>
+
+
+        </div>
+        <div class="input-group full-col no-border slot-area">
+            <label>Set Working Days<sup>*</sup></label>
+            <div class="days-area">
+                <ul>
+                    <li *ngFor="let day of slotWorkingDayList"><a
+                            [class.selected]="slotBookForm.get('slotWorkingDays')?.value?.includes(day.property)"
+                            (click)="selectSlotWorkingDays(day.property)">{{day.label}}</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="input-group full-col no-border slot-area repeat-area"
+            formArrayName="workingTimeArray">
+            <label>Set Working time (24-hr)<sup>*</sup></label>
+            <label class="time-col col-5">Start Time<sup>*</sup></label>
+            <label class="End Time col-5">End Time<sup>*</sup></label>
+            <ng-container
+                *ngFor="let item of slotBookForm.get('workingTimeArray')['controls']; let i = index"
+                [formGroupName]="i">
+                <div class="time-col">
+                    <input type="time" formControlName="startTime" (change)="startTimeValidation(i)"
+                        class="form-control">
+                </div>
+                <div class="End Time">
+                    <input type="time" formControlName="endTime" (change)="startTimeValidation(i)"
+                        class="form-control">
+                </div>
+                <div *ngIf="i == slotBookForm.get('workingTimeArray').length - 1" class="add"><img
+                        role="button" (click)="addWorkingTime()" src="assets/img/add.svg" />
+                </div>
+                <div *ngIf="i < slotBookForm.get('workingTimeArray').length - 1" class="cancel"><img
+                        role="button" (click)="removeWorkingTime(i)" src="assets/img/remove.svg" />
+                </div>
+            </ng-container>
+        </div>
+        <div class="input-group full-col no-border slot-area left">
+            <label>Slot Duration ( in minutes): <sup>*</sup></label>
+            <div class="moth-slot">
+                <ul>
+                    <li *ngFor="let slot of slotDurations"><a
+                            [class.selected]="slotBookForm.get('selectedTimeSlotDuration').value==slot"
+                            (click)="selectedSlotDuration(slot)">{{slot}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="input-group btn-area">
+        <button type="button" class="submit-main-btn" (click)="saveTimeSlot()">Submit</button>
+    </div>
+</form> -->

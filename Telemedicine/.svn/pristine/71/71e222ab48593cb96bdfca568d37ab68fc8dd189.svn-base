@@ -1,0 +1,111 @@
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { GenerateSessionRespDTO } from 'src/app/models/common/GenerateSessionRespDTO';
+import { MainResponseDTO } from 'src/app/models/common/MainResponseDTO';
+import { GenerateOtpResp } from 'src/app/models/healthidMobile/GenerateOtpResp';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ERR_MSGS, REGEX } from 'src/config/constant';
+import { HealthidCreationServiceService } from '../healthid-creation-service.service';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-enter-mobile',
+  templateUrl: './enter-mobile.component.html',
+  styleUrls: ['./enter-mobile.component.css'],
+})
+export class EnterMobileComponent implements OnInit {
+  name: any;
+  gender: any;
+  mobileNoSel: any;
+  email: any;
+  dob: any;
+  txnId: any;
+  refreshToken: any;
+  isMobileNoDisabled: boolean = true;
+  responseTokenDTO: MainResponseDTO<GenerateSessionRespDTO>;
+  responseOTP: MainResponseDTO<GenerateOtpResp>;
+  // mobNumberPattern = '^[6-9]\\d{9}$';
+  ERR = ERR_MSGS;
+  PATTERN = REGEX;
+  accessToken: any;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastrMessage: ToastMessageService,
+    private _servises: HealthidCreationServiceService,
+    private _location: Location
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params && params.name) {
+        this.name = params.name;
+      }
+      if (params && params.gender) {
+        this.gender = params.gender;
+      }
+      if (params && params.mobileNoSel) {
+        this.mobileNoSel = params.mobileNoSel;
+      }
+      if (params && params.emailId) {
+        this.email = params.emailId;
+      }
+      if (params && params.dob) {
+        this.dob = params.dob;
+      }
+      if (params && params.txnId) {
+        this.txnId = params.txnId;
+      }
+    });
+  }
+  otp() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseTokenDTO = result;
+        this.refreshToken = result.response.refreshToken;
+        this.accessToken = result.response.accessToken;
+        if (
+          this.responseTokenDTO &&
+          this.responseTokenDTO.response &&
+          this.responseTokenDTO.response.accessToken
+        ) {
+          this.generateOTP();
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+  generateOTP() {
+    this._servises
+      .generateOTPForMobile(this.mobileNoSel, this.accessToken)
+      .subscribe(
+        (result) => {
+          this.responseOTP = result;
+          this.txnId = result.response.txnId;
+          //console.log('this.txnId', this.txnId);
+          //console.log('this.mobileNoSel', this.mobileNoSel);
+          this.router.navigate(['/otp'], {
+            queryParams: {
+              name: this.name,
+              gender: this.gender,
+              mobileNoSel: this.mobileNoSel,
+              email: this.email,
+              dob: this.dob,
+              txnId: this.txnId,
+            },
+            skipLocationChange: true,
+          });
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg('Unable to send OTP', 'Error');
+        }
+      );
+  }
+  back() {
+    this._location.back();
+  }
+}

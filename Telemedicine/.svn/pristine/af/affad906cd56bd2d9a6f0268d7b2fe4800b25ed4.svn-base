@@ -1,0 +1,388 @@
+<app-breadcrumb [profileDetails]="profilePhoto"></app-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid" *ngIf ="!isHealthIdPopUp">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-11 mb-4">
+            <ng-container  *ngIf = "doctorListMappedWithPatientId && doctorListMappedWithPatientId.length"> 
+                <div class="mt-2">
+                    <div class="row mt-2">
+                        <h2>Tagged Doctor List</h2>
+                    </div>
+                    <div class="card">
+                        <div class="card-body py-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    <carousel
+                                        [itemsPerSlide]="itemsPerSlide"
+                                        [singleSlideOffset]="false"
+                                        [interval]="false"
+                                        [indicatorsByChunk]="false"
+                                        [showIndicators]="false" style="z-index: 15;">
+                                        <slide *ngFor = "let doctor of doctorListMappedWithPatientId">
+                                            <div *ngIf="doctor">
+                                                <div class="row slide-wrapper">
+                                                    <div class="col-md-3 pr-0">
+                                                        <div class="profile-wrapper-cr mb-1  ml-1">
+                                                            <img  src="{{doctor.photopath}}" alt="User-Photo"  class="rounded-circle">
+                                                        </div>
+                                                        <button type="button" class="btn docDetailsbtn editBtn ml-1" (click) = "onClickBookAppointment(doctor)"> Book </button>
+                                                    </div>
+                                                    <div class="mt-1 pl-0 doc-info col-md-9">
+                                                        <p class="mb-1 text-truncate username" ngbTooltip="{{doctor.docName}}" placement="bottom">Dr. {{doctor.docName}}</p>
+                                                        <span *ngIf="doctor.specialization">{{doctor.specialization}}</span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </slide>
+                                    </carousel>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </ng-container>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-11 mb-4">
+            <div class="row mt-2">
+                <div class="col-md-2">
+                    <h2 class="ml-xl-n2">Appointments</h2>
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-2 ml-xl-n3 ">
+                    <button type="button" class="btn btnColor btn-sm float-right W-50"  (click) = "createHealthID()" *ngIf="ndhmFlag">Create ABHA</button>
+                </div>
+				<div class="col-md-2 ml-xl-n3" style="padding: 0 50px 0 0;">
+                    <button type="button" class="btn btnColor btn-sm float-right W-50"   (click) = "seedHealthID()" *ngIf="ndhmFlag">Link ABHA</button>
+                </div>
+				<div class="col-md-2 ml-xl-n3">
+                    <button type="button" class="btn btnColor btn-sm float-right W-50"  (click) = "gotoBookAppointment()"> Book New Appointment </button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="mat-elevation-z8" style="width: 95%;">
+                    <table mat-table [dataSource]="dataSource">
+                
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Date | Time </strong></th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <!-- {{element.position}}  -->
+                            <strong>
+                                <span class="mr-1">{{element.appointmentDate | date: 'dd MMM yyyy'}}</span>|
+                                <span class="mr-1">{{element.appointmentTime}}</span>
+                            </strong>
+                        </td>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="pname">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Patient Name </strong></th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="wrapper">{{element.patientName}}</span>
+                        </td>
+                    </ng-container>
+                
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="dname">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Doctor Name </strong> </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span class="wrapper">{{element.doctorName}}</span>
+                        </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="symptom">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Symptoms </strong> </th>
+                        <td mat-cell *matCellDef="let element">
+                            
+                            <span  class="wrapper" ngbTooltip="{{element.cheifComplaint}}">{{element.cheifComplaint ? element.cheifComplaints : '-'}}</span>
+                    
+                        </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="view">
+                        <th mat-header-cell *matHeaderCellDef> <strong> View | Download | Upload </strong> </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span>
+                                <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-eye mr-2" placement="bottom"  ngbTooltip="View" (click)="openDialog(element)"></i>
+                            </span> | 
+                            <span>
+                                <i class="fa fa-download ml-2" aria-hidden="true" placement="bottom"  ngbTooltip="Download"  (click)="download(element)"></i>
+                            </span> |
+                            <span>
+                                <i class="fa fa-upload editIcon ml-2" aria-hidden="true" placement="bottom" ngbTooltip="Upload" (click)="openModel(appDetails,element)" ></i>
+                            </span>
+                            
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Status </strong> </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span class="wrapper">{{element.status}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="consultation">
+                        <th mat-header-cell *matHeaderCellDef> <strong> Edit | Consultation </strong> </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf = "element.status == 'Scheduled' || element.status == 'Resheduled'">
+                                <span>
+                                    <i class="fa fa-pencil editIcon mr-2" aria-hidden="true" placement="bottom" ngbTooltip="Modify"  (click)="openModel(appDetails,element)" ></i>
+                                </span> <span *ngIf="element.slotType !== 'In-Clinic'">|</span>
+                                <!-- <span> 
+                                    <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-video-camera videoIcon ml-2" placement="bottom" ngbTooltip="Start Consultation" *ngIf="element.slotType !== 'In-Clinic' && (element.status === 'Scheduled' ||  element.status === 'Resheduled') " (click) = "startVideoConsultation(element)"></i>
+                                </span> -->
+                                <span> 
+                                    <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-video-camera videoIcon ml-2" style='color: rgb(33, 185, 212)' placement="bottom" ngbTooltip="Start Consultation" *ngIf="element.slotType !== 'In-Clinic' && (element.status === 'Scheduled' ||  element.status === 'Resheduled') " (click) = "startBBBVideoConsultation(element)"></i>
+                                </span>
+                                <!-- <span> 
+                                    <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-video-camera videoIcon ml-2" style='color: rgb(35, 180, 120)' placement="bottom" ngbTooltip="Start Consultation" *ngIf="element.slotType !== 'In-Clinic' && (element.status === 'Scheduled' ||  element.status === 'Resheduled') " (click) = "karzaVideoConsultation(element)"></i>
+                                </span> -->
+                            </div>
+                        </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" class="back-{{element.status}}"></tr>
+                    </table>
+                
+                    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!--- start for health id ndhm popup-->
+<div class="login-container" *ngIf ="isHealthIdPopUp">
+    <div class="login-panel">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2 style="text-align: center;">Do you want to create Health ID?</h2>
+        </div>
+      </div>
+      <div
+        class="login-form-box"
+        style="
+          width: 700px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        "
+      >
+        
+        
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 15%;
+            "
+            (click)="healthidYes()"
+          >
+            Yes
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 15%;
+            "
+            (click)="healthidNo()"
+          >
+            No
+          </button>&nbsp;&nbsp;
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--end ndhm-->
+
+
+<ng-template #appDetails let-modal>
+    <div class="model-wrapper" >  
+        <form [formGroup]="reportGroup">
+         <!-- <div class="modal-content"> -->
+             <div class="modal-header">
+                 <!-- <h2 class="modal-title">Appointment</h2> -->
+                 <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); resetInterval()">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <!-- [class.disabled]="user.status != 'Scheduled'" -->
+             <div class="modal-body">
+                <div class="card m-0 border-0 p-0">
+                    <div class="card-body py-0">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-xl-6">
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                        <div class="profile-wrapper">
+                                            <img src="{{user.profilePhoto}}" class="rounded-circle" alt="Doctor_Photo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-lg-9 col-xl-9 mt-2">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h3 class="text-truncate">
+                                                    <b>DR. {{user.doctorName}}</b>
+                                                </h3>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="text-secondary">
+                                                    <b> | </b> {{user.doctorSpeciality}}
+                                                </p>
+                                            </div>
+                                        </div>                                     
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3 class="text-truncate">
+                                                    Appointment ID: {{user.appointmentID}}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="border" />
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6">
+                                <div class="p-0 text-success text-right">
+                                    <h1 class="mb-0"> 
+                                        <i class="fa fa-clock-o mr-1" aria-hidden="true"></i>
+                                        <span>{{timer}}</span>
+                                    </h1>
+                                </div>
+                                <button *ngIf="timer != 'Appointment is not attended by user.' && user.slotType !== 'In-Clinic'" type="button" class="btn btn-outline-success btn-sm mt-3 float-right" (click)="startVideoConsultation(user)">
+                                    Start Consultation
+                                </button>
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <div>
+                                    <h3 class="text-secondary mb-1">
+                                         <b> Patient Name</b><!-- <b> Booking Appointment For </b> -->
+                                    </h3>
+                                </div>
+                                <div>
+                                    <h3 class="mb-2">
+                                        {{user.patientName}}
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <div>
+                                    <h3 class="text-secondary mb-1">
+                                        <b> Appointment Time </b>
+                                    </h3>
+                                </div>
+                                <div>
+                                    <h3 class="text-truncate">
+                                        {{user.appointmentDate}} | {{user.appointmentTime}}
+                                    </h3>
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6" *ngIf="timer != 'Appointment is not attended by user.' && !Valid">
+                                <div class="row justify-content-end">
+                                    <div class="col-4">
+                                        <button type="button" class="btn btn-outline-danger btn-block float-left" (click)="openReasonModel(reason, user.appointmentID)">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                    <div class="col-4">
+                                        <button type="button" class="btn btnColor btn-block float-right" (click)="rescheduleAppointment()"> Reschedule
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end mt-2" *ngIf="authService.isUserPatient() && timer != 'Appointment is not attended by user.'">
+                            <div class="col-md-2">
+                                <select formControlName="reportType">
+                                    <option value='' selected>Select</option>
+                                    <option *ngFor = "let type of reportTypes" [value]="type.masterValue">{{type.masterValue}}</option>
+                                </select>
+                                <div class="feedback py-2" *ngIf="reportGroup.get('reportType').errors && (reportGroup.get('reportType').touched || reportGroup.get('reportType').dirty)">
+                                    <p class="text-danger" *ngIf="reportGroup.get('reportType').errors.required">Please select Report</p>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <label [class.disabled]="!reportGroup.valid" for="browseFile" class="btn btn-outline-danger btn-block">Browse</label>
+                                <input type="file" id="browseFile" class="mt-2" (change)="showSelectedFiles($event)" multiple hidden>
+                                <!-- <button type="button" class="btn btnColor btn-block float-right" (click)="uploadReport()"> Upload Report
+                                </button> -->
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btnColor btn-block float-right" (click)="uploadFile()"> Upload Report
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-2 justify-content-end" *ngIf="uploadedFileNames && uploadedFileNames.length">
+                            <div class="col-4 p-2" >
+                                <ul class="p-0 mb-2">
+                                    <li class="border-bottom clearfix" *ngFor="let file of uploadedFileNames; let i=index">
+                                       <span class="float-left">{{file.name}}</span>
+                                        <button type="button" class="btn btn-default btn-sm p-0 float-right" (click)="removeFiles(i)">
+                                            <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+         </form>
+     </div>
+ </ng-template>
+ 
+<ng-template #reason let-modal>
+    <div class="model-wrapper">  
+        <div class="modal-header">
+            <!-- <h2 class="modal-title">Reason Of Rejection</h2> -->
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="reasonGroup">
+            <div class="modal-body px-4" > 
+                <div class="row">
+                    <div class="col-sm 12">
+                        <label class="d-block mb-4">Do you want to cancel the appointment ?</label>
+                        <!-- <label class="d-block">Enter reason of rejection</label>
+                        <textarea class="w-100" rows='8' formControlName="reason"></textarea>
+                        <div class="feedback" *ngIf="reasonGroup.get('reason').errors && (reasonGroup.get('reason').touched || reasonGroup.get('reason').dirty)" >
+                            <p class="text-danger" *ngIf="reasonGroup.get('reason').errors.required">Reason is required</p>
+                            <p  class="text-danger" *ngIf="reasonGroup.get('reason').errors.maxlength">200 characters are allowed</p>
+                        </div>-->
+                        <div class="feedback" *ngIf="reasonGroup.get('error').value">
+                            <p  class="text-danger">{{ reasonGroup.get('error').value}}</p>
+                        </div> 
+                        <div class="text-right">
+                            <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor mr-2" (click)="cancelAppointent()">Yes</button>
+                            <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor" (click)="modal.dismiss('Cross click')">No</button>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </form>
+    </div>
+</ng-template>

@@ -1,0 +1,44 @@
+/**
+ * 
+ */
+package com.nsdl.auth.repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.nsdl.auth.entity.DoctorMstrDtlsEntity;
+
+
+/**
+ * @author Pegasus_girishk
+ *
+ */
+
+@Repository
+@Transactional
+public interface DoctorMstrRepo extends JpaRepository<DoctorMstrDtlsEntity, String>{
+	public DoctorMstrDtlsEntity findByDmdUserId(String dmdUserId);
+	
+	public DoctorMstrDtlsEntity findByDmdEmail(String dmdEmail);
+
+	
+	@Query(value="select * from registration.dr_mstr_dtls dm where dm.dmd_user_id in (select drd_user_id from registration.dr_reg_dtls where drd_verified_lvl2_tmstmp >=:startTime and drd_verified_lvl2_tmstmp <=:endTime) and dm.dmd_city=:city and dm.dmd_specialiazation=:specialization and dm.dmd_association_name=:associationName" , nativeQuery =true)
+	public List<DoctorMstrDtlsEntity> getDoctorMstrDtlsForRegisteration(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime,
+			@Param("specialization") String specialization,@Param("city") String city,@Param("associationName") String associationName);
+	
+	
+	@Query(value="select * from registration.dr_mstr_dtls dm where dm.dmd_user_id in (select sh_usr_id from usrmgmt.session_history where sh_created_tmpstmp >=:startTime and sh_end_tmpstmp <=:endTime) and dm.dmd_city=:city and dm.dmd_specialiazation=:specialization and dm.dmd_association_name=:associationName" , nativeQuery =true)
+	public List<DoctorMstrDtlsEntity> getDoctorMstrDtlsForLoggedIn(@Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime,
+			@Param("specialization") String specialization,@Param("city") String city,@Param("associationName") String associationName);
+
+	
+	
+	
+}

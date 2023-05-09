@@ -1,0 +1,11 @@
+spring.application.name=tele-marketplace
+spring.profiles.active=dev
+server.port=7088
+marketplace.api.version=v1
+server.servlet.context-path=/marketplace/${marketplace.api.version}
+spring.cloud.config.uri=http://172.30.151.100:51000/config
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+
+
+

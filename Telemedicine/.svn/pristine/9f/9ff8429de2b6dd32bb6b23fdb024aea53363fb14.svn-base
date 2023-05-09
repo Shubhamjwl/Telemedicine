@@ -1,0 +1,116 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+
+
+@Component({
+  selector: 'app-consultation-priscription',
+  templateUrl: './consultation-priscription.component.html',
+  styleUrls: ['./consultation-priscription.component.scss']
+})
+export class ConsultationPriscriptionComponent implements OnInit {
+  slotType: any;
+  consultType :any;
+
+  constructor(
+    private fb: FormBuilder,
+    private consultationService: ConsultationService,
+    private http: HttpClient,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private toastrMessage: ToastMessageService,
+    private spinner: NgxSpinnerService
+  ) {
+   }
+
+  form: FormGroup;
+  pdfURL;
+  httpData: any;
+  prescriptionData;
+  showpdf = false;
+  urlOfPDF;
+  profilePhotoBase64;
+  isHandwritten = false;
+  handWrittenPresPayload;
+  ngOnInit(): void {
+    // this.getPrescriptionDetails();
+    setTimeout(()=>{ 
+    this.getPrescriptionMedicationDetails();
+    }, 2000);
+  }
+
+  imgUrl;
+
+  getPrescriptionDetails() {
+    this.consultationService.getPrescriptionDetails().subscribe(result => {
+
+      this.prescriptionData = result;
+      this.imgUrl = `${result['response'].pdfpath}`
+       
+    })
+  }
+  datalocalURL;
+  getPrescriptionMedicationDetails() {
+    this.spinner.show();
+    this.consultationService.getPrescriptionMedicationDetails().subscribe(result => {
+      this.spinner.hide();
+      this.prescriptionData = result;
+      this.urlOfPDF = result['response'].pdfpath.replace('/var/telemedicine/', `${environment["baseUrl"]}`)
+      this.pdfURL = this.sanitizer.bypassSecurityTrustResourceUrl(this.urlOfPDF);
+      this.showpdf = true;
+      // let url = System.IO.File.ReadAllBytes(Path.Combine);
+      var pdfFile = new Blob([
+        new Uint8Array(atob(this.prescriptionData['response'].pdfData).split('').map(char => char.charCodeAt(0)))
+      ], { type: 'application/pdf' });
+      this.datalocalURL = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(pdfFile));
+    },error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg( error.errors[0].message, 'Error');
+    });
+  }
+
+  savePrescriptionDetails() {
+    this.spinner.show();
+         let request =
+          {
+            ctApptId: null,
+            ctDoctorId: null,
+            ctPatientId: null,
+            ctAppointmentStatus:"completed",
+            ctPrescriptionPath: this.prescriptionData['response'].pdfpath,
+          }
+      this.consultationService.saveAndUploadPrescription(request).subscribe(result => {
+        this.spinner.hide();
+        if(result.response && result.status) {
+          this.toastrMessage.showSuccessMsg(result.response.message, "Consultation Details updated Successfully..");
+          this.router.navigate(['appointments']);
+        }else {
+          this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+        }
+      }, error => {
+        this.spinner.hide();
+        console.log('error:', error);
+        let preerror =  error ? error.errors[0] ?  error.errors[0].message ? error.errors[0].message : 'Something went Wrong' : 'Something went Wrong' : 'Something went Wrong';
+        this.toastrMessage.showErrorMsg( preerror, 'Error');
+      });
+  }
+
+  download(){
+    this.showpdf = true;
+    const fileNew = new Blob([
+      new Uint8Array(atob(this.prescriptionData['response'].pdfData).split('').map(char => char.charCodeAt(0)))
+    ], { type: 'application/pdf' })
+    var fileURL = URL.createObjectURL(fileNew);
+    window.open(fileURL);
+
+  }
+
+}
+
+

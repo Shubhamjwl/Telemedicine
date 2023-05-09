@@ -1,0 +1,55 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean deploy -DskipTests"
+   }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def doctorregVersion
+   stage ('create Image Version'){
+   ndhmVersion = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+  }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('telemed/ndhmservice', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'telemed') {
+           dockerImage.push "${ndhmVersion}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi telemed/ndhmservice"
+       sh "docker rmi 172.16.11.166:37719/telemed/ndhmservice:${ndhmVersion}"
+       }
+
+   stage('run in 172.16.11.167') {
+         sshagent (credentials: ['nsdl']) {
+       sh "echo 'ndhmVersion=${ndhmVersion}' > .env"
+       sh "scp -o StrictHostKeyChecking=no .env mosip@172.16.11.167:/var/workspace/ndhm"
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.16.11.167 /var/workspace/ndhm/helper/ndhm.sh"
+         }
+       }              
+       
+   }
+

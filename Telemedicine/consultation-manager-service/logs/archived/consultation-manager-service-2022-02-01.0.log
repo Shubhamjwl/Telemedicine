@@ -1,0 +1,14 @@
+  [2022-02-01 09:41:09,431], , [HikariPool-1 housekeeper], consultation-manager-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13h53m12s254ms897µs800ns).
+  [2022-02-01 10:41:58,476], , [HikariPool-1 housekeeper], consultation-manager-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=58m18s928ms660µs).
+  [2022-02-01 11:43:07,737], , [HikariPool-1 housekeeper], consultation-manager-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=37m38s940ms200µs700ns).
+  [2022-02-01 12:00:01,811], , [HikariPool-1 housekeeper], consultation-manager-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m54s59ms220µs600ns).
+  [2022-02-01 12:49:06,934], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-02-01 12:49:08,303], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-01 12:49:08,465], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-01 12:49:09,152], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2022-02-01 12:49:09,335], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2022-02-01 12:49:09,424], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7078"]
+  [2022-02-01 12:49:09,581], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-01 12:49:09,650], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  [/consultation] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-02-01 12:49:10,002], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7078"]
+  [2022-02-01 12:49:10,063], , [RMI TCP Connection(165)-127.0.0.1], consultation-manager-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7078"]

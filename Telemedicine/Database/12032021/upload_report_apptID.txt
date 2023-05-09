@@ -1,0 +1,5 @@
+ALTER TABLE appointment.appt_ul_rprt_dtls ALTER COLUMN aurd_ul_other_rpt_type 
+TYPE varchar(250);
+
+ALTER TABLE appointment.appt_ul_rprt_dtls ALTER COLUMN aurd_ul_report_type 
+TYPE varchar(250);

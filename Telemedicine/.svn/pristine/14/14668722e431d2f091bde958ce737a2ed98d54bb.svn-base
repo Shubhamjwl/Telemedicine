@@ -1,0 +1,127 @@
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+
+@Component({
+  selector: 'app-delete-appointment-modal',
+  templateUrl: './delete-appointment-modal.component.html',
+  styleUrls: ['./delete-appointment-modal.component.scss']
+})
+export class DeleteAppointmentModalComponent implements OnInit {
+  form: FormGroup
+  startDate: Date = new Date();
+  public filteredSlotsMulti: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+
+  slotDetails = new FormControl([]);
+  constructor(
+    public dialogRef: MatDialogRef<DeleteAppointmentModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private AppointmentService: AppointmentService
+  ) {
+    this.form = this.fb.group({
+      slotName: new FormControl(),
+      SelectedDate : new FormControl('',Validators.required),
+    })
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
+
+
+  displayFn = (): string => '';
+  displayFn2 = (): string => '';
+  displayFn3 = (): string => '';
+  displayFn4 = (): string => '';
+
+  protected _onDestroy = new Subject<void>();
+  
+
+  ngOnInit(): void {
+//this.getSlotDetails();
+    // this.slotDetails.valueChanges
+    // .subscribe(() => {
+    //   this.AppointmentService.SlotDetailsChanged(
+    //     Array.prototype.map.call(this.slotDetails.value, function (item) {
+    //       return item.name;
+    //     }).join(", "));
+    // });
+  }
+
+  // getSlotDetails() {
+  //   var response = this.AppointmentService.slotDetails
+  //   var slotsTiming = this.AppointmentService.slotDetails.slots
+  //   console.log(response,slotsTiming,"responseeeeeeeeeee")
+  //     this.filteredSlotsMulti.next(response[slotsTiming].slice());
+
+  //     // set selected symptoms into form
+  //     let selectedSymptoms = JSON.parse(localStorage.getItem('selectedSymptoms'));
+  //     if (selectedSymptoms !== null) {
+  //       const selectedSymptomsIds = selectedSymptoms.map(element => element.id);
+  //       let alteredArray = response.filter((option) => {
+  //         if (selectedSymptomsIds.includes(option.id)) {
+  //           option.selected = !option.selected;
+  //           return true;
+  //         }
+  //       });
+
+  //       this.slotDetails.setValue(alteredArray);
+  //     }
+  //     // listen for search field value changes
+  //     this.form.controls.symptomName.valueChanges
+  //       .pipe(takeUntil(this._onDestroy))
+  //       .subscribe(() => {
+  //         this.filterDetails(response, this.form.controls.slotName.value, this.filteredSlotsMulti);
+  //       });
+  // }
+
+  protected filterDetails(details: any, searchValue: string, subject: BehaviorSubject<any>) {
+    if (!details) {
+      return;
+    }
+
+    if (!searchValue) {
+      subject.next(details.slice());
+      this.sort(subject);
+      return;
+    } else {
+      searchValue = searchValue.toLowerCase();
+    }
+    // filter the details
+    subject.next(
+      details.filter((obj) => obj.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0)
+    );
+    this.sort(subject);
+  }
+
+
+  sort(subject: BehaviorSubject<any>) {
+    subject.getValue().sort(function (x, y) {
+      return (x.ruleEngineData === y.ruleEngineData) ? 0 : x.ruleEngineData ? -1 : 1;
+    });
+  }
+
+  onClickClose() {
+    this.dialogRef.close();
+  }
+  slotOptionClicked(){
+
+  }
+  symptomToggleSelection() { }
+  saveDetails() { }
+  changeDate(event) {
+    // this.selectedDate = this.datePipe.transform(event.target.value, "yyyy-MM-dd");
+    // this.getAppointmentListForDoc();
+  }
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+}

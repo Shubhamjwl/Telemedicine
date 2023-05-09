@@ -1,0 +1,111 @@
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { data } from 'jquery';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DoctorAppointmentsDashboardComponent } from 'src/app/layout/doctor/appointment/doctor-appointments-dashboard/doctor-appointments-dashboard.component';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ScribeService } from 'src/app/shared/commonBuildBlocks/services/scribeServices/scribe.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { BookAppointmentModalComponent } from '../book-appointment-modal/book-appointment-modal.component';
+
+@Component({
+  selector: 'app-tcdoctor-register-modal',
+  templateUrl: './tcdoctor-register-modal.component.html',
+  styleUrls: ['./tcdoctor-register-modal.component.scss']
+})
+export class TcdoctorRegisterModalComponent implements OnInit {
+  userDetails: any;
+  selectedDate: any;
+  profilePhotoBase64: any;
+  userLoggedIn: boolean = false;
+  changePwdScreen: boolean = false;
+
+  constructor(
+    public dialogRef: MatDialogRef<DoctorAppointmentsDashboardComponent>,
+    private router: Router,
+    private dialog: MatDialog,
+    private datapassingService: DataPassingService,
+    private scribeService: ScribeService,
+    private activatedRoute: ActivatedRoute,
+    private consultationService: ConsultationService,
+    private toastrMessage: ToastMessageService,
+    public fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private datePipe: DatePipe,
+    private modelService: NgbModal,
+    private userManagementService : AuthService,
+    private authService: AuthService,
+    private http: HttpClient
+  ) { }
+
+  ngOnInit(): void {
+  }
+   
+  acceptTC(){
+    this.spinner.show();
+    this.userManagementService.updateTermsAndCondForDoc().subscribe(result => {
+      this.spinner.hide();
+      console.log("enterinapis");
+      console.log(result,"result");
+      if(result.response){
+        this.dialogRef.close({ data: result.response });
+        this.router.navigate(['/appointments']);
+        this.toastrMessage.showSuccessMsg(result.response.info, "Success");
+        this.dismiss();
+      }
+    },error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(error.message, "Error");
+    });
+
+    
+  }
+
+  dismiss(){
+    //this.modelService.dismissAll();
+    this.dialogRef.close();
+  }
+
+  closeTC(){
+    this.dialogRef.close();
+    console.log("dismiss logout");
+   // this.modelService.dismissAll();
+   // this.authService.logout();
+  // this.router.navigate(['../sign-in']);
+   //this.router.navigate(['sign-in']);
+   this.authService.signOut().subscribe(result => {
+    
+    if(result && result.response) {
+      sessionStorage.clear();
+      this.isUserLoggedIn();
+      // this.router.navigate(['']);
+      this.router.navigate(['sign-in']);
+      this.datapassingService.scribeList = [];
+    }else if(result && result.errors){
+      alert(result.errors[0].message)
+    }
+  })
+  }
+
+  isUserLoggedIn() {
+    this.userLoggedIn = this.authService.isLoggedIn();
+
+    // Hide Sign-In and Contact-Us buttons for reset-password page
+    this.activatedRoute.url.subscribe(url => {
+      if (url.length > 0) {
+        
+        if (url[0].path == "change-password") {
+          this.changePwdScreen = true;
+        }
+      }
+    });
+    
+  }
+}

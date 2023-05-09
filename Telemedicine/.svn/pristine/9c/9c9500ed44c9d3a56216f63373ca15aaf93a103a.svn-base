@@ -1,0 +1,41 @@
+/**
+ * 
+ */
+package com.nsdl.telemedicine.doctor.exception;
+
+/**
+ * @author Pegasus_girishk
+ *
+ */
+public class DrRegErrorMessage {
+	
+	public final static String INVALID_USER_INPUT = "Invalid User Input";
+	
+	public final static String NO_DATA_FOUND = "No Data Found";
+	
+	public final static String FILE_NOT_FOUND = "Document Not Found";
+	
+	public final static String DOCTOR_NOT_FOUND = "Doctor Details Not Found";
+	
+	public final static String SERVER_ERROR = "Something went wrong, please contact with administrator.";
+	
+	public final static String NO_APPOINTMENT_FOUND = "No Appointment Found.";
+	
+	public final static String PATIENT_ID_NOT_BLANK = "Provide valid Patient id. It should not be null or blank.";
+	
+	public final static String BULK_FILE_UPLOAD_FAILED = "bulk file upload failed";
+	
+	public final static String READ_BULK_FILE_FAILED = "bulk file read failed";
+	
+	public final static String DOCTOR_LIST_EMPTY = "excel contains empty or duplicate or invalid doctors for registration";
+	
+	public final static String MOBILE_LIST_DUPLICATE = "excel sheet contains duplicate mobile numbers";
+	
+	public final static String EMAIL_LIST_DUPLICATE = "excel sheet contains duplicate email ids";
+	
+	public final static String DOCTOR_REGISTRATION_FAILED = "doctor registration failed";
+	
+	public final static String DOCTOR_EMAIL_VALIDATION_FAILED = "Doctor email id validation failed";
+	
+	public final static String DOCTOR_PROFILE_PHOTO_NOT_PRESENT = "Profile photo not available for doctor email id.";
+}

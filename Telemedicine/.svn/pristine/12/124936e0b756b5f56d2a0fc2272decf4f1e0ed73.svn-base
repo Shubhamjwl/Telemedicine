@@ -1,0 +1,215 @@
+<div class="book-appointmnet-wrapper">
+    <div class="container-fluid">
+        <div class="appointment-wrapper mt-4">
+            <form [formGroup]="appointmentFormGroup"> 
+                <div class="row m-2">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 clearfix" *ngFor="let doctorDetails of doctorListBySpeciality">
+                       <div class="float-left mr-4">
+                            <div class="profile-wrapper">
+                                <img [src]= "doctorDetails.drProfilePhoto" alt="doctor-profle" class="rounded-circle">
+                            </div>
+                       </div>
+                       
+                        <div class="doc-info"> 
+                            <h2 class="text-danger" *ngIf="doctorDetails.doctorName">Dr. {{doctorDetails.doctorName}}</h2>
+                            <h2 class="text-danger" *ngIf="!doctorDetails.doctorName">-</h2>
+    
+                            <h5 class="text-secondary" *ngIf="doctorDetails.speciality"><b>{{doctorDetails.speciality}}</b></h5>
+                            <h5 class="text-secondary" *ngIf="!doctorDetails.speciality"><b>-</b></h5>
+                            <p>Consultation Fees: 
+                                <span class="mr-2" *ngIf="doctorDetails.consultFee">{{doctorDetails.consultFee}}</span>
+                                <span class="mr-2" *ngIf="!doctorDetails.consultFee">-</span>
+                                Rupees
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                        <!-- heading -->
+                        <div>
+                            <h1 class="mb-2">Book Your Time Slot</h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7 mt-3">
+                        <div class="row">
+                            <div class="telesq mr-1 ml-1">
+                                  
+                            </div>
+                            <b><span>Teleconsultation Slots</span></b>
+                            <div class="InClinicSq mr-1 ml-2">
+    
+                            </div>
+                            <b><span>In-Clinic Slots</span></b>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Select Appointment Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="changeDate($event)" readonly required>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+            <div class="row m-2">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 bg-light bgShadowStyle pb-4">
+                    <!--************************ Today***************** -->
+                    <div class="div" *ngIf="!isChangeDate">
+                        <div class="row pt-4"> 
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 text-left">
+                                <h4 class="mb-0" *ngIf="slotsList.today && slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.today.length}} Slot Available)
+                                </h4>
+                                
+                                <h4 class="mb-0" *ngIf="!slotsList.today || !slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.today && slotsList.today.length">
+                            <div class="row">
+                                <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3" *ngFor="let data of slotsList.today"> 
+                                    <!-- Card design -->
+                                        <div [class.disabled]="data.available" class="card cardStyle p-0 m-0" (click)="openModel(patientDetails, data, 'today')">
+                                            <div class="card-body px-2 py-3" [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''">
+                                                <div>
+                                                    <h4 class="card-title text-center mb-0">
+                                                        <strong>{{data.slotTime}}</strong>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--End Card design -->
+                                </div>  
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.today || !slotsList.today.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <h4>No Slots Found!</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div" *ngIf="isChangeDate">
+                        <div class="row pt-4" *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 text-left">
+                                <h4 class="mb-0">
+                                    {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.otherDate.length}} Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <div class="row">
+                                <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3" *ngFor="let data of slotsList.otherDate"> 
+                                    <!-- Card design -->
+                                        <div [class.disabled]="data.available" class="card cardStyle p-0 m-0" (click)="openModel(patientDetails, data, 'other')">
+                                            <div class="card-body px-2 py-3" [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''">
+                                                <div>
+                                                    <h4 class="card-title text-center mb-0">
+                                                        <strong>{{data.slotTime}}</strong>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--End Card design -->
+                                </div>  
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.otherDate || !slotsList.otherDate.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <div class="row">
+                                    <h4 class="mb-0 mt-1 float-left">
+                                        {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                    </h4>
+                                </div>
+                                <div class="justify-content-center row">
+                                    <h4>No Slots Found!</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<ng-template #patientDetails let-modal>
+    <div class="model-wrapper">  
+        <div class="model-elements-wrap">
+            <div class="modal-header">
+                <h2 class="modal-title">Patient Details </h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-4"> 
+                <form [formGroup]="patientGroup">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="name">Patient Name:<span class="text-danger">*</span> </label>
+                            <mat-form-field >
+                                <input class="input-Upper" matInput id="name" formControlName="name">
+                                <mat-error class="mx-1" *ngIf="patientGroup.get('name').errors && (patientGroup.get('name').touched || patientGroup.get('name').dirty)">
+                                    <span *ngIf="patientGroup.get('name').errors.required">{{'errFullNameRequired' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('name').errors.pattern">{{'errFullNamePattern' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('name').errors.maxlength">{{'errFullNameMaxLength' | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="phone">Patient Mobile No.:<span class="text-danger">*</span> </label>
+                            <mat-form-field >
+                                <input matInput id="phone" numberOnly length="10" formControlName="phone">
+                                <mat-error class="mx-1" *ngIf="patientGroup.get('phone').errors && (patientGroup.get('phone').touched || patientGroup.get('phone').dirty)">
+                                    <span *ngIf="patientGroup.get('phone').errors.required">{{'errMobileRequired' | l10n}}</span> 
+                                    <span *ngIf="patientGroup.get('phone').errors.maxlength">{{'errMobileMaxLength' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('phone').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="email">Patient Email: </label>
+                            <mat-form-field >
+                                <input matInput id="emails" formControlName="email">
+                                <mat-error class="mx-1" *ngIf="patientGroup.get('email').errors && (patientGroup.get('email').touched || patientGroup.get('email').dirty)">
+                                    <span *ngIf="patientGroup.get('email').errors.required">{{'errEmailRequired' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+                                    <span *ngIf="!patientGroup.get('email').errors.email && patientGroup.get('email').errors.maxlength">{{'errEmailMaxlength' | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="name">Enter Symptoms:<span class="text-danger">*</span> </label>
+                            <mat-form-field >
+                                <input class="input-Upper" matInput id="ptSymptoms" formControlName="ptSymptoms">
+                                <!-- <mat-error class="mx-1" *ngIf="patientGroup.get('ptSymptoms').errors && (patientGroup.get('ptSymptoms').touched || patientGroup.get('ptSymptoms').dirty)">
+                                    <span *ngIf="patientGroup.get('ptSymptoms').errors.required">{{'errFullNameRequired' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('ptSymptoms').errors.pattern">{{'errFullNamePattern' | l10n}}</span>
+                                    <span *ngIf="patientGroup.get('ptSymptoms').errors.maxlength">{{'errFullNameMaxLength' | l10n}}</span>
+                                </mat-error> -->
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!patientGroup.valid" type="button" class="btn btnColor" (click)="patientRegistartionByExternalLink()">Submit</button>
+            </div>
+        </div>
+        <div *ngIf="loader" class="model-loader">
+            <div class="loader-wrapper">
+                <div class="spinner-border text-primary loader" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<div *ngIf="show">
+    <app-razorpay-payment-gateway-url></app-razorpay-payment-gateway-url>
+</div>

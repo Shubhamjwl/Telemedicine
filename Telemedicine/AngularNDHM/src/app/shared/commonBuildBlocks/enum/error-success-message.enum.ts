@@ -1,0 +1,22 @@
+export enum ErrorSuccessMessage{
+    IMGFORMATE = 'Please select Image in valid formate',
+    IMGSIZE = 'Size should be less than 2 MB',
+    FILESIZE = 'Size should be less than 2MB',
+    FORGOTPASSWORD = 'Please enter email address and submit',
+    CODEFAILUIR = "A technical error has occurred. Please refresh your page to continue or try again later",
+    INVALIDAPIRESPONSE = "Backend response error occurred!",
+    SELECTDOCTYPE = "Please select document type",
+    FILEFORMATE = "Only PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG format allowed",
+    XLFILEFORMATE = "Only XLSX format allowed",
+    GIVENXLSXFILE = "Please download file from above link and attach with updated details",
+    DOCREGISTERVALIDATIONMSG = "Fill All mandatory field's",
+    SELCETDOCUMENT = "Select atleast 1 document",
+    SELECTSMCMCI = "Enter SMC Number or MCI Number",
+    SMCMCINOTSAME = "SMC Number and MCI Number should not be same",
+    TRANSACTIONID = "Transaction ID not generated",
+    APIFAILD = "API Failed",
+    SCRIBEREGISTER = "Scribe register successfully",
+    PATIENTDETAILS = "Enter all patient details",
+    VALIDCONSULTATION = "You can only able to start consultation in your booked time period",
+    INVALIDVIEWANDDOWN = "Prescription View and Download once complete the appointment"
+ }

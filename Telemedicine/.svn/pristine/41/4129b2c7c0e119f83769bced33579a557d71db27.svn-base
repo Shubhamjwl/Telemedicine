@@ -1,0 +1,235 @@
+package com.nsdl.telemedicine.patient.service.impl;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.nsdl.telemedicine.patient.dto.AuthConfirmOtpReqDTO;
+import com.nsdl.telemedicine.patient.dto.AuthConfirmOtpRespDTO;
+import com.nsdl.telemedicine.patient.dto.AuthInitReqDTO;
+import com.nsdl.telemedicine.patient.dto.AuthInitRespDTO;
+import com.nsdl.telemedicine.patient.dto.ExceptionJSONInfoDTO;
+import com.nsdl.telemedicine.patient.dto.GetProfileReqDTO;
+import com.nsdl.telemedicine.patient.dto.GetProfileRespDTO;
+import com.nsdl.telemedicine.patient.dto.RequestWrapper;
+import com.nsdl.telemedicine.patient.dto.ResponseWrapper;
+import com.nsdl.telemedicine.patient.dto.SearchByHealthIdReqDTO;
+import com.nsdl.telemedicine.patient.dto.SearchHealthIdToLoginReqDTO;
+import com.nsdl.telemedicine.patient.dto.SearchHealthIdToLoginRespDTO;
+import com.nsdl.telemedicine.patient.service.NdhmCommunicationService;
+
+@Service
+public class NdhmCommunicationServiceImpl implements NdhmCommunicationService {
+
+	private static final Logger LOGGER = LogManager.getLogger(NdhmCommunicationServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${ndhm.searchHealthidLogin}")
+	private String searchHealthidLogin;
+
+	@Value("${ndhm.authInit}")
+	private String authInit;
+
+	@Value("${ndhm.confirmAadhaarOtp}")
+	private String confirmAadhaarOtp;
+
+	@Value("${ndhm.confirmMobileOtp}")
+	private String confirmMobileOtp;
+
+	@Value("${ndhm.getProfile}")
+	private String getProfile;
+
+	@Value("${ndhm.searchByHealthId}")
+	private String searchByHealthId;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<SearchHealthIdToLoginRespDTO> searchHealthIdToLogin(
+			@Valid RequestWrapper<SearchHealthIdToLoginReqDTO> searchHealthIdReq) {
+		LOGGER.info("Request Receives for searchHealthIdToLogin");
+		String url = searchHealthidLogin;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<SearchHealthIdToLoginRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchHealthIdReq.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(),
+					new TypeToken<ResponseWrapper<SearchHealthIdToLoginRespDTO>>() {
+					}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in searchHealthIdToLogin {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<AuthInitRespDTO> authInit(@Valid RequestWrapper<AuthInitReqDTO> authInitReq) {
+		LOGGER.info("Request Receives for init");
+		String url = authInit;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<AuthInitRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authInitReq.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(), new TypeToken<ResponseWrapper<AuthInitRespDTO>>() {
+			}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in searchHealthIdToLogin {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<AuthConfirmOtpRespDTO> confirmAadhaarOTP(
+			@Valid RequestWrapper<AuthConfirmOtpReqDTO> authConfirmOtpReq) {
+		LOGGER.info("Request Receives for confirm Aadhaar Otp");
+		String url = confirmAadhaarOtp;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<AuthConfirmOtpRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authConfirmOtpReq.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(), new TypeToken<ResponseWrapper<AuthConfirmOtpRespDTO>>() {
+			}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in authConfirmOtpReq {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<AuthConfirmOtpRespDTO> confirmMobileOTP(
+			@Valid RequestWrapper<AuthConfirmOtpReqDTO> authConfirmOtpReq) {
+		LOGGER.info("Request Receives for confirm Mobile Otp");
+		String url = confirmMobileOtp;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<AuthConfirmOtpRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authConfirmOtpReq.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(), new TypeToken<ResponseWrapper<AuthConfirmOtpRespDTO>>() {
+			}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in authConfirmOtpReq {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+
+	/**
+	 * added by jinesh for get Account profile
+	 */
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<GetProfileRespDTO> getAccountProfile(@Valid RequestWrapper<GetProfileReqDTO> getProfileReq) {
+		LOGGER.info("Request Receives for get Account Profile ");
+		String url = getProfile;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<GetProfileRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		headers.set("X-Token", getProfileReq.getRequest().getXToken());
+		try {
+			uri = new URI(url);
+			HttpEntity<String> requestEntity = new HttpEntity<>("", headers);
+			result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(), new TypeToken<ResponseWrapper<GetProfileRespDTO>>() {
+			}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in getAccountProfile {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+
+	@SuppressWarnings("serial")
+	@Override
+	public ResponseWrapper<SearchHealthIdToLoginRespDTO> searchByHealthId(
+			@Valid RequestWrapper<SearchByHealthIdReqDTO> searchByHealthIdReq) {
+		LOGGER.info("Request Receives for searchByHealthId");
+		String url = searchByHealthId;
+		URI uri;
+		ResponseEntity<String> result = null;
+		ResponseWrapper<SearchHealthIdToLoginRespDTO> resp = new ResponseWrapper<>();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", "application/json");
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchByHealthIdReq );
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(),
+					new TypeToken<ResponseWrapper<SearchHealthIdToLoginRespDTO>>() {
+					}.getType());
+		} catch (Exception e) {
+			LOGGER.error("Error in searchByHealthId {} ", e);
+			listOfExceptions = new ArrayList<>();
+
+		}
+		return resp;
+	}
+}

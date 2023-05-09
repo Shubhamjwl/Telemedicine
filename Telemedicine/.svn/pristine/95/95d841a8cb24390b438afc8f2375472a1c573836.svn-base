@@ -1,0 +1,781 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { DdateAdapter, MY_FORMATS } from 'src/app/shared/commonBuildBlocks/derectives/formatDatepickers';
+import { AppointmentService } from 'src/app/shared/commonBuildBlocks/services/appointmentServices/appointment.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { DoctorService } from 'src/app/shared/commonBuildBlocks/services/doctorServices/doctor.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { DocumentService } from 'src/app/shared/commonBuildBlocks/services/documentServices/document.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { MasterTypes } from 'src/app/shared/commonBuildBlocks/enum/master-type.enum';
+import { BookAppointmentModalComponent } from 'src/app/layout/shared-modules/modals/book-appointment-modal/book-appointment-modal.component';
+import { TCbookAppointmentModalComponent } from '../../modals/tcbook-appointment-modal/tcbook-appointment-modal.component';
+
+@Component({
+  selector: 'app-book-doctor-appointment',
+  templateUrl: './book-doctor-appointment.component.html',
+  styleUrls: ['./book-doctor-appointment.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: DdateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
+})
+export class BookDoctorsAppointmentComponent implements OnInit {
+  appointmentFormGroup: FormGroup;
+  bookAppointmentGroup: FormGroup;
+  appointmentDetails: any;
+  selectedDoctordata: any;
+  showInfo: boolean;
+  doctorDetails: any;
+  date: Date = new Date();
+  profilePhoto: string = 'assets/images/img_avatar.png';
+  saveSubscription: Subscription;
+  patientDetails: any;
+  isRescedule: boolean;
+  isBookAppointment: boolean = false;
+  patientError: any = '';
+  todayDate = this.datePipe.transform(this.date, "yyyy-MM-dd")
+  tomorrowDate = new Date(this.date);
+  selectedDate: string = this.datePipe.transform(this.date, "yyyy-MM-dd");
+  slotTomorrowDate
+  selectedSelfOrElse: string = 'self';
+  apiSlotTime: string;
+  reportGroup: FormGroup;
+  reportTypes = [];
+  rescheduleDetails: any;
+  filesArray = [];
+  uploadedFile = '';
+  uploadedFileNames = [];
+  doctorListByDocName: any = undefined;
+  isChangeDate = false;
+  likesCount = 0;
+  storiesCount = 0
+  slotsList = {
+    "today": [],
+    "tomorrow": [],
+    "otherDate": []
+  }
+  rescheduleModelRef: any;
+  patientDetailsLoader: boolean;
+  role = this.authService.getUserRole();
+  isOpenPayment = false;
+  slotType: any;
+  consultType: any;
+  httpClient: any;
+  reasonGroup: FormGroup;
+  reasonModelRef: any;
+  modelRef: any;
+  previousApptType: any;
+  patientId: any;
+  userID: any;
+  btn:any;
+  termcondModelRef: any;
+  termCondFlag: boolean;
+  netConsultationFees=0;
+
+
+  constructor(
+    private appointmentService: AppointmentService,
+    private router: Router,
+    private datapassingService: DataPassingService,
+    private doctorService: DoctorService,
+    private consultationService: ConsultationService,
+    private toastrMessage: ToastMessageService,
+    public documentService: DocumentService,
+    public fb: FormBuilder,
+    public modelService: NgbModal,
+    public patientService: PatientService,
+    public authService: AuthService,
+    public route: ActivatedRoute,
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService,
+    private dialog: MatDialog,
+    private activateRoute: ActivatedRoute,
+
+  ) {
+
+  
+    this.route.queryParams.subscribe((param) => {
+      if (param) {
+        if (param.isReschedule) {
+          this.isRescedule = param.isReschedule;
+          this.isBookAppointment = false;
+        } else if (param.isBookAppointment) {
+          this.isRescedule = false;
+          this.isBookAppointment = true;
+        }
+      } else {
+        this.isRescedule = false;
+        this.isBookAppointment = false;
+      }
+    })
+    this.createForm();
+    this.showInfo = false;
+    this.doctorDetails = this.datapassingService.getDoctorDetails();
+    this.profilePhoto = this.doctorDetails ? this.doctorDetails.drProfilePhoto ? this.doctorDetails.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : this.profilePhoto : this.profilePhoto;
+    this.patientDetails = this.datapassingService.getPatientDetails();
+    this.userID = authService.getUserId() ? authService.getUserId() : null;
+  }
+  slotDate
+  isValid = false;
+  ngOnInit(): void {
+    this.reportGroup.reset();
+    this.datapassingService.paymentObservable.subscribe((data) => {
+      if (data == 'start') {
+        this.spinner.show();
+      } else {
+        this.spinner.hide();
+      }
+
+    });
+
+    this.tomorrowDate.setDate(this.date.getDate() + 1)
+    this.slotTomorrowDate = this.datePipe.transform(this.tomorrowDate, "yyyy-MM-dd");
+    this.rescheduleDetails = this.datapassingService.rescheduleApptDetails;
+    if (this.rescheduleDetails != null)
+      this.patientId = this.rescheduleDetails.patientRegId;
+
+    if (this.isRescedule) {
+      if (!(this.rescheduleDetails && this.rescheduleDetails.doctorName)) {
+        if (this.authService.isUserPatient()) {
+          this.router.navigate(['patient-dashboard']);
+        } else {
+          this.router.navigate(['appointments']);
+        }
+      }
+      this.doctorDetails = this.datapassingService.rescheduleApptDetails;
+      this.patientDetails.name = this.datapassingService.rescheduleApptDetails && this.datapassingService.rescheduleApptDetails.patientName ? this.datapassingService.rescheduleApptDetails.patientName : '';
+      this.getDoctorSlotDetailsByName();
+    } else if (this.isBookAppointment) {
+      if (!this.datapassingService.docName) {
+        this.router.navigate(['appointments']);
+      }
+      this.getDoctorSlotDetailsByName();
+    } else {
+      this.getDoctorSlotDetailsByName();
+    }
+    this.getReportTypes();
+    this.bookAppointmentGroup.get('patientMobileNo').valueChanges.subscribe((value) => {
+      if (this.patientDetailsLoader) {
+        return;
+      }
+      this.patientError = '';
+      this.patientDetailsLoader = true;
+      if (!this.bookAppointmentGroup.get('patientMobileNo').valid) {
+        this.patientDetailsLoader = false;
+        return;
+      } else {
+        this.spinner.show();
+        this.patientService.getPatientDetailsFromMobileNo(value).subscribe((resp: any) => {
+          this.spinner.hide();
+          this.patientDetailsLoader = false;
+          if (resp) {
+            if (resp.status) {
+              if (resp.response) {
+                this.patientId = resp.response.ptUserId
+                this.bookAppointmentGroup.get('patientUserId').patchValue(resp.response.ptUserId ? resp.response.ptUserId : null)
+                this.bookAppointmentGroup.get('patientName').patchValue(resp.response.ptFullName ? resp.response.ptFullName : null);
+                this.bookAppointmentGroup.get('patientEmail').patchValue(resp.response.ptEmail ? resp.response.ptEmail : null);
+               //this.bookAppointmentGroup.get('symptomsDetails').patchValue(resp.response.symptomsDetails ? resp.response.symptomsDetails : null)
+              }
+            } else {
+              this.patientError = resp.errors && resp.errors[0].message ? resp.errors[0].message : "Patient Does not Exist.";
+            }
+          } else {
+            this.patientError = "Patient Does not Exist";
+          }
+        }, error => {
+          this.spinner.hide();
+          this.patientError = "Something Went Wrong";
+
+        })
+      }
+
+    })
+
+    this.reportGroup.valueChanges.subscribe(value => {
+      let { reportType, patientName,symptomsDetails, patientEmail, patientMobileNo, terms } = this.reportGroup.value;
+      // && patientEmail
+      if (patientName && patientMobileNo && symptomsDetails && this.selectedSelfOrElse == 'else') {
+        this.isValid = true;
+      } else if (this.selectedSelfOrElse == 'self' && symptomsDetails && terms) {
+        this.isValid = true;
+      } else {
+        this.isValid = false;
+      }
+    })
+  }
+
+
+  ngOnDestroy() {
+    if (this.rescheduleModelRef) {
+      this.rescheduleModelRef.close();
+      this.spinner.hide();
+    }
+  }
+
+  createForm() {
+    this.appointmentFormGroup = this.fb.group({
+      date: [''],
+      name: [''],
+      image: [''],
+      speciality: [''],
+      address: [''],
+      fees: [''],
+      likes: [''],
+      patientStories: ['']
+    });
+    this.reportGroup = this.fb.group({
+      reportType: ['', Validators.required],
+      patientName: ['', [Validators.required, CustomValidators.fullNameValidator(30)]],
+      patientMobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+      patientEmail: ['', [Validators.email, Validators.maxLength(250)]], //Validators.required,
+      symptomsDetails:['',[Validators.required,Validators.maxLength(160)]],
+      terms:['',[Validators.required]]
+    });
+    
+    this.bookAppointmentGroup = this.fb.group({
+      patientUserId: [''],
+      patientName: ['', Validators.required],
+      patientMobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+      patientEmail: [''],
+     symptomsDetails:['',[Validators.required,Validators.maxLength(160)]],
+     terms:['',[Validators.required]]
+    })
+  }
+
+  openModel(content, data, day) {
+    this.isOpenPayment = false;
+    if (day == 'today') {
+      this.slotDate = this.selectedDate
+    } else if (day == 'tomorrow') {
+      this.slotDate = this.slotTomorrowDate
+    } else {
+      this.slotDate = this.selectedDate
+    }
+    this.selectedDoctordata = data
+    this.apiSlotTime = this.selectedDoctordata.slotTime;
+
+    if (this.role == 'CALLCENTRE' || (this.authService.isUserDoctor() && this.isBookAppointment)) {
+      this.openDialog(this.apiSlotTime, this.slotDate)
+    } else {
+      this.bookAppointmentGroup.reset({ emitEvent: false });
+      this.rescheduleModelRef = this.modelService.open(content, { backdrop: 'static' });
+    }
+    this.slotType = this.selectedDoctordata.slotType;
+  }
+
+  openModelTC(content){
+    // this.openDialog(this.apiSlotTime, this.slotDate);
+     this.termcondModelRef = this.modelService.open(content, { size: 'lg', backdrop: 'static' });
+    // const dialogRef = this.dialog.open(TCbookAppointmentModalComponent, {
+     //  disableClose: true,
+    //   width: '500Px',
+    //   });
+    //   dialogRef.afterClosed().subscribe(result => {
+    //     if (this.role == 'CALLCENTRE') {
+    //       this.router.navigate(['../book-appointment-dashboard'], { relativeTo: this.activateRoute });
+    //     } else {
+    //       this.router.navigate(['../appointments'])
+    //     }
+    //   });
+  }
+
+  changeDate(event) {
+    this.selectedDate = this.datePipe.transform(event.target.value, "yyyy-MM-dd");
+    this.isChangeDate = true;
+    this.slotsList['otherDate'] = [];
+    this.getDoctorSlotDetailsByName(this.selectedDate);
+  }
+
+  getDoctorSlotDetailsByName(date?) {
+    this.spinner.show();
+    let docName;
+    let speciality;
+    let doctorId;
+    if (this.isRescedule) {
+      docName = this.rescheduleDetails && this.rescheduleDetails.doctorName ? this.rescheduleDetails.doctorName : null;
+      speciality = this.rescheduleDetails && this.rescheduleDetails.doctorSpeciality ? this.rescheduleDetails.doctorSpeciality : null;
+      doctorId = this.rescheduleDetails ? this.rescheduleDetails.doctorUserId ? this.rescheduleDetails.doctorUserId : null : null;
+    } else if (this.isBookAppointment) {
+      docName = this.datapassingService.docName ? this.datapassingService.docName : null;
+      speciality = null;
+      doctorId = null;
+
+    } else {
+      docName = this.doctorDetails ? this.doctorDetails.doctorName ? this.doctorDetails.doctorName : null : null;
+      doctorId = this.doctorDetails ? this.doctorDetails.doctorId ? this.doctorDetails.doctorId : null : null;
+      speciality = this.doctorDetails ? this.doctorDetails.speciality ? this.doctorDetails.speciality : null : null;
+    }
+
+    let payload = {
+      doctorName: docName,
+      slotDate: null,//this.appointmentFormGroup.get('startdate').setValue(''),
+      doctorId: doctorId,
+      speciality: speciality,
+      gender: null,
+      availabilityStartDate: date ? date : null,
+      availabilityEndDate: date ? date : null,
+      slotType: this.slotType,
+      // doctorUserId:doctorId,
+      // slotDate:this.selectedDate,
+    }
+  
+    this.patientService.getListOfDoctorBySearch(payload).subscribe(result => {
+      this.spinner.hide();
+      if (result.status && result.response) {
+        this.doctorDetails = result.response[0];
+        this.doctorDetails.drProfilePhoto = this.doctorDetails.drProfilePhoto ? this.doctorDetails.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 'assets/images/img_avatar.png';
+        let slotDetails = result.response[0].slotDetails;
+        slotDetails.forEach(element => {
+          if (!this.isChangeDate && element.slotDate === this.todayDate) {
+            this.slotsList.today.push(element);
+          } else if (!this.isChangeDate && element.slotDate === this.slotTomorrowDate) {
+            this.slotsList.tomorrow.push(element);
+          } else
+            if (this.isChangeDate) {
+              this.slotsList['otherDate'].push(element);
+            }
+        });
+      } else if (!result.status || result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+
+  getProfileDetails() {
+    this.doctorService.getDoctorProfile(this.rescheduleDetails.doctorUserId).subscribe(result => {
+      if (result.response) {
+        this.doctorDetails = result.response
+      } else if (result.errors) {
+      }
+    }, error => {
+    })
+  }
+
+  changeRadio(data) {
+    this.selectedSelfOrElse = data;
+    if (data === 'else') {
+      this.isValid = false
+      this.showInfo = true
+    } else {
+      this.isValid = true;
+      this.reportGroup.reset();
+      this.reportGroup.markAsPristine();
+    }
+  }
+
+  bookPatientAppointment() {
+    this.paymentApi("book");
+
+  }
+
+  paymentApi(type) {
+    let dummyPayload = {
+      docUserID: this.doctorDetails.doctorId,
+      ptUserID: this.patientId,
+      bookedFor: "n",
+      appointmentSlot: this.apiSlotTime,
+      appointmentDate: this.slotDate,
+      appointmentType:this.slotType,
+
+    }
+    this.patientService.dummyPaymentApi(dummyPayload).subscribe(result => {
+      let transactionID = result
+      if (this.role == "PATIENT") {
+        this.saveAppointment(transactionID);
+      } else { 
+        this.payLater(transactionID);
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.APIFAILD, 'Error');
+    })
+  }
+
+
+  payLater(transactionID) {
+    this.spinner.show();
+    this.netConsultationFees = this.rescheduleDetails.doctorConsulFee + 35;
+    let payload = {
+      transId: transactionID,
+      amount: this.netConsultationFees,//this.rescheduleDetails.doctorConsulFee,
+      charge:35,
+      discount:this.rescheduleDetails.discount,
+      custName: this.rescheduleDetails.patientName,
+      custMobile: this.rescheduleDetails.patientRegId.slice(1),
+      // custMobile: 8446744479, //9604377498
+      custEmail: this.datapassingService.rescheduleApptDetails.patientEmail,
+      doctorId: this.doctorDetails.doctorId,
+    }
+    this.consultationService.payLater(payload).subscribe(result => {
+      if (result.status) {
+        // this.isOnlinePayment = false;
+        this.spinner.hide();
+        this.router.navigate(['/appointments']);
+        // this.dialogRef.close({data : true});
+        this.toastrMessage.showSuccessMsg(result.response.message, 'Success');
+      } else {
+        this.spinner.hide();
+        // this.dialogRef.close({data : true});
+        if (result.errors) {
+          this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+        } else {
+          this.toastrMessage.showErrorMsg(result.response.message, 'Error');
+        }
+      }
+    }, error => {
+      this.spinner.hide();
+      // this.dialogRef.close({data : true});
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    });
+  }
+
+  saveAppointment(transactionID) {
+    this.spinner.show();
+    let { reportType, patientName, patientEmail, patientMobileNo,symptomsDetails,terms, slotType, consultType } = this.reportGroup.value;
+    let formPatientName
+    let formPatientEmail
+    let formPatientMobileNo
+    let formPatientSymptoms
+    if (this.isBookAppointment) {
+      formPatientName = this.bookAppointmentGroup.get('patientName').value;
+      formPatientEmail = this.bookAppointmentGroup.get('patientEmail').value;
+      formPatientMobileNo = this.bookAppointmentGroup.get('patientMobileNo').value;
+      formPatientSymptoms = this.bookAppointmentGroup.get('symptomsDetails').value;
+      formPatientSymptoms = this.bookAppointmentGroup.get('terms').value;
+
+    } else if (this.selectedSelfOrElse === 'self') {
+      formPatientName = this.patientDetails ? this.patientDetails.name ? this.patientDetails.name : null : null
+      formPatientEmail = this.patientDetails ? this.patientDetails.emailId ? this.patientDetails.emailId : null : null
+      formPatientMobileNo = this.patientDetails ? this.patientDetails.mobileNo ? this.patientDetails.mobileNo : null : null
+    } else {
+      // && patientEmail
+      if (patientName && patientMobileNo) {
+        formPatientName = patientName ? patientName : null
+        formPatientEmail = patientEmail ? patientEmail : null
+        formPatientMobileNo = patientMobileNo ? patientMobileNo : null
+        formPatientSymptoms = symptomsDetails ? symptomsDetails : null
+        formPatientSymptoms = terms ? terms : null
+
+      }
+    }
+    // && formPatientEmail
+    if (transactionID && this.selectedSelfOrElse && formPatientName && formPatientMobileNo) {
+      this.isValid = true;
+      let drId;
+      if (this.doctorDetails && this.doctorDetails.doctorId) {
+        drId = this.doctorDetails.doctorId;
+      } else if (this.authService.isUserScribe() && this.isBookAppointment) {
+        drId = this.datapassingService.doctorId;
+      } else {
+        drId = '';
+      }
+      let patientDetails = this.reportGroup.value;
+      let payload = {
+        drRegID: drId,
+        ptRegID: this.isBookAppointment ? this.bookAppointmentGroup.get('patientUserId').value : sessionStorage.getItem('USER_ID'),
+        transactionID: transactionID ? transactionID : null,
+        bookForSomeoneElse: this.selectedSelfOrElse === 'self' ? 'n' : 'y',
+        patientName: formPatientName,
+        patientEmail: formPatientEmail ? formPatientEmail : null,
+        patientMNO: formPatientMobileNo,
+        symptomsDetails:patientDetails.symptomsDetails,
+        tncFlag:patientDetails.terms,
+        consultType: this.slotType,
+        appointmentDetails: {
+          appointmentSlot: this.apiSlotTime ? this.apiSlotTime : null,
+          appointmentDate: this.slotDate ? this.slotDate : null,
+
+        }
+      }
+
+      let paymentDetails = {
+        // tansactionID : transactionID,
+        // apptID : '',
+        bookApptPayload: payload,
+        fees: this.doctorDetails ? this.doctorDetails.consultFee ? this.doctorDetails.consultFee : 0 : 0,
+        charge: this.doctorDetails ? this.doctorDetails.convenienceCharge ? this.doctorDetails.convenienceCharge : 0 : 0,
+      }
+      //-------This is required for payment ------
+      //  this.datapassingService.paymentDetails.next(paymentDetails);
+      //   this.spinner.hide();
+      //  this.isOpenPayment = true;
+
+      // teleconsultation and inclinic Condition
+      if (this.slotType === 'Teleconsultation') {
+        this.datapassingService.paymentDetails.next(paymentDetails);
+        this.spinner.hide();
+        this.isOpenPayment = true;
+      }
+      else {
+        this.bookApponitment(payload);
+      }
+
+    } else {
+      this.spinner.hide();
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.PATIENTDETAILS, 'Error');
+    }
+
+
+  }
+
+
+
+  bookApponitment(payload) {
+    this.patientService.saveAppointmentDetails(payload).subscribe(result => {
+      this.spinner.hide();
+      if (result && result.response && result.status) {
+        if (this.authService.isUserPatient()) {
+          this.router.navigate(['/patient-dashboard']);
+        } else {
+          this.router.navigate(['/appointments']);
+        }
+
+        this.toastrMessage.showSuccessMsg(result.response.info, "Success");
+      } else if (result && result.errors && !result.status) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+
+  uploadFile() {
+    if (this.filesArray && this.filesArray.length == 0) {
+      this.toastrMessage.showInfoMsg('Please select document to upload', 'Info');
+      return;
+    }
+    let data = {
+      apptID: this.patientDetails.appointmentID,
+      document: this.filesArray
+    }
+
+    this.patientService.uploadPatientReport(data).subscribe(result => {
+      if (result.status && result.response) {
+        this.toastrMessage.showSuccessMsg('File Upoaded Successfully', 'Success');
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+
+  rescheduleAppt() {
+    this.previousApptType = this.rescheduleDetails.slotType;
+    // this.previousApptType="Teleconsultation";
+    if (this.slotType === "In-Clinic") {
+      this.rescedule();
+    }
+       //Temp changes 
+    else if((this.slotType && (this.previousApptType !==null ? this.previousApptType : 'Teleconsultation')  ) == "Teleconsultation") {
+
+      //else if((this.slotType && this.previousApptType) == "Teleconsultation")
+        this.rescedule();
+      }
+      else {
+        this.cancelAppointmentforReschedule();
+      }
+  }
+
+  rescedule() {
+    let data = {
+      appID: this.rescheduleDetails.appointmentID,
+      appointmentDetails: {
+        reschduleappSlot: this.apiSlotTime ? this.apiSlotTime : null,
+        reschduleappDate: this.slotDate ? this.slotDate : null,
+        slotType: this.slotType ? this.slotType : null,
+        //symptomsDetails: null,
+        
+      }
+    }
+    this.appointmentService.rescheduleAppt(data).subscribe((result: any) => {
+      if (result.response != null) {
+        this.toastrMessage.showSuccessMsg(result.response.info, "Congratulation");
+        if (this.authService.isUserPatient()) {
+          this.router.navigate(['patient-dashboard']);
+        } else {
+          this.router.navigate(['appointments']);
+        }
+      } else if (result.errors) {
+        this.toastrMessage.showInfoMsg(result.errors[0].message, "Information");
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg("Error occured at the backend!", "Error");
+    });
+  }
+
+  cancelAppointmentforReschedule() {
+    let data = {
+      apptId: this.rescheduleDetails.appointmentID
+    }
+    console.log(data);
+    this.appointmentService.cancelAppointment(data).subscribe((resp: any) => {
+
+      if (resp) {
+        this.paymentApi("reschedule");
+      }
+    });
+  }
+
+  getReportTypes() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.REPORTTYPE).subscribe(result => {
+      if (result.status && result.response) {
+        this.reportTypes = result.response;
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  showSelectedFiles(event) {
+    let hasSize = event.target.files[0].size <= 2000000 ? true : false; //1000000
+    if (hasSize) {
+      const files = event.target.files;
+      const file = files[0];
+      if (files && file) {
+        for (let file of event.target.files) {
+          this.uploadedFile = event.target.files[0];
+          this.uploadedFileNames.push(file);
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            let file = JSON.stringify(e.target.result);
+            let name = `:${event.target.files[0].name}/${this.reportGroup.get('reportType').value};`
+            file = file.replace(/:[a-zA-z]*\/[a-zA-Z-]*;/g, name);
+            this.filesArray.push(
+              { files: file }
+            )
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        }
+      }
+    } else {
+      if (!hasSize) {
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGSIZE, 'Warning');
+        event.target.files = '';
+      }
+    }
+  }
+
+  removeFiles(index) {
+    this.uploadedFileNames.splice(index, 1);
+    this.filesArray.splice(index, 1);
+  }
+
+  getPatientDetails() {
+    let id = this.authService.isUserPatient() ? this.authService.getUserId() : this.rescheduleDetails.patientRegId;
+    this.patientService.getPatientDetails(id).subscribe((resp) => {
+      if (resp && resp.response && resp.status) {
+        this.patientDetails = resp.response.patientPersonalDtls;
+      } else if (resp && resp.errors && !resp.status) {
+        this.toastrMessage.showErrorMsg(resp.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+
+  getLikesCountofDoctor() {
+    this.spinner.show();
+    let request = {
+      prdDrUserIdFk: this.doctorDetails ? this.doctorDetails.doctorId ? this.doctorDetails.doctorId : '' : ''
+    }
+    this.doctorService.getLikesCountOfDoctor(request).subscribe(result => {
+      if (result.response && result.status) {
+        this.likesCount = result.response;
+      } else if (result.erroe && !result.status) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+
+  getLikesStoriesCountofDoctor() {
+    this.spinner.show();
+    let request = {
+      prdDrUserIdFk: this.doctorDetails ? this.doctorDetails.doctorId ? this.doctorDetails.doctorId : '' : ''
+    }
+    this.doctorService.getStoriesCountOfDoctor(request).subscribe(result => {
+      if (result.response && result.status) {
+        this.storiesCount = result.response;
+      } else if (result.erroe && !result.status) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+
+
+  openDialog(slotTime, slotDate) {
+    let drId = this.doctorDetails ? this.doctorDetails.doctorId ? this.doctorDetails.doctorId : '' : ''
+    const dialogRef = this.dialog.open(BookAppointmentModalComponent, {
+      disableClose: true,
+      width: '500Px',
+      data: { slotTime: slotTime, slotDate: slotDate, drId: drId, fees: this.doctorDetails.consultFee, charge: this.doctorDetails.convenienceCharge, slotType: this.selectedDoctordata.slotType }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.role == 'CALLCENTRE') {
+        this.router.navigate(['../book-appointment-dashboard'], { relativeTo: this.activateRoute });
+      } else {
+        this.router.navigate(['../appointments'])
+      }
+    });
+  }
+
+  // openDialogTC() {
+  //   const dialogRef = this.dialog.open(TCbookAppointmentModalComponent);
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log(`Dialog result: ${result}`);
+  //   });
+  // }
+  
+    
+  
+}
+

@@ -1,0 +1,109 @@
+package com.nsdl.telemedicine.doctor.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import lombok.Data;
+
+
+/**
+ * The persistent class for the aud_dr_reg_dtls database table.
+ * 
+ */
+@Data
+@Entity
+@Table(name="aud_dr_reg_dtls",schema="audit")
+public class DoctorAuditDtlsEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aud_dr_reg_generator")
+    @SequenceGenerator(name="aud_dr_reg_generator", sequenceName = "audit.aud_dr_reg_dtls_drd_id_pk_seq", allocationSize = 1)
+	@Column(name="drd_id_pk", unique=true, nullable=false)
+	private Integer drdIdPk;
+
+	@Column(name="drd_consul_fee")
+	private Integer drdConsulFee;
+
+	@Column(name="drd_dr_first_name")
+	private String drdDrFirstName;
+	
+	@Column(name="drd_dr_middle_name")
+	private String drdDrMiddleName;
+	
+	@Column(name="drd_dr_last_name")
+	private String drdDrLastName;
+	
+	@Column(name="drd_email", length=100)
+	private String drdEmail;
+
+	@Column(name="drd_is_reg_by_ipan", nullable=false, length=1)
+	private String drdIsRegByIpan;
+
+	@Column(name="drd_isverified", nullable=false, length=1)
+	private String drdIsverified;
+
+	@Column(name="drd_mci_number", nullable=false, length=50)
+	private String drdMciNumber;
+
+	@Column(name="drd_mobile_no", nullable=false, length=10)
+	private String drdMobileNo;
+
+	@Column(name="drd_modified_by", length=50)
+	private String drdModifiedBy;
+
+	@Column(name="drd_modified_tmstmp")
+	private Timestamp drdModifiedTmstmp;
+
+	@Column(name="drd_opti_version")
+	private Long drdOptiVersion;
+
+	@Column(name="drd_otp_refid_fk")
+	private Integer drdOtpRefidFk;
+
+	@Column(name="drd_password", nullable=false, length=50)
+	private String drdPassword;
+
+	@Column(name="drd_smc_number", nullable=false, length=50)
+	private String drdSmcNumber;
+
+	@Column(name="drd_specialiazation", nullable=false, length=100)
+	private String drdSpecialiazation;
+
+	@Column(name="drd_user_id", nullable=false, length=50)
+	private String drdUserId;
+
+	@Column(name="drd_verified_lvl1_by", length=50)
+	private String drdVerifiedLvl1By;
+
+	@Column(name="drd_verified_lvl1_tmstmp")
+	private Timestamp drdVerifiedLvl1Tmstmp;
+
+	@Column(name="drd_verified_lvl2_by", length=50)
+	private String drdVerifiedLvl2By;
+
+	@Column(name="drd_verified_lvl2_tmstmp")
+	private Timestamp drdVerifiedLvl2Tmstmp;
+	
+	@Column(name="drd_association_name")
+	private String drdAssociationName;
+	
+	@Column(name="drd_association_number")
+	private String drdAssociationNumber;
+
+	@Column(nullable=false)
+	private Timestamp timestamp;
+
+	@Column(name="user_id", nullable=false, length=2147483647)
+	private String userId;
+
+}

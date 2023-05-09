@@ -1,0 +1,163 @@
+package com.nsdl.notification.scheduler;
+
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import com.nsdl.notification.dto.PushNotificationRequest;
+import com.nsdl.notification.entity.NotificationEntity;
+import com.nsdl.notification.entity.NotificationTemplatesEntity;
+import com.nsdl.notification.entity.NotificationUserTokenEntity;
+import com.nsdl.notification.entity.UserEntity;
+import com.nsdl.notification.repository.NotificationRepo;
+import com.nsdl.notification.repository.NotificationTemplatesRepository;
+import com.nsdl.notification.repository.NotificationUserTokenRepo;
+import com.nsdl.notification.repository.UserRepositiory;
+import com.nsdl.notification.service.NotificationService;
+
+@Configuration
+@EnableScheduling
+public class SchedulerUtils {
+
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerUtils.class);
+
+	@Autowired
+	private UserRepositiory userRepositiory;
+
+	@Autowired
+	private NotificationUserTokenRepo notificationUserTokenRepo;
+
+	@Autowired
+	private NotificationTemplatesRepository notificationTemplatesRepository;
+
+	@Autowired
+	private NotificationRepo notificationRepo;
+
+	@Autowired
+	private NotificationService notificationService;
+
+	@Scheduled(cron = "${pwd.expiry.10days.cron.expression}")
+	public void findExpiredUsersBy10Days() throws ParseException {
+
+		logger.info("scheduler for 10 days pwd expiry running at {}", LocalDateTime.now());
+
+		List<UserEntity> users = userRepositiory.findExpiredUsersBy10Days();
+
+		if (users == null || users.isEmpty()) {
+			logger.info("users not found whose pwd will expire in 10 days.");
+			return;
+		}
+
+		NotificationTemplatesEntity templateInfo = notificationTemplatesRepository
+				.findByTemplateName("PasswordExpiry10Days");
+		if (templateInfo == null) {
+			logger.info("template not found.");
+			return;
+		}
+
+		for (UserEntity user : users) {
+
+			NotificationEntity notification = new NotificationEntity();
+			notification.setNdNotification(templateInfo.getNtMessage());
+			notification.setNdNotificationType(templateInfo.getNtType());
+			notification.setNdCreatedOn(LocalDateTime.now());
+			notification.setNdUnreadFlag(true);
+			notification.setNdUserId(user.getUserId());
+			notification.setNdUserType(user.getUserType());
+			NotificationEntity entity = notificationRepo.save(notification);
+
+			NotificationUserTokenEntity tokenEntity = notificationUserTokenRepo
+					.findByUserIdAndUserType(user.getUserId(), user.getUserType());
+
+			if (tokenEntity == null) {
+				continue;
+			}
+
+			PushNotificationRequest request = new PushNotificationRequest();
+			request.setMessage(notification.getNdNotification());
+			request.setTitle(notification.getNdNotificationType());
+			request.setToken(tokenEntity.getNutUserToken());
+
+			Map<String, String> data = new HashMap<>();
+			data.put("notificationId", Integer.toString(entity.getNdId()));
+			data.put("notificationType", notification.getNdNotificationType());
+			data.put("notification", notification.getNdNotification());
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			data.put("createdTmstp", notification.getNdCreatedOn().format(formatter));
+			data.put("unReadFlag", String.valueOf(notification.getNdUnreadFlag()));
+
+			notificationService.sendPushNotification(data, request);
+
+		}
+		logger.info("scheduler for 10 days pwd expiry stopped at {}", LocalDateTime.now());
+	}
+
+	@Scheduled(cron = "${pwd.expiry.1day.cron.expression}")
+	public void findExpiredUsersBy1Day() throws ParseException {
+
+		logger.info("scheduler for 1 day pwd expiry running at {}", LocalDateTime.now());
+
+		List<UserEntity> users = userRepositiory.findExpiredUsersBy1Day();
+
+		if (users == null || users.isEmpty()) {
+			logger.info("users not found whose pwd will expire in 1 day.");
+			return;
+		}
+
+		NotificationTemplatesEntity templateInfo = notificationTemplatesRepository
+				.findByTemplateName("PasswordExpiry1Day");
+		if (templateInfo == null) {
+			logger.info("template not found.");
+			return;
+		}
+
+		for (UserEntity user : users) {
+
+			NotificationEntity notification = new NotificationEntity();
+			notification.setNdNotification(templateInfo.getNtMessage());
+			notification.setNdNotificationType(templateInfo.getNtType());
+			notification.setNdCreatedOn(LocalDateTime.now());
+			notification.setNdUnreadFlag(true);
+			notification.setNdUserId(user.getUserId());
+			notification.setNdUserType(user.getUserType());
+			NotificationEntity entity = notificationRepo.save(notification);
+
+			NotificationUserTokenEntity tokenEntity = notificationUserTokenRepo
+					.findByUserIdAndUserType(user.getUserId(), user.getUserType());
+
+			if (tokenEntity == null) {
+				continue;
+			}
+
+			PushNotificationRequest request = new PushNotificationRequest();
+			request.setMessage(notification.getNdNotification());
+			request.setTitle(notification.getNdNotificationType());
+			request.setToken(tokenEntity.getNutUserToken());
+
+			Map<String, String> data = new HashMap<>();
+			data.put("notificationId", Integer.toString(entity.getNdId()));
+			data.put("notificationType", notification.getNdNotificationType());
+			data.put("notification", notification.getNdNotification());
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			data.put("createdTmstp", notification.getNdCreatedOn().format(formatter));
+			data.put("unReadFlag", String.valueOf(notification.getNdUnreadFlag()));
+
+			notificationService.sendPushNotification(data, request);
+
+		}
+		logger.info("scheduler for 1 day pwd expiry stopped at {}", LocalDateTime.now());
+	}
+
+}

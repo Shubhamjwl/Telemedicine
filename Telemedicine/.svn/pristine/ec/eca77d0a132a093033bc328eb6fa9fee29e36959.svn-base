@@ -1,0 +1,42 @@
+package com.nsdl.ndhm.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "on_confirm_resp_dtls")
+public class SaveAuthOnConfirmRespEntity {
+	@Id
+	private String healthId;
+	private String requestId;
+	private String timeStamp;
+	@Column(columnDefinition = "TEXT")
+	private String token;
+	private String name;
+	private String yearOfBirth;
+	@Column(columnDefinition = "TEXT")
+	private String jsonResp;
+
+	@OneToMany(mappedBy = "saveAuthOnConfirmRespEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<OnConfirmIdentifierEntity> identities = new ArrayList<OnConfirmIdentifierEntity>();
+
+}

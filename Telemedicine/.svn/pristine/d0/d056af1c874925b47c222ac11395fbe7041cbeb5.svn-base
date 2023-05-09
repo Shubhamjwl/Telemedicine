@@ -1,0 +1,192 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.AuthInitReqDTO;
+import com.nsdl.ndhm.dto.NotifyRequestDTO;
+import com.nsdl.ndhm.dto.OnConfirmRequestDTO;
+import com.nsdl.ndhm.dto.OnFetchModesRequestDTO;
+import com.nsdl.ndhm.dto.OnNotifyRequestDTO;
+import com.nsdl.ndhm.service.GatewayCallbackService;
+
+@RestController
+@RequestMapping("/v0.5/users/auth")
+public class GatewayCallbackController {
+
+	private static final Logger logger = LoggerFactory.getLogger(HealthIdVerificationController.class);
+
+	@Autowired
+	GatewayCallbackService gatewayCallbackService;
+
+	@PostMapping("/on-fetch-modes1")
+
+	public ResponseEntity<OnFetchModesRequestDTO> onFetchModes(
+			@RequestHeader(value = "Content-Type", required = true) String contentType,
+			@RequestHeader(value = "Authorization", required = true) String authorization,
+			@RequestHeader(value = "X-HIP-ID", required = true) String XHIPID,
+			@RequestHeader(value = "X-HIU-ID", required = false) String XHIUID,
+			@RequestBody OnFetchModesRequestDTO onFetchModesDTO, HttpServletResponse res) {
+
+		logger.info("onFetchModes");
+
+		System.out.println("onFetchModes()" + onFetchModesDTO);
+
+		OnFetchModesRequestDTO response = null;
+
+		if (XHIPID.equalsIgnoreCase("NASHIPDEV")) {
+
+			
+
+		}
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+
+	}
+
+	@PostMapping("/on-init1")
+
+	public ResponseEntity<OnFetchModesRequestDTO> onInit(
+			@RequestHeader(value = "Content-Type", required = true) String contentType,
+			@RequestHeader(value = "Authorization", required = true) String authorization,
+			@RequestHeader(value = "X-HIP-ID", required = true) String XHIPID,
+			@RequestHeader(value = "X-HIU-ID", required = false) String XHIUID,
+			@RequestBody OnFetchModesRequestDTO resetPasswordRequest) {
+
+		System.out.println("onInit()");
+
+		OnFetchModesRequestDTO response = null;
+
+		if (XHIPID.equalsIgnoreCase("NASHIPDEV")) {
+
+			
+
+		}
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+
+	}
+
+	@PostMapping("/on-confirm1")
+
+	public ResponseEntity<OnConfirmRequestDTO> onConfirm(
+			@RequestHeader(value = "Content-Type", required = true) String contentType,
+			@RequestHeader(value = "Authorization", required = true) String authorization,
+			@RequestHeader(value = "X-HIP-ID", required = true) String XHIPID,
+			@RequestHeader(value = "X-HIU-ID", required = false) String XHIUID,
+			@RequestBody OnConfirmRequestDTO onConfirmRequestDTO, HttpServletResponse res) {
+
+		logger.info("onConfirm");
+
+		System.out.println("onConfirm()");
+
+		OnConfirmRequestDTO response = null;
+
+		if (XHIPID.equalsIgnoreCase("NASHIPDEV")) {
+
+			
+
+		}
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+
+	}
+
+	@PostMapping("/notify")
+
+	public ResponseEntity<OnFetchModesRequestDTO> notify(
+			@RequestHeader(value = "Content-Type", required = true) String contentType,
+			@RequestHeader(value = "Authorization", required = true) String authorization,
+			@RequestHeader(value = "X-HIP-ID", required = true) String XHIPID,
+			@RequestHeader(value = "X-HIU-ID", required = false) String XHIUID,
+			@RequestBody NotifyRequestDTO notifyRequestDTO) {
+
+		logger.info("notify");
+
+		System.out.println("notify()");
+
+		OnFetchModesRequestDTO response = null;
+
+		if (XHIPID.equalsIgnoreCase("NASHIPDEV")) {
+
+			
+
+		}
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+
+	}
+
+	@PostMapping("/on-notify")
+
+	public ResponseEntity<OnNotifyRequestDTO> onNotify(
+			@RequestHeader(value = "Content-Type", required = true) String contentType,
+			@RequestHeader(value = "Authorization", required = true) String authorization,
+			@RequestHeader(value = "X-CM-ID", required = true) String XCMID,
+			@RequestBody OnNotifyRequestDTO onNotifyRequestDTO) {
+
+		logger.info("notify");
+
+		System.out.println("notify()");
+
+		OnNotifyRequestDTO response = null;
+
+		if (XCMID.equalsIgnoreCase("sbx")) {
+
+			// response.getResponse().setToken(basicTokenDto.getAuthToken());
+
+		}
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+
+	}
+
+	/* call back api from NDHM for on fetch modes */
+	@PostMapping("/on-fetch-modes")
+	public ResponseEntity<OnFetchModesRequestDTO> onFetchModes(@RequestHeader Map<String, String> headers,
+			@RequestBody OnFetchModesRequestDTO onFetchModesDTO) {
+
+		logger.info("OnFetchModes call back Received");
+		gatewayCallbackService.updateFetchModes(onFetchModesDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/* Callback for init */
+	@PostMapping("/on-init")
+	public ResponseEntity<OnFetchModesRequestDTO> onInit1(@RequestHeader Map<String, String> headers,
+			@RequestBody AuthInitReqDTO authInitReqDTO) {
+		logger.info("On Init Callback received");
+		gatewayCallbackService.updateInit(authInitReqDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/* Callback for on confirm */
+	@PostMapping("/on-confirm")
+	public ResponseEntity<OnFetchModesRequestDTO> onConfirm1(@RequestHeader Map<String, String> headers,
+			@RequestBody OnConfirmRequestDTO onConfirmRequestDTO) {
+		logger.info("On confirm Callback received");
+
+		gatewayCallbackService.updateConfirm(onConfirmRequestDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+	
+	
+}

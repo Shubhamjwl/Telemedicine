@@ -1,0 +1,7 @@
+body {
+  --button-primary-disabled-bg-color: #f29c93 !important;
+  --button-primary-bg-color: #e43927 !important;
+  --button-hover-bg-color: #fff !important;
+  --button-txt-color: #fff !important;
+  --button-hover-txt-color: #e43927 !important;
+}

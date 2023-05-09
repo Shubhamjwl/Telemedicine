@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48.422" height="41" viewBox="0 0 48.422 41">
+  <g id="tele-consultation" transform="translate(0.5 -15.5)">
+    <path id="Path_1214" data-name="Path 1214" d="M132.671,171.663c0-3.122-2.823-5.663-6.294-5.663S120,168.532,120,171.663s2.9,5.663,6.378,5.663S132.671,174.785,132.671,171.663Zm-6.294,3.4a3.425,3.425,0,1,1,0-6.8,3.417,3.417,0,1,1,0,6.8Z" transform="translate(-108.449 -136.966)" fill="#e43927" stroke="#fff" stroke-width="1"/>
+    <path id="Path_1215" data-name="Path 1215" d="M25.193,23.5H2.779v25H0v3.75A3.98,3.98,0,0,0,4.168,56H43.254a3.98,3.98,0,0,0,4.168-3.75V48.5H44.643v-20h2.779V16H25.193Zm19.45,28.75a1.327,1.327,0,0,1-1.389,1.25H4.168a1.327,1.327,0,0,1-1.389-1.25V51H44.643ZM25.193,48.5H11.114V47.25a4.084,4.084,0,0,1,4.261-3.75h5.557a4.084,4.084,0,0,1,4.261,3.75Zm16.672,0H27.971V47.25c0-3.455-3.2-6.25-7.039-6.25H15.375c-3.84,0-7.039,2.795-7.039,6.25V48.5H5.557V26H25.193v5.773L32.467,28.5h9.4Zm-13.893-30H44.643V26H31.811l-3.84,1.727Z" transform="translate(0 0)" fill="#e43927" stroke="#fff" stroke-width="1"/>
+    <path id="Path_1216" data-name="Path 1216" d="M317,76h2.518v2.265H317Z" transform="translate(-287.467 -55.47)" fill="#e43927" stroke="#fff" stroke-width="1"/>
+    <path id="Path_1217" data-name="Path 1217" d="M377,76h2.517v2.265H377Z" transform="translate(-341.878 -55.47)" fill="#e43927" stroke="#fff" stroke-width="1"/>
+    <path id="Path_1218" data-name="Path 1218" d="M437,76h2.518v2.265H437Z" transform="translate(-395.872 -55.47)" fill="#e43927" stroke="#fff" stroke-width="1"/>
+  </g>
+</svg>

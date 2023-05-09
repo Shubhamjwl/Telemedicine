@@ -1,0 +1,324 @@
+  [2022-05-04 19:31:31,836], , [restartedMain], user-management-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-05-04 19:31:32,270], , [restartedMain], user-management-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$5c51744f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-04 19:31:32,633], , [restartedMain], user-management-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+  [2022-05-04 19:31:33,719], , [restartedMain], user-management-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=user-management-service, profiles=[dev], label=1.0.0, version=218, state=null
+  [2022-05-04 19:31:33,721], , [restartedMain], user-management-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='configClient'}, MapPropertySource {name='http://172.16.11.166/telemed-ivv/branches/1.0.0/application-dev.properties'}]}
+  [2022-05-04 19:31:33,853], , [restartedMain], user-management-service, INFO  UserManagementServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-05-04 19:31:35,842], , [restartedMain], user-management-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-05-04 19:31:36,053], , [restartedMain], user-management-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 198ms. Found 20 repository interfaces.
+  [2022-05-04 19:31:36,614], , [restartedMain], user-management-service, INFO  GenericScope setSerializationId | BeanFactory id=9eb1641f-158c-3c39-ae91-f40c5f1b3729
+  [2022-05-04 19:31:37,096], , [restartedMain], user-management-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$40377152] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-04 19:31:37,177], , [restartedMain], user-management-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$5c51744f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-05-04 19:31:38,499], , [restartedMain], user-management-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7072 (http)
+  [2022-05-04 19:31:38,547], , [restartedMain], user-management-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7072"]
+  [2022-05-04 19:31:38,565], , [restartedMain], user-management-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-05-04 19:31:38,566], , [restartedMain], user-management-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-05-04 19:31:38,587], , [restartedMain], user-management-service, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-05-04 19:31:38,780], , [restartedMain], user-management-service, INFO  [/usermanagement/v1/user] log | Initializing Spring embedded WebApplicationContext
+  [2022-05-04 19:31:38,781], , [restartedMain], user-management-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4906 ms
+  [2022-05-04 19:31:43,734], , [restartedMain], user-management-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-05-04 19:31:44,685], , [restartedMain], user-management-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-05-04 19:31:44,833], , [restartedMain], user-management-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-05-04 19:31:45,549], , [restartedMain], user-management-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-05-04 19:31:45,563], , [restartedMain], user-management-service, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-05-04 19:31:46,144], , [restartedMain], user-management-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-05-04 19:31:46,481], , [restartedMain], user-management-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-05-04 19:31:46,511], , [restartedMain], user-management-service, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-05-04 19:31:46,520], , [restartedMain], user-management-service, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@2fa0ed11
+  [2022-05-04 19:31:58,355], , [restartedMain], user-management-service, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-05-04 19:31:58,756], , [restartedMain], user-management-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-05-04 19:31:59,184], , [restartedMain], user-management-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-05-04 19:32:05,822], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-05-04 19:32:05,843], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-05-04 19:32:05,844], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 23 ms
+  [2022-05-04 19:32:07,051], , [restartedMain], user-management-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-05-04 19:32:07,382], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-05-04 19:32:07,385], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-05-04 19:32:07,386], , [restartedMain], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 4 ms
+  [2022-05-04 19:32:07,396], , [restartedMain], user-management-service, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-05-04 19:32:10,463], , [restartedMain], user-management-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-05-04 19:32:10,758], , [restartedMain], user-management-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7072"]
+  [2022-05-04 19:32:10,850], , [restartedMain], user-management-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7072 (http) with context path '/usermanagement/v1/user'
+  [2022-05-04 19:32:10,857], , [restartedMain], user-management-service, INFO  UserManagementServiceApplication logStarted | Started UserManagementServiceApplication in 42.997 seconds (JVM running for 47.443)
+  [2022-05-04 19:40:51,139], , [http-nio-7072-exec-2], user-management-service, INFO  Http11Processor log | Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in method name. HTTP method names must be tokens
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:414)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:294)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+  [2022-05-04 19:41:02,206], , [http-nio-7072-exec-3], user-management-service, INFO  [/usermanagement/v1/user] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-05-04 19:41:02,211], , [http-nio-7072-exec-3], user-management-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-05-04 19:41:02,677], , [http-nio-7072-exec-3], user-management-service, INFO  DispatcherServlet initServletBean | Completed initialization in 465 ms
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,002], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,074], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,074], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 83 ms
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,327], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Start of ExceptionControllerAdvisor.globalExceptionHandler
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,422], , [http-nio-7072-exec-3], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | ++++++++org.springframework.web.bind.MissingRequestHeaderException: Missing request header 'sessionId' for method parameter of type String
+	at org.springframework.web.method.annotation.RequestHeaderMethodArgumentResolver.handleMissingValue(RequestHeaderMethodArgumentResolver.java:87)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.handleMissingValue(AbstractNamedValueMethodArgumentResolver.java:221)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:113)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:126)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:166)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:90)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter.doFilter(ExceptionLoggingFilter.java:50)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:86)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:117)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:679)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,429], , [http-nio-7072-exec-3], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | +++++++++[Ljava.lang.StackTraceElement;@79097a62
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,432], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | END of ExceptionControllerAdvisor.globalExceptionHandler
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,435], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of ExceptionControllerAdvisor.globalExceptionHandler :: 108 ms
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,574], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomResponseBodyAdvice.supports
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,603], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomResponseBodyAdvice.supports
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,604], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomResponseBodyAdvice.supports :: 30 ms
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,664], , [http-nio-7072-exec-3], user-management-service, WARN  ExceptionHandlerExceptionResolver logException | Resolved [org.springframework.web.bind.MissingRequestHeaderException: Missing request header 'sessionId' for method parameter of type String]
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,675], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,677], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+05a985839c558b74 05a985839c558b74 [2022-05-04 19:41:03,677], , [http-nio-7072-exec-3], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,698], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,699], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,700], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 1 ms
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,701], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Start of ExceptionControllerAdvisor.globalExceptionHandler
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,703], , [http-nio-7072-exec-6], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | ++++++++org.springframework.web.bind.MissingRequestHeaderException: Missing request header 'sessionId' for method parameter of type String
+	at org.springframework.web.method.annotation.RequestHeaderMethodArgumentResolver.handleMissingValue(RequestHeaderMethodArgumentResolver.java:87)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.handleMissingValue(AbstractNamedValueMethodArgumentResolver.java:221)
+	at org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument(AbstractNamedValueMethodArgumentResolver.java:113)
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:126)
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:166)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:134)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter.doFilterInternal(HttpTraceFilter.java:90)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:92)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter.doFilter(ExceptionLoggingFilter.java:50)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:86)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.filterAndRecordMetrics(WebMvcMetricsFilter.java:117)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:106)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:200)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:490)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:679)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,708], , [http-nio-7072-exec-6], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | +++++++++[Ljava.lang.StackTraceElement;@d1745ed
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,709], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | END of ExceptionControllerAdvisor.globalExceptionHandler
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,709], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of ExceptionControllerAdvisor.globalExceptionHandler :: 8 ms
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,711], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomResponseBodyAdvice.supports
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,712], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomResponseBodyAdvice.supports
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,713], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomResponseBodyAdvice.supports :: 2 ms
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,715], , [http-nio-7072-exec-6], user-management-service, WARN  ExceptionHandlerExceptionResolver logException | Resolved [org.springframework.web.bind.MissingRequestHeaderException: Missing request header 'sessionId' for method parameter of type String]
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,716], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,717], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+23837fdba5939512 23837fdba5939512 [2022-05-04 19:41:57,718], , [http-nio-7072-exec-6], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,128], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,129], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,130], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 2 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,153], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,154], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,155], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 2 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,156], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,156], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,157], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,187], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,188], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,188], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 1 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,206], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomResponseBodyAdvice.supports
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,207], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomResponseBodyAdvice.supports
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,208], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomResponseBodyAdvice.supports :: 2 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,214], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomResponseBodyAdvice.beforeBodyWrite
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,218], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of ExceptionControllerAdvisor.globalExceptionHandler
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,221], , [http-nio-7072-exec-8], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | ++++++++java.lang.ClassCastException: class java.util.LinkedHashMap cannot be cast to class com.nsdl.auth.dto.MainResponseDTO (java.util.LinkedHashMap is in module java.base of loader 'bootstrap'; com.nsdl.auth.dto.MainResponseDTO is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @2416c13c)
+	at com.nsdl.auth.utility.CustomResponseBodyAdvice.beforeBodyWrite(CustomResponseBodyAdvice.java:1)
+	at com.nsdl.auth.utility.CustomResponseBodyAdvice$$FastClassBySpringCGLIB$$65feca00.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.nsdl.auth.logger.LoggingAspect.profileAllMethods(LoggingAspect.java:38)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.nsdl.auth.utility.CustomResponseBodyAdvice$$EnhancerBySpringCGLIB$$ab4c8cd3.beforeBodyWrite(<generated>)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyAdviceChain.processBody(RequestResponseBodyAdviceChain.java:141)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyAdviceChain.beforeBodyWrite(RequestResponseBodyAdviceChain.java:116)
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:281)
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:223)
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:82)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:119)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:800)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1038)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:942)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1005)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:908)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:882)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.cloud.sleuth.instrument.web.ExceptionLoggingFilter.doFilter(ExceptionLoggingFilter.java:50)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at brave.servlet.TracingFilter.doFilter(TracingFilter.java:69)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:712)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:461)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:384)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:312)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:394)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:253)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:175)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.valves.RemoteIpValve.invoke(RemoteIpValve.java:679)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:408)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:834)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1415)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,222], , [http-nio-7072-exec-8], user-management-service, ERROR ExceptionControllerAdvisor globalExceptionHandler | +++++++++[Ljava.lang.StackTraceElement;@1702b7f4
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,222], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of ExceptionControllerAdvisor.globalExceptionHandler
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,224], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of ExceptionControllerAdvisor.globalExceptionHandler :: 6 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,224], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomResponseBodyAdvice.supports
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,225], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomResponseBodyAdvice.supports
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,226], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomResponseBodyAdvice.supports :: 2 ms
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,228], , [http-nio-7072-exec-8], user-management-service, WARN  ExceptionHandlerExceptionResolver logException | Resolved [java.lang.ClassCastException: class java.util.LinkedHashMap cannot be cast to class com.nsdl.auth.dto.MainResponseDTO (java.util.LinkedHashMap is in module java.base of loader 'bootstrap'; com.nsdl.auth.dto.MainResponseDTO is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @2416c13c)]
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,230], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,230], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+87db7535e2ee7614 87db7535e2ee7614 [2022-05-04 19:42:27,231], , [http-nio-7072-exec-8], user-management-service, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 1 ms

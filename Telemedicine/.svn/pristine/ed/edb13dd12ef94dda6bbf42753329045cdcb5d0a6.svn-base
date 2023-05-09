@@ -1,0 +1,8 @@
+
+export const environment = {
+  production: true,
+  baseUrl: './',
+  prescribedUrl: 'https://uat.protean-health.com/market/index.php?route=prescribedservices/services_listing',
+  ndhmURL:'https://uat.protean-health.com/ndhm/',
+  newLayout: false
+};

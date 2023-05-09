@@ -1,0 +1,156 @@
+.straightLine{
+    border-bottom:1px solid #4A4A4A;
+    margin: 0px;
+    border-radius: 0px;
+}
+.dashboard-wrapper{
+    .detils-wrapper {
+        background-color: #fff;
+        border-radius: 30px;
+        box-shadow: 1px 2px 20px 0px #ffe9ea;
+        padding: 0 40px 40px 40px;
+        width: 100%;
+    }
+    .doc-count{
+        color: #FF5549;
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .count{
+        padding: 0 0 0 0;
+        font-size: 45px;
+    }
+    .count-left{
+        float: left;
+        width: 60%;
+    }
+    .count-right{
+        float: right;
+        width: 40%;
+        text-align: center !important;
+    }
+    .mat-expansion-panel{
+        box-shadow: none;
+        border: 0 none;
+
+        .mat-expansion-panel-header{
+            padding: 0;
+            border-bottom: 1px solid #4A4A4A;
+            border-radius: 0px;
+            .mat-expansion-panel-header-title{
+                color: #4A4A4A;
+                font-weight: bold;
+                h2{
+                    display: inline-block;
+                }
+                span{
+                    display: inline-block;
+                    font-weight: normal;
+                }
+            }
+        }
+        .mat-expansion-panel-header-description{
+            justify-content: flex-end;
+        }
+        .mat-expansion-panel-content{
+            .mat-expansion-panel-body{
+                padding: 0px !important;
+            }
+        }
+        .mat-expansion-panel-body{
+            padding: 0px !important;
+        }
+        
+    }
+   
+    .doctor-detils-wrapper{
+        .details-wrap{
+            border: 1px solid #FF5549;
+            border-radius: 20px;
+            background-color: #fffbe9;
+            .doctor-header{
+                border-bottom: 0.5px solid #ff554947;
+            }
+        }
+        .profile-img-wrapper{
+            border: 1px solid gray;
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+    
+            img{
+                height: 100%;
+                width: 100%;
+                border-radius: 50%;
+            }
+        }
+        .docName{
+            width: 25%;
+        }
+        .status{
+            width: 45%;
+        }
+        .action {
+            width: 10%;
+            text-align: center;
+            cursor: pointer;
+        }
+        .btn-view{
+            border: 0 none;
+            border-radius: 12px;
+            padding: 2px 12px;
+            color: #fff;
+            font-size: 10px;
+        }
+        .mat-table {
+            background-color: transparent;
+        }
+        .btn-verify{
+            width: 110px;
+            padding: 4px 10px;
+        }
+        tr.mat-header-row {
+            height: 20px;
+        }
+        .mat-expansion-panel-body{
+            padding: 0;
+        }
+    }
+}
+textarea{
+    width: 100%;
+}
+.feedback{
+    p {
+        color: red;
+    }
+}
+button:focus, textarea:focus{
+    outline: none;
+}
+.loader-wrapper {
+    min-height: 200px;
+    background-color: #fffbe9;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text-orange {
+    color: #FF5549;
+}
+// New Radio Button as CheckBox
+input[type=radio] {
+    border: 1px solid rgb(20, 18, 18);
+    padding: 0.5em;
+    -webkit-appearance: none;
+  }
+
+  input[type=radio]:checked {
+    background-color:rgb(11, 221, 193);
+    background-size: 9px 9px;
+  }
+  
+  input[type=radio]:focus {
+    outline-color: transparent;
+  }

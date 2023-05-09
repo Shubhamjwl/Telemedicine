@@ -1,0 +1,195 @@
+import { Component, NgZone, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+declare let Razorpay: any;
+
+@Component({
+  selector: 'app-razorpay-payment-gateway-url',
+  templateUrl: './razorpay-payment-gateway.component.html',
+  styleUrls: ['./razorpay-payment-gateway.component.scss']
+})
+export class RazorpayPaymentGatewayUrlComponent implements OnInit {
+  logo = "assets/images/new-Logo-2.png"
+  paymentDetails;
+  paymentForm : FormGroup;
+  rzp;
+  isOpenPayment = false;
+ 
+
+  options = {
+    "key": "", // Enter the Key ID generated from the Dashboard
+    "amount": "", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "NSDL e-Gov Health", //NSDL's Arogya Saarathi
+    "description": "Consultation charges",
+    "image": this.logo, //https://example.com/your_logo
+    "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": this.paymentHandller.bind(this),
+    "prefill": {
+        "name": "",
+        "email": "",
+        "contact": ""
+    },
+  };
+  
+  constructor(
+    private fb: FormBuilder,
+    private dataPassingService: DataPassingService,
+    private consultationService : ConsultationService,
+    private toastrMessage : ToastMessageService,
+    private spinner: NgxSpinnerService,
+    private patientService: PatientService,
+    private router: Router,
+    public authService: AuthService,
+    private zone: NgZone
+  ) {
+    this.dataPassingService.paymentDetails.subscribe(res => {
+      let ptName = res ? res.bookApptPayload ? res.bookApptPayload.patientName : null : null;
+      this.options.prefill.name = ptName;
+      this.options.prefill.contact = res ? res.bookApptPayload ? res.bookApptPayload.patientMNO : this.options.prefill.contact :this.options.prefill.contact;
+      this.options.prefill.email = res ? res.bookApptPayload ? res.bookApptPayload.patientEmail : this.options.prefill.email :this.options.prefill.email; 
+      this.paymentDetails = res;
+    })
+   }
+
+  ngOnInit(): void {
+    this.paymentForm = this.fb.group({
+      fees : [{value : this.paymentDetails.fees, disabled: true}, Validators.required ]
+    })
+    this.confirmPayment();
+  }
+
+  paymentHandller(response) {
+    if(response.razorpay_payment_id && response.razorpay_order_id && response.razorpay_signature) {
+      this.isOpenPayment = true;
+      this.bookOrderAppointment(response);
+    }
+  }
+  razorpay() {
+    this.rzp = new Razorpay(this.options);
+    this.rzp.open();
+    this.rzp.on('payment.failed', function (response){   
+    })
+  }
+
+  confirmPayment() {
+    let fees = this.paymentDetails.fees
+   // this.spinner.show();
+    this.isOpenPayment = true;
+    this.dataPassingService.addPaymentLoader('start');
+    let paymentDetails = {
+      amount: fees ? fees : 0,
+      apptId: null,
+      transId: this.paymentDetails.bookApptPayload ? this.paymentDetails.bookApptPayload.transactionID ? this.paymentDetails.bookApptPayload.transactionID : null : null,
+      ptUserID : this.paymentDetails.ptUserId ? this.paymentDetails.ptUserId ? this.paymentDetails.ptUserId: null : null,
+    }
+    this.consultationService.consultationPaymentUrl(paymentDetails).subscribe(result => {
+      this.dataPassingService.addPaymentLoader('stop');
+      //this.spinner.hide();
+      if(result && result.response && result.status) {
+        //this.spinner.hide();
+        let razorpayResponse = result.response.razorPay;
+        this.options.key = razorpayResponse.secretKey;
+        this.options.order_id = razorpayResponse.razorpayOrderId;
+        this.options.amount = razorpayResponse.applicationFee
+        if(this.options.key && this.options.order_id && this.options.amount) {
+          this.spinner.show();
+          this.razorpay()
+        }
+      }else if(result && result.errors && !result.status) {
+        this.toastrMessage.showErrorMsg('Something Went Wrong', 'Error');
+        this.zone.run(() => {
+          this.dataPassingService.callDocDashboard.next('payment Failed');
+        });
+      }else if(!result.status) {
+
+        this.toastrMessage.showErrorMsg('Something Went Wrong', 'Error');
+        this.zone.run(() => {
+          this.dataPassingService.callDocDashboard.next('payment Failed');
+        });
+      }
+    },(error) => {
+      this.dataPassingService.addPaymentLoader('stop');
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg('Something Went Wrong', 'Error');
+      this.zone.run(() => {
+        this.dataPassingService.callDocDashboard.next('payment Failed');
+      });
+    })
+  }
+
+  bookApponitment() {
+    this.spinner.show();
+    this.isOpenPayment = true;
+    this.dataPassingService.addPaymentLoader('start');
+    console.log(this.paymentDetails.bookApptPayload);
+    this.patientService.saveAppointmentDetailsUrl(this.paymentDetails.bookApptPayload).subscribe(result => {
+      this.dataPassingService.addPaymentLoader('stop');
+      if(result && result.response && result.status) {
+        if(this.authService.isUserPatient()){
+          //this.spinner.hide();
+          this.toastrMessage.showSuccessMsg(result.response.info, "Success");
+          this.zone.run(() => {
+           // this.router.navigate(['patient-dashboard']);
+           this.dataPassingService.callDocDashboard.next('payment Complete');
+          });
+        }else {
+          //this.spinner.hide();
+          this.toastrMessage.showSuccessMsg(result.response.info, "Success");
+          this.zone.run(() => {
+            this.dataPassingService.callDocDashboard.next('payment Complete');
+          });
+        }
+      }else if(result && result.errors && !result.status) {
+        //this.spinner.hide();
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+        this.zone.run(() => {
+          this.dataPassingService.callDocDashboard.next('payment Failed');
+        });
+      }
+    },error => {
+      this.dataPassingService.addPaymentLoader('stop');
+      //this.spinner.hide();
+      this.toastrMessage.showErrorMsg( error.errors[0].message, 'Error');
+      this.zone.run(() => {
+        this.dataPassingService.callDocDashboard.next('payment Failed');
+      });
+    })
+  }
+
+  bookOrderAppointment(response) {
+    this.spinner.show();
+    this.isOpenPayment = true;
+    this.dataPassingService.addPaymentLoader('start');
+    let paymentDetails = {
+      orderId : response ? response.razorpay_order_id ? response.razorpay_order_id : null : null,
+      paymentId : response ? response.razorpay_payment_id ? response.razorpay_payment_id : null : null, 
+      signature : response ? response.razorpay_signature ? response.razorpay_signature : null : null,
+      paymentMethod: response?.request?.content?.method ? response.request.content.method : null,
+      ptUserID: this.paymentDetails.ptUserId,
+    }
+    this.consultationService.OrderPaymentUrl(paymentDetails).subscribe(result => {
+      this.dataPassingService.addPaymentLoader('stop');
+      if(result && result.response && result.status) { 
+      //  this.spinner.hide();
+        this.bookApponitment();
+      }else if(result && result.errors && !result.status) {
+        //this.spinner.hide();
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    },error => {
+     // this.spinner.hide();
+      // this.razorpay()
+      this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+    })
+  }
+  cancelPayment() {
+    this.dataPassingService.callDocDashboard.next('payment Canceled');
+  }
+}

@@ -1,0 +1,56 @@
+package com.nsdl.telemedicine.patient.service;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.telemedicine.patient.dto.AppointmentDetailsResponseDTO;
+import com.nsdl.telemedicine.patient.dto.AppontmentDetailsRequestDTO;
+import com.nsdl.telemedicine.patient.dto.BulkPatientDetailsResponse;
+import com.nsdl.telemedicine.patient.dto.BulkPatientRegistrationDTO;
+import com.nsdl.telemedicine.patient.dto.CareContextResponse;
+import com.nsdl.telemedicine.patient.dto.CareContextResponseDto;
+import com.nsdl.telemedicine.patient.dto.HealthIdDetailsToTelemedicineDTO;
+import com.nsdl.telemedicine.patient.dto.PatientDetailsDTO;
+import com.nsdl.telemedicine.patient.dto.PatientRefRequestDto;
+import com.nsdl.telemedicine.patient.dto.PatientRefResponseDto;
+import com.nsdl.telemedicine.patient.dto.PatientRegistrationDto;
+import com.nsdl.telemedicine.patient.dto.PatientResponseDto;
+import com.nsdl.telemedicine.patient.dto.ReportRequestDto;
+import com.nsdl.telemedicine.patient.dto.RequestWrapper;
+import com.nsdl.telemedicine.patient.dto.ResponseWrapper;
+import com.nsdl.telemedicine.patient.dto.TokenDetailsDTO;
+@Service
+public interface PatientRegistrationService {
+
+	ResponseWrapper<PatientResponseDto> savePatientDetails(RequestWrapper<PatientRegistrationDto> patientRegistrationDto);
+
+	ResponseWrapper<PatientRegistrationDto> getPatientDetailsFromIPAN();
+	
+	ResponseWrapper<List<AppointmentDetailsResponseDTO>> searchCompletedAppointmentsForPatient(RequestWrapper<AppontmentDetailsRequestDTO> appontmentDetailsRequest);
+
+	ResponseWrapper<List<AppointmentDetailsResponseDTO>> listOfCompletedAppointmentsForPatient();
+	
+	@Transactional(rollbackFor = Exception.class) 
+	ResponseWrapper<BulkPatientDetailsResponse> bulkPatientRegistration(RequestWrapper<BulkPatientRegistrationDTO> bulkRegistrationRequest) throws Exception;
+	
+	ResponseWrapper<PatientResponseDto> saveRegistrationDetails(@Valid RequestWrapper<PatientDetailsDTO> patientDetailsDTO);
+
+	ResponseWrapper<PatientResponseDto> savePatientRegistrationDetails(@Valid RequestWrapper<PatientDetailsDTO> patientDetailsDTO);
+
+	ResponseWrapper<PatientResponseDto> savePatientRegistrationLinkDetails(RequestWrapper<TokenDetailsDTO> patientDetailsDTO);
+
+	ResponseWrapper<PatientResponseDto> updateHealthIDDetails(@Valid RequestWrapper<HealthIdDetailsToTelemedicineDTO> healthIdDetailsDTO);
+
+	ResponseWrapper<PatientRefResponseDto> getPatientRefByPatientId(@Valid RequestWrapper<PatientRefRequestDto> patientRefRequestDto);
+
+	ResponseWrapper<List<CareContextResponseDto>> getCareContextDtls(
+			@Valid RequestWrapper<PatientRefRequestDto> getCareContextByHealthId);
+
+	ResponseWrapper<List<CareContextResponse>> getReportsByCareContextIds(@Valid RequestWrapper<ReportRequestDto> reportRequestDtls);
+
+
+}

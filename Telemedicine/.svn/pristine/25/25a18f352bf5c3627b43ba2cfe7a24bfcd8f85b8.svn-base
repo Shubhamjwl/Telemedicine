@@ -1,0 +1,213 @@
+<app-breadcrumb [showHomePageOptions]="true"></app-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid docReg pl-5">
+    <div class="row"></div>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row">
+            <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9 mt-3">
+                <div class="row">
+                    <!-- Headings -->
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-12">
+                            <h2 class="mb-1 pl-1"> 
+                                <span>
+                                   <b> <p> Healthid Creation with Mobile</p> </b>
+                                </span>
+                            </h2>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Card design START -->
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-12 pb-3">
+                            <div class="bgShadowStyle borderRadius15">
+                                <mat-card class="borderRadius15">
+                                    <form [formGroup]="form">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                                <div class="row">
+                                                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline" [ngbTooltip]="fullnametool">
+                                                            <mat-label class="labelSize14">
+                                                                <b>Patient Full Name</b>
+                                                            </mat-label>
+                                                              <input matInput maxlength="30" formControlName="patientName" placeholder="FirstName MiddleName  LastName"  autocomplete="off" required>
+                                                              <mat-error *ngIf="form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)">
+                                                                <span *ngIf="form.get('patientName').errors.required">{{'errFullNameRequired' | l10n}}</span>
+                                                                <span *ngIf="form.get('patientName').errors.pattern">{{'errFullNamePattern' | l10n}}</span>
+                                                                <span *ngIf="form.get('patientName').errors.maxlength">{{'errFullNameMaxLength' | l10n}}</span>
+                                                            </mat-error>
+                                                            </mat-form-field>
+                                                    </div>
+                                                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                                            <mat-label class="labelSize14">
+                                                                <b>{{'lblMobileNumber' | l10n}}</b>
+                                                            </mat-label>
+                                                              <input matInput type="number" numberOnly length="10" formControlName="mobileNo" placeholder="Enter {{'lblMobileNumber' | l10n}}" autocomplete="off" required>
+                                                              <mat-error *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)">
+                                                                <span *ngIf="form.get('mobileNo').errors.required">{{'errMobileRequired' | l10n}}</span> 
+                                                                <span *ngIf="form.get('mobileNo').errors.maxlength">{{'errMobileMaxLength' | l10n}}</span>
+                                                                <span *ngIf="form.get('mobileNo').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                                        <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                                            <mat-label class="labelSize14">
+                                                                <b>{{'lblEmailId' | l10n}}</b>
+                                                            </mat-label>
+                                                            <input matInput formControlName="email" placeholder="Enter {{'lblEmailId' | l10n}}" autocomplete="off" required>
+                                                            <mat-error *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)">
+                                                                <span *ngIf="form.get('email').errors.required">{{'errEmailRequired' | l10n}}</span>
+                                                                <span *ngIf="form.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+                                                                <span *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{'errEmailMaxlength' | l10n}}</span>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5" style="margin-top: 2%;margin:20px 70px;">
+                                                        <mat-checkbox [checked]="createHealthIDChecked" (change)="createHealthIDCheck()"  class="example-margin">Create Health ID</mat-checkbox><br>
+                                                        <mat-checkbox [checked]="mapHealthIDChecked" (change)="mapHealthIDCheck()"  class="example-margin">Map Health ID</mat-checkbox>    
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                <div class="row">
+                                                    <span>
+                                                        <b>{{'lblUploadPhoto' | l10n}}</b>&nbsp;
+                                                        <label class="switch">
+                                                            <input type="checkbox" (click) = "onClickSwitch()" [checked] = 'isSwitcheChecked'>
+                                                            <span class="slider round"></span> 
+                                                        </label>
+                                                    </span>
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" *ngIf ="!isSwitcheChecked">
+                                                        <div class="profile-wrapper"> 
+                                                            <img src="{{uploadedImage}}" id="ProfilePhoto" alt="Avatar" class="rounded-circle">
+                                                        </div>
+                                                    </div> 
+                                                    
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isSwitcheChecked">
+                                                        <div>
+                                                            <webcam
+                                                            [height]="75"  
+                                                            [width]="100"  
+                                                            [trigger]="triggerObservable" 
+                                                            (initError)="handleInitError($event)"
+                                                            (imageCapture)="handleImage($event)"
+                                                            > 
+                                                            </webcam> 
+                                                            <!-- &nbsp;  -->
+                                                            <br/>
+                                                            <button class="actionBtn btn btn-info btn-sm" (click)="triggerSnapshot()">{{'lblTakepicture' | l10n}}</button> 
+                                                        </div>
+                                                    </div> 
+                                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ml-1">
+                                                        <!-- <label class="uploadPhotoText text-muted mt-1">{{'lblUploadPhoto' | l10n}}</label> &nbsp;&nbsp; -->
+                                                        
+                                                        <br/>
+                                                        <div class="ml-2">
+                                                            <input type="file" id="browse" formControlName="profilePhoto" class="mt-1" (change)="uploadProfilePhoto($event)" hidden>
+                                                            <button type="button" *ngIf="!isSwitcheChecked" class="btn btnColor btn-sm" (click)="browse()">
+                                                                Browse
+                                                            </button>               
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                       <div class="row mt-1">
+                                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                                                <button class="btn btnColor mt-2" mat-raised-button (click)="onClickCancel()">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button class="btn btnColor mt-2" mat-raised-button (click)="verifyFormData()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal details design -->
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 mt-5">
+                <div class="personalDetailsList bgShadowStyle bg-info">
+                    <div class="col-12 border-bottom text-center pt-3">
+                        <h2>
+                            Personal Details
+                        </h2>
+                    </div>
+                    <div class="col-12 pt-2 pb-1">
+                        <ul class="list pl-0">
+                            <li *ngFor="let item of personalDataList;" class="pt-1 pb-1">  
+                                <i *ngIf="item.stepValue" class="fa fa-circle" aria-hidden="true"></i>
+                                <i *ngIf="!item.stepValue" class="fa fa-circle-o" aria-hidden="true"></i>
+                                <small class="pl-1"> {{item.stepName}} : </small>
+                                <small class="pl-1"> {{item.stepValue}} </small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>  
+        </div>
+</div>
+<ng-template #template>
+    <div class="row">
+        <div class="col-12">
+            <p class="ml-1 mb-0 text-left">Note: </p>
+            <ul class="passwordNoteList">
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition1' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition2' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition3' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition4' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition5' | l10n}}
+                    </small>
+                </li>
+                <li>
+                    <small>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                        {{'lblPasswordCondition6' | l10n}}
+                    </small>
+                </li>
+            </ul>
+        </div>
+    </div>
+</ng-template>
+<ng-template #fullnametool>
+    <div class="row">
+        <div class="col-12">
+            <p class="ml-1 mb-0 text-left">Note:  Please enter name as FirstName MiddleName LastName format</p>
+            <!-- <span></span> -->
+        </div>
+    </div>
+</ng-template>

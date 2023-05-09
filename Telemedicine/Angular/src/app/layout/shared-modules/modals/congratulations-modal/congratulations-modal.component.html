@@ -1,0 +1,13 @@
+<div>      
+    <div class="row close float-right ml-3">
+        <button mat-button [mat-dialog-close]="data" cdkFocusInitial type="button">×</button>
+    </div>  
+    
+    <br>
+
+    <div mat-dialog-content class="text-center rounded mt-3">
+        <h1>Congratulations</h1>
+        <p *ngIf = "data.role !== 'doctor'">Your Registration is successful!</p>
+        <p *ngIf = "data.role === 'doctor' && data.message">{{data.message}}</p>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+.notification-container {
+  padding: 10px 10px;
+  max-height: 375px;
+  overflow: auto;
+  min-width: 320px;
+
+  .notifications {
+    margin-bottom: 15px;
+    box-shadow: 0px 8px 6px -6px #00000029;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    .createdTmstp {
+      font-size: 14px;
+    }
+
+    .notification {
+      display: flex;
+      height: 60px;
+      align-items: center;
+      .bullet {
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+        display: block;
+      }
+      .notification-msg {
+        margin-right: 10px;
+        font-size: 14px;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.read {
+  background-color: #ebebeb;
+}

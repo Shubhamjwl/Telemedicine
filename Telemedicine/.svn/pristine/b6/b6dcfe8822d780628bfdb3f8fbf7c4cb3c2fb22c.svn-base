@@ -1,0 +1,136 @@
+import { TmBookAppointmentComponent } from './../doctor/appointment/tm-book-appointment/tm-book-appointment.component';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+
+import { SharedModulesRoutingModule } from './shared-modules-routing.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbModule } from 'src/app/shared/modules/breadcrumb/breadcrumb.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import { BookDoctorsAppointmentComponent } from './components/book-doctor-appointment/book-doctor-appointment.component';
+import { OtpModalComponent } from './modals/otp-modal/otp-modal.component';
+import { CongratulationsModalComponent } from './modals/congratulations-modal/congratulations-modal.component';
+import { CompletedAppointmentsComponent } from './components/completed-appointments/completed-appointments.component';
+import { AppointmentHistoryComponent } from './components/appointment-history/appointment-history.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LangModule } from 'src/app/lang/lang.module';
+import { CalendarModule } from 'angular-calendar';
+import { BookAppointmentModalComponent } from './modals/book-appointment-modal/book-appointment-modal.component';
+import { ViewPatientListComponent } from './components/view-patient-list/view-patient-list.component';
+import { WebcamModule } from 'ngx-webcam';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { DeActivateProfileComponent } from './components/de-activate-profile/de-activate-profile.component';
+import { HistoricalCompletedAppointmentsModalComponent } from './modals/historical-completed-appointments-modal/historical-completed-appointments-modal.component';
+import { AvatarModule } from 'ngx-avatar';
+import { UploadHeaderFooterTemplateComponent } from './components/upload-header-footer-template/upload-header-footer-template.component';
+import { BookAppointmentDashboardComponent } from './components/book-appointment-dashboard/book-appointment-dashboard.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { PaymentOptionModalComponent } from './modals/payment-option-modal/payment-option-modal.component';
+import { UploadedDocumentsReportComponent } from './components/uploaded-documents-report/uploaded-documents-report.component';
+import { PatientSubmittedFormComponent } from './components/patient-submitted-form/patient-submitted-form.component';
+import { ViewReportModalComponent } from './modals/view-report-modal/view-report-modal.component';
+import { RazorpayPaymentGatewayComponent } from  './components/payment/razorpay-payment-gateway/razorpay-payment-gateway.component';
+import { CreateSlotComponent } from'./modals//create-slot/create-slot.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { DeleteAppointmentModalComponent } from './modals/delete-appointment-modal/delete-appointment-modal/delete-appointment-modal.component';
+import { TCbookAppointmentModalComponent } from './modals/tcbook-appointment-modal/tcbook-appointment-modal.component';
+import { TcdoctorRegisterModalComponent } from './modals/tcdoctor-register-modal/tcdoctor-register-modal.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { DiagnosticSupportComponent } from './components/diagnostic-support/diagnostic-support.component';
+import { PrescribeServiceComponent } from './components/prescribe-service/prescribe-service.component'
+
+
+
+@NgModule({
+  declarations: [
+    BookAppointmentModalComponent,
+    TmBookAppointmentComponent,
+    BookAppointmentDashboardComponent,
+    UploadedDocumentsReportComponent,
+    PatientSubmittedFormComponent,
+    ViewReportModalComponent,
+    CongratulationsModalComponent,
+    OtpModalComponent,
+    BookDoctorsAppointmentComponent,
+    AppointmentHistoryComponent ,
+    CompletedAppointmentsComponent,
+    ViewPatientListComponent,
+    UpdateProfileComponent,
+    DeActivateProfileComponent,
+    HistoricalCompletedAppointmentsModalComponent,
+    UploadHeaderFooterTemplateComponent,
+    RazorpayPaymentGatewayComponent,
+    PaymentOptionModalComponent,
+    CreateSlotComponent,
+    OrderHistoryComponent,
+    DeleteAppointmentModalComponent,
+    TCbookAppointmentModalComponent,
+    TcdoctorRegisterModalComponent,
+    FooterComponent,
+    DiagnosticSupportComponent,
+    PrescribeServiceComponent
+  ],
+  imports: [ 
+    CommonModule,LangModule,
+    SharedModulesRoutingModule,
+    NgxSpinnerModule,WebcamModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BreadcrumbModule,
+    SharedModule,
+    // Mat
+    MatTabsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTableModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatStepperModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatRadioModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatDatepickerModule,
+    ClipboardModule,
+
+    //other
+    NgbModule,
+    CalendarModule,
+    AvatarModule,
+  ],
+  exports: [
+    UploadedDocumentsReportComponent,
+    PatientSubmittedFormComponent,
+    ViewReportModalComponent,
+    NgbModule,
+    FooterComponent
+  ],
+  providers: [DatePipe, CustomValidators],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class SharedModulesModule { }

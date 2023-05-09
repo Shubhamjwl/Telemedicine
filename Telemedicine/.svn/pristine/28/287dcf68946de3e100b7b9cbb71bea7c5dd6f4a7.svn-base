@@ -1,0 +1,45 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="content-area">
+    <div class="app-top-area">
+        <div class="breadcrumb-area"><a routerLink="/appointments">Home</a></div>
+        <div class="page-title">Diagnostic Support</div>
+    </div>
+    <div class="row ml-4 mt-4">
+        <label>Enter Symptoms</label>
+        <div class="col-sm-12" [formGroup]="form">
+            <mat-form-field class="example-full-width" appearance="outline">
+                <input matInput [placeholder]="'Enter text'" [matAutocomplete]="auto" formControlName="symptomName">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let symptom of filteredSymptomsMulti | async">
+                        <div (click)="symptomOptionClicked($event, symptom)">
+                            <mat-checkbox [checked]="symptom.selected" (change)="symptomToggleSelection(symptom)"
+                                (click)="$event.stopPropagation()">
+                                {{ symptom.name }}
+                            </mat-checkbox>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <button class="add-button" (click)="saveDetails(this.form.controls.symptomName,symptomDetails)" matSuffix>
+                <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+            </button>
+            <div class="valueTags">
+                <span *ngFor="let symptom of symptomDetails.value" [value]="symptom">
+                    <span class="position-relative btn btn-info btn-sm mt-2 mr-3">{{symptom.name}}<button type="button"
+                            (click)="symptomToggleSelection(symptom)"
+                            class="btn badge badge-pill translate-middle border border-dark bg-light badge-position">x</button></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row ml-4">
+        <div class="w-100">Investigate for uncommon conditions</div>
+        <div class="w-100 p-1 m-1" *ngFor="let diagnosis of filteredDiagnosisMulti">
+            {{ diagnosis.name }}
+        </div>
+    </div>
+</div>

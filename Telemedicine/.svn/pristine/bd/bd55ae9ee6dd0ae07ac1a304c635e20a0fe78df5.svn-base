@@ -1,0 +1,40 @@
+package com.nsdl.telemedicine.controller;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.telemedicine.dto.MainResponseDTO;
+import com.nsdl.telemedicine.dto.RedFlagData;
+import com.nsdl.telemedicine.service.RedFlagService;
+
+@RestController
+public class TeleMarketPlaceController {
+
+	private static final Logger logger = LoggerFactory.getLogger(TeleMarketPlaceController.class);
+
+	@Autowired
+	private RedFlagService service;
+
+	@GetMapping(value = "/getDrRedflagDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<List<RedFlagData>>> getDrRedflagMapURL(@RequestParam String drEmailID,
+			@RequestParam String ptMobileNo) {
+		logger.info("Request Received to get Red flag details.");
+		MainResponseDTO<List<RedFlagData>> responseWrapper = new MainResponseDTO<List<RedFlagData>>();
+		responseWrapper.setResponse(service.getRedFlagDetails(drEmailID, ptMobileNo));
+		responseWrapper.setStatus(true);
+		responseWrapper.setResponsetime(OffsetDateTime.now().toInstant().toString());
+		logger.info("Returning response");
+		return ResponseEntity.status(HttpStatus.OK).body(responseWrapper);
+	}
+
+}

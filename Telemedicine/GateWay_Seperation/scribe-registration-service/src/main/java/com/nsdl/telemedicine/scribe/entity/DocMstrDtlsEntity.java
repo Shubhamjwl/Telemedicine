@@ -1,0 +1,82 @@
+package com.nsdl.telemedicine.scribe.entity;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "dr_mstr_dtls", schema = "registration")
+public class DocMstrDtlsEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue
+	@Column(name = "dmd_id_pk")
+	private Long dmdIdPk;
+
+	@Column(name = "dmd_dr_name", nullable = false)
+	private String dmdDrName;
+
+	@Column(name = "dmd_user_id", nullable = false, unique = true)
+	private String dmdUserId;
+
+	@Column(name = "dmd_password", nullable = false)
+	private String dmdPassword;
+
+	@Column(name = "dmd_mobile_No", nullable = false, unique = true)
+	private Long dmdMobileNo;
+
+	@Column(name = "dmd_email")
+	private String dmdEmail;
+
+	@Column(name = "dmd_gender", nullable = false)
+	private String dmdGender;
+
+	@Column(name = "dmd_smc_number", nullable = false)
+	private String dmdSmcNumber;
+
+	@Column(name = "dmd_mci_number", nullable = false)
+	private String dmdMciNumber;
+
+	@Column(name = "dmd_Specialiazation", nullable = false)
+	private String dmdSpecialiazation;
+
+	@Column(name = "dmd_consul_fee")
+	private Integer dmdConsulFee;
+
+	@Column(name = "dmd_isverified", nullable = false)
+	private Boolean dmdIsverified;
+
+	@Column(name = "dmd_is_reg_by_ipan", columnDefinition = "varchar(1) default 'V'", nullable = false)
+	private String dmdIsRegByIpan;
+
+	@Column(name = "dmd_modified_By")
+	private String dmdModifiedBy;
+
+	@Column(name = "dmd_modified_tmstmp", nullable = false)
+	private LocalDateTime dmdModifiedTmstmp;
+
+	@Column(name = "dmd_opti_version")
+	private String dmdOptiVersion;
+
+	@OneToMany(mappedBy = "docMstrDtlsEntity")
+	private List<DocSlotDtlsEntity> docSlotDtlsEntities;
+
+	@OneToMany(mappedBy = "docMstrDtlsEntity")
+	private List<PatientRevDtlsEntity> patientRevDtlsEntities;
+
+	@OneToMany(mappedBy = "docMstrDtlsEntity")
+	private List<AppointmentDtlsEntity> appointmentDtlsEntity;
+
+}

@@ -1,0 +1,152 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.12",
+  "serial": 85,
+  "lineage": "37be523a-b722-6001-db81-907555c6c5a6",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "docker_service",
+      "name": "uiservice",
+      "provider": "provider.docker",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "auth": null,
+            "converge_config": [],
+            "endpoint_spec": [
+              {
+                "mode": "vip",
+                "ports": [
+                  {
+                    "name": "",
+                    "protocol": "tcp",
+                    "publish_mode": "host",
+                    "published_port": 80,
+                    "target_port": 80
+                  },
+                  {
+                    "name": "",
+                    "protocol": "tcp",
+                    "publish_mode": "host",
+                    "published_port": 443,
+                    "target_port": 443
+                  }
+                ]
+              }
+            ],
+            "id": "uf4hasr5mooe8yv1h3uup3ysw",
+            "labels": [],
+            "mode": [
+              {
+                "global": false,
+                "replicated": [
+                  {
+                    "replicas": 1
+                  }
+                ]
+              }
+            ],
+            "name": "uiservice",
+            "rollback_config": [],
+            "task_spec": [
+              {
+                "container_spec": [
+                  {
+                    "args": [],
+                    "command": [],
+                    "configs": [],
+                    "dir": "",
+                    "dns_config": [
+                      {
+                        "nameservers": null,
+                        "options": null,
+                        "search": null
+                      }
+                    ],
+                    "env": {
+                      "myvar": "test"
+                    },
+                    "groups": [],
+                    "healthcheck": [
+                      {
+                        "interval": "0s",
+                        "retries": 0,
+                        "start_period": "0s",
+                        "test": [],
+                        "timeout": "0s"
+                      }
+                    ],
+                    "hostname": "",
+                    "hosts": [],
+                    "image": "172.16.11.166:37719/teleprod/uiservice:2021-12-21-11.58",
+                    "isolation": "default",
+                    "labels": [],
+                    "mounts": [
+                      {
+                        "bind_options": [],
+                        "read_only": false,
+                        "source": "/etc/localtime",
+                        "target": "/etc/localtime",
+                        "tmpfs_options": [],
+                        "type": "bind",
+                        "volume_options": []
+                      }
+                    ],
+                    "privileges": [],
+                    "read_only": false,
+                    "secrets": [],
+                    "stop_grace_period": "0s",
+                    "stop_signal": "",
+                    "user": ""
+                  }
+                ],
+                "force_update": 0,
+                "log_driver": [],
+                "networks": [
+                  "host"
+                ],
+                "placement": [
+                  {
+                    "constraints": [],
+                    "platforms": [
+                      {
+                        "architecture": "amd64",
+                        "os": "linux"
+                      }
+                    ],
+                    "prefs": []
+                  }
+                ],
+                "resources": [
+                  {
+                    "limits": [],
+                    "reservation": []
+                  }
+                ],
+                "restart_policy": {
+                  "condition": "any",
+                  "max_attempts": "0"
+                },
+                "runtime": "container"
+              }
+            ],
+            "update_config": [
+              {
+                "delay": "10s",
+                "failure_action": "pause",
+                "max_failure_ratio": "0.1",
+                "monitor": "5s",
+                "order": "stop-first",
+                "parallelism": 1
+              }
+            ]
+          },
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ]
+}

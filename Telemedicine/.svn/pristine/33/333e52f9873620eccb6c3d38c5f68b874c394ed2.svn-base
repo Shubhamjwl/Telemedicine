@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.badge-position {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+}
+.btn:hover {
+  background: #17a2b8;
+}
+.mat-button-toggle-group {
+  flex-wrap: wrap;
+}
+
+.example-full-width {
+  width: 80%;
+}
+.add-button {
+  position: relative;
+  border: none;
+  margin: 5px;
+  border-radius: 4px;
+}
+.priscriptionForm {
+  height: 580px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: justify;
+}
+.valueTags {
+  height: 160px;
+  margin-left: 2px;
+}
+.vertical {
+  border-left: 1px solid rgb(238, 232, 232);
+  height: 550px;
+  position: absolute;
+  left: 50%;
+}
+mat-form-field {
+  width: 100%;
+}
+.ruleEngineBackground {
+  background-color: #bfe1e7;
+}
+.mat-expansion-panel-header,
+.mat-expansion-panel-header:hover {
+  background: #17a2b8 !important;
+}
+.mat-expansion-panel-header-title {
+  color: #fff;
+  text-align: left;
+}
+.mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: flex-end;
+}
+.mat-button-toggle-checked {
+  background: #17a2b8;
+  color: #fff;
+}

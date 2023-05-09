@@ -1,0 +1,273 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.AadharOtpResendRespDTO;
+import com.nsdl.ndhm.dto.AccountBenefitsRespDTO;
+import com.nsdl.ndhm.dto.AccountChangePassByHealthIdReqDTO;
+import com.nsdl.ndhm.dto.AccountChangePasswordDTO;
+import com.nsdl.ndhm.dto.AccountProfileRespDTO;
+import com.nsdl.ndhm.dto.AccountProfileUpdateDTO;
+import com.nsdl.ndhm.dto.AuthTokenReqDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.GenerateAadhaarOtpDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.service.HealthIdProfileService;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/account")
+public class HealthIdProfileController {
+	private static final Logger logger = LoggerFactory.getLogger(HealthIdProfileController.class);
+
+	@Autowired
+	HealthIdProfileService healthIdProfileService;
+
+	/*
+	 * for generate aadhaar opt
+	 */
+	@PostMapping(value = "/generateAadhaarOTP", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AadharOtpResendRespDTO>> generateAadhaarOTP(
+			@RequestHeader Map<String, String> headers, @RequestBody GenerateAadhaarOtpDTO generateAadhaarOtpDTO) {
+		MainResponseDTO<AadharOtpResendRespDTO> mainResponse = null;
+		logger.info("Generate OTP Request Received");
+		try {
+			mainResponse = healthIdProfileService.generateAadhaarOTP(headers, generateAadhaarOtpDTO);
+		} catch (Exception e) {
+			logger.error("Error in generateOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for verify Aadhaar opt
+	 */
+	@PostMapping(value = "/verifyAadhaarOTP", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<Boolean>> verifyAadhaarOTP(@RequestHeader Map<String, String> headers,
+			@RequestBody ConfirmOtpDTO confirmOtpDTO) {
+		MainResponseDTO<Boolean> mainResponse = null;
+		logger.info("Verify Aadhaar OTP Request Received");
+		try {
+			mainResponse = healthIdProfileService.verifyAadhaarOTP(headers, confirmOtpDTO);
+		} catch (Exception e) {
+			logger.error("Error in verifyAadhaarOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for get account benefits
+	 */
+	@GetMapping(value = "/accountBenefits", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AccountBenefitsRespDTO>> accountBenefits(
+			@RequestHeader Map<String, String> headers) {
+		MainResponseDTO<AccountBenefitsRespDTO> mainResponse = null;
+		logger.info("Get Account benefit Request Received");
+		try {
+			mainResponse = healthIdProfileService.accountBenefits(headers);
+		} catch (Exception e) {
+			logger.error("Error in accountBenefits {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for change account password by aadhaar
+	 */
+	@PostMapping(value = "/changePasswordByAadhaar", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<String>> changePasswordByAadhaar(@RequestHeader Map<String, String> headers,
+			@RequestBody AccountChangePasswordDTO accountChangePasswordDTO) {
+		MainResponseDTO<String> mainResponse = null;
+		logger.info("Change password Request Received");
+		try {
+			mainResponse = healthIdProfileService.changePasswordByAadhaar(headers, accountChangePasswordDTO);
+		} catch (Exception e) {
+			logger.error("Error in changePasswordByAadhaar {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for change account password by mobile
+	 */
+	@PostMapping(value = "/changePasswordByMobile", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<String>> changePasswordByMobile(@RequestHeader Map<String, String> headers,
+			@RequestBody AccountChangePasswordDTO accountChangePasswordDTO) {
+		MainResponseDTO<String> mainResponse = null;
+		logger.info("Change password by mobile Request Received");
+		try {
+			mainResponse = healthIdProfileService.changePasswordByMobile(headers, accountChangePasswordDTO);
+		} catch (Exception e) {
+			logger.error("Error in changePasswordByMobile {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for get change password generate aadhaar OTP
+	 */
+	@GetMapping(value = "/changePasswdGenerateAadhaarOTP", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AadharOtpResendRespDTO>> changePasswdGenerateAadhaarOTP(
+			@RequestHeader Map<String, String> headers) {
+		MainResponseDTO<AadharOtpResendRespDTO> mainResponse = null;
+		logger.info("Change Password Generate Aadhaar OTP Request Received");
+		try {
+			mainResponse = healthIdProfileService.changePasswdGenerateAadhaarOTP(headers);
+		} catch (Exception e) {
+			logger.error("Error in changePasswdGenerateAadhaarOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for get change password generate mobile OTP
+	 */
+	@GetMapping(value = "/changePasswdGenerateMobileOTP", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AadharOtpResendRespDTO>> changePasswdGenerateMobileOTP(
+			@RequestHeader Map<String, String> headers) {
+		MainResponseDTO<AadharOtpResendRespDTO> mainResponse = null;
+		logger.info("Change Password Generate Mobile OTP Request Received");
+		try {
+			mainResponse = healthIdProfileService.changePasswdGenerateMobileOTP(headers);
+		} catch (Exception e) {
+			logger.error("Error in changePasswdGenerateMobileOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for change account password by healthId
+	 */
+	@PostMapping(value = "/changePasswordByHealthId", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<String>> changePasswordByHealthId(@RequestHeader Map<String, String> headers,
+			@RequestBody AccountChangePassByHealthIdReqDTO accountChangePassByHealthIdReqDTO) {
+		MainResponseDTO<String> mainResponse = null;
+		logger.info("Change Password By HealthId Request Received");
+		try {
+			mainResponse = healthIdProfileService.changePasswordByHealthId(headers, accountChangePassByHealthIdReqDTO);
+		} catch (Exception e) {
+			logger.error("Error in changePasswordByHealthId {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for logout account profile
+	 */
+	@GetMapping(path = "/logoutAccountProfile", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> logoutUserAccountProfile(@RequestHeader Map<String, String> headers) {
+		logger.info("Get Account Profile Request Received");
+		return healthIdProfileService.logoutProfile(headers);
+	}
+
+	/*
+	 * for get account profile
+	 */
+	@GetMapping(path = "/getAccountProfile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public MainResponseDTO<AccountProfileRespDTO> getUserAccountProfile(@RequestHeader Map<String, String> headers) {
+		logger.info("Get Account Profile Request Received");
+		return healthIdProfileService.getProfile(headers);
+	}
+
+	/*
+	 * for update account profile
+	 */
+	@PostMapping(path = "/updateAccountProfile", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<AccountProfileRespDTO>> updateUserAccountProfile(
+			@RequestHeader Map<String, String> headers, @RequestBody AccountProfileUpdateDTO accountProfileUpdateDTO) {
+		MainResponseDTO<AccountProfileRespDTO> mainResponse = null;
+		logger.info("Update Account Profile Request Received");
+		try {
+			mainResponse = healthIdProfileService.updateProfile(headers, accountProfileUpdateDTO);
+		} catch (Exception e) {
+			logger.error("Error in updateUserAccountProfile {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for delete account profile
+	 */
+	@DeleteMapping(path = "/deleteAccount")
+	public ResponseEntity<Map<String, String>> deleteAccountProfile(@RequestHeader Map<String, String> headers) {
+		logger.info("Delete Account Profile Request Received");
+		Map<String, String> mainResponse = null;
+		try {
+			mainResponse = healthIdProfileService.deleteProfile(headers);
+		} catch (Exception e) {
+			logger.error("Error in deleteAccountProfile {} ", e);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(mainResponse);
+
+	}
+
+	/*
+	 * for get QR code in png format
+	 */
+	@GetMapping(path = "/getQrCodeInPng", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.IMAGE_PNG_VALUE)
+	public ResponseEntity<byte[]> getAccountQRCodeInPng(@RequestHeader Map<String, String> headers) {
+		logger.info("Get QR code in PNG Request Received");
+		return healthIdProfileService.getQrCode(headers);
+	}
+
+	/*
+	 * for validate Auth Token
+	 */
+	@PostMapping(path = "/checkAuthToken", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<Boolean>> checkAuthTokenBoolean(@RequestHeader Map<String, String> headers,
+			@RequestBody AuthTokenReqDTO authTokenReqDTO) {
+		MainResponseDTO<Boolean> mainResponse = null;
+		logger.info("Validate Auth Token Request Received");
+		try {
+			mainResponse = healthIdProfileService.checkValidateAuthToken(headers, authTokenReqDTO);
+		} catch (Exception e) {
+			logger.error("Error in checkAuthTokenBoolean {} ", e);
+		}
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+}

@@ -1,0 +1,68 @@
+package com.nsdl.telemedicine.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.telemedicine.constant.ErrorConstants;
+import com.nsdl.telemedicine.dto.RedFlagData;
+import com.nsdl.telemedicine.entity.DoctorRedFlagMarketEntity;
+import com.nsdl.telemedicine.exception.DateParsingException;
+import com.nsdl.telemedicine.exception.ServiceErrors;
+import com.nsdl.telemedicine.repository.RedFlagMarketRepo;
+import com.nsdl.telemedicine.service.RedFlagService;
+
+@Service
+public class RedFlagServiceImpl implements RedFlagService {
+
+	private static final Logger logger = LoggerFactory.getLogger(RedFlagServiceImpl.class);
+
+	@Autowired
+	private RedFlagMarketRepo redFlagRepo;
+
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+	public List<RedFlagData> getRedFlagDetails(String drEmailID, String ptMobileNo) {
+
+		logger.info("getRedFlagDetails method called");
+
+		List<RedFlagData> response = new ArrayList<RedFlagData>();
+
+		List<DoctorRedFlagMarketEntity> entities = new ArrayList<>();
+		Pageable page = PageRequest.of(0, 3);
+		List<String> dates = redFlagRepo.findLatestDatesByDrmDrEmailidAndDrmPtMobile(drEmailID, ptMobileNo, page);
+
+		if (dates != null && !dates.isEmpty()) {
+			entities = redFlagRepo.findByDrmDrEmailidAndDrmPtMobile(drEmailID, ptMobileNo, dates);
+		}
+
+		if (entities == null || entities.isEmpty()) {
+			logger.error("redFlag details not available for emailId {} and mobileNo {}", drEmailID, ptMobileNo);
+			ServiceErrors error = new ServiceErrors(ErrorConstants.REDFLAG_DATA_NOT_AVAILABLE.getCode(),
+					ErrorConstants.REDFLAG_DATA_NOT_AVAILABLE.getMessage());
+			throw new DateParsingException(error);
+		}
+
+		for (DoctorRedFlagMarketEntity entity : entities) {
+			RedFlagData data = new RedFlagData();
+			String strDate = formatter.format(entity.getDrmDate());
+			data.setDate_added(strDate);
+			data.setDr_email(entity.getDrmDrEmailid());
+			data.setForm_label(entity.getDrmFormName());
+			data.setMobile(entity.getDrmPtMobile());
+			data.setRed_flag(entity.getDrmRedflag());
+			response.add(data);
+		}
+
+		logger.info("getRedFlagDetails method ended");
+		return response;
+	}
+
+}

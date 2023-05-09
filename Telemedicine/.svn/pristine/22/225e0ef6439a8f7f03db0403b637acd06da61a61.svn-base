@@ -1,0 +1,225 @@
+.appointment-wrapper {
+    margin: 0px 50px;
+    .card{
+        background-color: initial !important;
+        margin: 5px 10px;
+    }
+    .cardStyle {
+        border: 1px solid #fd7b7b;
+        border-radius: 12px;
+        cursor:pointer;
+        width: 200px;
+        min-width: 200px;
+        float: left;
+        .card-body {
+            .card-text {
+                .fa {
+                    font-size: 20px !important;
+                }
+            }
+        }
+    }
+    .cardStyle.disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .cardStyle:hover {
+        background: #ffffff !important;
+        // margin-top: -1px !important;
+    }
+    .example-additional-selection {
+        opacity: 0.75;
+        font-size: 0.75em;
+    }
+    button:focus{
+        outline: none;
+    }
+    .profile-img-wrapper{
+        border: 1px solid gray;
+        height: 120px;
+        width: 120px;
+        border-radius: 50%;
+
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    // .call-now-btn-wrap{
+    //     //margin-left: 35px;
+    // }
+    ul,li{
+        padding: 0;
+        margin: 0;;
+    }
+    .icon{
+        display: inline-block;
+        height: 25px;
+        width: 25px;
+        margin-right: 10px;
+        vertical-align: top;
+    }
+    .like-icon{
+        background-image: url(../../../../../assets/images/like.png);
+        background-size: cover;
+        vertical-align: baseline;
+    }
+    .message-icon{
+        background-image: url(../../../../../assets/images/message.png);
+        background-size: cover;
+    }
+    .info{
+        font-size: 20px;
+        margin-right: 20px;
+    }
+    .doc-info {
+        h5 {
+            font-size: 14px;
+        }
+    }
+}
+.model-wrapper{
+    .profile-img-wrapper{
+        border: 1px solid gray;
+        height: 85px;
+        width: 85px;
+        border-radius: 50%;
+
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .modal-header{
+        background-color: #49e4a4a8;
+    }
+    .patient-details-wrap{
+        border-top: 1px solid #000;
+        .arrow-wrap{
+            height: 20px;
+            width: 20px;
+            font-size: 18px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            box-shadow:0px 0px 5px 4px pink;
+            margin-top: 4px;
+            span{
+                position: absolute;
+                top: -5%;
+                left: 25%;
+            };
+        }
+        .arrow-icon-down{
+            transform: rotate(90deg);
+        }
+        .arrow-icon-up{
+            transform: rotate(-90deg) !important;
+        }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .show-info{
+        display: block !important;
+        transition: display 0.2s linear;
+    }
+    .patient-info{
+        display: none;
+    }
+    .patient-error {
+        font-size: 12px;
+        margin-left: 22%;
+    }
+}
+.modal.show {
+    .modal-dialog .modal-content{
+        border-radius: 40px !important;
+    }
+}
+.upload-report{
+    border-bottom: 1px solid #000;
+    display: block;
+    margin-bottom: 25px;
+}
+select{
+    height: 40px;
+    width: 100%;
+    border: 1px solid #dee2e6!important;
+}
+.fileUpload {
+    list-style-type: none;
+    li {
+        padding: 5px;
+        margin-top: 4px;
+        background: #94d7ff;
+        width: 100%;
+        // display: inline;
+        span {
+            min-width: 90%;
+            max-width: 90%;
+            width: 90%;
+            display: inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+    .fa {
+        font-size: 20px;
+    }
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .indent{
+    text-indent: 50px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  
+
+
+

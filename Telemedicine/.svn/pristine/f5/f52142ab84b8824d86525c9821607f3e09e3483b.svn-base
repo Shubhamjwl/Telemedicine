@@ -1,0 +1,7 @@
+
+export const environment = {
+  production: true,
+  baseUrl: './',
+  prescribedUrl: 'http://14.140.81.156/index.php?route=prescribedservices/services_listing',
+  newLayout: false
+};

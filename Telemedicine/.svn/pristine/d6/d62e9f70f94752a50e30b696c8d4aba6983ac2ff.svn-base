@@ -1,0 +1,250 @@
+<div class="sample form-group" style="background-color: white">
+  <div
+    class="row"
+    style="
+      margin-left: 0%;
+      background-color: #e43927;
+      height: 149px;
+      width: 100%;
+    "
+  >
+    <p class="nav-text">Partner Application</p>
+  </div>
+  <div style="margin-top: 6%">
+    <div class="row" style="margin-left: 2%">
+      <div class="col-3 col-lg-3 lable">
+        <p class="mt-1 input-text">Your ABHA ID:</p>
+      </div>
+      <!-- {{healthId? healthId || : 'NA'}} -->
+      <div class="col-8 col-lg-8">
+        <p class="input-text">{{ healthId ? healthId : "NA" }}</p>
+      </div>
+    </div>
+
+    <div class="row" style="margin-left: 2%">
+      <div class="col-3 col-lg-3 lable">
+        <p class="input-text">Your ABHA Address:</p>
+      </div>
+      <div class="col-8 col-lg-8">
+        <div class="col-8 col-lg-8">
+          <p class="input-text">{{ abhaAddress ? abhaAddress : "NA" }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="row"
+      style="margin-top: 4%; margin-left: 1%; margin-bottom: 11%"
+    >
+      <div class="col-2"></div>
+      <div class="col-3">
+        <button
+          class="btn mr-3 dwnld-btn"
+          style="
+            height: 75px;
+            color: #fff;
+            background: #e43927;
+            border-radius: 31px;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            font-family: Poppins-Regular, sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #e43927;
+            transition: 0.5s;
+            letter-spacing: 0.2px;
+          "
+          (click)="showForm()"
+        >
+          CREATE ABHA
+        </button>
+      </div>
+      <div class="col-3 col-lg-3">
+        <button
+          class="btn mr-3 dwnld-btn"
+          style="
+            margin-left: 65%;
+            height: 75px;
+            color: #fff;
+            background: #e43927;
+            border-radius: 31px;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            font-family: Poppins-Regular, sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid #e43927;
+            transition: 0.5s;
+            letter-spacing: 0.2px;
+          "
+          (click)="showProfile()"
+          [disabled]="!mobileNo"
+        >
+          LINK ABHA
+        </button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="show" style="margin-left: 5%">
+      <form form #userForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-3 col-lg-3 lable">
+            <p class="input-text">Enter Name<span class="error">*</span></p>
+          </div>
+          <div class="col-9 col-lg-9">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="name"
+                name="name"
+                #fname="ngModel"
+                class="input-border"
+                placeholder="Name"
+                style="
+                  width: 81%;
+                  display: inline-block;
+                  border-bottom: 1px solid #e43927 !important;
+                  background-color: white;
+                "
+              />
+            </div>
+            <div class="error" [hidden]="fname.valid || fname.untouched">
+              Enter Valid Name
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3 col-lg-3 lable">
+            <p class="input-text">
+              Enter Mobile Number<span class="error">*</span>
+            </p>
+          </div>
+          <div class="col-8 col-lg-8">
+            <div class="form-group">
+              <input
+                type="text"
+                name="mobilePrifix"
+                [readonly]="isMobileNoDisabled"
+                class="input-border mr-2 mobile-pre"
+                placeholder="+91"
+                style="
+                  display: inline-block;
+                  border-bottom: 1px solid #e43927 !important;
+                "
+              />
+              <input
+                type="text"
+                name="mobileNo"
+                #mobileNo="ngModel"
+                [(ngModel)]="mobileNoSel"
+                maxlength="10"
+                pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                class="input-border mobile-post"
+                placeholder="Mobile Number"
+                style="
+                  display: inline-block;
+                  border-bottom: 1px solid #e43927 !important;
+                "
+                required
+              />
+            </div>
+            <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+              Enter Valid Number.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3 col-lg-3 lable">
+            <p class="input-text">Gender<span class="error">*</span></p>
+          </div>
+          <div class="col-3 col-lg-3">
+            <div class="form-group">
+              <select
+                [(ngModel)]="selectedOption"
+                name="gender"
+                #gender="ngModel"
+                class="input-border"
+                style="
+                  width: 270%;
+                  display: inline-block;
+                  background-color: white;
+                  height: 31px;
+                  border-bottom: 1px solid #e43927 !important;
+                "
+              >
+                <option value="A">Select Gender</option>
+                <br />
+                <option *ngFor="let option of selectOptions" [value]="option">
+                  {{ option }}
+                </option>
+              </select>
+            </div>
+            <div class="error" [hidden]="gender.valid || gender.untouched">
+              Enter Gender.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3 col-lg-3 lable">
+            <p class="input-text">Date of Birth<span class="error">*</span></p>
+          </div>
+          <div class="col-3 col-lg-3">
+            <div class="form-group">
+              <input
+                type="date"
+                [(ngModel)]="dateOfBirth"
+                (change)="dateOfBirthSplit()"
+                name="dob"
+                #dob="ngModel"
+                required
+                class="input-border input"
+                placeholder="DD/MM/YYY"
+                style="
+                  width: 270% !important;
+                  border-bottom: 1px solid #e43927 !important;
+                "
+              />
+            </div>
+            <div class="error" [hidden]="dob.valid || dob.untouched">
+              Enter Valid Date.
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10%; margin-left: 1%">
+          <div class="col-3 col-lg-3"></div>
+          <div class="col-3 col-lg-3">
+            <button
+              type="submit"
+              class="btn button mr-3"
+              style="margin-left: 35%"
+            >
+              SUBMIT
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row form-groupBlogg">
+    <div class="col-3 col-lg-3"></div>
+    <div class="col-4 col-lg-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px; ;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-4 col-lg-3">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>

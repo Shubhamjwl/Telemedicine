@@ -1,0 +1,407 @@
+package com.nsdl.telemedicine.videoConference.service.impl;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import com.nsdl.telemedicine.videoConference.constant.ErrorConstants;
+import com.nsdl.telemedicine.videoConference.dto.CreateMeetingRequest;
+import com.nsdl.telemedicine.videoConference.dto.CreateMeetingResponse;
+import com.nsdl.telemedicine.videoConference.dto.JoinMeetingRequest;
+import com.nsdl.telemedicine.videoConference.dto.JoinMeetingResponse;
+import com.nsdl.telemedicine.videoConference.entity.BBBMeetingEntity;
+import com.nsdl.telemedicine.videoConference.exception.BBBException;
+import com.nsdl.telemedicine.videoConference.repository.BBBMeetingRepo;
+import com.nsdl.telemedicine.videoConference.service.BBBMeeting;
+
+@Service
+public class BBBMeetingImpl implements BBBMeeting {
+
+	@Value("${bbb.url}")
+	private String bbbURL;
+
+	@Value("${bbb.salt}")
+	private String bbbSalt;
+
+	@Value("${video.duration.time}")
+	private int videoDurationTime;
+
+	@Autowired
+	private BBBMeetingRepo bbbMeetingRepo;
+
+	private static final Logger logger = LoggerFactory.getLogger(BBBMeetingImpl.class);
+
+	protected final static String API_SERVERPATH = "/api/";
+	protected final static String APIRESPONSE_FAILED = "FAILED";
+	protected final static String APICALL_GETCONFIGXML = "getDefaultConfigXML";
+	protected final static String APICALL_CREATE = "create";
+	protected final static String APICALL_JOIN = "join";
+
+	@Override
+	public CreateMeetingResponse createMeeting(CreateMeetingRequest createMeeting) throws BBBException {
+		logger.info("createMeeting excecution start time::" + LocalTime.now());
+		BBBMeetingEntity meetingEntity = new BBBMeetingEntity();
+		CreateMeetingResponse createResponse = new CreateMeetingResponse();
+		BBBMeetingEntity meetingExist = bbbMeetingRepo.findByMeetingId(createMeeting.getMeetingId());
+		if (meetingExist!=null) {
+			logger.error("Meeting already exist with given meeting id");
+			throw new BBBException(ErrorConstants.MEETING_EXIST.getCode(), ErrorConstants.MEETING_EXIST.getMessage());
+		}
+		long duration = getMeetingDuration(createMeeting.getDuration());
+		try {
+			StringBuilder query = new StringBuilder();
+			query.append("meetingID=" + createMeeting.getMeetingId());
+			if (createMeeting.getName() != null)
+				query.append("&name=" + encode(createMeeting.getName()));
+			if (createMeeting.getAttendeePassword() != null)
+				query.append("&attendeePW=" + createMeeting.getAttendeePassword());
+			if (createMeeting.getModeratorPassword() != null)
+				query.append("&moderatorPW=" + createMeeting.getModeratorPassword());
+			if (createMeeting.getDuration() != null)
+				query.append("&duration=" + duration);
+			query.append("&record=" + Boolean.toString(createMeeting.isRecord()));
+			query.append("&redirect=" + Boolean.toString(createMeeting.isRedirect()));
+			logger.info("Calculating check sum for query parameter");
+			query.append(getCheckSumParameterForQuery(APICALL_CREATE, query.toString()));
+
+			logger.info("Giving call to bigbluebutton create api");
+			Map<String, Object> response = doAPICall(APICALL_CREATE, query.toString(), null);
+			logger.info("Getting response from bigbluebutton::"+response);
+
+			// capture important information from returned response
+			createResponse.setModeratorPW((String) response.get("moderatorPW"));
+			createResponse.setAttendeePW((String) response.get("attendeePW"));
+			createResponse.setMeetingId((String) response.get("meetingID"));
+
+			// saving bbb meeting details into db
+			meetingEntity.setMeetingId(createMeeting.getMeetingId());
+			meetingEntity.setMeetingName(createMeeting.getName());
+			meetingEntity.setAttendeePassword(createMeeting.getAttendeePassword());
+			meetingEntity.setModeratorPassword(createMeeting.getModeratorPassword());
+			meetingEntity.setRecord(createMeeting.isRecord());
+			meetingEntity.setRedirect(createMeeting.isRedirect());
+			meetingEntity.setInternalMeetingID((String) response.get("internalMeetingID"));
+			meetingEntity.setVoiceBridge((String) response.get("voiceBridge"));
+			meetingEntity.setDialNumber((String) response.get("dialNumber"));
+			meetingEntity.setDuration((String) response.get("duration"));
+			meetingEntity.setCreatedBy(createMeeting.getModeratorId());
+			meetingEntity.setCreatedTime(LocalDateTime.now());
+			bbbMeetingRepo.save(meetingEntity);
+			logger.info("Meeting details saved into db");
+			logger.info("createMeeting excecution end time::" + LocalTime.now());
+			return createResponse;
+		} catch (BBBException e) {
+			logger.error("Error while creating meeting::"+e.getMessage());
+			throw e;
+		} catch (IOException e) {
+			logger.info("Error while creating meeting::"+e.getMessage());
+			throw new BBBException(BBBException.MESSAGEKEY_INTERNALERROR, e.getMessage(), e);
+		}
+	}
+
+	private long getMeetingDuration(String slot) {
+
+		String[] splitSlot = slot.split("-");
+		Date date1 = null;
+		Date date2 = null;
+		try {
+			SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+			Date d = df.parse(splitSlot[0]);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(d);
+			cal.add(Calendar.MINUTE, -videoDurationTime);
+			String time1 = df.format(cal.getTime());
+			Date d1 = df.parse(splitSlot[1]);
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(d1);
+			cal1.add(Calendar.MINUTE, videoDurationTime);
+			String time2 = df.format(cal1.getTime());
+			date1 = df.parse(time1);
+			date2 = df.parse(time2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		long difference = date2.getTime() - date1.getTime();
+		long minutes = (difference / 1000) / 60;
+
+		return minutes;
+	}
+
+	protected String getCheckSumParameterForQuery(String apiCall, String queryString) {
+		if (bbbSalt != null)
+			return "&checksum=" + DigestUtils.shaHex(apiCall + queryString + bbbSalt);
+		else
+			return "";
+	}
+
+	private String encode(String msg) throws UnsupportedEncodingException {
+		return URLEncoder.encode(msg, getParametersEncoding());
+	}
+
+	protected String getParametersEncoding() {
+		return "UTF-8";
+	}
+
+	public JoinMeetingResponse getJoinMeetingURL(JoinMeetingRequest joinRequest) throws BBBException {
+		logger.info("getJoinMeetingURL excecution start time::" + LocalTime.now());
+		BBBMeetingEntity meetingExist = bbbMeetingRepo.findByMeetingId(joinRequest.getMeetingID());
+		if (meetingExist==null) {
+			logger.error("doctor doesn't started meeting");
+			throw new BBBException(ErrorConstants.MEETING_NOT_STARTED.getCode(),
+					ErrorConstants.MEETING_NOT_STARTED.getMessage());
+		}
+		StringBuilder url = null;
+		JoinMeetingResponse joinMeetResponse = new JoinMeetingResponse();
+		String userDisplayName = joinRequest.getUserDisplayName();
+		String userId = joinRequest.getUserId();
+		try {
+			StringBuilder joinQuery = new StringBuilder();
+			joinQuery.append("meetingID=" + joinRequest.getMeetingID());
+			if (userId != null)
+				joinQuery.append("&userID=" + encode(joinRequest.getUserId()));
+
+			joinQuery.append("&fullName=");
+			userDisplayName = (userDisplayName == null) ? "user" : userDisplayName;
+			try {
+				joinQuery.append(encode(userDisplayName));
+			} catch (UnsupportedEncodingException e) {
+				joinQuery.append(userDisplayName);
+			}
+			joinQuery.append("&password=" + joinRequest.getPassword());
+			joinQuery.append("&record=" + Boolean.toString(joinRequest.isRedirect()));
+			logger.info("Giving call to bigbluebutton join api");
+			joinQuery.append(getCheckSumParameterForQuery(APICALL_JOIN, joinQuery.toString()));
+
+			url = new StringBuilder(bbbURL);
+			if (url.toString().endsWith("/api")) {
+				url.append("/");
+			} else {
+				url.append(API_SERVERPATH);
+			}
+			url.append(APICALL_JOIN + "?" + joinQuery);
+		} catch (UnsupportedEncodingException e) {
+		}
+		joinMeetResponse.setUrl(url.toString());
+		joinMeetResponse.setMessage("Meeting link created successfully");
+		logger.info("getJoinMeetingURL excecution end time::" + LocalTime.now());
+		return joinMeetResponse;
+	}
+
+	protected Map<String, Object> doAPICall(String apiCall, String query, String data) throws BBBException {
+		StringBuilder urlStr = new StringBuilder(bbbURL);
+		logger.info("Calling url::"+bbbURL);
+		if (urlStr.toString().endsWith("/api")) {
+			urlStr.append("/");
+		} else {
+			urlStr.append(API_SERVERPATH);
+		}
+		urlStr.append(apiCall);
+		if (query != null) {
+			urlStr.append("?");
+			urlStr.append(query);
+		}
+
+		try {
+			// open connection
+			URL url = new URL(urlStr.toString());
+			HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+			httpConnection.setUseCaches(false);
+			httpConnection.setDoOutput(true);
+			if (data != null) {
+				httpConnection.setRequestMethod("POST");
+				httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				httpConnection.setRequestProperty("Content-Length", "" + data.length());
+				httpConnection.setRequestProperty("Content-Language", "en-US");
+				httpConnection.setDoInput(true);
+
+				DataOutputStream wr = new DataOutputStream(httpConnection.getOutputStream());
+				wr.writeBytes(data);
+				wr.flush();
+				wr.close();
+			} else {
+				httpConnection.setRequestMethod("GET");
+			}
+			httpConnection.connect();
+
+			int responseCode = httpConnection.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				// read response
+				InputStreamReader isr = null;
+				BufferedReader reader = null;
+				StringBuilder xml = new StringBuilder();
+				try {
+					isr = new InputStreamReader(httpConnection.getInputStream(), "UTF-8");
+					reader = new BufferedReader(isr);
+					String line = reader.readLine();
+					while (line != null) {
+						if (!line.startsWith("<?xml version=\"1.0\"?>"))
+							xml.append(line.trim());
+						line = reader.readLine();
+					}
+				} finally {
+					if (reader != null)
+						reader.close();
+					if (isr != null)
+						isr.close();
+				}
+				httpConnection.disconnect();
+
+				// parse response
+				// Patch to fix the NaN error
+				String stringXml = xml.toString();
+				stringXml = stringXml.replaceAll(">.\\s+?<", "><");
+
+				if (apiCall.equals(APICALL_GETCONFIGXML)) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("xml", stringXml);
+					return map;
+				}
+
+				Document dom = null;
+
+				// Initialize XML libraries
+				DocumentBuilderFactory docBuilderFactory;
+				DocumentBuilder docBuilder;
+				docBuilderFactory = DocumentBuilderFactory.newInstance();
+				try {
+					docBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+					docBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
+					docBuilder = docBuilderFactory.newDocumentBuilder();
+					dom = docBuilder.parse(new InputSource(new StringReader(stringXml)));
+				} catch (ParserConfigurationException e) {
+				}
+				Map<String, Object> response = getNodesAsMap(dom, "response");
+
+				String returnCode = (String) response.get("returncode");
+				if (APIRESPONSE_FAILED.equals(returnCode)) {
+					logger.error("while creating meeting::"+(String) response.get("messageKey"), (String) response.get("message"));
+					throw new BBBException((String) response.get("messageKey"), (String) response.get("message"));
+				}
+
+				return response;
+			} else {
+				throw new BBBException(BBBException.MESSAGEKEY_HTTPERROR,
+						"BBB server responded with HTTP status code " + responseCode);
+			}
+
+		} catch (BBBException e) {
+			logger.error(e.getMessage());
+			throw new BBBException(e.getMessageKey(), e.getMessage(), e);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new BBBException(BBBException.MESSAGEKEY_UNREACHABLE, e.getMessage(), e);
+		} catch (SAXException e) {
+			logger.error(e.getMessage());
+			throw new BBBException(BBBException.MESSAGEKEY_INVALIDRESPONSE, e.getMessage(), e);
+		} catch (IllegalArgumentException e) {
+			logger.error(e.getMessage());
+			throw new BBBException(BBBException.MESSAGEKEY_INVALIDRESPONSE, e.getMessage(), e);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new BBBException(BBBException.MESSAGEKEY_UNREACHABLE, e.getMessage(), e);
+		}
+	}
+
+	protected Map<String, Object> getNodesAsMap(Document dom, String elementTagName) {
+		Node firstNode = dom.getElementsByTagName(elementTagName).item(0);
+		return processNode(firstNode);
+	}
+
+	protected Map<String, Object> processNode(Node _node) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		NodeList responseNodes = _node.getChildNodes();
+		int images = 1; // counter for images (i.e image1, image2, image3)
+		for (int i = 0; i < responseNodes.getLength(); i++) {
+			Node node = responseNodes.item(i);
+			String nodeName = node.getNodeName().trim();
+			if (node.getChildNodes().getLength() == 1
+					&& (node.getChildNodes().item(0).getNodeType() == org.w3c.dom.Node.TEXT_NODE
+							|| node.getChildNodes().item(0).getNodeType() == org.w3c.dom.Node.CDATA_SECTION_NODE)) {
+				String nodeValue = node.getTextContent();
+				if (nodeName == "image" && node.getAttributes() != null) {
+					Map<String, String> imageMap = new HashMap<String, String>();
+					Node heightAttr = node.getAttributes().getNamedItem("height");
+					Node widthAttr = node.getAttributes().getNamedItem("width");
+					Node altAttr = node.getAttributes().getNamedItem("alt");
+
+					imageMap.put("height", heightAttr.getNodeValue());
+					imageMap.put("width", widthAttr.getNodeValue());
+					imageMap.put("title", altAttr.getNodeValue());
+					imageMap.put("url", nodeValue);
+					map.put(nodeName + images, imageMap);
+					images++;
+				} else {
+					map.put(nodeName, nodeValue != null ? nodeValue.trim() : null);
+				}
+			} else if (node.getChildNodes().getLength() == 0 && node.getNodeType() != org.w3c.dom.Node.TEXT_NODE
+					&& node.getNodeType() != org.w3c.dom.Node.CDATA_SECTION_NODE) {
+				map.put(nodeName, "");
+			} else if (node.getChildNodes().getLength() >= 1) {
+				boolean isList = false;
+				for (int c = 0; c < node.getChildNodes().getLength(); ++c) {
+					try {
+						Node n = node.getChildNodes().item(c);
+						if (n.getChildNodes().item(0).getNodeType() != org.w3c.dom.Node.TEXT_NODE
+								&& n.getChildNodes().item(0).getNodeType() != org.w3c.dom.Node.CDATA_SECTION_NODE) {
+							isList = true;
+							break;
+						}
+					} catch (Exception e) {
+						continue;
+					}
+				}
+				List<Object> list = new ArrayList<Object>();
+				if (isList) {
+					for (int c = 0; c < node.getChildNodes().getLength(); ++c) {
+						Node n = node.getChildNodes().item(c);
+						list.add(processNode(n));
+					}
+					if (nodeName == "preview") {
+						Node n = node.getChildNodes().item(0);
+						map.put(nodeName, new ArrayList<Object>(processNode(n).values()));
+					} else {
+						map.put(nodeName, list);
+					}
+				} else {
+					map.put(nodeName, processNode(node));
+				}
+			} else {
+				map.put(nodeName, processNode(node));
+			}
+		}
+		return map;
+	}
+
+}

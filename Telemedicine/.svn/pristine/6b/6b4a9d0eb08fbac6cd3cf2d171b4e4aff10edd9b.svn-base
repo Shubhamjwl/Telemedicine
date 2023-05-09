@@ -1,0 +1,13 @@
+package com.nsdl.telemedicine.repository;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.nsdl.telemedicine.entity.MarketPlaceDetailsEntity;
+
+public interface MarketPlaceDtlsRepo extends CrudRepository<MarketPlaceDetailsEntity, Long> {
+
+	@Query("FROM MarketPlaceDetailsEntity m WHERE m.modTranstIid = ?1")
+	public Iterable<MarketPlaceDetailsEntity> findByTranstId(String modTranstIid);
+
+}

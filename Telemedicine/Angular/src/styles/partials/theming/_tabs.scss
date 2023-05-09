@@ -1,0 +1,90 @@
+body {
+  --mat-tab-active-txt-color: #337890 !important;
+  --mat-tab-active-bg-color: #fff !important;
+  --mat-tab-txt-color: #fff !important;
+  --mat-tab-bg-color: #0f607c !important;
+  --mat-tab-border-color: #0f607c !important;
+  --mat-tab-border-radius: 5px !important;
+  --mat-tab-disabled-txt-color: #c4c4c4 !important;
+  --mat-tab-disabled-bg-color: #0f607c !important;
+  --mat-tab-hover-bg-color: #068bad !important;
+}
+
+.mat-tab-group {
+  .mat-tab-header {
+    border-bottom: none;
+    .mat-tab-list {
+      .mat-ink-bar {
+        display: none !important;
+      }
+      .mat-tab-labels {
+        background-color: var(--mat-tab-labels-bg-color);
+        .mat-tab-label {
+          opacity: 1;
+          font-size: 14px;
+          color: var(--mat-tab-txt-color);
+          background-color: var(--mat-tab-bg-color);
+          border: 1px solid var(--mat-tab-border-color);
+          border-bottom: none;
+          border-top-left-radius: var(--mat-tab-border-radius);
+          border-top-right-radius: var(--mat-tab-border-radius);
+          display: inline-flex;
+          justify-content: center;
+          height: 34px;
+          font-size: 16px;
+          margin: 0 1em;
+          .mat-icon {
+            color: var(--mat-tab-txt-color);
+            position: absolute;
+            top: 4px;
+            left: 10px;
+          }
+          &.mat-tab-disabled {
+            background-color: var(--mat-tab-disabled-bg-color);
+            color: var(--mat-tab-disabled-txt-color);
+          }
+          &.mat-tab-label-active {
+            background-color: var(--mat-tab-active-bg-color);
+            color: var(--mat-tab-active-txt-color);
+            .mat-icon {
+              color: var(--mat-tab-active-txt-color);
+            }
+          }
+          &:hover {
+            background-color: var(--mat-tab-hover-bg-color);
+            color: var(--mat-tab-txt-color);
+          }
+          & > .mat-tab-label-content {
+            text-transform: uppercase;
+            font-size: 14px;
+          }
+          &:first-child {
+            margin-left: 0 !important;
+            margin-right: 0.5em !important;
+          }
+          &:last-child {
+            margin-left: 0.5em !important;
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+  .mat-tab-body-wrapper {
+    height: 100%;
+    border: 1px solid var(--mat-tab-border-color);
+    border-top-right-radius: var(--mat-tab-border-radius);
+    border-bottom-left-radius: var(--mat-tab-border-radius);
+    border-bottom-right-radius: var(--mat-tab-border-radius);
+    .mat-tab-body {
+      height: 100%;
+      .mat-tab-body-content {
+        padding: 15px;
+      }
+    }
+  }
+}
+.mat-tab-link {
+  font-size: 14px;
+  border: 1px solid white !important;
+}

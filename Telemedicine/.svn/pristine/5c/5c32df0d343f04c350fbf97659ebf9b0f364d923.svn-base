@@ -1,0 +1,100 @@
+<div>
+    <!-- <div class="row close float-right ml-3">
+    </div>  -->
+    <ngx-spinner>
+        <p class="loading">Loading...</p>
+    </ngx-spinner>
+    <div class="popup">
+        <a class="close" (click)="dialogRef.close()"><img src="assets/img/close.svg" alt=""></a>
+        <div class="content">
+           <div class="popup-inside">
+              <div class="book-app">
+                 <div class="popup-title">Book Appointment</div>
+                 <div class="register-form book-area">
+                    <form [formGroup] = "patientDetails"> 
+                       <div class="book-col">
+                          <div class="book-left"><img src="assets/img/appointment-date.svg" alt=""></div>
+                          <div class="book-text">
+                             <span class="date">{{data.slotDate| date: 'dd MMM yyyy'}}</span>
+                             <span class="time">{{data ? data.slotTime : ''}}</span>
+                          </div>
+                       </div>
+                       <div class="book-col">
+                          <div class="book-left"><img src="assets/img/tele-consultation.svg" alt=""></div>
+                          <div class="book-text">
+                             <span class="date">{{data?.slotType}}</span>
+                          </div>
+                       </div>
+                       <div class="book-col last">
+                          <div class="book-left"><img src="assets/img/consultaion-fees.svg" alt=""></div>
+                          <div class="book-text">
+                             <span class="date">Consultation Fees<br>(INR): <i class="fa fa-inr"></i> {{data.fees}}</span>
+                          </div>
+                       </div>
+                       <div class="input-group half-col ruppee-icon">
+                          <label>Discount (INR)</label>
+                          <!-- <input type="text" placeholder="Enter discount amount" formControlName="discountAmount" name="feed"> --->
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off" numberOnly formControlName = "discountAmount" placeholder="Enter discount amount">
+                            </mat-form-field>
+                        
+                        </div>
+                       <div class="input-group half-col last-col">
+                         <label>Select Patient<sup>*</sup></label>
+                          <!--<input type="text" placeholder="Search by Name or Mobile Number" formControlName="searchPtByName" name="mnumber">
+                          <select [displayWith]="displayFn">
+                          <option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange) = "onSelectPtOption($event)">
+                           <div class=" col-12 row mt-3">
+                              <div class="col-md-4">
+                                  <ngx-avatar size="40" [style]= "customStyle" fgColor="black" [name]="option.ptFullName"></ngx-avatar>
+                              </div>
+                              <div class="col-md-6">
+                                  <h4>{{option.ptFullName}}</h4>
+                                  <h4>{{option.ptMobNo}}</h4>
+                              </div>
+
+                          </div>
+                        </option>
+                     </select> -->
+
+
+                        <mat-form-field class="w-100">
+                           <input type="text" matInput placeholder="Search by Name or Mobile Number" formControlName="searchPtByName" [matAutocomplete]="auto">
+                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                               <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange) = "onSelectPtOption($event)">
+                               <div>
+                               </div>
+                               <div class="row mt-1">
+                                   <div class="col-md-2">
+                                       <ngx-avatar size="40" [style]= "customStyle" fgColor="black" [name]="option.ptFullName"></ngx-avatar>
+                                   </div>
+                                   <div class="col-md-6">
+                                       <h4>{{option.ptFullName}}</h4>
+                                       <h4>{{option.ptMobNo}}</h4>
+                                   </div>
+
+                               </div>
+                               </mat-option>
+                           </mat-autocomplete>
+                       </mat-form-field>
+                      </div>
+                       <div class="popup-tagline">Net Amount to be paid (INR) ₹ {{netConsultationFees}}</div>
+                       <div class="popup-tagline2">Convenience fees (inclusive of taxes and finance charges) : {{data.charge}}</div>
+                       <div class="input-group btn-area">
+                          <button type="submit"  [disabled]="!isPatientSelected || patientDetails.invalid "  class="submit-main-btn"
+                          (click)="bookPatientAppointment()" *ngIf ="data.slotType !== 'In-Clinic'">Confirm &amp; Pay Later</button>
+                          <button [disabled]="!isPatientSelected || patientDetails.invalid " type="button" class="submit-main-btn"
+                           (click)="bookPatientAppointmentInclinic()" *ngIf ="data.slotType == 'In-Clinic'">Confirm</button>
+                       </div>
+                    </form>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+<div *ngIf = "isPayLater">
+    <app-payment-option-modal></app-payment-option-modal>
+</div>
+
+

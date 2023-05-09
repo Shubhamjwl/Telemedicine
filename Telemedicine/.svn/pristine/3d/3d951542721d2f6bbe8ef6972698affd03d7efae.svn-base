@@ -1,0 +1,466 @@
+package com.nsdl.telemedicine.doctor.service.Impl;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.nsdl.telemedicine.doctor.constant.DoctorRegConstant;
+import com.nsdl.telemedicine.doctor.dto.DeRegisterDoctorReqDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorActiveDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorDeregistrationDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorDetailsDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorRegDtlsDTO;
+import com.nsdl.telemedicine.doctor.dto.ExceptionJSONInfoDTO;
+import com.nsdl.telemedicine.doctor.dto.MainRequestDTO;
+import com.nsdl.telemedicine.doctor.dto.MainResponseDTO;
+import com.nsdl.telemedicine.doctor.dto.OtpRequestDTO;
+import com.nsdl.telemedicine.doctor.dto.OtpResponseDTO;
+import com.nsdl.telemedicine.doctor.dto.RegistrationResponseDTO;
+import com.nsdl.telemedicine.doctor.dto.UserDTO;
+import com.nsdl.telemedicine.doctor.dto.VerifyNotificationDTO;
+import com.nsdl.telemedicine.doctor.dto.VerifyOTPForDocToDeReg;
+import com.nsdl.telemedicine.doctor.dto.VerifyOTPRequest;
+import com.nsdl.telemedicine.doctor.entity.DoctorMstrDtlsEntity;
+import com.nsdl.telemedicine.doctor.entity.DoctorRegDtlsEntity;
+import com.nsdl.telemedicine.doctor.entity.LoginUserEntity;
+import com.nsdl.telemedicine.doctor.exception.DoctorRegistrationException;
+import com.nsdl.telemedicine.doctor.exception.DrRegErrorConstant;
+import com.nsdl.telemedicine.doctor.exception.DrRegErrorMessage;
+import com.nsdl.telemedicine.doctor.exception.ServiceErrors;
+import com.nsdl.telemedicine.doctor.repository.DoctorDeRegistrationRepo;
+import com.nsdl.telemedicine.doctor.repository.DoctorMstrRepo;
+import com.nsdl.telemedicine.doctor.repository.RegistrationRepo;
+import com.nsdl.telemedicine.doctor.service.DoctorDeRegService;
+import com.nsdl.telemedicine.doctor.utility.DateUtils;
+
+
+/**
+ * @author SudipB
+ *
+ */
+@Service
+public class DoctorDeRegServiceImpl implements DoctorDeRegService {
+
+	@Autowired
+	private RegistrationRepo registrationRepo;
+	
+	@Autowired
+	private DoctorDeRegistrationRepo deregistrationrepo;
+	
+	@Autowired
+	private DoctorMstrRepo doctorMstrRepo;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${OTP_GENERATE_URL}")
+	private String generateOtpURL;
+
+	@Value("${OTP_VERIFY_URL}")
+	private String verifyOtpURL;
+	
+	//Added by swati s to resolve sms related issue
+	@Value("${email.notification.url}")
+	private String notifyURL;
+	
+	@Autowired
+	private UserDTO userDetails;
+	
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	ExceptionJSONInfoDTO exceptionJSONInfoDTO = null;
+	MainResponseDTO<RegistrationResponseDTO> mainResponse = null;
+
+	private static final Logger logger = LoggerFactory.getLogger(DoctorDeRegServiceImpl.class);
+
+	/**
+	 * This method is used for getting Doctor entity based on doctor name </br>
+	 * 
+	 * @author SudipB
+	 * @param docName this is request Param
+	 * @return MainResponseDTO<DoctorRegDtlsDTO> this is the response
+	 */
+	@Override
+	public MainResponseDTO<DoctorRegDtlsDTO> getDoctorByName(String docName) {
+		logger.info("Request for getDoctorByName is received in service class:" + docName);
+		MainResponseDTO<DoctorRegDtlsDTO> mainResponseDTO = new MainResponseDTO<DoctorRegDtlsDTO>();
+		DoctorRegDtlsDTO doctorRegDtlsDTO = new DoctorRegDtlsDTO();
+		DoctorRegDtlsEntity docRegDtlsEntity = registrationRepo.findByDocUserID(docName).get();
+		if (null == docRegDtlsEntity) {
+			logger.error("No Doctor is available with the given name");
+			throw new DoctorRegistrationException(
+					new ServiceErrors(DrRegErrorConstant.NO_DATA_FOUND, DrRegErrorMessage.NO_DATA_FOUND));
+		}
+		BeanUtils.copyProperties(docRegDtlsEntity, doctorRegDtlsDTO);
+		mainResponseDTO.setResponse(doctorRegDtlsDTO);
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setResponsetime(DateUtils.getUTCCurrentDateTimeString());
+		return mainResponseDTO;
+	}
+
+	/**
+	 * This method is used for De-registering doctor entity for that give REST-call
+	 * to OTP manager service for generating OTP for the Doctor, wants to
+	 * de-register </br>
+	 * 
+	 * @author SudipB
+	 * @param DeRegisterDoctorReqDTO this is request Param
+	 * @return MainResponseDTO<RegistrationResponseDTO> this is the response
+	 */
+	@Override
+	public MainResponseDTO<RegistrationResponseDTO> deRegisterDoctor(DeRegisterDoctorReqDTO deRegisterDoctor) {
+		logger.info("Request for deRegisterDoctor is received in service class:" + deRegisterDoctor.getDocName());
+		MainResponseDTO<RegistrationResponseDTO> mainResponseDTO = new MainResponseDTO<RegistrationResponseDTO>();
+		RegistrationResponseDTO registrationResponseDTO = new RegistrationResponseDTO();
+		DoctorRegDtlsEntity docRegDtlsEntity = registrationRepo.findByDocUserID(deRegisterDoctor.getDocName()).get();
+		MainResponseDTO<OtpResponseDTO> responseOfOtp = null;
+		if (null != docRegDtlsEntity) {
+			logger.info("Calling anothet API of generate OTp from doctor-registartion");
+			responseOfOtp = generateOTPDoctorUser(docRegDtlsEntity);
+		} else {
+			logger.error("No Doctor is available with the given name");
+			throw new DoctorRegistrationException(
+					new ServiceErrors(DrRegErrorConstant.NO_DATA_FOUND, DrRegErrorMessage.NO_DATA_FOUND));
+		}
+		if (responseOfOtp.isStatus()) {
+			logger.info("OTP generation is sucessful for the doctor, wants to de-register");
+			mainResponseDTO.setStatus(DoctorRegConstant.REGISTRATION_SUCCESS_STATUS.isStatus());
+			registrationResponseDTO.setInfo("Otp has been sent to your Registered Mobile : "
+					+ docRegDtlsEntity.getDrdMobileNo() + "  And Email" + " " + docRegDtlsEntity.getDrdEmail()
+					+ " registered with Virtual App and will be valid for 10 minutes. "
+					+ "If you have not received the OTP,Please click on 'Regenerate OTP' button.");
+			mainResponseDTO.setResponse(registrationResponseDTO);
+		} else {
+			logger.error("De-Registration Doctor and Otp service failed due to wrong info.");
+			mainResponseDTO.setStatus(DoctorRegConstant.REGISTRATION_FAIL_STATUS.isStatus());
+			registrationResponseDTO.setInfo(DoctorRegConstant.OTP_FAILURE_DE_REG_DOCTOR.getMsg());
+			mainResponseDTO.setResponse(registrationResponseDTO);
+		}
+		return mainResponseDTO;
+	}
+
+	/**
+	 * This method is used for verification of OTP and after verification
+	 * De-registering doctor </br>
+	 * 
+	 * @author SudipB
+	 * @param VerifyOTPForDocToDeReg this is request Param
+	 * @return MainResponseDTO<RegistrationResponseDTO> this is the response
+	 */
+	@Override
+	public MainResponseDTO<RegistrationResponseDTO> verifiedOTPForDoctorToDeRegister(
+			VerifyOTPForDocToDeReg verifyOTPForDocToDeReg) {
+		logger.info("Request for deRegisterDoctor after verifying OTP is received in service class by:"
+				+ verifyOTPForDocToDeReg.getDocName() + "with OTP:" + verifyOTPForDocToDeReg.getOtp());
+		MainResponseDTO<RegistrationResponseDTO> mainResponseDTO = new MainResponseDTO<RegistrationResponseDTO>();
+		RegistrationResponseDTO registrationResponseDTO = new RegistrationResponseDTO();
+		DoctorRegDtlsEntity docRegDtlsEntity = registrationRepo.findDoctorDetailsByUserID(verifyOTPForDocToDeReg.getDocName());
+		LoginUserEntity loginUserEntity=deregistrationrepo.finduserdetails(verifyOTPForDocToDeReg.getDocName());
+		DoctorMstrDtlsEntity doctorMstrDtlsEntity=doctorMstrRepo.findByDmdUserId(verifyOTPForDocToDeReg.getDocName());
+		MainResponseDTO<OtpResponseDTO> responseOfOtp = null;
+		if (null != doctorMstrDtlsEntity && null!=loginUserEntity) {
+			logger.info("Calling API of verify OTP from doctor-registartion");
+			responseOfOtp = verifyOTPDoctorUser(doctorMstrDtlsEntity, verifyOTPForDocToDeReg.getOtp());
+		} else {
+			logger.error("No Details present in database");
+			return throwExceptionForNoDataPresent();
+		}
+		if (responseOfOtp.isStatus()) {
+			logger.info("OTP verification is sucessful for the doctor, wants to de-register");
+			try{
+				//docRegDtlsEntity.setDrdIsactive("N");
+				docRegDtlsEntity.setDrdIsverified("D");
+				docRegDtlsEntity.setDrdModifiedBy(userDetails.getUserName());
+				//docRegDtlsEntity.setDrdModifiedTmstmp(drdModifiedTmstmp);
+				registrationRepo.save(docRegDtlsEntity);
+				
+				loginUserEntity.setIsActive(false);
+				loginUserEntity.setModifiedBy(userDetails.getUserName());
+				loginUserEntity.setModifiedTime(LocalDateTime.now());
+				deregistrationrepo.save(loginUserEntity);
+				
+				doctorMstrDtlsEntity.setDmdisactiveflg(false);
+				doctorMstrDtlsEntity.setDmdModifiedBy(userDetails.getUserName());
+				//doctorMstrDtlsEntity.setDmdModifiedTmstmp(dmdModifiedTmstmp);
+				doctorMstrRepo.save(doctorMstrDtlsEntity);
+				
+				mainResponseDTO.setStatus(DoctorRegConstant.REGISTRATION_SUCCESS_STATUS.isStatus());
+				registrationResponseDTO.setInfo("de-registration has been successfull.");
+				mainResponseDTO.setResponse(registrationResponseDTO);
+			}catch(Exception e)
+			{
+				return throwExceptionForNoDataPresent();
+			}
+			
+		} else {
+			logger.error("De-Registration Doctor and Otp service failed due to wrong info.");
+			mainResponseDTO.setStatus(DoctorRegConstant.REGISTRATION_FAIL_STATUS.isStatus());
+			return throwExceptionForOTPVerifyFailure(responseOfOtp.getErrors().get(0).getErrorCode(),responseOfOtp.getErrors().get(0).getMessage());
+		}
+
+		return mainResponseDTO;
+	}
+	/**
+	 * This private method is used for giving REST-call to OTP service for
+	 * generating OTP for Doctor want to de-register </br>
+	 * 
+	 * @author SudipB
+	 * @param DoctorRegDtlsEntity this is request Param
+	 * @return MainResponseDTO<OtpResponseDTO> this is the response
+	 */
+	private MainResponseDTO<OtpResponseDTO> generateOTPDoctorUser(DoctorRegDtlsEntity docRegEntity) {
+		logger.info("Request received for generating OTP for doctor");
+		logger.info("Request received Inside API of generate OTP from doctor-registartion");
+		
+	 //Changed  by swati s to resolve de-registration sms issue
+	  MainRequestDTO<OtpRequestDTO> mainRequest = new MainRequestDTO<>();
+		OtpRequestDTO otpRequestDTO = new OtpRequestDTO();
+		otpRequestDTO.setEmailID(docRegEntity.getDrdEmail());
+		otpRequestDTO.setMobileNo(docRegEntity.getDrdMobileNo());
+		otpRequestDTO.setOtpFor(DoctorRegConstant.OTP_FOR_DEREG_INITIATE.getValidate());
+		otpRequestDTO.setOtpGenerateTpye(DoctorRegConstant.OTP_GENERATE_TYPE.getValidate());
+		otpRequestDTO.setSendType(null != docRegEntity.getDrdEmail() && !docRegEntity.getDrdEmail().isEmpty() ? DoctorRegConstant.OTP_SEND_TYPE.getValidate() : "sms");//changed by girishk
+		otpRequestDTO.setUserId(docRegEntity.getDrdUserId());
+		mainRequest.setRequest(otpRequestDTO); 
+		logger.info("prepare otpRequest to give REST-Call to OTP manager service to deregister initiation");
+		HttpEntity<MainRequestDTO<OtpRequestDTO>> requestEntity = new HttpEntity<MainRequestDTO<OtpRequestDTO>>(mainRequest);
+		ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>> parameterizedResponse = new ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>>() {
+		};
+		ResponseEntity<MainResponseDTO<OtpResponseDTO>> response = restTemplate.exchange(generateOtpURL,HttpMethod.POST, requestEntity, parameterizedResponse);
+		logger.info("OTP manager REST-call success for deregister initiation with desc:" + response.getBody().getResponse().getDescription()+ "and message:" + response.getBody().getResponse().getMessage());
+		
+		if(response.getBody().isStatus())
+		{
+			//Added by swati s
+			logger.info("Calling otp service to send deregister .");
+			MainRequestDTO<VerifyNotificationDTO> mainNotifyRequest = new MainRequestDTO<>();
+			VerifyNotificationDTO notifyRequestDTO = new VerifyNotificationDTO();
+			notifyRequestDTO.setEmailId(docRegEntity.getDrdEmail());
+			notifyRequestDTO.setMobileNo(docRegEntity.getDrdMobileNo());
+			notifyRequestDTO.setTemplateType(DoctorRegConstant.OTP_FOR_DEREGISTER.getValidate());
+			notifyRequestDTO.setSendType(null != docRegEntity.getDrdEmail() && !docRegEntity.getDrdEmail().isEmpty() ? DoctorRegConstant.OTP_SEND_TYPE.getValidate() : "sms");
+			notifyRequestDTO.setUserId(docRegEntity.getDrdUserId());
+			mainNotifyRequest.setRequest(notifyRequestDTO);
+			logger.info("prepare otpRequest to give REST-Call to OTP manager service");
+			HttpEntity<MainRequestDTO<VerifyNotificationDTO>> notifyEntity = new HttpEntity<MainRequestDTO<VerifyNotificationDTO>>(mainNotifyRequest);
+			ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>> parameterizedNotifyResponse = new ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>>() {
+			};
+			ResponseEntity<MainResponseDTO<OtpResponseDTO>> notifyResponse = restTemplate.exchange(notifyURL,
+					HttpMethod.POST, notifyEntity, parameterizedNotifyResponse);
+			logger.info("OTP manager REST-call sucess with desc:" + notifyResponse.getBody().getResponse().getDescription()
+					+ "and message:" + notifyResponse.getBody().getResponse().getMessage());
+			//Ends here 
+		}
+		
+		
+	
+		return response.getBody();
+	}
+
+	/**
+	 * This private method is used for giving REST-call to OTP service for
+	 * generating OTP for Doctor want to de-register </br>
+	 * 
+	 * @author SudipB
+	 * @param DoctorRegDtlsEntity this is request Param
+	 * @return MainResponseDTO<OtpResponseDTO> this is the response
+	 */
+	private MainResponseDTO<OtpResponseDTO> verifyOTPDoctorUser(DoctorMstrDtlsEntity doctorMstrDtlsEntity, String otp) {
+		logger.info("Request received Inside API of verify OTP from doctor-registartion");
+		MainRequestDTO<VerifyOTPRequest> mainRequest = new MainRequestDTO<>();
+		VerifyOTPRequest verifyOTPRequest = new VerifyOTPRequest();
+		verifyOTPRequest.setUserId(doctorMstrDtlsEntity.getDmdUserId());
+		verifyOTPRequest.setMobileOTP(otp);
+		verifyOTPRequest.setEmailOTP(otp);
+		verifyOTPRequest.setUserRole("doctor");
+		mainRequest.setRequest(verifyOTPRequest);
+		logger.info("prepare otpRequest to give REST-Call to OTP manager service");
+		HttpEntity<MainRequestDTO<VerifyOTPRequest>> requestEntity = new HttpEntity<MainRequestDTO<VerifyOTPRequest>>(
+				mainRequest);
+		ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>> parameterizedResponse = new ParameterizedTypeReference<MainResponseDTO<OtpResponseDTO>>() {
+		};
+		ResponseEntity<MainResponseDTO<OtpResponseDTO>> response = restTemplate.exchange(verifyOtpURL, HttpMethod.POST,
+				requestEntity, parameterizedResponse);
+		return response.getBody();
+	}
+
+	@Override
+	public MainResponseDTO<List<DoctorActiveDTO>> getListOfDoctorTodeRegister() {
+		// TODO Auto-generated method stub
+		MainResponseDTO<List<DoctorActiveDTO>>  response= new MainResponseDTO<List<DoctorActiveDTO>>();
+		List<LoginUserEntity> userdetails=new ArrayList<LoginUserEntity>();
+		List<DoctorActiveDTO> list=new ArrayList<>();
+		DoctorMstrDtlsEntity doctorMstrDtlsEntity=new DoctorMstrDtlsEntity();
+		try{
+			userdetails=deregistrationrepo.findAciveDoctor();
+			if(null!=userdetails  && userdetails.size()>0)
+			{
+				for (LoginUserEntity loginUserEntity : userdetails) {
+					if(null!=loginUserEntity.getUserId())
+					{
+						doctorMstrDtlsEntity=doctorMstrRepo.findByDmdUserId(loginUserEntity.getUserId());
+					}
+					DoctorActiveDTO activeDTO=new DoctorActiveDTO();
+					if(null!=loginUserEntity.getUserFullName())
+					{
+						activeDTO.setDocName(loginUserEntity.getUserFullName());
+					}else
+					{
+						activeDTO.setDocName(doctorMstrDtlsEntity.getDmdDrName());
+					}
+					if(null!=loginUserEntity.getUserId())
+					{
+						activeDTO.setDocUserID(loginUserEntity.getUserId());
+					}else
+					{
+						activeDTO.setDocUserID(doctorMstrDtlsEntity.getDmdUserId());
+					}
+					if(null!=loginUserEntity.getEmail())
+					{
+						activeDTO.setEmailID(loginUserEntity.getEmail());
+					}else
+					{
+						activeDTO.setEmailID(doctorMstrDtlsEntity.getDmdEmail());
+					}
+					if(null!=loginUserEntity.getMciNumber())
+					{
+						activeDTO.setMICNO(loginUserEntity.getMciNumber());
+					}else
+					{
+						activeDTO.setMICNO(doctorMstrDtlsEntity.getDmdMciNumber());
+					}
+					if(null!=loginUserEntity.getMobile())
+					{
+						activeDTO.setMobile(loginUserEntity.getMobile());
+					}
+					else
+					{
+						activeDTO.setMobile(doctorMstrDtlsEntity.getDmdMobileNo());
+					}
+					
+					if(null!=doctorMstrDtlsEntity.getProfilePhoto())
+					{
+						activeDTO.setPhotopath(doctorMstrDtlsEntity.getProfilePhoto());
+					}
+					if(null!=loginUserEntity.getSmcNumber())
+					{
+						activeDTO.setSMCNO(loginUserEntity.getSmcNumber());
+					}
+					{
+						activeDTO.setSMCNO(doctorMstrDtlsEntity.getDmdSmcNumber());
+					}
+					
+					try{
+						list.add(activeDTO);
+					}catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					//System.out.println("list++++"+list);
+				}
+				response.setStatus(true);
+				response.setResponse(list);
+			}else
+			{
+				throw new DoctorRegistrationException(new ServiceErrors(DrRegErrorConstant.NO_DATA_FOUND,DrRegErrorMessage.NO_DATA_FOUND));
+			}
+			
+		}
+		catch(DoctorRegistrationException e)
+		{
+			throw e;
+		}catch(Exception e)
+		{
+			throw new DoctorRegistrationException(
+					new ServiceErrors(DrRegErrorConstant.SERVER_ERROR, DrRegErrorMessage.SERVER_ERROR));
+		}
+		response.setVersion("1.0");
+		response.setId("Doctor Deregistration List");
+		response.setResponsetime(DateUtils.getUTCCurrentDateTimeString());
+		return response;
+	}
+
+	@Override
+	public MainResponseDTO<RegistrationResponseDTO> listOfDoctorTodeRegister(
+			MainRequestDTO<DoctorDeregistrationDTO<DoctorDetailsDTO>> request) {
+		// TODO Auto-generated method stub
+		LoginUserEntity userdetails=null;
+		DoctorMstrDtlsEntity mstrDetails=null;
+		DoctorRegDtlsEntity doctorRegDtlsEntity=null;
+		RegistrationResponseDTO registrationResponseDTO=new RegistrationResponseDTO();
+		MainResponseDTO<RegistrationResponseDTO> response=new MainResponseDTO<RegistrationResponseDTO>();
+		for (DoctorDetailsDTO detailsDTO : request.getRequest().getDoctor()) {
+				try{
+					mstrDetails=doctorMstrRepo.findByDmdUserId(detailsDTO.getUserID());
+					userdetails=deregistrationrepo.finduserdetails(detailsDTO.getUserID());
+					doctorRegDtlsEntity=registrationRepo.findDoctorDetailsByUserID(detailsDTO.getUserID());
+					if(null!=mstrDetails && null!=userdetails)
+					{
+						mstrDetails.setDmdisactiveflg(false);
+						mstrDetails.setDmdModifiedBy(userDetails.getUserName());
+						mstrDetails.setDmdModifiedTmstmp(new Timestamp(System.currentTimeMillis()));
+						doctorMstrRepo.save(mstrDetails);
+						
+						userdetails.setIsActive(false);
+						userdetails.setModifiedBy(userDetails.getUserName());
+						userdetails.setModifiedTime(LocalDateTime.now());
+						deregistrationrepo.save(userdetails);
+						
+						doctorRegDtlsEntity.setDrdIsverified("D");
+						doctorRegDtlsEntity.setDrdModifiedBy(userDetails.getUserName());
+						doctorRegDtlsEntity.setDrdModifiedTmstmp(new Timestamp(System.currentTimeMillis()));
+						registrationRepo.save(doctorRegDtlsEntity);
+						
+						registrationResponseDTO.setInfo("Doctors are successfully Deregister....");
+						response.setStatus(true);
+						response.setResponse(registrationResponseDTO);
+					}else
+					{
+						return throwExceptionForNoDataPresent();
+					}
+					
+				}catch(Exception e)
+				{
+					return throwExceptionForNoDataPresent();
+				}
+				
+			}
+		
+		return response;
+	}
+	private MainResponseDTO<RegistrationResponseDTO> throwExceptionForOTPVerifyFailure(String errorCode, String message) {
+		// TODO Auto-generated method stub
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(errorCode);
+		exceptionJSONInfoDTO.setMessage(message);
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+	private MainResponseDTO<RegistrationResponseDTO> throwExceptionForNoDataPresent() {
+		// TODO Auto-generated method stub
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(DoctorRegConstant.No_DATA_PRESENT.getCode());
+		exceptionJSONInfoDTO.setMessage(DoctorRegConstant.No_DATA_PRESENT.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+}

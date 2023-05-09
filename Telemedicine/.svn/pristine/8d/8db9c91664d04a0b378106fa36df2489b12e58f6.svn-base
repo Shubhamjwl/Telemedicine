@@ -1,0 +1,28 @@
+package com.nsdl.telemedicine.videoConference.dto;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class CreateMeetingResponse {
+	public String returncode;
+    public String meetingID;
+    public String internalMeetingID;
+    public String parentMeetingID;
+    public String attendeePW;
+    public String moderatorPW;
+    public String createTime;
+    public String voiceBridge;
+    public String dialNumber;
+    public String createDate;
+    public String hasUserJoined;
+    public String duration;
+    public String hasBeenForciblyEnded;
+    public String messageKey;
+    public String message;
+	private Date startDate;
+
+
+}

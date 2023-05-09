@@ -1,0 +1,8 @@
+export { IConsultationList } from './interfaces/consultation-list.interface';
+export {
+  IAppointmentDetails,
+  IAppointmentDtls,
+} from './interfaces/appointment-details.interface';
+export { IConsultationPatientDetails } from './interfaces/consultation-patient-details.interface';
+export { IPatientMedicalDetails } from './interfaces/patient-medical-details.interface';
+export { IRedflagDetail } from './interfaces/red-flag-detail.interface';

@@ -1,0 +1,106 @@
+package com.nsdl.ipan.controller;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.nsdl.ipan.model.Advice;
+import com.nsdl.ipan.model.Diagnosis;
+import com.nsdl.ipan.model.Medicines;
+import com.nsdl.ipan.model.Symptoms;
+import com.nsdl.ipan.response.MainResponseDTO;
+import com.nsdl.ipan.response.MainResponseSymptomsDTO;
+import com.nsdl.ipan.response.SymptomDetailsDTO;
+import com.nsdl.ipan.service.IpanService;
+
+@Controller
+@CrossOrigin("*")
+public class IpanController {
+
+	@Autowired
+	IpanService ipanService;
+
+	@GetMapping(value = "/symptoms")
+	public @ResponseBody MainResponseDTO<Symptoms> fetchAllSymptoms() {
+
+		List<Symptoms> listOfSymptoms = ipanService.fetchSymptoms();
+		MainResponseDTO<Symptoms> mainResponseDTO = new MainResponseDTO<Symptoms>();
+		mainResponseDTO.setId("Symptoms");
+		mainResponseDTO.setVersion("1.0");
+		mainResponseDTO.setResponse(listOfSymptoms);
+		mainResponseDTO.setResponsetime(LocalDateTime.now());
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setErrors(null);
+		return mainResponseDTO;
+	}
+
+	@GetMapping(value = "/advice")
+	public @ResponseBody MainResponseDTO<Advice> fetchAllAdvice() {
+
+		List<Advice> listOfAdvices = ipanService.fetchAdvices();
+
+		MainResponseDTO<Advice> mainResponseDTO = new MainResponseDTO<Advice>();
+		mainResponseDTO.setId("Advice");
+		mainResponseDTO.setVersion("1.0");
+		mainResponseDTO.setResponse(listOfAdvices);
+		mainResponseDTO.setResponsetime(LocalDateTime.now());
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setErrors(null);
+		return mainResponseDTO;
+	}
+
+	@GetMapping(value = "/medicines")
+	public @ResponseBody MainResponseDTO<Medicines> fetchAllMedicine() {
+
+		List<Medicines> listOfMedicines = ipanService.fetchMedicines();
+		MainResponseDTO<Medicines> mainResponseDTO = new MainResponseDTO<Medicines>();
+		mainResponseDTO.setId("Medicine");
+		mainResponseDTO.setVersion("1.0");
+		mainResponseDTO.setResponse(listOfMedicines);
+		mainResponseDTO.setResponsetime(LocalDateTime.now());
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setErrors(null);
+		return mainResponseDTO;
+	}
+
+	@GetMapping(value = "/diagnosis")
+	public @ResponseBody MainResponseDTO<Diagnosis> fetchAllDiagnosis() {
+
+		List<Diagnosis> listOfDiagnosis = ipanService.fetchDiagnosis();
+		MainResponseDTO<Diagnosis> mainResponseDTO = new MainResponseDTO<Diagnosis>();
+		mainResponseDTO.setId("Diagnosis");
+		mainResponseDTO.setVersion("1.0");
+		mainResponseDTO.setResponse(listOfDiagnosis);
+		mainResponseDTO.setResponsetime(LocalDateTime.now());
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setErrors(null);
+		return mainResponseDTO;
+	}
+
+	@GetMapping(value = "/getSearchEngineDetailsBySymtpoms")
+	public @ResponseBody MainResponseSymptomsDTO fetchSearchEngineDetailsBySymtpoms(
+			@RequestParam(value = "id") String id) {
+
+		// preparing the id list from comma separated string
+		List<Integer> idList = Stream.of(id.split(",")).map(Integer::valueOf).sorted().collect(Collectors.toList());
+		
+		SymptomDetailsDTO fetchSymptomsById = ipanService.fetchSymptomsById(idList);
+		MainResponseSymptomsDTO mainResponseDTO = new MainResponseSymptomsDTO();
+		mainResponseDTO.setId("Symptoms");
+		mainResponseDTO.setVersion("1.0");
+		mainResponseDTO.setResponsetime(LocalDateTime.now());
+		mainResponseDTO.setResponse(fetchSymptomsById);
+		mainResponseDTO.setStatus(true);
+		mainResponseDTO.setErrors(null);
+		return mainResponseDTO;
+	}
+
+}

@@ -1,0 +1,5 @@
+.indent{
+    text-indent: 50px;
+    text-align: justify;
+    text-justify: inter-word;
+}

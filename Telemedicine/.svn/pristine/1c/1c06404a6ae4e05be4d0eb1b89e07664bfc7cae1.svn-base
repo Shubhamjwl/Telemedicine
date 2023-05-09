@@ -1,0 +1,1920 @@
+<!-- <div class="login-container">
+  <div class="login-panel" *ngIf="isShownRegistration">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2 style="color: #0d0d0e;">Create ABDM issued ABHA ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 900px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 80px;
+        padding: 20px;
+      "
+    >
+      <p>Create ABHA ID using Aadhaar:</p>
+      <form #regestrationForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-3 lable">
+            <p class="mt-1">Enter Mobile Number<span class="error">*</span></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                name="mobilePrifix"
+                disabled
+                class="form-control mr-2"
+                placeholder="+91"
+                style="width: 15%; display: inline-block"
+              />
+              <input
+                type="text"
+                name="mobileNo"
+                #mobileNo="ngModel"
+                [(ngModel)]="mobileNoSel"
+                [readonly]="isDisabledFlag"
+                maxlength="10"
+                pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                class="form-control input"
+                placeholder="Mobile Number"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">Enter Name<span class="error">*</span></p>
+          </div>
+          <div class="col-md-9" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="firstName"
+                name="fname"
+                #fname="ngModel"
+                class="form-control mr-1 input"
+                placeholder="First Name"
+                [readonly]="isDisabledFlag"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="middleName"
+                name="mname"
+                class="form-control mr-1 input"
+                placeholder="Middle Name"
+                [readonly]="isDisabledFlag"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="lastName"
+                class="form-control input"
+                name="lname"
+                placeholder="Last Name"
+                [disabled]="isDisabledFlag"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">Date of Birth<span class="error">*</span></p>
+          </div>
+          <div class="col-md-3" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="dateOfBirth"
+                (change)="dateOfBirthSplit()"
+                name="dob"
+                #dob="ngModel"
+                [readonly]="isDisabledFlag"
+                class="form-control input"
+                placeholder="DD/MM/YYY"
+                style="width: 100% !important"
+              />
+            </div>
+          </div>
+          <div class="col-md-2 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt">Gender<span class="error">*</span></p>
+          </div>
+          <div class="col-md-4" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="gender"
+                name="genders"
+                #genders="ngModel"
+                [readonly]="isDisabledFlag"
+                class="form-control mr-2 input"
+                placeholder="M/F/T"
+                style="width: 50% !important"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">State<span class="error">*</span></p>
+          </div>
+          <div class="col-md-8" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <select
+                name="state"
+                [(ngModel)]="stateCode"
+                name="slectstae"
+                #slectstae="ngModel"
+                [readonly]="isDisabledFlag"
+                style="
+                  width: 33%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                  height: 35px;
+                  border-radius: 4px;
+                "
+                (ngModelChange)="getDistricts()"
+              >
+                <option value="" selected>Select</option>
+                <option *ngFor="let state of states" [value]="state.code">
+                  {{ state.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">District<span class="error">*</span></p>
+          </div>
+          <div class="col-md-8" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <select
+                name="dist"
+                [(ngModel)]="districtCode"
+                name="slectdist"
+                #slectdist="ngModel"
+                [readonly]="isDisabledFlag"
+                style="
+                  width: 33%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                  height: 35px;
+                  border-radius: 4px;
+                "
+              >
+                <option value="" selected>Select</option>
+                <option
+                  *ngFor="let district of districts"
+                  [value]="district.code"
+                >
+                  {{ district.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">Photo</p>
+          </div>
+
+          <div class="col-md-6" *ngIf="isShownAfterRegistration" style="margin-right: 21px; margin-bottom: 11px;">
+            <img [src]="imgURL" height="200" *ngIf="imgURL" />
+            <img
+              [src]="photoFileString"
+              style="width: 125px; height: 125px; margin-left: 0px;"
+              *ngIf="!imgURL"
+            />
+          </div>
+          <div class="col-md-3 lable" style="margin-top:7px;">
+            <p class="mt-1">ABHA ID<span class="error">*</span></p>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthId"
+                name="healthidname"
+                #healthidname="ngModel"
+                [readonly]="isShownAfterRegistration"
+                autocomplete="disabled"
+                (change)="checkHealthId()"
+                class="form-control mr-1 input"
+                placeholder="ABHA ID"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="healthId1"
+                name="hea"
+                class="form-control mr-1 input"
+                placeholder="@"
+                [readonly]="isDisabledFlag"
+                style="
+                  width: 8%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="healthId2"
+                name="hedo"
+                [readonly]="isDisabledFlag"
+                class="form-control input"
+                placeholder="sbx"
+                style="
+                  width: 10%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+            <p class="mt-1">Password<span class="error">*</span></p>
+          </div>
+          <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                [type]="hidePassword ? 'password' : 'text'"
+                [(ngModel)]="password"
+                name="pass"
+                #pass="ngModel"
+                autocomplete="disabled"
+                class="form-control mr-2 input"
+                placeholder="Enter Password"
+              />
+              <i
+                *ngIf="!hidePassword"
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                class="fa fa-eye eye-icon cursor ml-2"
+              ></i>
+              <i
+                *ngIf="hidePassword"
+                matSuffix
+                (click)="hidePassword = !hidePassword"
+                class="fa fa-eye-slash eye-icon cursor ml-2"
+              ></i>
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+            <p class="mt-1">Confirm Password<span class="error">*</span></p>
+          </div>
+          <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                [type]="hideReEnterPassword ? 'password' : 'text'"
+                [(ngModel)]="confirmPassword"
+                name="pass2"
+                #pass2="ngModel"
+                autocomplete="disabled"
+                class="form-control mr-2 input"
+                placeholder="Confirm Password"
+                pattern="{{ password }}"
+              />
+              <i
+                *ngIf="!hideReEnterPassword"
+                matSuffix
+                (click)="hideReEnterPassword = !hideReEnterPassword"
+                class="fa fa-eye eye-icon cursor ml-2"
+              ></i>
+              <i
+                *ngIf="hideReEnterPassword"
+                matSuffix
+                (click)="hideReEnterPassword = !hideReEnterPassword"
+                class="fa fa-eye-slash eye-icon cursor ml-2"
+              ></i>
+            </div>
+            <div class="error" [hidden]="pass2.valid || pass2.untouched">
+              Passwords do not match.
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">ABHA Number</p>
+          </div>
+          <div class="col-md-8" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthIdNumber"
+                [readonly]="isShownAfterRegistration"
+                name="healthIdNo"
+                class="form-control mr-2 input"
+                placeholder="Health ID Number"
+              />
+            </div>
+          </div>
+          <div
+            class="col-md-12 justify-content-center align-items-center"
+            *ngIf="isShownAfterRegistration"
+          >
+            <div class="row" style="margin: 35px 93px; margin-left: 15%">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-primary mr-3"
+                  style="
+                    background-color: #63a4ec;
+                    border-color: darkslategrey;
+                    width: 70%;
+                  "
+                  (click)="downloadHealthIdCard()"
+                >
+                  Download ABHA ID PDF
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button
+                  class="btn btn-primary mr-3"
+                  style="
+                    background-color: #63a4ec;
+                    border-color: darkslategrey;
+                    width: 70%;
+                  "
+                  (click)="downloadHealthIdCardQR()"
+                >
+                  Download ABHA ID PNG
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div
+              class="row"
+              style="margin: 35px 93px"
+              *ngIf="!isShownAfterRegistration"
+            >
+              <div class="col-md-1" style="margin-top: 100px">
+                <input
+                  type="checkbox"
+                  [readonly]="isShownAfterRegistration"
+                  [(ngModel)]="isChecked"
+                  name="check"
+                  required
+                />
+              </div>
+              <div class="col-md-10">
+                <p
+                  style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                    width: 125%;
+                  "
+                >
+                  I, hereby declare that I am voluntarily sharing my identity
+                  information with National Health Authority (NHA) for the sole
+                  purpose of creation of ABHA ID. I understand that my ABHA ID
+                  can be used and shared for purposes as may be notified by
+                  ABDM (Ayushman Bharat Digital Mission) from time to time
+                  including provision of healthcare services. Further, I am
+                  aware that my personal identifiable information (Name,
+                  Address, Age, Date of Birth, Gender and Photograph) may be
+                  made available to the entities working in the National Digital
+                  Health Ecosystem (NDHE) which inter alia includes stakeholders
+                  and entities such as healthcare professionals (e.g. doctors),
+                  facilities (e.g. hospitals, laboratories) and data fiduciaries
+                  (e.g. health programmes), which are registered with or linked
+                  to the Ayushman Bharat Digital Mission (ABDM), and various
+                  processes there under.<span class="error">*</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="back()"
+          >
+          CANCEL
+          </button>
+          <button
+            class="btn btn-primary"
+            *ngIf="!isShownAfterRegistration"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            [disabled]="!regestrationForm.valid || isShownAfterRegistration"
+            (click)="next()"
+          >
+          SUBMIT
+          </button>
+          <button
+            class="btn btn-primary"
+            *ngIf="isShownAfterRegistration"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            [disabled]="showPopupButtonFlag"
+            (click)="showPopup()"
+          >
+          SUBMIT
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="login-panel" *ngIf="isShowPopup">
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Create ABHA ID :</p>
+      <div style="background-color: rgb(195, 211, 245); padding: 10px">
+        <div class="row mt-4">
+          <div class="col-md-2" style="height: 38px">
+            <p class="mt-1">Enter OTP</p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="otp"
+                class="form-control input"
+                name="otpName"
+              />
+            </div>
+            <div style="margin-left: 35%">
+              <label
+                style="
+                  background-color: lightcyan;
+                  width: 50%;
+                  text-align: center;
+                  border-radius: 5%;
+                "
+                >00:{{ timeLeft }}</label
+              >
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button
+              style="background-color: goldenrod"
+              (click)="resendOTP()"
+              [disabled]="timeLeft > 0"
+            >
+              Resend OTP
+            </button>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="backPopup()"
+          >
+            CANCEL
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="submit()"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-panel" *ngIf="isShowPopup2">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Create ABDM issued ABHA ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <div style="padding: 10px">
+        <div class="col-md-12">
+          <div class="row" style="margin: 35px 93px">
+            <div class="col-md-2 lable">
+              <p class="mt-1">Yes</p>
+            </div>
+            <div class="col-md-9">
+
+              <textarea
+                type="text"
+                class="form-control mr-2 input"
+                name="textName1"
+              ></textarea>
+            </div>
+          </div>
+          <div class="row" style="margin: 35px 93px">
+            <div class="col-md-2 lable">
+              <p class="mt-1">No</p>
+            </div>
+            <div class="col-md-9">
+
+              <textarea
+                type="text"
+                class="form-control mr-2 input"
+                name="textName2"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="container" style="height: 683px" *ngIf="isShownRegistration">
+  <div class="nav-container">
+    <p class="nav-text">Create ABDM ISSUED ABHA ID</p>
+  </div>
+  <div>
+    <form #regestrationForm="ngForm" novalidate autocomplete="off">
+      <div class="row" style="margin-top: 40px; margin-left: 75px">
+        <div class="col-md-3 lable">
+          <p class="mt-1 input-text">
+            Enter Mobile Number<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              name="mobilePrifix"
+              disabled
+              class="input-border mr-2"
+              placeholder="+91"
+              style="
+                width: 15%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              name="mobileNo"
+              #mobileNo="ngModel"
+              [(ngModel)]="mobileNoSel"
+              [readonly]="isDisabledFlag"
+              maxlength="10"
+              pattern="{{ PATTERN.MOBILE_NUMBER }}"
+              class="input-border input"
+              placeholder="Mobile Number"
+              style="
+                width: 83%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">Enter Name<span class="error">*</span></p>
+        </div>
+        <div class="col-md-9" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="firstName"
+              name="fname"
+              #fname="ngModel"
+              class="input-border mr-1 input"
+              placeholder="First Name"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="middleName"
+              name="mname"
+              class="input-border mr-1 input"
+              placeholder="Middle Name"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="lastName"
+              class="input-border input"
+              name="lname"
+              placeholder="Last Name"
+              [disabled]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">
+            Date of Birth<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-md-3" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="dateOfBirth"
+              (change)="dateOfBirthSplit()"
+              name="dob"
+              #dob="ngModel"
+              [readonly]="isDisabledFlag"
+              class="input-border input"
+              placeholder="DD/MM/YYY"
+              style="
+                width: 100% !important;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+        <div class="col-md-2 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt input-text">Gender<span class="error">*</span></p>
+        </div>
+        <div class="col-md-4" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="gender"
+              name="genders"
+              #genders="ngModel"
+              [readonly]="isDisabledFlag"
+              class="input-border mr-2 input"
+              placeholder="M/F/T"
+              style="
+                width: 50% !important;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">State<span class="error">*</span></p>
+        </div>
+        <div class="col-md-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <select
+              name="state"
+              [(ngModel)]="stateCode"
+              name="slectstae"
+              #slectstae="ngModel"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 33%;
+                display: inline-block;
+                height: 35px;
+                border-bottom: 1px solid #e43927 !important;
+              "
+              class="input-border"
+              (ngModelChange)="getDistricts()"
+            >
+              <option value="" selected>Select</option>
+              <option *ngFor="let state of states" [value]="state.code">
+                {{ state.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">District<span class="error">*</span></p>
+        </div>
+        <div class="col-md-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <select
+              name="dist"
+              [(ngModel)]="districtCode"
+              name="slectdist"
+              #slectdist="ngModel"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 33%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+                height: 35px;
+              "
+              class="input-border"
+            >
+              <option value="" selected>Select</option>
+              <option
+                *ngFor="let district of districts"
+                [value]="district.code"
+              >
+                {{ district.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">Photo</p>
+        </div>
+
+        <div
+          class="col-md-6"
+          *ngIf="isShownAfterRegistration"
+          style="margin-right: 21px; margin-bottom: 11px"
+        >
+          <img [src]="imgURL" height="200" *ngIf="imgURL" />
+          <img
+            [src]="photoFileString"
+            style="width: 125px; height: 125px; margin-left: 0px"
+            *ngIf="!imgURL"
+          />
+        </div>
+        <div class="col-md-3 lable" style="margin-top: 7px">
+          <p class="mt-1 input-text">
+            Enter ABHA Address<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthId"
+              name="healthidname"
+              #healthidname="ngModel"
+              [readonly]="isShownAfterRegistration"
+              autocomplete="disabled"
+              (change)="checkHealthId()"
+              class="input-border mr-1 input"
+              placeholder="ABHA ID"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId1"
+              name="hea"
+              class="input-border mr-1 input"
+              placeholder="@"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 8%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId2"
+              name="hedo"
+              [readonly]="isDisabledFlag"
+              class="input-border input"
+              placeholder="sbx"
+              style="
+                width: 10%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+          <p class="input-text" style="margin-top: 12px !important">
+            Password<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="password"
+              name="pass"
+              #pass="ngModel"
+              autocomplete="disabled"
+              class="input-border mr-2 input"
+              placeholder="Enter Password"
+              pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+              minlength="8"
+              style="border-bottom: 1px solid #e43927 !important"
+              required
+            />
+            <i
+              *ngIf="!hidePassword"
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              class="fa fa-eye eye-icon cursor ml-2"
+            ></i>
+            <i
+              *ngIf="hidePassword"
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              class="fa fa-eye-slash eye-icon cursor ml-2"
+            ></i>
+          </div>
+          <div
+            *ngIf="pass.invalid && (pass.dirty || pass.touched)"
+            class="error"
+          >
+            <div *ngIf="pass.errors.required">Password is required</div>
+            <div *ngIf="pass.errors.pattern">
+              Password must contain uppercase, lowercase, special character &
+              number.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+          <p class="mt-1 input-text">
+            Confirm Password<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              [type]="hideReEnterPassword ? 'password' : 'text'"
+              [(ngModel)]="confirmPassword"
+              name="pass2"
+              #pass2="ngModel"
+              autocomplete="disabled"
+              class="input-border mr-2 input"
+              placeholder="Confirm Password"
+              pattern="{{ password }}"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+            <i
+              *ngIf="!hideReEnterPassword"
+              matSuffix
+              (click)="hideReEnterPassword = !hideReEnterPassword"
+              class="fa fa-eye eye-icon cursor ml-2"
+            ></i>
+            <i
+              *ngIf="hideReEnterPassword"
+              matSuffix
+              (click)="hideReEnterPassword = !hideReEnterPassword"
+              class="fa fa-eye-slash eye-icon cursor ml-2"
+            ></i>
+          </div>
+          <div class="error" [hidden]="pass2.valid || pass2.untouched">
+            Passwords do not match.
+          </div>
+        </div>
+        <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">ABHA Number</p>
+        </div>
+        <div class="col-md-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthIdNumber"
+              [readonly]="isShownAfterRegistration"
+              name="healthIdNo"
+              class="input-border mr-2 input"
+              placeholder="Health ID Number"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+          </div>
+        </div>
+        <div
+          class="col-md-12 justify-content-center align-items-center"
+          *ngIf="isShownAfterRegistration"
+        >
+          <div class="row" style="margin: 35px 93px; margin-left: 15%">
+            <div class="col-md-6">
+              <button
+                class="btn button mr-3"
+                style="width: 70%"
+                (click)="downloadHealthIdCard()"
+              >
+                Download ABHA ID PDF
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="btn button mr-3"
+                style="width: 70%"
+                (click)="downloadHealthIdCardQR()"
+              >
+                Download ABHA ID PNG
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div
+            class="row"
+            style="margin: 35px 93px"
+            *ngIf="!isShownAfterRegistration"
+          >
+            <div class="col-md-1" style="margin-left: 130px; margin-top: -25px">
+              <input
+                type="checkbox"
+                [readonly]="isShownAfterRegistration"
+                [(ngModel)]="isChecked"
+                name="check"
+                required
+              />
+            </div>
+            <div
+              class="col-md-10"
+              style="margin-left: 159px; margin-top: -30px"
+            >
+              <p
+                style="
+                  font-size: 20px;
+                  font-family: Poppins-Regular, sans-serif;
+                "
+              >
+                Accept
+                <a (click)="openPopup()" style="text-decoration: underline"
+                  >Terms & Conditions</a
+                >
+              </p>
+
+              <div
+                class="modal"
+                tabindex="-1"
+                role="dialog"
+                [ngStyle]="{ display: displayStyle }"
+              >
+                <div
+                  class="modal-dialog"
+                  role="document"
+                  style="max-width: 50%"
+                >
+                  <div
+                    class="modal-content"
+                    style="border: 1px solid #e43927; width: 75%"
+                  >
+                    <div
+                      class="modal-header"
+                      style="
+                        background-color: #e43927;
+                        width: 109%;
+                        margin-top: -20px;
+                        margin-left: -20px;
+                      "
+                    >
+                      <p
+                        style="color: white; font-size: 23px; padding-top: 10px"
+                      >
+                        Terms & Conditions
+                      </p>
+                      <h1 style="color: white" (click)="closePopup()">X</h1>
+                    </div>
+                    <div class="modal-body" style="width: 84%">
+                      <p
+                        style="
+                          background-color: white;
+                          width: 125%;
+                          margin-left: -12px;
+                        "
+                      >
+                        I, hereby declare that I am voluntarily sharing my
+                        identity information with National Health Authority
+                        (NHA) for the sole purpose of creation of ABHA ID. I
+                        understand that my ABHA ID can be used and shared for
+                        purposes as may be notified by ABDM (Ayushman Bharat
+                        Digital Mission) from time to time including provision
+                        of healthcare services. Further, I am aware that my
+                        personal identifiable information (Name, Address, Age,
+                        Date of Birth, Gender and Photograph) may be made
+                        available to the entities working in the National
+                        Digital Health Ecosystem (NDHE) which inter alia
+                        includes stakeholders and entities such as healthcare
+                        professionals (e.g. doctors), facilities (e.g.
+                        hospitals, laboratories) and data fiduciaries (e.g.
+                        health programmes), which are registered with or linked
+                        to the Ayushman Bharat Digital Mission (ABDM), and
+                        various processes there under.<span class="error"
+                          >*</span
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-4 d-flex justify-content-center align-items-center"
+        *ngIf="!isShownAfterRegistration"
+      >
+        <button class="btn button mr-3" style="width: 16%" (click)="back()">
+          CANCEL
+        </button>
+        <button class="btn button mr-3" style="width: 16%">CLEAR</button>
+        <button
+          class="btn button"
+          *ngIf="!isShownAfterRegistration"
+          style="width: 16%"
+          [disabled]="!regestrationForm.valid || isShownAfterRegistration"
+          (click)="next()"
+        >
+          SUBMIT
+        </button>
+        <button
+          class="btn button"
+          *ngIf="isShownAfterRegistration"
+          style="width: 16%"
+          [disabled]="showPopupButtonFlag"
+          (click)="showPopup()"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
+  </div>
+  <div style="padding-left: 342px; padding-top: 126px">
+    <p
+      tyle="margin-top: 33px; font-size: 7px; font-family: Poppins-Regular, sans-serif;
+    color: black;"
+    >
+      Powered BY
+    </p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div>
+</div>
+
+<div class="container" *ngIf="isShowPopup" style="height: 400px">
+  <div class="nav-container">
+    <p class="nav-text">Create ABHA ID :</p>
+    <div style="padding-left: 70px; padding-top: 24px">
+      <div class="row mt-4">
+        <div class="col-md-2" style="height: 38px">
+          <p
+            class="mt-1"
+            style="
+              font-size: 20px;
+              color: black;
+              font-family: Poppins-Regular, sans-serif;
+            "
+          >
+            Enter OTP
+          </p>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="otp"
+              autocomplete="disabled"
+              class="input-border input"
+              name="otpName"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <label
+            style="
+              background-color: white;
+              width: 117%;
+              text-align: center;
+              border: 2px solid black;
+              padding: 3px;
+              padding-left: 7px;
+              padding-right: 23px;
+            "
+            >00:{{ timeLeft }}</label
+          >
+        </div>
+        <div class="col-md-3" style="margin-top: -15px">
+          <button
+            class="btn button mr-3"
+            (click)="resendOTP()"
+            [disabled]="timeLeft > 0"
+          >
+            Resend OTP
+          </button>
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn button mr-3"
+          style="width: 16%"
+          (click)="backPopup()"
+        >
+          BACK
+        </button>
+        <button class="btn button" style="width: 16%" (click)="submit()">
+          SUBMIT
+        </button>
+      </div>
+    </div>
+  </div>
+  <div style="padding-left: 342px; padding-top: 300px">
+    <p
+      tyle="margin-top: 33px; font-size: 7px; font-family: Poppins-Regular, sans-serif;
+    color: black;"
+    >
+      Powered BY
+    </p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div>
+</div>
+
+<div class="container" *ngIf="isShowPopup2" style="height: 400px">
+  <div class="nav-container">
+    <p class="nav-text">Create ABDM issued ABHA ID</p>
+    <div style="padding: 10px">
+      <div class="col-md-12">
+        <div class="row" style="margin: 35px 93px">
+          <div class="col-md-2 lable">
+            <p class="mt-1 input-text">Yes</p>
+          </div>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control mr-2 input"
+              name="textName1"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row" style="margin: 35px 93px">
+          <div class="col-md-2 lable">
+            <p class="mt-1 input-text">No</p>
+          </div>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control mr-2 input"
+              name="textName2"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div style="padding-left: 280px; padding-top: 69px">
+    <p class="input-text" style="margin-top: 33px">Powered BY</p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div> -->
+<!-- </div> -->
+
+<div
+  *ngIf="isShownRegistration"
+  class="sample form-group"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">Create ABDM ISSUED ABHA ID</p>
+  </nav>
+  <div>
+    <form #regestrationForm="ngForm" novalidate autocomplete="off">
+      <div class="row col-12">
+        <div class="col-3 lable">
+          <p class="mt-1 input-text">
+            Enter Mobile Number<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-8">
+          <div class="form-group">
+            <input
+              type="text"
+              name="mobilePrifix"
+              disabled
+              class="input-border mr-2"
+              placeholder="+91"
+              style="
+                width: 15%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              name="mobileNo"
+              #mobileNo="ngModel"
+              [(ngModel)]="mobileNoSel"
+              [readonly]="isDisabledFlag"
+              maxlength="10"
+              pattern="{{ PATTERN.MOBILE_NUMBER }}"
+              class="input-border input"
+              placeholder="Mobile Number"
+              style="
+                width: 81%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">Enter Name<span class="error">*</span></p>
+        </div>
+        <div class="col-9" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="firstName"
+              name="fname"
+              #fname="ngModel"
+              class="input-border mr-1 input"
+              placeholder="First Name"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="middleName"
+              name="mname"
+              class="input-border mr-1 input"
+              placeholder="Middle Name"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="lastName"
+              class="input-border input"
+              name="lname"
+              placeholder="Last Name"
+              [disabled]="isDisabledFlag"
+              style="
+                width: 26%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">
+            Date of Birth<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-3" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="dateOfBirth"
+              (change)="dateOfBirthSplit()"
+              name="dob"
+              #dob="ngModel"
+              [readonly]="isDisabledFlag"
+              class="input-border input"
+              placeholder="DD/MM/YYY"
+              style="
+                width: 300% !important;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt input-text">Gender<span class="error">*</span></p>
+        </div>
+        <div class="col-4" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="gender"
+              name="genders"
+              #genders="ngModel"
+              [readonly]="isDisabledFlag"
+              class="input-border mr-2 input"
+              placeholder="M/F/T"
+              style="
+                width: 220% !important;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">State<span class="error">*</span></p>
+        </div>
+        <div class="col-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <select
+              name="state"
+              [(ngModel)]="stateCode"
+              name="slectstae"
+              #slectstae="ngModel"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 96%;
+                display: inline-block;
+                height: 35px;
+                border-bottom: 1px solid #e43927 !important;
+              "
+              class="input-border"
+              (ngModelChange)="getDistricts()"
+            >
+              <option value="" selected>Select</option>
+              <option *ngFor="let state of states" [value]="state.code">
+                {{ state.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">District<span class="error">*</span></p>
+        </div>
+        <div class="col-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <select
+              name="dist"
+              [(ngModel)]="districtCode"
+              name="slectdist"
+              #slectdist="ngModel"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 96%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+                height: 35px;
+              "
+              class="input-border"
+            >
+              <option value="" selected>Select</option>
+              <option
+                *ngFor="let district of districts"
+                [value]="district.code"
+              >
+                {{ district.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">Photo</p>
+        </div>
+
+        <div
+          class="col-6"
+          *ngIf="isShownAfterRegistration"
+          style="margin-right: 21px; margin-bottom: 11px"
+        >
+          <img [src]="imgURL" height="200" *ngIf="imgURL" />
+          <img
+            [src]="photoFileString"
+            style="width: 125px; height: 125px; margin-left: 0px"
+            *ngIf="!imgURL"
+          />
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" style="margin-top: 7px">
+          <p class="mt-1 input-text">
+            Enter ABHA Address<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-9">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthId"
+              name="healthidname"
+              #healthidname="ngModel"
+              [readonly]="isShownAfterRegistration"
+              autocomplete="disabled"
+              (change)="checkHealthId()"
+              class="input-border mr-1 input"
+              placeholder="ABHA ID"
+              style="
+                width: 40%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId1"
+              name="hea"
+              class="input-border mr-1 input"
+              placeholder="@"
+              [readonly]="isDisabledFlag"
+              style="
+                width: 27%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId2"
+              name="hedo"
+              [readonly]="isDisabledFlag"
+              class="input-border input"
+              placeholder="sbx"
+              style="
+                width: 16%;
+                display: inline-block;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            />
+          </div>
+          <div
+            class="error"
+            [hidden]="healthidname.valid || healthidname.untouched"
+          >
+            Enter Valid ABHA Address
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="!isShownAfterRegistration">
+          <p class="input-text" style="margin-top: 12px !important">
+            Password<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-8" *ngIf="!isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              [type]="hidePassword ? 'password' : 'text'"
+              [(ngModel)]="password"
+              name="pass"
+              #pass="ngModel"
+              autocomplete="disabled"
+              class="input-border mr-2 input"
+              placeholder="Enter Password"
+              pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
+              minlength="8"
+              style="border-bottom: 1px solid #e43927 !important"
+              required
+            />
+            <i
+              *ngIf="!hidePassword"
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              class="fa fa-eye eye-icon cursor ml-2"
+            ></i>
+            <i
+              *ngIf="hidePassword"
+              matSuffix
+              (click)="hidePassword = !hidePassword"
+              class="fa fa-eye-slash eye-icon cursor ml-2"
+            ></i>
+            <div
+              *ngIf="pass.invalid && (pass.dirty || pass.touched)"
+              class="error"
+            >
+              <div *ngIf="pass.errors.required">Password is required</div>
+              <div *ngIf="pass.errors.pattern">
+                Password must contain uppercase, lowercase, special character &
+                number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="!isShownAfterRegistration">
+          <p class="mt-1 input-text">
+            Confirm Password<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-8" *ngIf="!isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              [type]="hideReEnterPassword ? 'password' : 'text'"
+              [(ngModel)]="confirmPassword"
+              name="pass2"
+              #pass2="ngModel"
+              autocomplete="disabled"
+              class="input-border mr-2 input"
+              placeholder="Confirm Password"
+              pattern="{{ password }}"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+            <i
+              *ngIf="!hideReEnterPassword"
+              matSuffix
+              (click)="hideReEnterPassword = !hideReEnterPassword"
+              class="fa fa-eye eye-icon cursor ml-2"
+            ></i>
+            <i
+              *ngIf="hideReEnterPassword"
+              matSuffix
+              (click)="hideReEnterPassword = !hideReEnterPassword"
+              class="fa fa-eye-slash eye-icon cursor ml-2"
+            ></i>
+            <div class="error" [hidden]="pass2.valid || pass2.untouched">
+              Passwords do not match.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12">
+        <div class="col-3 lable" *ngIf="isShownAfterRegistration">
+          <p class="mt-1 input-text">ABHA Number</p>
+        </div>
+        <div class="col-8" *ngIf="isShownAfterRegistration">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthIdNumber"
+              [readonly]="isShownAfterRegistration"
+              name="healthIdNo"
+              class="input-border mr-2 input"
+              placeholder="Health ID Number"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row col-12"
+        style="margin-top: 7%; margin-left: 8%"
+        *ngIf="isShownAfterRegistration"
+      >
+        <div class="col-6 dwnld-btn">
+          <button
+            class="btn mr-3"
+            style="
+              height: 42px;
+              color: #fff;
+              background: #e43927;
+              border-radius: 50px;
+              font-size: 0.875rem;
+              text-transform: uppercase;
+              font-family: Poppins-Regular, sans-serif;
+              font-weight: 600;
+              cursor: pointer;
+              border: 2px solid #e43927;
+              transition: 0.5s;
+              letter-spacing: 0.2px;
+            "
+            (click)="downloadHealthIdCard()"
+          >
+            Download ABHA ID PDF
+          </button>
+        </div>
+        <div class="col-6 dwnld-btn">
+          <button
+            class="btn mr-3"
+            style="
+              height: 42px;
+              color: #fff;
+              background: #e43927;
+              border-radius: 50px;
+              font-size: 0.875rem;
+              text-transform: uppercase;
+              font-family: Poppins-Regular, sans-serif;
+              font-weight: 600;
+              cursor: pointer;
+              border: 2px solid #e43927;
+              transition: 0.5s;
+              letter-spacing: 0.2px;
+            "
+            (click)="downloadHealthIdCardQR()"
+          >
+            Download ABHA ID PNG
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="row col-12"
+        *ngIf="!isShownAfterRegistration"
+        style="margin-top: 10%"
+      >
+        <div class="col-md-1" style="margin-left: 130px; margin-top: -25px">
+          <input
+            type="checkbox"
+            [readonly]="isShownAfterRegistration"
+            [(ngModel)]="isChecked"
+            name="check"
+            required
+          />
+        </div>
+        <div class="col-md-10" style="margin-left: 159px; margin-top: -30px">
+          <p style="font-size: 20px; font-family: Poppins-Regular, sans-serif">
+            Accept
+            <a (click)="openPopup()" style="text-decoration: underline"
+              >Terms & Conditions</a
+            >
+          </p>
+
+          <div
+            class="modal"
+            tabindex="-1"
+            role="dialog"
+            [ngStyle]="{ display: displayStyle }"
+          >
+            <div class="modal-dialog" role="document" style="max-width: 50%">
+              <div
+                class="modal-content modal-cntr"
+                style="border: 1px solid #e43927"
+              >
+                <div
+                  class="modal-header modal-head"
+                  style="
+                    background-color: #e43927;
+                    margin-top: -20px;
+                    margin-left: -20px;
+                  "
+                >
+                  <p style="color: white; font-size: 23px; padding-top: 10px">
+                    Terms & Conditions
+                  </p>
+                  <h1 style="color: white" (click)="closePopup()">X</h1>
+                </div>
+                <div class="modal-body" style="width: 84%">
+                  <p
+                    style="
+                      background-color: white;
+                      width: 125%;
+                      margin-left: -12px;
+                    "
+                  >
+                    I, hereby declare that I am voluntarily sharing my identity
+                    information with National Health Authority (NHA) for the
+                    sole purpose of creation of ABHA ID. I understand that my
+                    ABHA ID can be used and shared for purposes as may be
+                    notified by ABDM (Ayushman Bharat Digital Mission) from time
+                    to time including provision of healthcare services. Further,
+                    I am aware that my personal identifiable information (Name,
+                    Address, Age, Date of Birth, Gender and Photograph) may be
+                    made available to the entities working in the National
+                    Digital Health Ecosystem (NDHE) which inter alia includes
+                    stakeholders and entities such as healthcare professionals
+                    (e.g. doctors), facilities (e.g. hospitals, laboratories)
+                    and data fiduciaries (e.g. health programmes), which are
+                    registered with or linked to the Ayushman Bharat Digital
+                    Mission (ABDM), and various processes there under.<span
+                      class="error"
+                      >*</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row col-12"
+        style="margin-top: 10%; margin-left: 1%"
+        *ngIf="!isShownAfterRegistration"
+      >
+        <div class="col-3">
+          <button class="btn button mr-3" (click)="back()">CANCEL</button>
+        </div>
+        <div class="col-3">
+          <button class="btn button mr-3" style="margin-left: 35%">
+            CLEAR
+          </button>
+        </div>
+        <div class="col-3">
+          <button
+            style="margin-left: 70%"
+            class="btn button"
+            *ngIf="!isShownAfterRegistration"
+            [disabled]="!regestrationForm.valid || isShownAfterRegistration"
+            (click)="next()"
+          >
+            SUBMIT
+          </button>
+          <button
+            style="margin-left: 70%"
+            class="btn button"
+            *ngIf="isShownAfterRegistration"
+            [disabled]="showPopupButtonFlag"
+            (click)="showPopup()"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row col-12 form-groupBlogg">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px; ;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="isShowPopup"
+  class="sample form-group"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">Create ABHA ID</p>
+  </nav>
+  <div class="row col-12" style="margin-top: 10%">
+    <div class="col-2" style="height: 38px">
+      <p
+        class="mt-1"
+        style="
+          font-size: 20px;
+          color: black;
+          font-family: Poppins-Regular, sans-serif;
+        "
+      >
+        Enter OTP
+      </p>
+    </div>
+    <div class="col-3">
+      <div class="form-group">
+        <input
+          type="text"
+          [(ngModel)]="otp"
+          autocomplete="disabled"
+          class="input-border input"
+          name="otpName"
+          style="border-bottom: 1px solid #e43927 !important"
+        />
+      </div>
+    </div>
+    <div class="col-2">
+      <label
+        style="
+          background-color: white;
+          text-align: center;
+          border: 2px solid black;
+          padding: 3px;
+        "
+        >00:{{ timeLeft }}</label
+      >
+    </div>
+    <div class="col-3" style="margin-top: -15px">
+      <button
+        class="btn button mr-3"
+        (click)="resendOTP()"
+        [disabled]="timeLeft > 0"
+      >
+        Resend OTP
+      </button>
+    </div>
+  </div>
+
+  <div class="row col-12" style="margin-top: 10%">
+    <div class="col-3"></div>
+    <div class="col-3">
+      <button class="btn button mr-3" (click)="backPopup()">BACK</button>
+    </div>
+    <div class="col-3">
+      <button class="btn button" style="margin-left: 41%" (click)="submit()">
+        SUBMIT
+      </button>
+    </div>
+  </div>
+
+  <div class="row col-12 logo">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px; ;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="isShowPopup2" style="height: 400px">
+  <div class="nav-container">
+    <p class="nav-text">Create ABDM issued ABHA ID</p>
+    <div style="padding: 10px">
+      <div class="col-md-12">
+        <div class="row" style="margin: 35px 93px">
+          <div class="col-md-2 lable">
+            <p class="mt-1 input-text">Yes</p>
+          </div>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control mr-2 input"
+              name="textName1"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row" style="margin: 35px 93px">
+          <div class="col-md-2 lable">
+            <p class="mt-1 input-text">No</p>
+          </div>
+          <div class="col-md-9">
+            <textarea
+              type="text"
+              class="form-control mr-2 input"
+              name="textName2"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

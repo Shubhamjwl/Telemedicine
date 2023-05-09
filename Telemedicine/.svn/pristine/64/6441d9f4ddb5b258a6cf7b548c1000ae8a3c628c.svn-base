@@ -1,0 +1,238 @@
+<app-breadcrumb></app-breadcrumb>
+
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<form [formGroup]="form">
+    <div class="container mt-3 bookAppointmentDashboard" *ngIf="!closeDrGrp">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="row">
+                <!-- mobile image -->
+                <!-- <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+                </div> -->
+                <!-- autocomplete -->
+                <div class="col-9 col-sm-12 offset-md-2 col-md-9 offset-lg-2 col-lg-9 offset-xl-2 col-xl-9 mb-1">
+                    <h1>
+                        <span class="hedingTag3 text-justify">
+                            Consult Any Problem With Our Doctors Online
+                        </span>
+                    </h1>
+                </div>
+                <div class="col-12 col-sm-12 offset-md-2 col-md-12 offset-lg-2 col-lg-12 offset-xl-2 col-xl-12">
+                    <div class="row">
+                        <div class="mr-4 mt-3">
+                            <span class="headingTag1">
+                                Search doctor for appointment
+                            </span>
+                        </div>
+                        <div class="col-5">
+                            <div class="row text-muted">
+                                <div class="input-group">
+                                    <input formControlName = "doctorName"
+                                    class="form-control customAutoComplete"
+                                    placeholder="Search by Doctor Name">
+                                    <div class="input-group-append">
+                                        <button class="btn p-0 autoCompleteSearchIcon">
+                                            <i class="fa fa-search text-secondary" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
+    <section class="section-1" *ngIf="!closeDrGrp && !isRoleCallCenter">
+        <div class="container pt-4 pb-4">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <!-- <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 pt-5">
+                        <h1>
+                            <span class="hedingTag2 text-justify">
+                                Consult Any Problem With Our Doctors Online
+                            </span>
+                        </h1>
+                    </div> -->
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-12 allProblems">
+                            <div id="dataContaint" class="row text-center dataDiv pt-3 pb-3">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngFor = "let speciality of specialityDetails; let i = index">
+                                    <div [ngClass]="{'selectedProbBgColor': speciality.isSelectProblem }" class="col-12 pt-1 pb-1" (click)="selectedProblem(speciality.specialityName, i)">
+                                        <div class="col-9 m-auto">
+                                            <img src="{{speciality.imgUrl}}" class="rounded-circle cursor" width="100%" alt="Rheumatologist_Image">
+                                        </div>
+                                        <div class="col-12 m-auto">
+                                            <h2 class="text-info mb-0">
+                                                <span class="cursor">
+                                                {{speciality.specialityName}}
+                                                </span>
+                                            </h2> 
+                                        </div>
+                                        <div class="col-12 m-auto">
+                                            <p>
+                                                <b class="cursor">
+                                                    Book Now
+                                                </b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev previousBtn" (click)="previousClick()" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                                <a class="carousel-control-next nextBtn" (click)="nextClick()" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section class="section-2" *ngIf="isSelectProblem && !closeDrGrp && !isRoleCallCenter">
+        <div class="container pt-4 pb-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Select Availability Dates</mat-label>
+                            <mat-date-range-input [min] = "startDate" [rangePicker]="picker">
+                                <input matStartDate placeholder="Start date" formControlName="startdate" readonly>
+                                <input matEndDate placeholder="End date" formControlName="enddate" readonly>
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <!--  --> 
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <mat-form-field class="example-full-width w-100" appearance="outline">
+                            <mat-label>Consultation Fee</mat-label>
+                                <input matInput type="number" autocomplete="off" formControlName="fees" placeholder="Enter {{'lblConsultationFee' | l10n}}">
+
+                            <!-- <mat-select required>
+                                <mat-option [value]="option-3"> 500 </mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </div>
+                    <!--  -->
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <!-- <select class="custom-select customize-select-text-red">
+                            <option selected>Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select> -->
+
+                        <mat-form-field class="example-full-width w-100" appearance="outline">
+                            <mat-label>Gender</mat-label>
+                            <!-- <mat-select required formControlName="gender">
+                                <mat-option value = "Male"> Male </mat-option>
+                                <mat-option value = "Female"> Female </mat-option>
+                            </mat-select> -->
+                            <mat-select formControlName="gender">
+                                <mat-option *ngFor = "let gender of genderList" [value]="gender.masterValue">{{gender.masterValue}}</mat-option>
+                                <!-- <mat-option value="Female">Female</mat-option> -->
+                            </mat-select> 
+                        </mat-form-field> 
+                    </div>
+                    <!--  -->
+                    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <button type="button" class="btn btnColor mt-2" (click) = "resetFilter()">
+                            Reset Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <section class="section-3" *ngIf="isSelectProblem || closeDrGrp">
+        <div class="container pt-4 pb-4">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div>
+                    <h3 class="heading-3 mb-0">
+                        <span class="text-muted">
+                            <!-- {{selectedProblemName}} -->
+                            <b> Result of your search: {{doctorListBySpeciality ? doctorListBySpeciality.length : 0}} </b> 
+                        </span>
+                    </h3>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row"  *ngIf = "doctorListBySpeciality  && doctorListBySpeciality.length">                
+                    <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 docCard" *ngFor="let doctorDetails of doctorListBySpeciality">
+                        <!-- <div> -->
+                            <div class="card cardHover">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class=" profile-wrapper">
+                                            <img [src]="doctorDetails.drProfilePhoto"  class="rounded-circle" alt="Doctor_Photo">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="row text-left">
+                                        <span class="doctor-name mb-1 mt-2">
+                                            <b>DR. {{doctorDetails.doctorName}} </b>
+                                        </span>
+                                        </div>
+                                        <div class="row text-left">
+                                            <span class="text-secondary doctor-speciality">
+                                                {{doctorDetails.speciality}}
+                                                <!-- Gneral Physician, MBBS, Familty Specialist -->
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <span class="time text-info text-justify" *ngIf="doctorDetails.slotDetails && doctorDetails.slotDetails.length">
+                                            Next Available on {{doctorDetails.slotDetails[0].slotTime}} {{doctorDetails.availability}}
+                                        </span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="consultation-fee text-muted text-justify">
+                                            Consultation Fee: 
+                                            {{doctorDetails.consultFee + doctorDetails.convenienceCharge}} INR
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-7 ml-3">
+                                            <div class="row">
+                                                <button type="button" class="btn btnColor float-right" [disabled] = "!doctorDetails && !doctorDetails.slotDetails && !doctorDetails.slotDetails.length" (click) = "onClickBookAppointment(doctorDetails)">Book Appointment</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <button type="button" class="btn btn-secondary float-right">Call Now</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                    <!--  -->
+                </div>
+                <div class="row" *ngIf = "!doctorListBySpeciality || !doctorListBySpeciality.length">
+                    <div class=" col-12 heading-3 mt-4">
+                        <h3 class="text-muted">No Doctor Found</h3>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

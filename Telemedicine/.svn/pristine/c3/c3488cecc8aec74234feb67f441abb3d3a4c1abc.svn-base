@@ -1,0 +1,177 @@
+spring.application.name=ndhm-healthid-service
+server.port=8002
+server.servlet.context-path=/ndhm/v1
+
+
+#management.endpoints.web.exposure.include=*
+#commom propert regarding database
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine?autoReconnect=true
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+ 
+#spring.datasource.url=jdbc:postgresql://localhost:5432/Test_Telemedicine
+#spring.datasource.username=postgres
+#spring.datasource.password=12345
+
+
+#Access token Generation details
+ndhm.clientId=SBX_000312
+ndhm.clientSecret=ebb11f1b-87b2-4fc4-9c0f-9dfcc2f557aa
+ndhm.feature.flag=true
+# Common APIs
+ndhm.generateToken=https://dev.ndhm.gov.in/gateway/v0.5/sessions
+ndhm.states=https://healthidsbx.ndhm.gov.in/api/v1/ha/lgd/states
+ndhm.getDistricts=https://healthidsbx.ndhm.gov.in/api/v1/ha/lgd/districts?stateCode=
+
+# HealthID creation API using mobile
+ndhm.generateOTPForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/generateOtp
+ndhm.verifyOTPForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/verifyOtp
+ndhm.resendOTPforMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/resendOtp
+ndhm.helathIDcreationForMobile=https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/createHealthId
+ndhm.generateRespSearchByHealthId=https://healthidsbx.ndhm.gov.in/api/v1/search/searchByHealthId
+genRespByHealthIdNumber=https://healthidsbx.ndhm.gov.in/api/v1/hid/benefit/search/healthIdNumber 
+ndhm.searchHealthIdByMobNo=https://healthidsbx.ndhm.gov.in/api/v1/search/searchByMobile
+ndhm.searchHealthIdByAadhar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/search/aadhar
+ndhm.existHealthId=https://healthidsbx.ndhm.gov.in/api/v1/search/existsByHealthId
+
+# HealthID creation API using Aadhaar
+ndhm.generateOTPForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/generateOtp
+ndhm.verifyOTPForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyOTP
+ndhm.resendOTPforAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/resendAadhaarOtp
+ndhm.generateOTPForAadhaarwithMob=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/generateMobileOTP
+ndhm.verifyOTPForAadhaarwithMob=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyMobileOTP
+ndhm.generateHealthIDwithPreverifiedAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/createHealthIdWithPreVerified
+ndhm.verifyBioForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/verifyBio
+ndhm.helathIDcreationForAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/registration/aadhaar/createHealthIdWithAadhaarOtp
+
+
+
+#Download Health card
+ndhm.userAuthWithPassword=https://healthidsbx.ndhm.gov.in/api/v1/auth/authPassword
+ndhm.getPdfHealthCard=https://healthidsbx.ndhm.gov.in/api/v1/account/getCard
+ndhm.getPNGHealthCard=https://healthidsbx.ndhm.gov.in/api/v1/account/getPngCard
+
+#Auth Verification
+ndhm.authFetchModes=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/fetch-modes
+ndhm.authInit=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/init
+ndhm.authConfirm=https://dev.ndhm.gov.in/gateway/v0.5/users/auth/confirm
+ndhm.addContext=https://dev.abdm.gov.in/gateway/v0.5/links/link/add-contexts
+
+#Auth
+ndhm.authInitHealthId=https://healthidsbx.ndhm.gov.in/api/v1/auth/init
+ndhm.authConfirmWithAadhaarOtp=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithAadhaarOtp
+ndhm.authConfirmWithMobileOtp=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithMobileOTP
+ndhm.authConfirmWithPassword=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithPassword
+ndhm.authConfirmWithAadhaarBio=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithAadhaarBio
+ndhm.authConfirmWithDemograpics=https://healthidsbx.ndhm.gov.in/api/v1/auth/confirmWithDemographics
+
+#profile
+ndhm.generateAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/aadhaar/generateOTP
+ndhm.verifyAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/aadhaar/verifyOTP
+ndhm.accountBenefits=https://healthidsbx.ndhm.gov.in/api/v1/account/benefits
+ndhm.changePasswordByAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/byAadhaar
+ndhm.changePasswordByMobile=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/byMobile
+ndhm.changePassGenerateMobileOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/generateMobileOTP
+ndhm.changePassGenerateAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/account/change/passwd/generateAadhaarOTP
+ndhm.changePasswordByHealthId=https://healthidsbx.ndhm.gov.in/api/v1/account/change/password
+ndhm.logoutAccountProfile=https://healthidsbx.ndhm.gov.in/api/v1/account/logout
+ndhm.urlAccountProfile=https://healthidsbx.ndhm.gov.in/api/v1/account/profile
+ndhm.getQRCodePNG=https://healthidsbx.ndhm.gov.in/api/v1/account/qrCode
+ndhm.getBooleanValidateToken=https://healthidsbx.ndhm.gov.in/api/v1/account/token
+
+#Forgot Health Id/Number
+ndhm.forgotHealthIdAadhaarOTP=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/aadhaar/generateOtp
+ndhm.forgotHealthIdAadhaar=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/aadhaar
+ndhm.forgotHealthIdMobileOTP=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/mobile/generateOtp
+ndhm.forgotHealthIdMobile=https://healthidsbx.ndhm.gov.in/api/v1/forgot/healthId/mobile
+
+#communication with telemedicine
+
+telemedicine.sendHealthIdDtlsToTelemedicine=http://172.30.151.100:7084/verifyDoctor/receivePatientHealthIdDetails
+ndhm.telemedicine.getPatientDtls=http://172.30.151.100:7084/patientRegistration/getPatientRefByPatientId
+#telemedicine.sendHealthIdDtlsToTelemedicine=https://uattele.cloudvoice.in/clinic/verifyDoctor/receivePatientHealthIdDetails
+
+#telemedicine.sendHealthIdDtlsToTelemedicine= http://172.30.151.100:7073/doctor-registration/v1/verifyDoctor/receivePatientHealthIdDetails
+
+
+#for discover patient
+ndhm.onDiscover=https://dev.abdm.gov.in/gateway/v0.5/care-contexts/on-discover
+ndhm.discover.oninit=https://dev.abdm.gov.in/gateway/v0.5/links/link/on-init
+ndhm.discover.linkOnConfirm=https://dev.abdm.gov.in/gateway/v0.5/links/link/on-confirm
+ndhm.onNotify=https://dev.abdm.gov.in/gateway/v0.5/consents/hip/on-notify
+ndhm.onRequest=https://dev.abdm.gov.in/gateway/v0.5/health-information/hip/on-request
+ndhm.transfer.onNotify=https://dev.abdm.gov.in/gateway/v0.5/health-information/notify
+ndhm.onshare=https://dev.abdm.gov.in/gateway/v0.5/patients/profile/on-share
+#for health-information hip On-request
+#onRequest=https://dev.abdm.gov.in/gateway/v0.5/health-information/hip/on-request
+
+ndhm.sms-notify=https://dev.abdm.gov.in/gateway//v0.5/patients/sms/notify
+
+
+# For Version 2  apis
+generatePublicKey=https://healthidsbx.ndhm.gov.in/api/v2/auth/cert
+
+
+#flags
+
+discover.flag=dummy 
+# set flag dummy to send dummy data
+
+
+################### Not required in Config server #######################
+#OTP properties
+OTP_GENERATE_URL = http://172.30.151.100:7076/OTPManager/generateOtp
+OTP_VERIFY_URL = http://172.30.151.100:7076/OTPManager/verifyOTP
+
+#OTP service property+++++.................
+smsRequestUrl=http://172.30.151.100:8051/send-sms/sendSmsGupShupAPI
+spring.mail.protocol=smtp
+spring.mail.host=172.19.65.67
+spring.mail.port=25
+
+#OTP Expire Time in minutes
+OTPValidDuration=10
+OTPLength=6
+otpRetryAttempt=3
+#adminEmail=no-reply@nas-nsdl.com
+adminEmail=no-reply@health.egov-nsdl.com.
+OTPString=0123456789
+
+PasswordExpireTimeInMin=10
+verifyOtpByPass.flag=Y
+sendMailByPass.flag=Y
+sendSmsBypass.flag=Y
+
+#smsRequestUrl=http://172.30.151.101:8083/send-sms/sendSmsGupShupAPI
+smsRequestUrl=http://172.30.151.100:8051/send-sms/sendSmsGupShupAPI
+#emailRequestUrl=http://172.30.151.101:8082/send-mail-gupshup/sendMailGupShupAPI
+emailRequestUrl=http://172.30.151.100:8098/send-mail-gupshup/sendMailGupShupAPI
+isGupshupAPI.flag=Y
+
+#gupshup sms properties addedgupshup
+gupshup.sendsms.smsurl = https://enterprise.smsgupshup.com/GatewayAPI/rest?
+gupshup.sendsms.method =SendMessage&
+gupshup.sendsms.msg-type = Unicode_text&
+gupshup.sendsms.sendto = send_to=
+gupshup.sendsms.msg = msg=
+gupshup.sendsms.auth-scheme = plain&
+#gupshup.sendsms.user-id = userid=2000168927&
+#gupshup.sendsms.password = password=kvSCcjQou&
+gupshup.sendsms.user-id = 2000198051&
+gupshup.sendsms.password =Password@1
+gupshup.sendsms.version = 1.1&
+gupshup.sendsms.format = text
+gupshup.http.sendsms.status.success = success
+gupshup.http.sendsms.msg.success = SMS sent successfully
+gupshup.http.sendsms.status.fail = fail
+gupshup.http.sendsms.msg.fail = SMS sending failed
+gupshup.sendsms.flag.dev = Y
+gupshup.sendsms.flag.vt = N
+
+#PROXY CONFIGURATIONS
+proxy.flag.active=N
+proxy.url=172.16.11.167
+proxy.port=3128
+################### Not required in Config server #######################

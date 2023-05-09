@@ -1,0 +1,77 @@
+.model-wrapper{
+    .profile-img-wrapper{
+        border: 1px solid gray;
+        height: 85px;
+        width: 85px;
+        border-radius: 50%;
+
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .modal-header{
+        background-color: #49e4a4a8;
+    }
+    .patient-details-wrap{
+        border-top: 1px solid #000;
+        .arrow-wrap{
+            height: 20px;
+            width: 20px;
+            font-size: 18px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            box-shadow:0px 0px 5px 4px pink;
+            margin-top: 4px;
+            span{
+                position: absolute;
+                top: -5%;
+                left: 25%;
+            };
+        }
+        .arrow-icon-down{
+            transform: rotate(90deg);
+        }
+        .arrow-icon-up{
+            transform: rotate(-90deg) !important;
+        }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .show-info{
+        display: block !important;
+        transition: display 0.2s linear;
+    }
+    // .patient-info{
+    //     display: none;
+    // }
+    .patient-error {
+        font-size: 12px;
+        margin-left: 22%;
+    }
+}
+
+.ptaient-container {
+    display: flex;
+    flex-direction: row;
+
+    .patient-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
+    }
+
+    .patient-name {
+        font-weight: 700;
+    }
+    .patinet-contact-number {
+        font-size: 12px;
+    }
+}

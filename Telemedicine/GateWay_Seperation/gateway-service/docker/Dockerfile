@@ -1,0 +1,21 @@
+FROM 172.16.11.166:37720/openjdk:8-jdk-alpine
+
+ARG spring_config_label
+
+ARG active_profile
+
+ARG spring_config_url
+
+ENV active_profile_env=${active_profile}
+
+ENV spring_config_url_env=${spring_config_url}
+
+ENV spring_config_label_env=${spring_config_label}
+
+
+copy ./gateway-*.jar gateway-service.jar
+
+EXPOSE 7076
+
+CMD java -jar -Dspring.profiles.active=${active_profile_env} gateway-service.jar 
+

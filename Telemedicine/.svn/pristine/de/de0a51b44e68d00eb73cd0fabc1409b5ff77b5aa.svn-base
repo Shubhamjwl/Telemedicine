@@ -1,0 +1,337 @@
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AppConstants } from "src/app/app-constants";
+import { IAPIResponseWrapper } from "../../interfaces/api-response-wrapper.interface";
+import { ISignInSignOutResponse } from "../../interfaces/signIn-signOut-response.interface";
+
+@Injectable({
+    providedIn: "root"
+})
+
+export class AuthService {
+
+
+  private readonly TOKEN: string = 'TOKEN';
+  private readonly USER_ID: string = 'USER_ID';
+  private readonly ROLE: string = 'ROLE';
+  private readonly DR_ID:string = 'Scribe_dr_Id';//scribe dr id
+  loggedUserID: string;
+
+  constructor(private httpClient: HttpClient, private route: Router) {
+  }
+
+  /**
+    * @description Used to store SignIn API call
+    * @type POST
+   */
+    signIn(data, uniqueString, captcha): Observable<any> {
+
+        let headers = new HttpHeaders();
+        headers = headers.set("sessionId", uniqueString);
+        headers = headers.set("captchaValue", captcha);
+        let payload = {
+            "id":"user",
+            "version":"1.0",
+            "requesttime":"2020-01-02T10:01:21.331Z",
+            request: data
+        }
+        return this.httpClient.post<IAPIResponseWrapper<ISignInSignOutResponse>>(AppConstants.signInURL, payload, {headers})
+        .pipe(
+            map(res => res)
+        );
+    }
+
+    /**
+     * doLoginUser function is used to store loggedIn User Id
+     * @param userID Used to store LoggedIn UserID
+     * @param token Used to store token for authentication
+     */
+    doLoginUser(userID: string, token: string, role: string){
+        this.loggedUserID = userID;
+        this.storeTokens(token, role);
+    }
+
+    /**
+     * storeTokens function is Used to store UserId and Token to sessionStorage
+     * @param token Used get token
+     */
+    private storeTokens(token: string, role: string) {
+        sessionStorage.setItem(this.USER_ID , this.loggedUserID);
+        sessionStorage.setItem(this.TOKEN , token);
+        sessionStorage.setItem(this.ROLE , role);
+    }
+
+    /**
+     * getToken function is used to get and return token from local storage
+     */
+    getToken() {
+        return sessionStorage.getItem(this.TOKEN);
+    }
+    getUserId(){
+        return sessionStorage.getItem(this.USER_ID);
+    }
+    getUserRole(){
+        return sessionStorage.getItem(this.ROLE);
+    }
+    getDrId(){
+        return sessionStorage.getItem(this.DR_ID);
+    }
+    isUserPatient(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.patient ? true : false;
+    }
+    isUserDoctor(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.doctor ? true : false;
+    }
+    isUserScribe(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.scribe ? true : false;
+    }
+    isUserCallcentre(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.callcentre ? true : false;
+    }
+    isUserReceptionist(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.receptionist ? true : false;
+    }
+    isUserSystemUser(){
+        return sessionStorage.getItem(this.ROLE) == AppConstants.systemuser ? true : false;
+    }
+    getRole(){
+        return sessionStorage.getItem(this.ROLE);
+    }
+
+    
+
+    /**
+     * isLoggedIn fuction is used to return boolean value if token is available
+     */
+    isLoggedIn() {
+        return !!this.getToken();
+    }
+    logout() {
+        sessionStorage.clear();
+    }
+    
+    /**
+     * @description Used to store Create API Call
+     * @type POST
+     */
+    createUser(): Observable<any> {
+        let payload = {
+            "id":"user.create",
+            "version":"1.0",
+            "requesttime":"2020-01-02T10:01:21.331Z",
+            "request":{
+                "userFullName":"saili26",
+                "userId":"sayali26",
+                "password":"Pas12t&*",
+                "mobileNumber":"7032286317",
+                "email":"test@gmail.com",
+                "userType":"Doctor",
+                "smcNumber": "1234AB",
+                "mciNumber": "0KASS"
+            }
+        }
+        // AppConstants.usermanagementModuleURL + AppConstants.appVersion +
+        return this.httpClient.post(AppConstants.createUserURL, payload);
+    }
+
+    registerDoctor(payload, files): Observable<any> {
+        let formData = new FormData();
+    // data.append("API", payload.inputFile);
+    const file = {
+            request: payload
+    }
+    formData.append("object", JSON.stringify(file));
+    formData.append("files", files);
+
+    // formData.append();
+    // data.append("documentRelatedTo", payload.documentRelatedTo);
+    // data.append("documentRefId", payload.documentRefId);
+    // data.append("documentTypeOthers", payload.documentTypeOthers);
+    // data.append("createdBy", this.userId);
+        return this.httpClient.post(AppConstants.doctorRegistrationModuleURL + AppConstants.appVersion + AppConstants.saveDoctorDetailsURL, file)
+    }
+
+     
+    /**
+     * @description Used to for updating terms and condition for doctor API Call
+     * @type GET
+     */
+    //  updateTermsAndCondForDoc(): Observable<any> {
+    //      console.log("enter in api calling")
+    //     return this.httpClient.get(AppConstants.doctorRegistrationModuleURL +
+    //          AppConstants.appVersion + AppConstants.updateTermsAndCondForDoc).pipe(map(res=>res));
+    //         }
+
+
+            updateTermsAndCondForDoc() 
+            {
+            return this.httpClient
+              .get<IAPIResponseWrapper<any>>(
+               AppConstants.doctorRegistrationModuleURL + 
+                    AppConstants.appVersion + 
+                    AppConstants.updateTermsAndCondForDoc
+               ) 
+               .pipe(map((res) => res));
+          }
+
+    /**
+     * @description Used to store sign out user API Call
+     * @type POST
+     */
+    signOut(): Observable<any> {
+        let payload = {
+            "id":"user.create",
+            "version":"1.0",
+            "requesttime":"2020-01-02T10:01:21.331Z",
+            "request":{
+                userId : sessionStorage.getItem('USER_ID') 
+            }
+        }
+        // { params: { loginId: sessionStorage.getItem('USER_ID') } }
+        return this.httpClient.post<IAPIResponseWrapper<ISignInSignOutResponse>>(AppConstants.signOutURL, 
+        payload);
+
+    }
+
+    /**
+     * @description Used to store reset Password API call
+     * @type POST
+     */
+     resetPassword(): Observable<any> {
+         let payload = {
+            "id":"user",
+            "version":"1.0",
+            "requesttime":"2020-01-02T10:01:21.331Z",
+            "request":{
+                "userId":"TESTADMIN",
+                "oldPwd":"Pass12!@",
+                "newPwd":"12!@Pass",
+                "confirmPwd":"12!@Pass"
+            }
+        }
+        return this.httpClient.post('usermanagement/v1/user/login/signout', payload);
+     }
+
+    
+    /**
+     * @description Used to store API call of Generate OTP
+     * @type POST
+     */
+    generateOtp(userId,mobileNo,emailID): Observable<any> {
+        let payload = {
+            // "id":"1",
+            // "version":"v1",
+            // "requesttime":"",
+            // "method": "POST",
+            request:{
+                userId: userId,
+                mobileNo: mobileNo,
+                emailID: emailID,
+                otpFor:"reg",
+                otpGenerateTpye:"same",
+                sendType:"both"
+            
+            }
+        }
+        return this.httpClient.post(AppConstants.otpManagerModuleURL + AppConstants.generateOtpURL, payload);
+    }
+
+        
+    /**
+     * @description Used to store API call of verify Generated OTP
+     * @type POST
+     */
+    verifyOtp(role, otp?, userID?): Observable<any> {
+        let payload = {
+            request:{
+                            userId:userID ? userID : '',
+                            mobileOTP: otp ? otp : "",
+                            emailOTP: otp ? otp : "",
+                            userRole : role
+            }
+        }
+        return this.httpClient.post(AppConstants.otpManagerModuleURL + AppConstants.verifyOtpURL, payload);
+    }
+
+    /**
+     * Used to generate Captcha
+     * @param uniqueString i used to store random generated unique string
+     */
+    generateCaptcha(uniqueString: string): Observable<any> {
+        let headers = new HttpHeaders();
+        headers = headers.set("sessionId", uniqueString);
+        headers = headers.set("Accept", "application/json");
+        headers = headers.set("Content-Type", "application/json");
+
+        return this.httpClient.post(AppConstants.captchaModuleURL + AppConstants.generateCaptchaURL,{}, {headers, responseType: 'blob' });
+    }
+
+        /**
+     * Used to generate Captcha
+     * @param uniqueString i used to store random generated unique string
+     */
+    verifyCaptcha(uniqueString: string, captcha: string): Observable<any> {
+        let headers = new HttpHeaders();
+        headers = headers.set("sessionId", uniqueString);
+        headers = headers.set("captchaValue", captcha);
+        headers = headers.set("flagValue", 'false');
+
+        return this.httpClient.post<IAPIResponseWrapper<any>>(AppConstants.captchaModuleURL + AppConstants.verifyCaptchaURL,{}, {headers});
+    }
+
+    registerPatient(request): Observable<any> {
+        let payload = {
+            version: "1.0",
+            request: request
+        }
+        return this.httpClient.post(AppConstants.patientRegistrationURL, payload);//AppConstants.patientModuleURL + AppConstants.appVersion +
+
+    }
+
+    forgotPassword(payload): Observable<any> {
+        // AppConstants.usermanagementModuleURL + AppConstants.appVersion +
+        return this.httpClient.post(AppConstants.forgotPasswodURL, payload).pipe(map(res => res));
+    }
+
+    updatePassword(request, sessionId, captcha): Observable<any> {
+        let headers = new HttpHeaders();
+        headers = headers.set("sessionId", sessionId);
+        headers = headers.set("captchaValue", captcha);
+        let payload = {
+            id:"user",
+            version:"1.0",
+            requesttime:"2020-01-02T10:01:21.331Z",
+            request: request
+        }
+        // AppConstants.usermanagementModuleURL + AppConstants.appVersion + 
+        return this.httpClient.post<IAPIResponseWrapper<any>>(AppConstants.resetPasswordURL, payload, {headers}).pipe(map(res => res));
+    }
+    getUserDetailsAndSendOTP(userID, fromWhere){
+        let payoad = {
+            id: "send OTP for forgot/change password",
+            request: {
+                userId: userID,
+                otpFor: fromWhere
+            }
+        }
+        let url = AppConstants.getUserDetailsAndSendOTP;
+        return this.httpClient.post(url,  payoad).pipe(map(res => res));
+    }
+
+    signOutWithOutToken(userID) {
+        let payload = {
+            id: "user",
+            version: "1.0",
+            requesttime: "2020-01-02T10:01:21.331Z",
+            request: {
+                userId: userID //sessionStorage.getItem('USER_ID') //"P9224604040"
+            }
+        }
+        
+        let url = AppConstants.signoutWithoutToken;
+        return this.httpClient.post<IAPIResponseWrapper<any>>(url,  payload).pipe(map(res => res));
+    }
+ }

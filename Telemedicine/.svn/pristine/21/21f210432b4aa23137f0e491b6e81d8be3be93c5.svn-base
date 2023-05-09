@@ -1,0 +1,119 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpResp;
+import com.nsdl.ndhm.dto.GenerateOtpDTO;
+import com.nsdl.ndhm.dto.GenerateOtpResp;
+import com.nsdl.ndhm.dto.HealthIDDTO;
+import com.nsdl.ndhm.dto.HealthIDResp;
+import com.nsdl.ndhm.dto.MainRequestDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.ResendOtpDTO;
+import com.nsdl.ndhm.dto.ResendOtpResp;
+import com.nsdl.ndhm.exception.HealthIdCreationException;
+import com.nsdl.ndhm.service.AssistedHealthIdCreationService;
+
+@RestController
+@CrossOrigin
+public class AssistedhealthIdCreationController {
+
+	private static final Logger logger = LoggerFactory.getLogger(AssistedhealthIdCreationController.class);
+	@Autowired
+	AssistedHealthIdCreationService assistedHealthIdCreationService;
+
+	/*
+	 * for generate opt for Assisted
+	 */
+	@PostMapping(value = "/generateOTPForMobileAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<GenerateOtpResp>> generateOTP(@RequestHeader Map<String, String> headers,
+			@RequestBody GenerateOtpDTO generateOTPDTO) {
+		MainResponseDTO<GenerateOtpResp> mainResponse = null;
+		logger.info("Generate OTP Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationService.generateOTPForAssisted(headers, generateOTPDTO);
+		} catch (Exception e) {
+			logger.error("Error in generateOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for resend opt Assisted
+	 */
+	@PostMapping(value = "/resendOTPForMobileAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<ResendOtpResp>> resendOTPForMobile(@RequestHeader Map<String, String> headers,
+			@RequestBody ResendOtpDTO resendOTPDTO) {
+		MainResponseDTO<ResendOtpResp> mainResponse = null;
+		logger.info("Resend OTP Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationService.resendOTPForAssisted(headers, resendOTPDTO);
+		} catch (Exception e) {
+			logger.error("Error in generateOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * for verify opt for Assisted
+	 */
+	@PostMapping(value = "/verifyOTPForMobileAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<ConfirmOtpResp>> confirmOTP(@RequestHeader Map<String, String> headers,
+			@RequestBody ConfirmOtpDTO confirmOtpDTO) {
+		MainResponseDTO<ConfirmOtpResp> mainResponse = null;
+		logger.info("Verify OTP Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationService.confirmOTPForAssisted(headers, confirmOtpDTO);
+		} catch (Exception e) {
+			logger.error("Error in confirmOTP {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+	/*
+	 * create HealthId for Assisted
+	 */
+	@PostMapping(value = "/helathIDcreationForMobileAssisted", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<HealthIDResp>> saveHealthIdDetails(@RequestHeader Map<String, String> headers,
+			@Valid @RequestBody MainRequestDTO<HealthIDDTO> healthIDDTO) throws HealthIdCreationException {
+		MainResponseDTO<HealthIDResp> mainResponse = null;
+		logger.info("Registration-HealthId Request Received For Assisted");
+		try {
+			mainResponse = assistedHealthIdCreationService.saveHealthIdByMobileForAssisted(headers, healthIDDTO);
+			mainResponse.setId(healthIDDTO.getId());
+			mainResponse.setVersion(healthIDDTO.getVersion());
+			mainResponse.setResponsetime(healthIDDTO.getRequestTime());
+		} catch (Exception e) {
+			logger.error("Error in saveHealthIdDetails {} ", e);
+		}
+
+		return null != mainResponse && mainResponse.isStatus() && mainResponse.getErrors() == null
+				? ResponseEntity.status(HttpStatus.OK).body(mainResponse)
+				: ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(mainResponse);
+	}
+
+}

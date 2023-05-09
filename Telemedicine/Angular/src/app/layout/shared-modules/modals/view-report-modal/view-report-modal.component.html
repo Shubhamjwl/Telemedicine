@@ -1,0 +1,26 @@
+<h3 mat-dialog-title>
+    <button class="close float-right ml-3" mat-button [mat-dialog-close]="data" cdkFocusInitial type="button">×</button>
+</h3>
+<mat-dialog-content class="mat-typography">
+    <div class="col-12" > 
+        <div *ngIf = "imgUrl">
+            <object [attr.data]="imgPath" type="application/pdf" style="width: 100%;height: 1000px;">
+            </object>
+        </div>
+    </div>
+    <!-- <br><hr>  -->
+    <!-- {{imgUrl}} -->
+    <!-- <div class="col-12" style="height: 100vh">
+        <lib-ngx-image-zoom
+            [thumbImage]="imgUrl"
+            [fullImage]="imgUrl"
+            [magnification]="1"
+            [enableScrollZoom]="true"
+            [enableLens]="true"
+            [lensHeight] = "200"
+            [lensWidth]="200"
+            [circularLens]="true"
+        >
+        </lib-ngx-image-zoom>
+    </div> -->
+</mat-dialog-content>

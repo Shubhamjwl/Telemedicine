@@ -1,0 +1,115 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<div class="completed-appointments">
+    <div class="container">
+        <form [formGroup]="searchForm">
+            <div class="row">
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                        <mat-label>{{'apptId' | l10n}}</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="apptId"
+                            placeholder="Enter {{'apptId' | l10n}}">
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2"  *ngIf="userRole == 'DOCTOR'">
+                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                        <mat-label>{{'pntName' | l10n}}</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="name"
+                            placeholder="Enter {{'pntName' | l10n}}">
+                    </mat-form-field>
+                </div> -->
+                <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 mt-3 pl-4">
+                    <h3>Or</h3>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <div>
+                        <!-- MATERIAL DATE PICKER -->
+                        <mat-form-field class="example-full-width mr-1" appearance="fill">
+                            <mat-label>Select From Date</mat-label>
+                            <input matInput [matDatepicker]="datePicker" [max]="startDate" formControlName="fromDate"
+                                readonly>
+                            <mat-datepicker-toggle matSuffix [for]="datePicker">
+                                <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datePicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <div>
+                        <!-- MATERIAL DATE PICKER -->
+                        <mat-form-field class="example-full-width mr-1" appearance="fill">
+                            <mat-label>Select To Date</mat-label>
+                            <input matInput [matDatepicker]="picker" [max]="startDate" formControlName="toDate"
+                                readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error
+                                *ngIf="searchForm.get('toDate').errors && (searchForm.get('toDate').touched || searchForm.get('toDate').dirty)">
+                                <span *ngIf="searchForm.get('toDate').errors.required">Please select to date</span>
+                                <span *ngIf="searchForm.get('toDate').errors.max">To date should be greater than from
+                                    date</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                    <button class="btn btnColor mr-2" (click)="clear()">Clear</button>
+                    <button class="btn btnColor" (click)="searchByFilter()">Search</button>
+                </div>
+            </div>
+        </form>
+        <div>
+
+            <div class="example-container mat-elevation-z8 mt-2"
+                *ngIf="dataSource && dataSource.data && dataSource.data.length">
+
+                <mat-table [dataSource]="dataSource" matSort>
+
+                    <!-- ID Column -->
+                    <!-- *ngIf="userRole == 'DOCTOR'" -->
+                    <ng-container matColumnDef="patientName" *ngIf="userRole !== 'PATIENT'">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Patient Name  </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="date"> {{row.patientName}} </mat-cell>
+                    </ng-container>
+                     
+                    <ng-container matColumnDef="appointmentId">
+                        <mat-cell *matCellDef="let row" class="appointmentId" width="10%"> {{row.appointmentId}}
+                        </mat-cell>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Appointment ID </mat-header-cell>
+                        <!-- <mat-cell *matCellDef="let row" class="appointmentId"> {{row.appointmentId}} </mat-cell> -->
+                    </ng-container>
+
+                    <ng-container matColumnDef="date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="date"> Date </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="date"> {{row.appointmentDate}} </mat-cell>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="time">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="view">Appointment Time
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="time">
+                            {{row.appointmentSlot}}
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </mat-row>
+                </mat-table>
+
+                <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]">
+                </mat-paginator>
+            </div>
+        </div>
+        <div class="row" *ngIf="!(dataSource && dataSource.data && dataSource.data.length)">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+                <p class="p-5 bg-white">No Data Found!</p>
+            </div>
+        </div>
+    </div>
+</div>

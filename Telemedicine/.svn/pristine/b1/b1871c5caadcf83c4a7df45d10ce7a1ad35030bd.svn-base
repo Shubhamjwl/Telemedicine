@@ -1,0 +1,357 @@
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+@Component({
+  selector: 'app-reg-patient-url',
+  templateUrl: './reg-patient-url.component.html',
+  styleUrls: ['./reg-patient-url.component.scss']
+})
+export class RegPatientUrlComponent implements OnInit {
+  doctorDetails: any;
+	appointmentFormGroup: FormGroup;
+	form: FormGroup;
+	slotsList = {
+		today: [],
+		tomarrow: [],
+		otherDate: []
+	};
+	selectedDate: any;
+	show: boolean = false;
+	isChangeDate: boolean = false;
+	date: Date = new Date();
+	todayDate: any;
+	tomorrowDate: any;
+	token: any;
+	data: any;
+	modelref: any;
+	loader: boolean = false;
+	slotType: any;
+	consultType: any;
+	showMsg: boolean = false;
+  randomStringForCaptcha: string;
+  captcha;
+  forgotLoader: boolean;
+  doctorListBySpeciality: any;
+
+	constructor(
+		private fb: FormBuilder,
+		private datePipe: DatePipe,
+		private modelService: NgbModal,
+		public route: ActivatedRoute,
+        public authService: AuthService,
+		public router: Router,
+		private toastrMessage: ToastMessageService,
+		public patientService: PatientService,
+		private dataPassingService: DataPassingService,
+		private spinner: NgxSpinnerService,
+		private dialog: MatDialog,
+	) 
+  {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+    this.loader = false;
+   this.forgotLoader = false;
+ 
+
+  
+		this.route.queryParams.subscribe((params) => {
+			if (params && params.jwt) {
+				this.token = params.jwt;
+				this.bookAppointmentOnline(params.jwt)
+			} else {
+				this.toastrMessage.showErrorMsg('This is invalid link, Please visit valid link', 'Error');
+				this.router.navigateByUrl('/sign-in', { relativeTo: this.route });
+			}
+		})
+		this.appointmentFormGroup = this.fb.group({
+			date: []
+		})
+		this.form = this.fb.group({
+			
+			patientName: ['', [Validators.required, CustomValidators.fullNameValidator(150)]],
+			mobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+			dob:[''],
+			captcha: [''],
+			
+		})
+		this.selectedDate = null;
+		this.todayDate = this.datePipe.transform(this.date, "yyyy-MM-dd");
+		let tdate = new Date(this.date);
+		tdate.setDate(this.date.getDate() + 1);
+		this.tomorrowDate = this.datePipe.transform(tdate, "yyyy-MM-dd");
+		this.show = false;
+		this.loader = false;
+	}
+
+	ngOnInit(): void {
+		this.form = this.fb.group({
+			
+			patientName: ['', [Validators.required, CustomValidators.fullNameValidator(150)]],
+			mobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+			dob:[''],
+			captcha: [''],
+			
+		})
+
+		this.generateCaptcha();
+
+		this.dataPassingService.callDocDashboard.subscribe(result => {
+			this.show = false;
+			this.selectedDate = null;
+			this.appointmentFormGroup.reset();
+			this.form.reset();
+			this.isChangeDate = false;
+			if (this.modelref) {
+				this.modelref.close();
+			}
+			this.bookAppointmentOnline(this.token);
+		});
+		this.dataPassingService.paymentObservable.subscribe((data) => {
+			if (data == 'start') {
+				this.spinner.show();
+			} else {
+				this.spinner.hide();
+			}
+
+		});
+
+		this.doctorDetails = {
+			doctorId: '',
+			doctorName: '',
+			speciality: '',
+			consultFee: '',
+			drProfilePhoto: '',
+			convenienceCharge:''
+		}
+	}
+	changeDate(event) {
+		this.selectedDate = this.datePipe.transform(event.target.value, "yyyy-MM-dd");
+		this.isChangeDate = true;
+		this.slotsList['otherDate'] = [];
+		this.bookAppointmentOnline(this.token);
+	}
+
+	bookAppointmentOnline(token) {
+		this.spinner.show();
+		let payload = {
+			id: "appointment",
+			request: {
+				username: token,
+				availabilityStartDate: this.selectedDate ? this.selectedDate : null,
+				availabilityEndDate: this.selectedDate ? this.selectedDate : null
+			}
+		}
+		this.patientService.bookAppointmentOnline(payload).subscribe((result: any) => {
+			this.spinner.hide();
+			this.slotsList.today = [];
+			this.slotsList.otherDate = [];
+			if (result.status && result.response) {
+				this.doctorDetails.doctorId = result.response[0].doctorId ? result.response[0].doctorId : '';
+				this.doctorDetails.doctorName = result.response[0].doctorName ? result.response[0].doctorName : '';
+				this.doctorDetails.speciality = result.response[0].speciality ? result.response[0].speciality : '';
+				this.doctorDetails.consultFee = result.response[0].consultFee ? result.response[0].consultFee : '';
+				this.doctorDetails.convenienceCharge = result.response[0].convenienceCharge ? result.response[0].convenienceCharge : '';
+				//this.doctorDetails.drProfilePhoto = this.doctorDetails.drProfilePhoto ? this.doctorDetails.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 'assets/images/img_avatar.png';
+				//console.log(this.doctorDetails.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`),"photo");
+				result.response.forEach(element => {
+				if(element) {
+					let updatedProfileURL;
+					if (element.drProfilePhoto) {
+					  
+					  updatedProfileURL = element.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`)
+					} else {
+					  updatedProfileURL = 'assets/images/img_avatar.png';
+					}
+					console.log(updatedProfileURL,"photo");
+					// .split('\\')
+					//     .filter(x=> x)
+					//     .join('/')
+					element.drProfilePhoto = updatedProfileURL;
+					// element.drProfilePhoto = 
+					
+					// element.drProfilePhoto =  element.drProfilePhoto ? element.drProfilePhoto.replace('\\', '/') : 'assets/images/img_avatar.png';
+					// element.drProfilePhoto =  element.drProfilePhoto ? element.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 
+					// 
+				  }
+				});
+				this.doctorListBySpeciality = result.response;
+				let slotDetails = result.response[0].slotDetails;
+
+				slotDetails.forEach(element => {
+					if (!this.isChangeDate && element.slotDate === this.todayDate) {
+						this.slotsList.today.push(element);
+						this.selectedDate = this.todayDate;
+					} else
+						if (this.isChangeDate) {
+							this.slotsList['otherDate'].push(element);
+						}
+				});
+			} else if (!result.status || result.errors) {
+				this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+			}
+		}, (error) => {
+			this.spinner.hide();
+		})
+
+
+	}
+
+	openModel(model, data, day) {
+		if (day == 'today') {
+			this.selectedDate = this.todayDate;
+		}
+		this.data = data;
+		this.slotType = data.slotType
+
+		this.show = false;
+		this.form.reset();
+		this.modelref = this.modelService.open(model, { backdrop: 'static' });
+	}
+
+  randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i)
+      result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+  }
+
+  generateCaptcha() {
+    this.authService
+      .generateCaptcha(this.randomStringForCaptcha)
+      .subscribe((result) => {
+        this.createImageFromBlob(result);
+      },(error) => {
+        this.toastrMessage.showErrorMsg(error.message, 'Error');
+      });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.captcha = reader.result;
+      },
+      false
+    );
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+   /**
+   * Used to get New CPACHA image from API response
+   */
+    refreshCpacha() {
+      this.randomStringForCaptcha = this.randomString(
+        10,
+        '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      );
+      this.form.controls['captcha'].setValue(null);
+      this.generateCaptcha();
+    }
+  
+
+  verifyCaptcha() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    } 
+    else {
+      //this.loader = true;
+      let captcha = this.form.get('captcha').value;
+      this.authService
+        .verifyCaptcha(this.randomStringForCaptcha, captcha)
+        .subscribe((result) => {
+          if (result['status']) {
+            this.signIn(this.randomStringForCaptcha, captcha);
+          } else {
+            if (result['errors']) {
+              this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+            }
+            this.loader = false;
+          }
+        },error => {
+          this.loader = false;
+          this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+        });
+    }
+  }
+	
+  signIn(randomStringForCaptcha, captcha) {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.loader = false;
+      return;
+    }
+    else {
+      // this.userSignIn(randomStringForCaptcha, captcha);
+    }
+  }
+
+  onClickSubmit() {
+    this.spinner.show();
+    let {patientName, mobileNo,dob} = this.form.value;
+	console.log("savePatientLogin");
+      if(patientName && mobileNo) {
+        let payload = {
+			id: "registration",
+			request: {
+				patientName: patientName ? patientName : null,
+				ptMobileNo: mobileNo ? mobileNo : null,
+				ptEmailID: 'patientUrl@registration.com',
+				ptDateOfBirth: dob ? dob : null,
+				doctorUserID: this.token,
+			}
+        //   patientName: patientName ? patientName : null,
+        //   docUserID: 'kKejeISa4cJV0XERTpQcOQ==',  //this.doctorDetails.doctorId, //sessionStorage.getItem('USER_ID') ? sessionStorage.getItem('USER_ID') : null, 
+        //   ptMobileNo: mobileNo ? mobileNo : null,
+		//   ptEmailID:'patientUrl@registration.com',
+          
+        }
+        this.patientService.patientRegistartionByExternalLink(payload).subscribe(result => {  this.spinner.hide();
+			
+          if (result.status) {
+			this.showMsg= true;
+            this.form.reset();
+			this.refreshCpacha();
+			console.log(this.showMsg);
+			//alert("Successfully");
+			//window.location.reload();
+            //this.toastrMessage.showSuccessMsg("You have been successfully registered on Dr. this.doctorDetails.doctorName portal and appointment system. To fix appointments with Dr. {{doctorDetails.doctorName}} get self assessment forms, health education videos and more from Dr,  please visit the doctor’s website",'success');
+          } else {
+            if (result.errors) {
+				this.refreshCpacha();
+              this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+            }
+          }
+        },error => {
+          this.spinner.hide();
+		  this.refreshCpacha();
+          this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+        })
+      }else {
+        this.spinner.hide();
+		this.refreshCpacha();
+        this.toastrMessage.showWarningMsg('Please select all required fields', 'Warning');
+      }
+    
+  }
+
+  exit() {
+	this.ngOnInit()
+  }
+
+}

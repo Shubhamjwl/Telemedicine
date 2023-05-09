@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="28" viewBox="0 0 26 28">
+  <g id="clinic-details" transform="translate(-3 -2)">
+    <path id="Path_1112" data-name="Path 1112" d="M28,30H16a1,1,0,0,1-1-1V3a1,1,0,0,1,1-1H28a1,1,0,0,1,1,1V29A1,1,0,0,1,28,30ZM17,28H27V4H17Z" fill="#fff"/>
+    <path id="Path_1113" data-name="Path 1113" d="M24,30H20a1,1,0,0,1-1-1V23a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v6A1,1,0,0,1,24,30Zm-3-2h2V24H21Z" fill="#fff"/>
+    <path id="Path_1114" data-name="Path 1114" d="M16,30H4a1,1,0,0,1-1-1V13a1,1,0,0,1,1-1H16a1,1,0,0,1,1,1V29A1,1,0,0,1,16,30ZM5,28H15V14H5Z" fill="#fff"/>
+    <path id="Path_1115" data-name="Path 1115" d="M24,10H20a1,1,0,0,1,0-2h4a1,1,0,0,1,0,2Z" fill="#fff"/>
+    <path id="Path_1116" data-name="Path 1116" d="M22,12a1,1,0,0,1-1-1V7a1,1,0,0,1,2,0v4A1,1,0,0,1,22,12Z" fill="#fff"/>
+    <path id="Path_1117" data-name="Path 1117" d="M8,20a1,1,0,0,1-1-1V17a1,1,0,0,1,2,0v2A1,1,0,0,1,8,20Z" fill="#fff"/>
+    <path id="Path_1118" data-name="Path 1118" d="M8,26a1,1,0,0,1-1-1V23a1,1,0,0,1,2,0v2A1,1,0,0,1,8,26Z" fill="#fff"/>
+    <path id="Path_1119" data-name="Path 1119" d="M12,20a1,1,0,0,1-1-1V17a1,1,0,0,1,2,0v2A1,1,0,0,1,12,20Z" fill="#fff"/>
+    <path id="Path_1120" data-name="Path 1120" d="M12,26a1,1,0,0,1-1-1V23a1,1,0,0,1,2,0v2A1,1,0,0,1,12,26Z" fill="#fff"/>
+    <path id="Path_1121" data-name="Path 1121" d="M24,20H20a1,1,0,0,1,0-2h4a1,1,0,0,1,0,2Z" fill="#fff"/>
+  </g>
+</svg>

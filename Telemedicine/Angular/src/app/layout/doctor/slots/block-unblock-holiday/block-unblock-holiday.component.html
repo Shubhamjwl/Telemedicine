@@ -1,0 +1,44 @@
+<h3 mat-dialog-title>
+    <b> Mark / Cancel Holiday </b>
+    <button class="close float-right ml-3" mat-button [mat-dialog-close]="data" cdkFocusInitial type="button">×</button>
+</h3>
+<mat-dialog-content class="mat-typography">
+    <div class="col-12">
+        <form class="mt-4 mb-4" [formGroup]="form" (ngSubmit)="confirmHoliday(form.value)">
+            <div class="row">
+                <div class="col-12">
+                    <mat-radio-group formControlName="holiday">
+                        <mat-radio-button value="setHoliday" class="mr-3">Set Holiday</mat-radio-button>
+                        <mat-radio-button value="cancelHoliday">Cancel Set Holiday</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <div *ngFor="let item of receivedMessage">
+                        {{ item | date: 'dd/MM/yyyy'}}
+                        <hr class="mt-1 mb-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                        <mat-label class="labelSize14"> <b>Reason</b> </mat-label>
+                        <textarea matInput rows="5" formControlName="reason" placeholder="Enter Reason"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <button type="reset" class="btn btnColor float-left">Cancel</button>
+                </div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary float-right">Confirm</button>
+                </div>
+            </div>
+        </form>
+
+      </div>
+
+</mat-dialog-content>

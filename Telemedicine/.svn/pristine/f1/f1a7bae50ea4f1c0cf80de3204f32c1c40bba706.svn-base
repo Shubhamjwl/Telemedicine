@@ -1,0 +1,220 @@
+package com.nsdl.auth.service.impl;
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.auth.constant.AuthConstant;
+import com.nsdl.auth.dto.AdminConfigRequest;
+import com.nsdl.auth.dto.AdminConfigResponse;
+import com.nsdl.auth.dto.CategoryDto;
+import com.nsdl.auth.dto.CategoryStatusRequest;
+import com.nsdl.auth.dto.CategoryStatusResponse;
+import com.nsdl.auth.dto.MainRequestDTO;
+import com.nsdl.auth.dto.MainResponseDTO;
+import com.nsdl.auth.entity.AuditDrFeatureMapEntity;
+import com.nsdl.auth.entity.DoctorFeatureMapEntity;
+import com.nsdl.auth.entity.DoctorMstrDtlsEntity;
+import com.nsdl.auth.entity.DoctorRegDtlsEntity;
+import com.nsdl.auth.exception.AuthErrorConstant;
+import com.nsdl.auth.exception.DateParsingException;
+import com.nsdl.auth.exception.ServiceError;
+import com.nsdl.auth.logger.LoggingClientInfo;
+import com.nsdl.auth.repository.AuditDrFeatureMapRepo;
+import com.nsdl.auth.repository.DoctorFeatureMapRepo;
+import com.nsdl.auth.repository.DoctorMstrRepo;
+import com.nsdl.auth.repository.DoctorSessionRepo;
+import com.nsdl.auth.repository.RegistrationRepo;
+import com.nsdl.auth.service.AdminConfigrationService;
+import com.nsdl.auth.utility.AuthUtil;
+
+@Service
+@LoggingClientInfo
+public class AdminConfigrationServiceImpl implements AdminConfigrationService {
+
+	@Autowired
+	DoctorSessionRepo docSessionRepo;
+	
+	@Autowired
+	DoctorMstrRepo doctormstrRepo;
+
+	@Autowired
+	RegistrationRepo registrationRepo;
+	
+	@Autowired
+	DoctorFeatureMapRepo doctorFeatureMapRepo;
+	
+	@Autowired
+	AuditDrFeatureMapRepo auditDrFeatureMapRepo;
+
+
+	private static final Logger logger = LoggerFactory.getLogger(AdminConfigrationServiceImpl.class);
+	
+	@Override
+	public List<AdminConfigResponse> adminConfig(MainRequestDTO<AdminConfigRequest> adminConfigRequest) {
+		
+		 List<AdminConfigResponse> adminConfigResponse =new ArrayList<AdminConfigResponse>(); 
+		 String criteriaType=adminConfigRequest.getRequest().getCriteriaType(); 
+		 LocalDate fromDate=LocalDate.parse(adminConfigRequest.getRequest().getFromDate());
+		 LocalDateTime startTime= fromDate.atStartOfDay(); 
+		 LocalDate toDate=LocalDate.parse(adminConfigRequest.getRequest().getToDate()); 
+		 LocalDateTime endTime= toDate.atStartOfDay(); 
+		 if(criteriaType.equalsIgnoreCase("loggedIn")) {
+				 
+					 List<DoctorMstrDtlsEntity> doctorMstrDtlsEntityList =  doctormstrRepo.getDoctorMstrDtlsForLoggedIn(startTime,endTime,adminConfigRequest.getRequest().getSpecialization(),adminConfigRequest.getRequest().getCity(),adminConfigRequest.getRequest().getAssociationName());
+				  for(DoctorMstrDtlsEntity doctorMstrDtls : doctorMstrDtlsEntityList) {
+					  List<String> categoryRequestList= adminConfigRequest.getRequest().getCategoryType();
+					  List<DoctorFeatureMapEntity> doctorFeatureMapEntityList = getCategoryDtls(doctorMstrDtls.getDmdUserId(),categoryRequestList);
+					  
+					  Timestamp registerOn= doctorRegistrationDate(doctorMstrDtls.getDmdUserId());
+					  List<CategoryDto> categoryDtoList = getCategoryType(doctorFeatureMapEntityList);
+					  AdminConfigResponse adminConfigDto= new AdminConfigResponse();
+					  adminConfigDto.setDrUserID(doctorMstrDtls.getDmdUserId());
+					  adminConfigDto.setDrFullName(doctorMstrDtls.getDmdDrName());
+					  adminConfigDto.setAssociateName(doctorMstrDtls.getDmdAssociationName());
+					  adminConfigDto.setCity(doctorMstrDtls.getDmdCity());
+					  adminConfigDto.setDrSpecilization(doctorMstrDtls.getDmdSpecialiazation());
+					  adminConfigDto.setRegisterOn(registerOn);
+					  adminConfigDto.setDrEmail(doctorMstrDtls.getDmdEmail());
+					  adminConfigDto.setCategory(categoryDtoList);
+			
+					  adminConfigResponse.add(adminConfigDto);
+					  
+				  }
+					    
+		 }else if(criteriaType.equalsIgnoreCase("Register")) {
+				 
+				 List<DoctorMstrDtlsEntity> doctorMstrDtlsEntityList=  doctormstrRepo.getDoctorMstrDtlsForRegisteration(startTime,endTime,adminConfigRequest.getRequest().getSpecialization(),adminConfigRequest.getRequest().getCity(),adminConfigRequest.getRequest().getAssociationName());
+				  for(DoctorMstrDtlsEntity doctorMstrDtls : doctorMstrDtlsEntityList) {
+					  
+					  List<String> categoryRequestList= adminConfigRequest.getRequest().getCategoryType();
+					  List<DoctorFeatureMapEntity> doctorFeatureMapEntityList = getCategoryDtls(doctorMstrDtls.getDmdUserId(),categoryRequestList);
+					    List<CategoryDto> categoryDtoList = getCategoryType(doctorFeatureMapEntityList);
+					  Timestamp registerOn= doctorRegistrationDate(doctorMstrDtls.getDmdUserId());
+					  AdminConfigResponse adminConfigDto= new AdminConfigResponse();
+					  adminConfigDto.setDrUserID(doctorMstrDtls.getDmdUserId());
+					  adminConfigDto.setDrFullName(doctorMstrDtls.getDmdDrName());
+					  adminConfigDto.setAssociateName(doctorMstrDtls.getDmdAssociationName());
+					  adminConfigDto.setCity(doctorMstrDtls.getDmdCity());
+					  adminConfigDto.setDrSpecilization(doctorMstrDtls.getDmdSpecialiazation());
+					  adminConfigDto.setRegisterOn(registerOn);
+					  adminConfigDto.setDrEmail(doctorMstrDtls.getDmdEmail());
+					  adminConfigDto.setCategory(categoryDtoList);
+					  
+					  adminConfigResponse.add(adminConfigDto);
+				  }
+
+			 
+		 }else {
+			 logger.error("Criteria Type Invalid");
+			 throw new DateParsingException(
+						new ServiceError(AuthErrorConstant.CRITERIA_TYPE_INVALID, AuthConstant.CRITERIA_TYPE_INVALID));
+		 }
+		 
+		 if(adminConfigResponse.size()==0) {
+			 throw new DateParsingException(
+						new ServiceError(AuthErrorConstant.RECORD_NOT_FOUND_ERR_CODE, AuthConstant.RECORD_NOT_FOUND));
+		 }
+		
+		return adminConfigResponse;
+	}
+
+	
+private List<DoctorFeatureMapEntity> getCategoryDtls(String dmdUserId, List<String> categoryRequestList) {
+	List<DoctorFeatureMapEntity> doctorFeatureMapEntityList = new ArrayList<DoctorFeatureMapEntity>();
+	for( String categoryType : categoryRequestList) {
+		   
+		   DoctorFeatureMapEntity doctorFeatureMapEntity = doctorFeatureMapRepo.getCategoryDtls(dmdUserId,categoryType);
+		  doctorFeatureMapEntityList.add(doctorFeatureMapEntity);
+	  }
+		return doctorFeatureMapEntityList;
+	}
+
+
+private List<CategoryDto> getCategoryType(List<DoctorFeatureMapEntity> doctorFeatureMapEntityList) {
+		
+	       List<CategoryDto> categoryDtoList = new ArrayList<CategoryDto>();
+	    for(DoctorFeatureMapEntity doctorFeatureMapEntity : doctorFeatureMapEntityList) {
+	    	
+	    	CategoryDto categoryDto = new CategoryDto();
+	    	categoryDto.setCategoryId(doctorFeatureMapEntity.getDfmdId()); 
+	    	categoryDto.setCategoryName(doctorFeatureMapEntity.getDfmdCategoryName());
+	    	categoryDto.setCategoryFlag(doctorFeatureMapEntity.getDfmdFlag());
+	    	categoryDtoList.add(categoryDto);
+	    }
+       	
+	
+		return categoryDtoList;
+	}
+
+
+private Timestamp doctorRegistrationDate(String dmdUserId) {
+		
+		DoctorRegDtlsEntity doctorRegDtlsEntity = registrationRepo.findDoctorDetailsByUserID(dmdUserId);
+		 Timestamp regDate= doctorRegDtlsEntity.getDrdVerifiedLvl2Tmstmp();
+		
+		return  regDate;
+	}
+
+@Transactional
+@Override
+public MainResponseDTO<CategoryStatusResponse> updateCategoryStatus(
+		@Valid MainRequestDTO<CategoryStatusRequest> categoryStatusRequest) {
+	
+	MainResponseDTO<CategoryStatusResponse> response = new MainResponseDTO<CategoryStatusResponse>();
+	CategoryStatusResponse categoryStatusResponse = new CategoryStatusResponse();
+	DoctorFeatureMapEntity drFeatureMapEntity = new DoctorFeatureMapEntity();
+	Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+	Optional<DoctorFeatureMapEntity> doctorFeatureMapEntity = doctorFeatureMapRepo.IsRecordExist(categoryStatusRequest.getRequest().getDrUserId(),categoryStatusRequest.getRequest().getCategoryName());
+	
+	try {
+	if(doctorFeatureMapEntity.isPresent()) {
+		
+		 doctorFeatureMapRepo.updateFlag(categoryStatusRequest.getRequest().getDrUserId(),categoryStatusRequest.getRequest().getCategoryName(),categoryStatusRequest.getRequest().getFlag(),time);
+		 AuditDrFeatureMapEntity auditDrFeatureMapEntity = new AuditDrFeatureMapEntity();
+		 auditDrFeatureMapEntity.setAdfmdDrUserId(doctorFeatureMapEntity.get().getDfmdDrUserId());
+		 auditDrFeatureMapEntity.setAdfmdDrEmail(doctorFeatureMapEntity.get().getDfmdDrEmail());
+		 auditDrFeatureMapEntity.setAdfmdCategoryName(doctorFeatureMapEntity.get().getDfmdCategoryName());
+		 auditDrFeatureMapEntity.setAdfmdCreatedTime(time);
+		 auditDrFeatureMapEntity.setAdfmdUpdatedTime(time);
+		 auditDrFeatureMapEntity.setAdfmdFlag(categoryStatusRequest.getRequest().getFlag());
+		 auditDrFeatureMapRepo.save(auditDrFeatureMapEntity);
+		 categoryStatusResponse.setDrUserId(categoryStatusRequest.getRequest().getDrUserId());
+		 categoryStatusResponse.setMsg(AuthConstant.CRITERIA_STATUS);
+	}else {
+		
+		drFeatureMapEntity.setDfmdDrUserId(categoryStatusRequest.getRequest().getDrUserId());
+		drFeatureMapEntity.setDfmdDrEmail(categoryStatusRequest.getRequest().getDrEmailId());
+		drFeatureMapEntity.setDfmdCategoryName(categoryStatusRequest.getRequest().getCategoryName());
+		drFeatureMapEntity.setDfmdCreatedTime(time);
+		drFeatureMapEntity.setDfmdUpdatedTime(time);
+		drFeatureMapEntity.setDfmdFlag(categoryStatusRequest.getRequest().getFlag());
+		doctorFeatureMapRepo.save(drFeatureMapEntity);
+		categoryStatusResponse.setDrUserId(categoryStatusRequest.getRequest().getDrUserId());
+		categoryStatusResponse.setMsg(AuthConstant.CRITERIA_STATUS);
+	}
+	}catch(Exception e)
+	{
+		logger.error("SomeThing went wrong");
+		e.printStackTrace();
+		response.setErrors(AuthUtil.getExceptionList(null, AuthErrorConstant.SOMETHING_WENT_WRONG,
+				AuthConstant.SOMETHING_WENT_WRONG));
+	}
+	
+	response.setResponse(categoryStatusResponse);	
+	return response;
+}
+	
+	
+}

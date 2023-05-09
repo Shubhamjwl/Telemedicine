@@ -1,0 +1,24 @@
+package com.nsdl.auth.dto;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+
+@Data
+public class CategoryStatusRequest {
+
+	
+	@NotBlank(message = "Please select drUserId")
+	private String drUserId;
+	
+	@NotBlank(message = "Please select categoryName")
+	private String categoryName;
+	
+	@NotBlank(message = "Please select drEmailId")
+	private String drEmailId;
+	
+	@NotNull(message = "Please select flag")
+	private Boolean flag;
+	
+}

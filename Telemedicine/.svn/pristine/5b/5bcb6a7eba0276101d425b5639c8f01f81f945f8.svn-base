@@ -1,0 +1,4 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>

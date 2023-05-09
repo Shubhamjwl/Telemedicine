@@ -1,0 +1,38 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.AddContextResponseDTO;
+import com.nsdl.ndhm.service.LinkCallbackService;
+
+@RestController
+@RequestMapping("/v0.5/links/link")
+public class LinkCallbackController {
+
+	private static final Logger logger = LoggerFactory.getLogger(LinkCallbackController.class);
+	@Autowired
+	LinkCallbackService linkCallbackService;
+
+	/* Callback for on add context */
+	@PostMapping("/on-add-contexts")
+	public ResponseEntity<?> onAddContext(@RequestHeader Map<String, String> headers,
+			@RequestBody AddContextResponseDTO addContextResponseDTO) {
+		logger.info("On confirm Callback received");
+
+		linkCallbackService.updateOnAddContext(addContextResponseDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+}

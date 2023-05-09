@@ -1,0 +1,74 @@
+package com.nsdl.ndhm.controller;
+
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.DiscoverRequestDTO;
+import com.nsdl.ndhm.service.DiscoverCareContextService;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/v0.5/care-contexts/")
+public class DiscoverCareContextController {
+
+	private static final Logger logger = LoggerFactory.getLogger(DiscoverCareContextController.class);
+
+	@Autowired
+	DiscoverCareContextService discoverCareContextService;
+
+	@Value("${discover.flag}")
+	String flag;
+	
+	@Async("asyncExecutor")
+	@PostMapping(value = "discover1", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> discover1(@RequestHeader Map<String, String> headers,
+			@RequestBody DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Received For Discovery Starts");
+
+		logger.info("Request Received For Discovery ends {}");
+		return discoverCareContextService.discover(discoverRequestDTO);
+	}
+
+	/**
+	 * Dummy method for test discover api
+	 */
+	@PostMapping(value = "discoverDummy")
+	public ResponseEntity<String> discoverDummy(@RequestHeader Map<String, String> headers,
+			@RequestBody DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Received For Discovery Starts");
+		logger.info("Discover Request : {} ", discoverRequestDTO);
+		discoverCareContextService.discoverDemo(discoverRequestDTO);
+		logger.info("Request Received For Discovery ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	//@Async("asyncExecutor")
+	@PostMapping(value = "discover", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> discover(@RequestHeader Map<String, String> headers,
+			@RequestBody DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Received For Discovery Starts");
+		if(flag.contentEquals("dummy")) {
+			
+			discoverCareContextService.discoverDemo(discoverRequestDTO);
+		}else {
+			discoverCareContextService.discover(discoverRequestDTO);
+		}
+		
+		logger.info("Request Received For Discovery ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+}

@@ -1,0 +1,73 @@
+package com.nsdl.telemedicine.slot.exception;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.nsdl.telemedicine.slot.dto.ExceptionJSONInfoDTO;
+import com.nsdl.telemedicine.slot.dto.MainResponseDTO;
+import com.nsdl.telemedicine.slot.utility.DateUtils;
+import com.nsdl.telemedicine.slot.utility.SlotUtility;
+
+@RestControllerAdvice
+public class ExceptionControllerAdvisor {
+	
+	@Autowired
+	private ObjectMapper objectMapper;
+	
+	@ExceptionHandler(DateParsingException.class)
+	public ResponseEntity<ErrorResponse<ServiceErrors>> getUserValidity(
+			final HttpServletRequest httpServletRequest, final DateParsingException exception)
+			throws IOException {
+		//ExceptionUtility.logRootCause(exception);
+		ErrorResponse<ServiceErrors> errorResponse = setErrors(httpServletRequest);
+		System.out.println(exception);
+		errorResponse.setErrors(exception.getList());
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+	}
+	
+	private ErrorResponse<ServiceErrors> setErrors(HttpServletRequest httpServletRequest) throws IOException {
+		ErrorResponse<ServiceErrors> responseWrapper = new ErrorResponse<>();
+		responseWrapper.setResponsetime(LocalDateTime.now(ZoneId.of("UTC")));
+		//String requestBody = null;
+		//if (httpServletRequest instanceof ContentCachingRequestWrapper) {
+		//	requestBody = new String(((ContentCachingRequestWrapper) httpServletRequest).getContentAsByteArray());
+	//	}
+//		if (EmptyCheckUtility.isNullEmpty(requestBody)) {
+//			return responseWrapper;
+//		}
+		objectMapper.registerModule(new JavaTimeModule());
+		return responseWrapper;
+	}
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public MainResponseDTO<Object> handleValidationExceptions(
+	  MethodArgumentNotValidException ex) {
+		MainResponseDTO<Object> responseDto = new MainResponseDTO<Object>();
+		List<ExceptionJSONInfoDTO> errorList=new ArrayList<ExceptionJSONInfoDTO>();
+	    ex.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        SlotUtility.getExceptionList(errorList, fieldName, errorMessage);
+	    });
+	    responseDto.setStatus(false);
+	    responseDto.setErrors(errorList);
+        responseDto.setResponsetime(DateUtils.getUTCCurrentDateTimeString());
+	    return responseDto;
+	}
+}

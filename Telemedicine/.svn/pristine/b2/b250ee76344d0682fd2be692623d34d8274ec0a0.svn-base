@@ -1,0 +1,7 @@
+package com.nsdl.notification.service.impl;
+
+import com.nsdl.notification.service.NotificationService;
+
+public class NotificationServiceImpl implements NotificationService {
+
+}

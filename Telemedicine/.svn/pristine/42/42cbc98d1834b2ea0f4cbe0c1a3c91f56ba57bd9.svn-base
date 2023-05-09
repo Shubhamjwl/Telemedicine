@@ -1,0 +1,388 @@
+/* You can add global styles to this file, and also import other style files FFFBE9 app-bg */
+@import '../node_modules/font-awesome/css/font-awesome.min.css';
+@import '../node_modules/ngx-toastr/toastr.css';
+@import '~@angular/material/theming';
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+
+
+// font face
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('assets/font/Poppins-Regular.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Poppins-Light';
+  src: url('assets/font/Poppins-Light.ttf') format('ttf');
+}
+
+// FAFFDE
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Poppins-Regular';
+   background-color: #f3f3f3 !important;
+ }
+
+
+.application-wrap {
+    font: 400 14px/20px Poppins-Regular, sans-serif;
+    p {
+      font: 400 14px/20px Poppins-Regular, sans-serif;
+    }
+    h1 {
+      font: 400 24px Poppins-Regular, sans-serif !important;
+    }
+    h2 {
+      font: 400 20px Poppins-Regular, sans-serif !important;
+    }
+    h3{
+      font: 400 16px Poppins-Regular, sans-serif !important;
+    }
+    h4 {
+      font: 400 15px Poppins-Regular, sans-serif !important;
+    }
+}
+
+$primary: #054068;
+
+// Generic Colors & classes all over the app
+
+// Menu & Header colors & Classes
+$sidebar-background-color: linear-gradient(#07d0c6, #94c4f9);
+$header-background-color: #ffffff;
+
+.sidebarBackgroundColor {
+  background: $sidebar-background-color !important;
+}
+.headerBackgroundColor {
+  background-color: $header-background-color !important;
+}
+
+//---End--- Menu & Header colors & Classes
+
+$blue: #94C4F9;
+$green: #0BD0B5;
+$orange: #FF5549;
+$black: #4A4A4A;
+$lightBackground: #FFFFF1;
+
+// Background colors
+.customBackgroundLight {
+  background: $lightBackground;
+}
+.customBackgroundBlue {
+  background: $blue;
+}
+.customBackgroundGreen {
+  background: $green;
+}
+.customBackgroundOrange {
+  background: $orange;
+}
+.customBackgroundBlack {
+  background: $black;
+}
+.blackColor {
+  color:$black;
+}
+//-----End-------- Background colors
+.red-text{
+  color: $orange;
+}
+//-----End------ Generic Colors & classes all over the app
+
+.btn-primary {
+    background-color: $primary;
+}
+
+.full-width-mat-control {
+    width: 100%;
+ }
+
+.avatar {
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+
+.fieldsetWrapper {
+  border: 1px solid #20209b;
+  border-radius: 5px;
+}
+
+.the-legend {
+  font-size: 14px;
+  width: auto;
+  padding: 0 10px;
+}
+
+.the-fieldset {
+  border: 1px solid #1082ed;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+.checkbox-margin {
+  margin: 0 12px;
+}
+
+.card {
+  // display: flex;
+  // align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+// Initial Consultation container background style
+.bgInitConsultationContainerStyle {
+  margin-top: 3%;
+  border: 1px solid rgba(255, 0, 0, 0.774);
+  border-radius: 10px;
+  background: #ff9c9c36;
+  // box-shadow: 0 -5px 3px 0px #cdcdcd;
+  box-shadow: 0 -4px 4px 0px #ff55498c;
+}
+.bgShadowStyle {
+  box-shadow: 0 0 8px 0px #D8A7A3;
+}
+// End Initial Consultation container background style
+.borderRadius10 {
+  border-radius: 10px !important;
+}
+.borderRadius15 {
+  border-radius: 15px !important;
+}
+.borderRadius20 {
+  border-radius: 20px !important;
+}
+
+.labelSize18 {
+  font-size: 18px;
+}
+.labelSize14 {
+  font-size: 14px;
+}
+
+// Used in registration of doctor / patient / scribe
+.customInputFormControl {
+  //background: #FFFBE9 !important;
+  background: #f5f5f5;
+  color: red !important;
+  border-radius: 10px !important;
+}
+.customInputFormControl:focus {
+  border: 1px solid red !important;
+  box-shadow: 0 0 5px 0px #f5f5f5 !important;
+}
+// End Used in registration of doctor / patient / scribe
+
+// Angular Material table classes
+
+// Use this class in card class line, only if angular material table inside .card class
+.disableCard {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+// Use this class for a angular material table tag
+.materialTableCustomStyle {
+  box-shadow: none !important;
+  border: none !important;
+
+  th {
+    background: #d9e8fd !important; // alternative color = rgb(187, 208, 236)
+    color: #000000;
+    font-size: 14px;
+  }
+  tr:hover {
+    background: rgb(241, 241, 241) !important;
+    td {
+      height: 35px !important;
+    }
+  }
+  tr.mat-header-row {
+    height: 35px !important;
+  }
+}
+// End Angular Material table classes
+
+// Bootstrap custom-select with text color red
+  .customize-select-text-red {
+    color: #FF5549 !important;
+  }
+// End Bootstrap custom-select with text color red
+
+// Remove arrows of type=number
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+// End Remove arrows of type=number
+
+// Default scrollbar style
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+// End Default scrollbar style
+
+// Autocomplete dropdown style
+typeahead-container {
+  margin-right: 8% !important;
+  margin-left: 8% !important;
+  width: 84% !important;
+  .dropdown-item {
+    height: 40px !important;
+  }
+}
+// End Autocomplete dropdown style
+.disabled, :disabled{
+    cursor: none;
+    pointer-events: none;
+    opacity: 0.6;
+}
+button:focus{
+  outline: none;
+}
+.loading{
+  color: white;
+  padding-top: 50px;
+}
+.logo-wrapper{
+  width: 12%;
+  margin-left: 4%;
+  img{
+     height: auto;
+  }
+}
+.profile-wrapper{
+    height: 80px;
+    width: 80px;
+}
+.profile-wrapper-sm{
+  height: 40px;
+  width: 40px;
+}
+img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: auto;
+}
+.mat-error{
+  margin: 0 -9px;
+}
+a{
+  cursor: pointer;
+}
+
+// material CSS
+.mat-form-field.mat-focused{
+  .mat-form-field-required-marker{
+    color: red;
+  }
+}
+.mat-form-field-required-marker{
+  color: red;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex{
+  background-color:transparent;
+}
+// ::ng-deep.mat-form-field-disabled .mat-form-field-underline {
+//   background-color: #fafafa;
+//   pointer-events: none;
+//   cursor: not-allowed;
+// }
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+    pointer-events: none;
+    cursor: not-allowed;
+    color: rgba(0,0,0,0.8)
+}
+.btnColor {
+  background-color: #63a4ec;
+  color: white;
+}
+.app-profile{
+	background-color: #07d0c6 !important;
+	background-image: linear-gradient(#0BD0B5 60%, #85c5f2);
+	border-bottom-right-radius: 80px !important;
+   .profileDetails {
+      border-bottom-right-radius: 0px !important;
+      min-height: 215px !important;
+      background: transparent !important;
+    }
+   .bgScribeList {
+    background: transparent !important;
+   }
+   .list-group-item{
+    background-color: transparent !important;
+    border: 0 none;
+   }
+
+}
+.completed {
+  background: #e2e2e2 !important;
+  pointer-events: none;
+}
+.availableTelemd {
+  background-color: #d2fdc7;
+  // border-radius: 12px;
+}
+.availableinClinic {
+  background-color: #99ccff;
+  // border-radius: 12px;
+}
+.available {
+  background-color: #d2fdc7;
+}
+.scheduled {
+  background-color: #daf5f2; //paleturquoise;
+}
+.resheduled {
+  background-color: #daf5f2; //paleturquoise;
+}
+.schedulewp {
+  background-color: #fdc29ac9;
+}
+.InClinicSq{
+  height: 20px;
+  width: 20px;
+  background-color: #99ccff;
+}
+.telesq{
+  height: 20px;
+  width: 20px;
+  background-color: #d2fdc7;
+}
+
+.availableTelemdC {
+  background-color: #d2fdc7;
+  border-radius: 12px;
+}
+.availableInClinic {
+  background-color: #99ccff;
+   border-radius: 12px;
+}
+
+// @media screen and (max-width: 768px) {
+//   body {
+//     background-color: transparent !important;
+//   }
+// }
+

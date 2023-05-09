@@ -1,0 +1,15 @@
+FROM nginx:1.16.1
+
+RUN mkdir -p /etc/nginx/certs
+
+COPY health.csr /etc/nginx/certs/health.csr
+
+COPY health.key /etc/nginx/certs/health.key
+
+COPY nginx_vol.conf /etc/nginx/nginx.conf
+
+RUN  mkdir -p /usr/share/nginx/html/clinic/clinic
+
+#COPY dist /usr/share/nginx/html
+
+COPY clinic /usr/share/nginx/html/clinic/clinic/

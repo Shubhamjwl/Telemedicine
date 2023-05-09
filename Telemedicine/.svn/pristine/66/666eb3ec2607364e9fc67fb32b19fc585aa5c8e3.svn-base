@@ -1,0 +1,13 @@
+server.port = 7072
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+email.notification.url=http://172.30.151.100:7076/OTPManager/sendNotification
+captcha.url=http://172.30.151.100:8073/captcha/verifyCaptcha
+eureka.client.service-url.defaultZone=http://172.30.151.100:8761/eureka
+
+
+OTP_GENERATE_URL = http://172.30.151.100:7076/OTPManager/generateOtp
+OTP_VERIFY_URL = http://172.30.151.100:7076/OTPManager/verifyOTP

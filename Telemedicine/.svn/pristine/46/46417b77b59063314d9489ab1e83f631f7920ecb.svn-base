@@ -1,0 +1,404 @@
+<app-breadcrumb></app-breadcrumb>
+
+<ngx-spinner>
+    <p *ngIf="isOpenPayment" class="loading">Your payment is being processed. Please wait.</p>
+    <p *ngIf="!isOpenPayment" class="loading">Loading...</p>
+</ngx-spinner>
+<div class="container">
+    <div class="appointment-wrapper">
+        <form [formGroup]="appointmentFormGroup">
+        <!-- Appointment Details -->
+            <ng-container *ngIf="(doctorDetails && !isRescedule) && (doctorDetails && !isBookAppointment)">
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                        <div class="profile-wrapper ml-3">
+                            <img [src]="profilePhoto" alt="doctor-profle" class="rounded-circle">
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 mt-3 doc-info">
+                        <h2 class="text-danger" *ngIf="doctorDetails.doctorName">Dr. {{doctorDetails.doctorName}}</h2>
+                        <h2 class="text-danger" *ngIf="!doctorDetails.doctorName">-</h2>
+
+                        <h5 class="text-secondary" *ngIf="doctorDetails.speciality"><b>{{doctorDetails.speciality}}</b></h5>
+                        <h5 class="text-secondary" *ngIf="!doctorDetails.speciality"><b>-</b></h5>
+                        <p>Consultation Fees: 
+                            <span class="mr-2" *ngIf="doctorDetails.consultFee">{{doctorDetails.consultFee +  doctorDetails.convenienceCharge}}</span>
+                            <span class="mr-2" *ngIf="!doctorDetails.consultFee">-</span>
+                            Rupees
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                        <div class="ml-2">
+                            <button type="button" class="btn btnColor px-3" (click)="callNow()">Call Now</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 mt-3">
+                    </div>
+                </div>
+            </ng-container>
+            <div class="row mt-3">
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-3">
+                    <!-- heading -->
+                    <div>
+                        <h1 class="mb-2">
+                            Choose date and time 
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 mt-3">
+                    <div class="row">
+                        <div class="telesq mr-1 ml-1">
+                        </div>
+                        <b><span>Teleconsultation Slots</span></b>
+                        <div class="InClinicSq mr-1 ml-2">
+
+                        </div>
+                        <b><span>In-Clinic Slots</span></b>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>Select Appointment Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [min] = "date" formControlName="date" (dateChange)="changeDate($event)" readonly required>
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!--End heading -->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 bg-light bgShadowStyle pb-4">
+                    <!--************************ Today***************** -->
+                    <div class="div" *ngIf="!isChangeDate">
+                        <div class="row pt-4">
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 text-left">
+                                <h4 class="mb-0" *ngIf="slotsList.today && slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.today.length}} Slot Available)
+                                </h4>
+                                <h4 class="mb-0" *ngIf="!slotsList.today || !slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.today && slotsList.today.length">
+                            <div class="row" *ngIf="slotsList.today && slotsList.today.length">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <!-- Card design -->
+                                    <div  *ngFor="let data of slotsList.today;" >
+                                        <!-- "openModel(content,data, 'today')" -->
+                                        <div [class.disabled]="data.available" class="card cardStyle p-0"  (click)="openModel(content, data, 'today')" >
+                                            <div class="card-body px-2 py-3" [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''">
+                                                <div>
+                                                    <h4 class="card-title text-center mb-0">
+                                                        <strong>{{data.slotTime}}</strong>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!--End Card design -->
+                                </div>  
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.today || !slotsList.today.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <h4>No Slots Found!</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div" *ngIf="!isChangeDate">
+                        <div class="row pt-4" *ngIf="slotsList.tomorrow && slotsList.tomorrow.length">
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 text-left">
+                                <h4 class="mb-0">
+                                    Tomorrow, {{slotsList.tomorrow[0].slotDate | date: 'dd MMM yyyy'}} ({{slotsList.tomorrow.length}} Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.tomorrow && slotsList.tomorrow.length">
+                            <div class="row" *ngIf="slotsList.tomorrow && slotsList.tomorrow.length">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <!-- Card design -->
+                                    <div  *ngFor="let data of slotsList.tomorrow">
+                                        <div [class.disabled]="data.available" class="card cardStyle p-0" (click)="openModel(content,data, 'tomorrow')">
+                                            <div class="card-body px-2 py-3" [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''" title="Book Appointment">
+                                                <div>
+                                                    <h4 class="card-title text-center mb-0">
+                                                        <strong>{{data.slotTime}}</strong>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Card design -->
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.tomorrow">
+                            <div class="col-md-12 mt-2 text-center">
+                                <h4>No Slots Found!</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="div" *ngIf="isChangeDate">
+                        <div class="row pt-4" *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 text-left">
+                                <h4 class="mb-0">
+                                    {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.otherDate.length}} Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <!-- Card design -->
+                            <div  *ngFor="let data of slotsList.otherDate">
+                                <div [class.disabled]="data.available" class="card cardStyle p-0" (click)="openModel(content,data, 'other')">
+                                    <div class="card-body px-2 py-3" [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''"
+                                    title="Book Appointment">
+                                        <div>
+                                            <h4 class="card-title text-center mb-0">
+                                                <strong>{{data.slotTime}}</strong>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!--End Card design -->
+                        </div>
+                        <div *ngIf="!slotsList.otherDate || !slotsList.otherDate.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <div class="row">
+                                    <h4 class="mb-0 mt-1 float-left">
+                                        {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                    </h4>
+                                </div>
+                                <div class="justify-content-center row">
+                                    <h4>No Slots Found!</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="model-wrapper"> 
+        <form [formGroup]="reportGroup">
+            <div class="modal-header py-2">
+                <h2 class="modal-title mb-0">Book Appointment</h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-4">
+                <div class="row"  *ngIf="!isBookAppointment">
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 mt-3">
+                        <div class="profile-wrapper">
+                            <img [src]="doctorDetails.drProfilePhoto ? doctorDetails.drProfilePhoto : profilePhoto" class="rounded-circle" alt="doctor-profile">
+                        </div>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9 col-xl-9 mt-3">
+                        <h2 class="text-danger" *ngIf = "doctorDetails.doctorName">Dr. {{doctorDetails.doctorName}}</h2>
+                        <h2 class="text-danger" *ngIf = "!doctorDetails.doctorName">{{doctorDetails.doctorName}}</h2>
+
+                        <h5 class="text-secondary" *ngIf = "doctorDetails.speciality"><b>{{doctorDetails.speciality}}</b></h5>
+                        <h5 class="text-secondary" *ngIf = "!doctorDetails.speciality"><b>-</b></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
+                        <h4 class="text-secondary"><b>Appointment Time</b></h4>
+                        <p><span class="mr-2">{{slotDate | date: 'dd MMM yyyy'}}</span>|<span class="ml-2">{{apiSlotTime}}</span></p>
+                    </div>
+                      
+                     <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 mt-3">
+                        <h4 [ngClass]="slotType == 'Teleconsultation' ? 'telesq' : 'InClinicSq'"></h4>
+                     </div>
+                     <div class="col-sm-11 col-md-11 col-lg-11 col-xl-11 mt-3">
+                        <h4 class="text-secondary"><span>{{slotType}}</span></h4>
+                     </div>   
+                      
+                    <div *ngIf="authService.isUserPatient()" class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <h4 class="text-secondary"><b> Booking Appointment for</b></h4>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <input type="radio" id="self" name="bookedFor" (change) = "changeRadio('self')" value="{{patientDetails.name}}" checked>
+                                    <label for="self" class="ml-2">{{patientDetails.name}}</label>
+                                </div> 
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                    <input type="radio" id="else" name="bookedFor" (change) = "changeRadio('else')" value="Someone Else">
+                                    <label for="else" class="ml-2"> Someone Else </label>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div *ngIf="authService.isUserPatient()">
+                    <div class="patient-details-wrap">   
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-3">
+                                <h3>Patient Details</h3>
+                            </div>
+                            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 mt-3">
+                                <div [ngClass]="{'arrow-icon-up': showInfo }" class="arrow-wrap arrow-icon-down" (click)="showInfo = !showInfo">
+                                    <span class="arrow">&#62;</span>
+                                </div>
+                            </div>
+                            <div [ngClass]="{'show-info': showInfo }" class="col-sm-12 col-md-12 col-lg-12 col-xl-12 patient-info ">
+                                <ul>
+                                    <li>
+                                        <span>Patient Name:</span>
+                                        <span *ngIf="selectedSelfOrElse === 'self'">{{patientDetails.name}}</span>
+                                        <mat-form-field class="example-full-width ml-2"  *ngIf="selectedSelfOrElse !== 'self'">
+                                            <input matInput formControlName="patientName" autocomplete="off" required>
+                                            <mat-error class="ml-1" *ngIf="reportGroup.get('patientName').errors && (reportGroup.get('patientName').touched || reportGroup.get('patientName').dirty)">
+                                                <span *ngIf="reportGroup.get('patientName').errors.required">{{'errFullNameRequired' | l10n}}</span>
+                                                <span *ngIf="reportGroup.get('patientName').errors.maxlength">{{'errFullNameMaxLength' | l10n}}</span>
+                                                <span *ngIf="reportGroup.get('patientName').errors.pattern">{{'errFullNamePattern' | l10n}}</span>
+                                            </mat-error>        
+                                        </mat-form-field>
+
+                                    </li>
+                                    <li>
+                                        <span>Patient Phone:</span>
+                                        <span *ngIf="selectedSelfOrElse === 'self'">{{patientDetails.mobileNo}}</span>
+                                        <mat-form-field class="example-full-width ml-2"  *ngIf="selectedSelfOrElse !== 'self'">
+                                            <input matInput type="number" numberOnly length="10" formControlName="patientMobileNo" autocomplete="off" required>
+                                            <mat-error class="ml-1" *ngIf="reportGroup.get('patientMobileNo').errors && (reportGroup.get('patientMobileNo').touched || reportGroup.get('patientMobileNo').dirty)">
+                                                <span *ngIf="reportGroup.get('patientMobileNo').errors.required">{{'errMobileRequired' | l10n}}</span>
+                                                <span *ngIf="reportGroup.get('patientMobileNo').errors.maxlength">{{'errMobileMaxLength' | l10n}}</span>
+                                                <span *ngIf="reportGroup.get('patientMobileNo').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </li>
+                                    <li>
+                                        <span *ngIf="selectedSelfOrElse !== 'self'">Patient Email:</span>
+                                        <mat-form-field class="example-full-width ml-2"  *ngIf="selectedSelfOrElse !== 'self'">
+                                            <input matInput formControlName="patientEmail" autocomplete="off"> 
+                                        </mat-form-field>
+                                    </li>
+                                    
+                                </ul>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isBookAppointment">
+                    <ul [formGroup]="bookAppointmentGroup">
+                        <li>
+                            <span>Patient Phone:</span>
+                            <mat-form-field class="example-full-width ml-2">
+                                <input matInput type="text" numberOnly length="10" formControlName="patientMobileNo" autocomplete="off">
+                                <mat-error class="ml-2" *ngIf="bookAppointmentGroup.get('patientMobileNo').errors && (bookAppointmentGroup.get('patientMobileNo').touched || bookAppointmentGroup.get('patientMobileNo').dirty)">
+                                    <span *ngIf="bookAppointmentGroup.get('patientMobileNo').errors.required">{{'errMobileRequired' | l10n}}</span>
+                                    <span *ngIf="bookAppointmentGroup.get('patientMobileNo').errors.maxlength">{{'errMobileMaxLength' | l10n}}</span>
+                                    <span *ngIf="bookAppointmentGroup.get('patientMobileNo').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                            <h5 class="patient-error text-danger" *ngIf="!bookAppointmentGroup.get('patientMobileNo').errors && patientError">{{patientError}}</h5>
+                        </li>
+                        <li>
+                            <span>Patient Name:</span>
+                            <span>{{bookAppointmentGroup.get('patientName').value}}</span>
+                        </li>
+                    </ul>   
+                </div>
+                <div class="col-md-12 mt-4" *ngIf="!isRescedule">
+                    <label class="d-inline-block" for="name">Enter Symptoms:<span class="text-danger">* </span> </label>
+                    <mat-form-field >
+                        <input class="input-Upper" matInput id="symptomsDetails" formControlName="symptomsDetails" autocomplete="off" required>
+                        <mat-error class="mx-1" *ngIf="reportGroup.get('symptomsDetails').errors && (reportGroup.get('symptomsDetails').touched || reportGroup.get('symptomsDetails').dirty)">
+                            <span *ngIf="reportGroup.get('symptomsDetails').errors.required">{{'errSymptoms' | l10n}}</span>
+                            <!-- <span *ngIf="reportGroup.get('symptomsDetails').errors.pattern">{{'errFullNamePattern' | l10n}}</span> -->
+                            <span *ngIf="reportGroup.get('symptomsDetails').errors.maxlength">{{'errSymptomsNameMaxLength' | l10n}}</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="field mb-3" style="text-align: center;">
+                    <div class="control" controlErrorContainer>
+                      <label class="checkbox">
+                      <input type="checkbox" formControlName="terms"  required>
+                    </label>
+                     I agree to the 
+                     <button mat-button (click)="openModelTC(contentTC)"  style="padding: 0 2px;"><span style="text-decoration: underline  #007bff; color:#007bff;">Terms of service</span></button>
+                     of Protean Clinic
+                      <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Launch demo modal
+                      </button> -->
+                      <!-- <button id="myBtn" (click)="openDialogTCD()">Open Modal</button> -->
+                      
+                      <mat-error *ngIf="reportGroup.get('terms').errors && (reportGroup.get('terms').touched || reportGroup.get('terms').dirty)">
+                        <span *ngIf="reportGroup.get('terms').errors.required">{{'errTermsRequired' | l10n}}</span>
+                    </mat-error>
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button *ngIf="!isRescedule && !isBookAppointment" type="button" [disabled] = "!isValid" class="btn btnColor" (click)="modal.close('Close click');bookPatientAppointment()">Confirm</button>
+                </div> 
+                <div>
+                    <button *ngIf="isRescedule" type="button" class="btn btnColor" (click)="modal.close('Close click');rescheduleAppt()">Reschedule</button>
+                </div>
+                <div>
+                    <button [disabled]="!bookAppointmentGroup.valid" *ngIf="isBookAppointment" type="button" class="btn btnColor" (click)="modal.close('Close click');bookPatientAppointment()">Confirm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #contentTC let-modal>
+    <div class="model-wrapper">
+        <div class="modal-header py-2">
+            <h2 class="modal-title mb-0">Terms and Condition</h2>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="text-dark" style="padding: 18px 0 18px 35px;">
+            <div class="container">
+                <p> By proceeding further, I hereby agree and give my consent to the following:
+                  <span class="indent mt-2 mb-2">
+                     <p> 	I request qualified doctors (“RMP”) registered with Protean Clinic, an online Platform managed by Protean e-Gov Technologies Limited (Protean), to participate in my medical care via use of Protean Clinic.</p>
+                     <p> 	RMP (i) may practice in a different location than where I am present for medical care, (ii) may not have the opportunity to perform an in-person physical examination, and (iii) will solely rely on information provided by me.</p>
+                     <p> 	I acknowledge that RMP’s advice, recommendations, and/or decision may be based on factors not within their control, such as incomplete or inaccurate data provided by me or distorted / illegible diagnostic images / reports that may result from electronic transmissions. </p>
+                     <p>	I acknowledge that it is my responsibility to provide information about my medical history, condition and care that is complete and accurate to the best of my ability.</p>
+                     <p>  	no warranties or guarantees are made to me as to result or cure.</p>
+                     <p>  	Protean and their associates are mere facilitator of my interaction with my doctor and they have no liability or responsibility towards diagnosis, prescription, effectiveness of the advice of the RMP. 
+                       I further agree and understand that </p>
+                     <p>  	Based on RMP’s assessment, I may require an in-person medical evaluation and/or additional diagnostic check/tests which I undertake to carry out as per RMP’s recommendation. 
+                     </p>
+                     <p> 	In the event any service delivery on Protean Clinic is interrupted due to a technological problem or equipment failure, alternative means of service delivery may be implemented by RMP. 
+                     </p>
+                     <p> 	Protean Clinic is not suitable for any urgent matter or in the case of emergencies in which in-person consultation is necessary. I agree to go to the nearest doctor, hospital emergency department in such cases. 
+                     </p>
+                     <p> 	I understand that the disclosure of my medical information to RMP, including the audio and/or video, will be by electronic transmission including any recording/photograph taken during the telemedicine session. Although precautions are taken to protect the confidentiality of this information by preventing unauthorized access and use, I understand that confidentiality may be compromised by failures of security safeguards or illegal and improper tampering during electronic transmission of data, video images, and audio. 
+                     </p>
+                     <p>  	I have read it or have had it read to me, and that I understand and agree to the Terms of Use and Privacy Policy for the Protean Clinic and its contents. 
+                     </p>
+                     <p> 	I am above 18 years of age and legally competent to avail these services as a Patient or as a guardian for my ward who is a minor/ disabled, the above consent also applies to such medical care provided to my ward. 
+                     </p>
+                     <p>  	I shall not hold Protean liable for any action or omission of a third party that results in unauthorized access or processing of my personal data, and resultant harm or consequences.
+                     </p>
+                     <p> 	I hereby agree that I am availing Services on Protean Clinic with my free will, without any inducement or influence form Protean and I am fully aware of the limitations around the services provided. 
+                     </p>
+                     <p>     	I confirm that I am physically present in India while availing the services.</p>
+                  </span>
+                 </p>
+               </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btnColor btn-secondary" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+            <!-- <button type="button" class="btn btn-primary">Accept</button> -->
+        </div>
+         </div>
+</ng-template>
+
+ 
+<div *ngIf = "isOpenPayment">
+    <app-razorpay-payment-gateway></app-razorpay-payment-gateway>
+</div>

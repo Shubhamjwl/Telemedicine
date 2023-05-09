@@ -1,0 +1,79 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Search Health id :</p>
+      <form #SearchForm="ngForm" novalidate autocomplete="off">
+        <div style="background-color: rgb(195, 211, 245); padding: 10px">
+          <div class="row mt-10">
+            <div class="col-md-4" style="height: 38px">
+              <p class="mt-1">Enter Health id</p>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  [(ngModel)]="healthId"
+                  class="form-control input"
+                  name="healthIdName"
+                  #healthIdName="ngModel"
+                  maxlength="25"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-10" *ngIf="healthIdNumberFlag">
+            <div class="col-md-4" style="height: 38px">
+              <p class="mt-1">Enter Health id Number</p>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="text"
+                  [(ngModel)]="healthIdNumber"
+                  class="form-control input"
+                  name="healthIdNumberName"
+                  #healthIdNumberName="ngModel"
+                  maxlength="25"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button
+              class="btn btn-primary mr-3"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+            >
+              Back
+            </button>
+            <button
+              class="btn btn-primary"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              [disabled]="!SearchForm.valid"
+              (click)="submit()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

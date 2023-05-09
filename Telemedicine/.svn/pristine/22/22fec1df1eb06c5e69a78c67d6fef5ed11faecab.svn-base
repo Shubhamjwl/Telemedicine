@@ -1,0 +1,342 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenerateSessionRespDTO } from 'src/app/models/common/GenerateSessionRespDTO';
+import { MainResponseDTO } from 'src/app/models/common/MainResponseDTO';
+import { GenerateOtpResp } from 'src/app/models/healthidMobile/GenerateOtpResp';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ERR_MSGS, REGEX } from 'src/config/constant';
+import { HealthidCreationServiceService } from '../../healthid-creation-service.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Location } from '@angular/common';
+import { VerifyHealthIdQueryDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdQueryDTO';
+import { VerifyHealthIdRequesterDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdRequesterDTO';
+import { OnFetchModesRequestDTO } from 'src/app/models/verifyHealthid/OnFetchModesRequestDTO';
+import * as uuid from 'uuid';
+
+@Component({
+  selector: 'app-profile-create',
+  templateUrl: './profile-create.component.html',
+  styleUrls: ['./profile-create.component.css'],
+})
+export class ProfileCreateComponent implements OnInit {
+  ERR = ERR_MSGS;
+  PATTERN = REGEX;
+  selectanyoption: any;
+  patientName: any;
+  mobileNoSel: any;
+  email: any;
+  address: any;
+  gender: any;
+  dateOfBirth: any;
+  namesel: any;
+  healthId: any;
+  healthIdOne: any;
+  isHealthIdDisabled: boolean = true;
+  isNameDisabled: boolean = true;
+  isMobileNoDisabled: boolean = true;
+  isGenderDisabled: boolean = true;
+  txnId: any;
+  refreshToken: any;
+  responseTokenDTO: MainResponseDTO<GenerateSessionRespDTO>;
+  responseOTP: MainResponseDTO<GenerateOtpResp>;
+  hideData: boolean = false;
+  showData: boolean = true;
+  isConsentChecked: boolean = false;
+  responseToken: MainResponseDTO<GenerateSessionRespDTO>;
+  verifyHealthIdQueryDTO: VerifyHealthIdQueryDTO;
+  requester: VerifyHealthIdRequesterDTO;
+  mainOnFetchModesRequestDTO: MainResponseDTO<OnFetchModesRequestDTO>;
+  accessToken: any;
+  requestId: any;
+  timestamp: any;
+  getOnFetchModesFlag: boolean = false;
+  authMode: any;
+  healthIdReadOnly: boolean = true;
+  nameReadOnly: boolean = true;
+  dobReadOnly: boolean = true;
+  genderReadOnly: boolean = true;
+  mobileReadOnly: boolean = true;
+  selectOptions = ['Male', 'Female', 'Transgender'];
+
+  selectedOption = '';
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastrMessage: ToastMessageService,
+    private spinner: NgxSpinnerService,
+    private _servises: HealthidCreationServiceService,
+    private _location: Location
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      //console.log(params);
+      // if (params && params.patientName) {
+      //   this.patientName = params.patientName;
+      //   this.namesel = params.patientName;
+      // }
+      if (params && params.name) {
+        this.patientName = atob(params.name).trim();
+        this.namesel = atob(params.name).trim();
+        //console.log("this.namesel::" + this.namesel);
+        if (
+          this.namesel === null ||
+          this.namesel === undefined ||
+          this.namesel === 'null' ||
+          this.namesel === ''
+        ) {
+          this.namesel = '';
+          this.nameReadOnly = false;
+        }
+      } else {
+        this.nameReadOnly = false;
+      }
+      if (params && params.mobileNoSel) {
+        this.mobileNoSel = atob(params.mobileNoSel).trim();
+        // this.mobileNoSel = params.mobileNoSel;
+        //console.log("this.mobileNoSel::" + this.mobileNoSel);
+        if (
+          this.mobileNoSel === null ||
+          this.mobileNoSel === undefined ||
+          this.mobileNoSel === 'null' ||
+          this.mobileNoSel === ''
+        ) {
+          this.mobileNoSel = '';
+          this.mobileReadOnly = false;
+        }
+      } else {
+        this.mobileReadOnly = false;
+      }
+      if (params && params.email) {
+        this.email = atob(params.email).trim();
+        //console.log("this.email::" + this.email);
+      }
+      if (params && params.dob) {
+        let dob = atob(params.dob).trim();
+        //console.log("this.dob::" + dob);
+        if (dob != null && dob != undefined) {
+          var splitted = dob.split('-', 3);
+          this.dateOfBirth =
+            splitted[2] + '-' + splitted[1] + '-' + splitted[0];
+        }
+        if (dob === null || dob === undefined || dob === 'null' || dob === '') {
+          this.dobReadOnly = false;
+        }
+      } else {
+        this.dobReadOnly = false;
+      }
+      if (params && params.gender) {
+        this.gender = atob(params.gender).trim();
+        //console.log("this.gender::" + this.gender);
+        if (
+          this.gender === null ||
+          this.gender === undefined ||
+          this.gender === 'null' ||
+          this.gender === ''
+        ) {
+          this.gender = '';
+          this.genderReadOnly = false;
+        }
+        // console.log('this.gender::' + this.gender);
+      } else {
+        this.genderReadOnly = false;
+      }
+      if (params && params.healthId) {
+        this.healthId = atob(params.healthId).trim();
+        //console.log("this.healthId::" + this.healthId);
+        if (
+          this.healthId === null ||
+          this.healthId === undefined ||
+          this.healthId === 'null' ||
+          this.healthId === ''
+        ) {
+          this.healthId = '';
+          this.healthIdReadOnly = false;
+        }
+        //console.log('this.healthId::' + this.healthId);
+      } else {
+        this.healthIdReadOnly = false;
+      }
+    });
+  }
+  proceed() {
+    this.showData = true;
+    this.namesel = this.patientName;
+    this.mobileNoSel = this.mobileNoSel;
+    this.healthId = this.healthIdOne;
+  }
+  otp() {
+    // this.router.navigate(['/PatientKYCp'], {
+    //   queryParams: { healthId: this.healthId, namesel: this.namesel, gender: this.gender, dateOfBirth: this.dateOfBirth, mobileNoSel: this.mobileNoSel },skipLocationChange: true
+    // });
+    this.getAccessToken();
+  }
+  getAccessToken() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.accessToken = result.response.accessToken;
+        //console.log('this.accssToken::', this.accessToken);
+        if (
+          this.responseToken &&
+          this.responseToken.response &&
+          this.responseToken.response.accessToken
+        ) {
+          this.fetchModes(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+
+  fetchModes(accessToken) {
+    this.spinner.show();
+    var myUUID = uuid.v4();
+    //console.log('myUUID::' + myUUID);
+    this.requestId = myUUID;
+    //console.log('this.requestId::', this.requestId);
+    this.timestamp = this.currentTimestamp();
+    //console.log('this.timestamp::', this.timestamp);
+    this.verifyHealthIdQueryDTO = new VerifyHealthIdQueryDTO();
+    //console.log('this.healthId::', this.healthId);
+    this.verifyHealthIdQueryDTO.id = this.healthId;
+    this.verifyHealthIdQueryDTO.purpose = 'KYC_AND_LINK';
+    //this.verifyHealthIdQueryDTO.authMode = 'MOBILE_OTP';
+    this.requester = new VerifyHealthIdRequesterDTO();
+    this.requester.type = 'HIP';
+    this.requester.id = 'NASHIPDEV';
+    this.verifyHealthIdQueryDTO.requester = this.requester;
+    this._servises
+      .getFetchModes(
+        this.requestId,
+        this.timestamp,
+        this.verifyHealthIdQueryDTO,
+        accessToken
+      )
+      .subscribe(
+        (result) => {
+          //console.log('getFetchModes result::', result);
+          this.getOnFetchModes();
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg('Unable to get fetch modes', 'Error');
+        }
+      );
+  }
+  from: number = 15;
+  to: number = 0;
+  getOnFetchModes() {
+    //console.log('this.requestId::', this.requestId);
+    //console.log('this.timestamp::', this.timestamp);
+    //console.log('this.accessToken::', this.accessToken);
+    this._servises
+      .getOnFetchModes(this.requestId, this.timestamp, this.accessToken)
+      .subscribe(
+        (result) => {
+          if (result) {
+            //console.log('result::', result);
+            //console.log('result.status::', result.status);
+            this.getOnFetchModesFlag = result.status;
+            //console.log('this.getOnFetchModesFlag::', this.getOnFetchModesFlag);
+            if (this.getOnFetchModesFlag) {
+              this.mainOnFetchModesRequestDTO = result;
+              console.log(
+                'result auth::',
+                this.mainOnFetchModesRequestDTO.response.auth.modes
+              );
+              for (
+                let index = 0;
+                index <
+                this.mainOnFetchModesRequestDTO.response.auth.modes.length;
+                index++
+              ) {
+                const element =
+                  this.mainOnFetchModesRequestDTO.response.auth.modes[index];
+                //console.log('result element::', element);
+                if (element === 'DEMOGRAPHICS') {
+                  //this.enableVerifyWithAadhaarBioMetricFlag = false;
+                }
+                if (element === 'AADHAAR_OTP') {
+                  //this.enableVerifyWithAadhaarOTPFlag = false;
+                  this.authMode = 'AADHAAR_OTP';
+                  this.router.navigate(['/PatienAuther'], {
+                    queryParams: {
+                      healthId: this.healthId,
+                      authMode: this.authMode,
+                    },
+                    skipLocationChange: true,
+                  });
+                }
+                if (element === 'MOBILE_OTP') {
+                  //this.enableVerifyWithMobileOTPFlag = false;
+                  this.authMode = 'MOBILE_OTP';
+                  this.router.navigate(['/PatienAuther'], {
+                    queryParams: {
+                      healthId: this.healthId,
+                      namesel: this.namesel,
+                      gender: this.selectedOption.substring(0, 1),
+                      dateOfBirth: this.dateOfBirth,
+                      mobileNoSel: this.mobileNoSel,
+                      authMode: this.authMode,
+                    },
+                    skipLocationChange: true,
+                  });
+                }
+                this.spinner.hide();
+              }
+            } else {
+              if (this.from > this.to) {
+                this.to = this.to + 1;
+                console.log(' this.to', this.to, 'this.from', this.from);
+                this.getOnFetchModes();
+              }
+            }
+          }
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          //this.toastrMessage.showErrorMsg('Unable to get OnFetchModes', 'Error');
+        }
+      );
+  }
+  currentTimestamp() {
+    const event = new Date();
+    if (!Date.prototype.toISOString) {
+      (function () {
+        function pad(number) {
+          if (number < 10) {
+            return '0' + number;
+          }
+          return number;
+        }
+
+        Date.prototype.toISOString = function () {
+          return (
+            this.getUTCFullYear() +
+            '-' +
+            pad(this.getUTCMonth() + 1) +
+            '-' +
+            pad(this.getUTCDate()) +
+            'T' +
+            pad(this.getUTCHours()) +
+            ':' +
+            pad(this.getUTCMinutes()) +
+            ':' +
+            pad(this.getUTCSeconds()) +
+            '.' +
+            (this.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
+            'Z'
+          );
+        };
+      })();
+    }
+    return event.toISOString();
+  }
+  back() {
+    this._location.back();
+  }
+}

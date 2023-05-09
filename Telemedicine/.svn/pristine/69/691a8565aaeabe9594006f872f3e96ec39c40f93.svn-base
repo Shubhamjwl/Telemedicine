@@ -1,0 +1,11 @@
+.model-wrapper{
+    .modal-header{
+        background-color: #49e4a4a8;
+    }
+}
+.add-button {
+    position: relative;
+    border: none;
+    margin: 5px;
+    border-radius: 4px;
+}

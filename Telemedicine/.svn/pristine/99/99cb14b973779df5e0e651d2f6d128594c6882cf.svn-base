@@ -1,0 +1,8 @@
+package com.nsdl.notification.constant;
+
+public class NotificationConstant {
+
+	public static final String NOTIFICATION_READ_FLAG_UPDATED = "notification read flag is updated.";
+	
+	public static final String TOKEN_UPDATED_FOR_USER = "token is updated for given user.";
+}

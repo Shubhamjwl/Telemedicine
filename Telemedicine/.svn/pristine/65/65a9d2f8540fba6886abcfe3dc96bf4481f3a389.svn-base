@@ -1,0 +1,30 @@
+package com.nsdl.ndhm.service;
+
+import java.util.Map;
+
+import com.nsdl.ndhm.dto.AddContextRequestDTO;
+import com.nsdl.ndhm.dto.AuthConfirmReqDTO;
+import com.nsdl.ndhm.dto.AuthFetchModesReqDTO;
+import com.nsdl.ndhm.dto.AuthInitReqDTO;
+import com.nsdl.ndhm.dto.GetOnFetchModesReqDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.OnConfirmRequestDTO;
+import com.nsdl.ndhm.dto.OnFetchModesRequestDTO;
+
+public interface HealthIdVerificationService {
+
+	Map<String, String> getFetchModes(Map<String, String> headers, AuthFetchModesReqDTO authFetchModesReqDTO);
+
+	Map<String, String> init(Map<String, String> headers, AuthFetchModesReqDTO authFetchModesReqDTO);
+
+	Map<String, String> authConfirm(Map<String, String> headers, AuthConfirmReqDTO authConfirmReqDTO);
+
+	MainResponseDTO<OnFetchModesRequestDTO> getOnFetchModes(GetOnFetchModesReqDTO getOnFetchModesReqDTO);
+
+	MainResponseDTO<AuthInitReqDTO> getOnInit(GetOnFetchModesReqDTO getOnFetchModesReqDTO);
+
+	MainResponseDTO<OnConfirmRequestDTO> getOnConfirm(GetOnFetchModesReqDTO getOnFetchModesReqDTO);
+
+	Map<String, String> addContext(Map<String, String> headers, AddContextRequestDTO addContextRequestDTO);
+
+}

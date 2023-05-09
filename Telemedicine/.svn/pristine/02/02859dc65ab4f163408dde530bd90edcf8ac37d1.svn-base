@@ -1,0 +1,254 @@
+/**
+ * 
+ */
+package com.nsdl.telemedicine.doctor.dto;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+/**
+ * @author Pegasus_girishk
+ *
+ */
+public class DoctorMstrDtlsDTO {
+	
+	private Integer dmdIdPk;
+
+	private Integer dmdConsulFee;
+
+	private String dmdDrName;
+
+	private String dmdEmail;
+
+	private String dmdGender;
+
+	private String dmdIsRegByIpan;
+
+	private Boolean dmdIsverified;
+
+	private String dmdMciNumber;
+
+	private Long dmdMobileNo;
+
+	private String dmdModifiedBy;
+
+	private Timestamp dmdModifiedTmstmp;
+
+	private String dmdOptiVersion;
+
+	private String dmdPassword;
+
+	private String dmdSmcNumber;
+
+	private String dmdSpecialiazation;
+	
+	private String dmdUserId;
+
+	private List<DoctorDocDtlsDTO> drDocsDtls;
+	
+	private List<ScribeRegDtlsDTO> drScribeDtls;
+	
+	private String profilePhoto;
+	
+	private String dmdAddress1;
+	
+	private String dmdAddress2;
+	
+	private String dmdAddress3;
+	
+	private String dmdState;
+	
+	private String dmdCity; 
+
+	public String getProfilePhoto() {
+		return profilePhoto;
+	}
+
+	public void setProfilePhoto(String profilePhoto) {
+		this.profilePhoto = profilePhoto;
+	}
+
+	public Integer getDmdIdPk() {
+		return dmdIdPk;
+	}
+
+	public void setDmdIdPk(Integer dmdIdPk) {
+		this.dmdIdPk = dmdIdPk;
+	}
+
+	public Integer getDmdConsulFee() {
+		return dmdConsulFee;
+	}
+
+	public void setDmdConsulFee(Integer dmdConsulFee) {
+		this.dmdConsulFee = dmdConsulFee;
+	}
+
+	public String getDmdDrName() {
+		return dmdDrName;
+	}
+
+	public void setDmdDrName(String dmdDrName) {
+		this.dmdDrName = dmdDrName;
+	}
+
+	public String getDmdEmail() {
+		return dmdEmail;
+	}
+
+	public void setDmdEmail(String dmdEmail) {
+		this.dmdEmail = dmdEmail;
+	}
+
+	public String getDmdGender() {
+		return dmdGender;
+	}
+
+	public void setDmdGender(String dmdGender) {
+		this.dmdGender = dmdGender;
+	}
+
+	public String getDmdIsRegByIpan() {
+		return dmdIsRegByIpan;
+	}
+
+	public void setDmdIsRegByIpan(String dmdIsRegByIpan) {
+		this.dmdIsRegByIpan = dmdIsRegByIpan;
+	}
+
+	public Boolean getDmdIsverified() {
+		return dmdIsverified;
+	}
+
+	public void setDmdIsverified(Boolean dmdIsverified) {
+		this.dmdIsverified = dmdIsverified;
+	}
+
+	public String getDmdMciNumber() {
+		return dmdMciNumber;
+	}
+
+	public void setDmdMciNumber(String dmdMciNumber) {
+		this.dmdMciNumber = dmdMciNumber;
+	}
+
+	public Long getDmdMobileNo() {
+		return dmdMobileNo;
+	}
+
+	public void setDmdMobileNo(Long dmdMobileNo) {
+		this.dmdMobileNo = dmdMobileNo;
+	}
+
+	public String getDmdModifiedBy() {
+		return dmdModifiedBy;
+	}
+
+	public void setDmdModifiedBy(String dmdModifiedBy) {
+		this.dmdModifiedBy = dmdModifiedBy;
+	}
+
+	public Timestamp getDmdModifiedTmstmp() {
+		return dmdModifiedTmstmp;
+	}
+
+	public void setDmdModifiedTmstmp(Timestamp dmdModifiedTmstmp) {
+		this.dmdModifiedTmstmp = dmdModifiedTmstmp;
+	}
+
+	public String getDmdOptiVersion() {
+		return dmdOptiVersion;
+	}
+
+	public void setDmdOptiVersion(String dmdOptiVersion) {
+		this.dmdOptiVersion = dmdOptiVersion;
+	}
+
+	public String getDmdPassword() {
+		return dmdPassword;
+	}
+
+	public void setDmdPassword(String dmdPassword) {
+		this.dmdPassword = dmdPassword;
+	}
+
+	public String getDmdSmcNumber() {
+		return dmdSmcNumber;
+	}
+
+	public void setDmdSmcNumber(String dmdSmcNumber) {
+		this.dmdSmcNumber = dmdSmcNumber;
+	}
+
+	public String getDmdSpecialiazation() {
+		return dmdSpecialiazation;
+	}
+
+	public void setDmdSpecialiazation(String dmdSpecialiazation) {
+		this.dmdSpecialiazation = dmdSpecialiazation;
+	}
+
+	public List<DoctorDocDtlsDTO> getDrDocsDtls() {
+		return drDocsDtls;
+	}
+
+	public void setDrDocsDtls(List<DoctorDocDtlsDTO> drDocsDtls) {
+		this.drDocsDtls = drDocsDtls;
+	}
+
+	public String getDmdUserId() {
+		return dmdUserId;
+	}
+
+	public void setDmdUserId(String dmdUserId) {
+		this.dmdUserId = dmdUserId;
+	}
+
+	public List<ScribeRegDtlsDTO> getDrScribeDtls() {
+		return drScribeDtls;
+	}
+
+	public void setDrScribeDtls(List<ScribeRegDtlsDTO> drScribeDtls) {
+		this.drScribeDtls = drScribeDtls;
+	}
+
+	public String getDmdAddress1() {
+		return dmdAddress1;
+	}
+
+	public void setDmdAddress1(String dmdAddress1) {
+		this.dmdAddress1 = dmdAddress1;
+	}
+
+	public String getDmdAddress2() {
+		return dmdAddress2;
+	}
+
+	public void setDmdAddress2(String dmdAddress2) {
+		this.dmdAddress2 = dmdAddress2;
+	}
+
+	public String getDmdAddress3() {
+		return dmdAddress3;
+	}
+
+	public void setDmdAddress3(String dmdAddress3) {
+		this.dmdAddress3 = dmdAddress3;
+	}
+
+	public String getDmdState() {
+		return dmdState;
+	}
+
+	public void setDmdState(String dmdState) {
+		this.dmdState = dmdState;
+	}
+
+	public String getDmdCity() {
+		return dmdCity;
+	}
+
+	public void setDmdCity(String dmdCity) {
+		this.dmdCity = dmdCity;
+	}
+}

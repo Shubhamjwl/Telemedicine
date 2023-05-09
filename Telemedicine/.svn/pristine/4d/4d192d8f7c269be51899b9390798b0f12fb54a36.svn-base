@@ -1,0 +1,99 @@
+package com.nsdl.telemedicine.controller;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.nsdl.telemedicine.dto.MainResponseDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDetailsDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDtlsResponseDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsResponse;
+import com.nsdl.telemedicine.dto.OrderHistoryDetailsDTO;
+import com.nsdl.telemedicine.dto.OrderHistoryDtlsResponse;
+import com.nsdl.telemedicine.dto.RedFlagData;
+import com.nsdl.telemedicine.dto.RequestWrapperDTO;
+import com.nsdl.telemedicine.dto.ResponseWrapperDTO;
+import com.nsdl.telemedicine.service.MarketPlaceService;
+import com.nsdl.telemedicine.service.RedFlagService;
+
+@RestController
+@RequestMapping(value = "/tele")
+//@CrossOrigin(origins = "*")
+public class TeleMarketPlaceController {
+
+	private static final Logger logger = LoggerFactory.getLogger(TeleMarketPlaceController.class);
+
+	@Autowired
+	private RedFlagService service;
+
+	@Autowired
+	private MarketPlaceService marketService;
+
+	@GetMapping(value = "/getDrRedflagDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<List<RedFlagData>>> getDrRedflagMapURL(@RequestParam String drEmailID,
+			@RequestParam String ptMobileNo) {
+		logger.info("Request Received to get Red flag details.");
+		MainResponseDTO<List<RedFlagData>> responseWrapper = new MainResponseDTO<List<RedFlagData>>();
+		responseWrapper.setResponse(service.getRedFlagDetails(drEmailID, ptMobileNo));
+		responseWrapper.setStatus(true);
+		responseWrapper.setResponsetime(OffsetDateTime.now().toInstant().toString());
+		logger.info("Returning response");
+		return ResponseEntity.status(HttpStatus.OK).body(responseWrapper);
+	}
+
+	@PostMapping(value = "/saveMarketPlaceDetails", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapperDTO<MarketPlaceDtlsResponseDTO>> saveMarketPlaceDetails(
+			@RequestBody RequestWrapperDTO<MarketPlaceDetailsDTO> request) {
+		logger.info("Request Received to save market place details.");
+		MarketPlaceDetailsDTO marketRequest = request.getRequest();
+		ResponseWrapperDTO<MarketPlaceDtlsResponseDTO> response = new ResponseWrapperDTO<MarketPlaceDtlsResponseDTO>();
+		MarketPlaceDtlsResponseDTO marketPlaceDetailsResponse = marketService.saveMarketPlaceDetailsUrl(marketRequest);
+		response.setResponsetime(OffsetDateTime.now().toInstant().toString());
+		response.setStatus(true);
+		response.setResponse(marketPlaceDetailsResponse);
+		logger.info("Returning response");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PostMapping(value = "/saveOrderDetails", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapperDTO<OrderDetailsResponse>> getOrderPlaceDetails(
+			@RequestBody RequestWrapperDTO<OrderDetailsDTO> request) {
+		logger.info("Request Received to save order details.");
+		OrderDetailsDTO orderRequest = request.getRequest();
+		ResponseWrapperDTO<OrderDetailsResponse> response = new ResponseWrapperDTO<OrderDetailsResponse>();
+		OrderDetailsResponse orderPlaceDetailsResponse = marketService.saveOrderPlaceDetails(orderRequest);
+		response.setResponsetime(OffsetDateTime.now().toInstant().toString());
+		response.setStatus(true);
+		response.setResponse(orderPlaceDetailsResponse);
+		logger.info("Returning response");
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PostMapping(value = "/getOrderHistoryDetails", consumes = MediaType.APPLICATION_JSON_VALUE)
+	//@CrossOrigin(origins = "*")
+	public ResponseWrapperDTO<List<OrderHistoryDtlsResponse>> getOrderHistoryDetails(
+			@RequestBody RequestWrapperDTO<OrderHistoryDetailsDTO> request) {
+		logger.info("Request Received to get order history details.");
+		ResponseWrapperDTO<List<OrderHistoryDtlsResponse>> response = new ResponseWrapperDTO<List<OrderHistoryDtlsResponse>>();
+		List<OrderHistoryDtlsResponse> orderHistoryDtlsListResponse = marketService
+				.getOrderHistoryDtls(request.getRequest());
+		response.setResponsetime(OffsetDateTime.now().toInstant().toString());
+		response.setStatus(true);
+		response.setResponse(orderHistoryDtlsListResponse);
+		logger.info("Returning response");
+		return response;
+	}
+
+}

@@ -1,0 +1,9 @@
+<app-breadcrumb [showHomePageOptions]="true"></app-breadcrumb>
+
+<div class="container mt-5">
+    <div class="col-12 text-center">
+        <h1 class="text-info">
+            Coming Soon...
+        </h1>
+    </div>
+</div>

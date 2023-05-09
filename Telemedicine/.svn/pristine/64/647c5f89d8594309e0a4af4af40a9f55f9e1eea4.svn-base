@@ -1,0 +1,49 @@
+spring.application.name=patient-registration-service
+
+#Database properties
+#spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+#spring.datasource.username=sysadmin
+#spring.datasource.password=Mosipadm@dev123
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.jpa.generate-ddl=true
+#spring.jpa.hibernate.ddl-auto = update
+#spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+spring.profiles.active=dev
+
+hibernate.dialect=org.hibernate.dialect.PostgreSQL95Dialect
+hibernate.hbm2ddl.auto=none
+hibernate.show_sql=false
+hibernate.format_sql=false
+#server.port=7075
+
+patient.registration.api.version=v1
+server.servlet.context-path=/patient/${patient.registration.api.version}
+
+login.email.regex=^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
+email.regex=^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$
+password.regex=^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!~@#$%&*()-,./+=])(?=\\S+$).{8,16}$
+login.password.regex=^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!~@#$%&*()-,./+=])(?=\\S+$).{8,16}$
+mobile.regex=^[7-9][0-9]{9}$
+login.mobile.regex=^[7-9][0-9]{9}$
+
+#CREATE_USER_URL = http://localhost:7072/usermanagement/v1/user/login/createuser
+#OTP_GENERATE_URL = http://localhost:7070/generateOtp
+
+#CREATE_USER_URL = http://172.30.151.100:7072/usermanagement/v1/user/login/createuser
+#UPDATE_USER_URL = http://172.30.151.100:7072/usermanagement/v1/user/login/updateUserDetails
+#OTP_GENERATE_URL = http://172.30.151.100:7076/OTPManager/generateOtp
+#CAPTCHA_VERIFICATION_URL = http://172.30.151.100:8073/captcha/verifyCaptcha
+PATIENT_PHOTO_PATH = /var/telemedicine/documents
+PROFILE_PHOTO_SIZE = 1048576
+
+prescription.path=/var/telemedicine/documents/prescription
+path.seperator=/
+
+#prescription.path=D:\\var\\telemedicine\\documents\\prescription
+#path.seperator=\\
+
+auth.jwt.secret=sshhhhhh!!!
+auth.jwt.base=Bearer
+auth.jwt.expiry=86400000
+auth.token.header=Authorization

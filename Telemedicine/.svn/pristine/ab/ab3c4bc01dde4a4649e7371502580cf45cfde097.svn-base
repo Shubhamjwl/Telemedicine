@@ -1,0 +1,21 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { BookAppointmnetUrlComponent } from './components/book-appointmnet-url/book-appointmnet-url.component';
+
+
+const routes: Routes = [
+  {
+    path: '',
+    component: BookAppointmnetUrlComponent,
+  },
+ 
+];
+
+
+@NgModule({
+  imports: [
+    RouterModule.forChild(routes),
+  ],
+  exports: [RouterModule]
+})
+export class BookAppointmnetUrlRoutingModule { }

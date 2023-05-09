@@ -1,0 +1,11 @@
+spring.application.name=user-management-service
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888/config
+spring.cloud.config.label=1.0.1
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+server.port = 7072
+usrmgmt.api.version=v1
+usrmgmt.api.id=user
+server.servlet.context-path=/usermanagement/${usrmgmt.api.version}/user
+user.manager.verifyDoctor.response.msg=doctor verification has been verified successfully

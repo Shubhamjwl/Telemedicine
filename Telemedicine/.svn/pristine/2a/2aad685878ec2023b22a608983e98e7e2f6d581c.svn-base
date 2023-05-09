@@ -1,0 +1,176 @@
+<app-breadcrumb></app-breadcrumb>
+<div class="dashboard-wrapper container">
+    <div class="doctor-details-wrapper mt-2">
+        <h1>Verify Doctor Details</h1>
+        <p>Please verify or not verify doctors from list</p>
+    </div>
+    <div class="detils-wrapper" *ngIf="doctorData && doctorData.length">
+        <div class="count-details mb-3 clearfix">
+            <div class="count-left text-left">
+                <h2 class="doc-count mt-4">Doctors pending for verification - <span
+                        *ngIf="doctorData && doctorData.length">{{doctorData.length}}</span></h2>
+                <p>List Of Doctors</p>
+            </div>
+            <div class="count-right mt-3">
+                <mat-form-field class="full-width-mat-control mt-2">
+                    <input matInput placeholder="Search" [(ngModel)]="q" id="Search">
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-accordion class="example-headers-align pl-2 pr-2">
+            <mat-expansion-panel class="pr-1" *ngFor="let data of doctorData | docFilter: q; let i=index">
+                <mat-expansion-panel-header (click)="getDoctorDetails(data.drUserID,i, data.index)">
+                    <mat-panel-title class="blackColor">
+                        <span class="pr-2">{{data.drFullName}}</span>|
+                        <span class="pl-2">{{data.drSpecilization}}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <div class="text-right">
+                            <span>{{'lblSMCNo' | l10n}} </span><span class="pr-1">{{data.drSMCNo}} </span>|
+                            <span>{{'lblMICNo' | l10n}}</span><span class="pl-1"> {{data.drMCINo}}</span>
+                        </div>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="doctor-detils-wrapper" *ngIf="data.dataSource != null">
+                    <div class="details-wrap mt-4">
+                        <div class="row doctor-header m-3">
+                            <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                                <div class="profile-wrapper">
+                                    <img [src]="data.dataSource.drdPhotoPath ? data.dataSource.drdPhotoPath : 'assets/images/img_avatar.png'"
+                                        alt="doctor-profle">
+                                </div>
+                            </div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <h2 class="text-danger">{{data.dataSource.drdDrName}}</h2>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div>
+                                            <span>{{'lblSMCNo' | l10n}} </span><span
+                                                class="pr-1">{{data.dataSource.drdSmcNumber}} </span>|
+                                            <span>{{'lblMICNo' | l10n}}</span><span class="pl-1">
+                                                {{data.dataSource.drdMciNumber}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p><span>{{'lblMobileNumber'| l10n}} :</span><span
+                                        class="pr-1">{{data.dataSource.drdMobileNo}}</span>|
+                                    <span class="pl-1">{{'lblEmailId'| l10n}} :</span>{{data.dataSource.drdEmail}}
+                                </p>
+                                <h2>{{'lblconsultationFees' | l10n}} <span
+                                        class="mr-2">{{data.dataSource.drdConsulFee}}</span>&#8377;</h2>
+                            </div>
+                        </div>
+                        <div class="upload-wrap m-3 px-3">
+                            <div>
+                                <h2 class="text-secondary">Uploaded Documents</h2>
+                            </div>
+                            <table mat-table [dataSource]="data.dataSource.drDocsDtls" class="w-100">
+                                <!-- Document Name -->
+                                <ng-container matColumnDef="Document Name">
+                                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"> Document
+                                        Name</th>
+                                    <td mat-cell *matCellDef="let element" class="docName pl-0"> {{element.ddtDocsName}}
+                                    </td>
+                                </ng-container>
+                                <!-- Status -->
+                                <ng-container matColumnDef="Status">
+                                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"> Document
+                                        Type</th>
+                                    <td mat-cell *matCellDef="let element" class="status"> {{element.ddtDocsType}} </td>
+                                </ng-container>
+                                <!-- visibiltiy -->
+                                <ng-container matColumnDef="Visibility">
+                                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"></th>
+                                    <td mat-cell *matCellDef="let element" class="action">
+                                        <i *ngIf="element.verify" matSuffix
+                                            class="fa fa-eye eye-icon text-secondary cursor-details"></i>
+                                        <button *ngIf="!element.verify" class="btn-sm btn-view customBackgroundGreen"
+                                            (click)="downloadAndView(element, data.drUserID)">View</button>
+                                    </td>
+                                </ng-container>
+                                <!-- todo: downlowad icon -->
+                                <ng-container matColumnDef="Upgrade">
+                                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"></th>
+                                    <td mat-cell *matCellDef="let element" class="action">
+                                        <i matSuffix (click)="download(element,data.drUserID)"
+                                            class="fa fa-download  text-secondary cursor-details"></i>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"
+                                    class="border-bottom-0 pl-0 pb-0"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+                            <div class="row">
+                                <div class="col-md-1 mt-4">
+                                    <h2 class="text-secondary">Plan:</h2>
+                                </div>
+                                <div class='text-left mt-4 col-md-6'  [formGroup]="typeGroup">
+                                        <div class="form-check form-check-inline">
+                                             <input class="form-check-input" type="radio" name="isIpanorMarsha" id="iPan" value="I" formControlName="isIpanorMarsha" checked="checked">
+                                             <label class="form-check-label" for="iPan"><b>Silver</b></label>
+                                         </div>
+                                         <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio"  name="isIpanorMarsha" id="marsha" value="M" formControlName="isIpanorMarsha" disabled >
+                                            <label class="form-check-label" for="marsha" disabled><b>Gold</b></label>
+                                        </div>    
+                                        <div class="feedback" *ngIf="typeGroup.get('isIpanorMarsha').errors && (typeGroup.get('isIpanorMarsha').touched || typeGroup.get('isIpanorMarsha').dirty)" >
+                                            <p *ngIf="typeGroup.get('isIpanorMarsha').errors.required">Type is required</p>
+                                        </div>
+                                </div>
+                                <div class="text-right mt-4 col-md-5">
+                                    <button class="btn btn-verify btn-outline-danger mr-4" (click)="notVerify(reason,data)">Not Verify</button>
+                                    <button class="btn btn-verify btnColor" (click)="verifyDoc('Y', data)">Verify</button> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="data.dataSource == null" class="doctor-detils-wrapper">
+                    <div class="loader-wrapper details-wrap">
+                        <div class="spinner-border text-orange" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="row" *ngIf="!(doctorData && doctorData.length)">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+            <p class="p-5 bg-white">No Data Found!</p>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<ng-template #reason let-modal>
+    <div class="model-wrapper">
+        <div class="modal-header">
+            <h2 class="modal-title">Reason Of Rejection</h2>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body px-4" [formGroup]="reasonGroup">
+            <div class="row">
+                <div class="col-sm 12">
+                    <label>Enter reason of rejection</label>
+                    <textarea rows='8' formControlName="reason"></textarea>
+                    <div class="feedback"
+                        *ngIf="reasonGroup.get('reason').errors && (reasonGroup.get('reason').touched || reasonGroup.get('reason').dirty)">
+                        <p *ngIf="reasonGroup.get('reason').errors.required">Reason is required</p>
+                        <p *ngIf="reasonGroup.get('reason').errors.maxlength">200 characters are allowed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btnColor" (click)="rejectedVerification('N')">Submit</button>
+        </div>
+    </div>
+</ng-template>

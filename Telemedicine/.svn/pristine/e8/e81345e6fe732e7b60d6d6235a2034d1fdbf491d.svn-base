@@ -1,0 +1,126 @@
+package com.nsdl.telemedicine.patient.entity;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "pt_reg_dtls", schema = "registration")
+public class PatientPersonalDetailEntity implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "prd_id_pk", nullable = false)
+	private Integer id;
+
+	@Column(name = "prd_pt_name", nullable = false , length = 100)
+	@NotNull(message = "Full Name is Mandatory")
+	private String ptFullName;
+
+	@Column(name = "prd_mobile_no", nullable = false , unique = true , length = 10)
+	@NotNull(message = "Mobile No Can not Duplicate")
+	private Long ptMobNo;
+
+	@Column(name = "prd_email" , length = 50)
+//	@NotNull(message = "Email is Mandatory")
+	private String ptEmail;
+
+	@Column(name = "prd_user_id", nullable = false , unique = true , length = 50)
+	@NotNull(message = "UserID is Mandatory")
+	private String ptUserID;
+
+	@Column(name = "prd_password", nullable = false , length = 100)
+	@NotNull(message = "Password is Mandatory")
+	private String ptPassword;
+
+
+	@Column(name = "prd_gender" ,length = 10)
+	private String gender;
+
+	@Column(name = "prd_dob")
+	private Date dob;
+
+	@Column(name = "prd_blood_grp" , length = 5)
+	private String bloodGroup;
+
+	@Column(name = "prd_height" ,length = 6 , columnDefinition = "numeric(6,0)") 
+	private Double height;
+
+	@Column(name = "prd_weight",length = 6 , columnDefinition = "numeric(6,0)")
+	private Double weight;
+
+	@Column(name = "prd_emerg_contact_no" , length = 12) 
+	private String emergContanctNo;
+
+	@Column(name = "prd_address1" , length = 50 ,columnDefinition = "character varying(50)") 
+	private String address1;
+
+	@Column(name = "prd_address2", length = 50 ,columnDefinition = "character varying(50)")
+	private String address2;
+
+	@Column(name = "prd_address3", length = 50 ,columnDefinition = "character varying(50)")
+	private String address3;
+	
+	@Column(name = "prd_city_name_fk", length = 50 ,columnDefinition = "character varying(50)")
+	private String ptCity;
+	
+	@Column(name = "prd_state_name_fk", length = 50 ,columnDefinition = "character varying(50)")
+	private String ptState;
+	
+	@Column(name = "prd_cntry_name_fk", length = 50 ,columnDefinition = "character varying(50)")
+	private String ptCountry;
+
+	@Column(name = "prd_pincode" , length = 6 , columnDefinition = "integer") 
+	private Long pincode;
+
+
+	@Column(name = "prd_isprofile_compl_flg", nullable = false ,length = 1)
+	private char profileFlag = 'N';
+
+	@Column(name = "prd_isactive" , nullable = false ,length = 1)
+	private char isactive = 'N';
+
+	@Column(name = "prd_is_reg_by_ipan" , nullable = false ,length = 1 )
+	private char isRegByIpan = 'V' ;
+
+	@CreatedDate
+	@Column(name = "prd_created_tmstmp")
+	private LocalDateTime createdDate;
+
+	@UpdateTimestamp
+	@Column(name = "prd_modified_tmstmp")
+	private LocalDateTime modificationDate;
+
+	@Version
+	@Column(name = "prd_opti_version")
+	private Long optiVersion;
+	
+	@Column(name = "prd_photo_path")
+	private String profilePhotoPath;
+	
+	@Column(name = "prd_health_id")
+	private String healthID;
+	
+	@Column(name = "prd_health_number")
+	private String healthNumber;
+	
+	@Column(name = "prd_ndhmtoken")
+	private String ndhmToken;
+
+}

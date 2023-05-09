@@ -1,0 +1,12 @@
+package com.nsdl.telemedicine.service;
+
+import java.util.Optional;
+
+import com.nsdl.telemedicine.dto.MarketPlaceDetailsDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDtlsResponseDTO;
+
+public interface MarketPlaceService {
+
+	public MarketPlaceDtlsResponseDTO saveMarketPlaceDetailsUrl(MarketPlaceDetailsDTO marketPlaceDtls);
+
+}

@@ -1,0 +1,20 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+
+import { RegisterPatientRoutingModule } from './register-patient-routing.module';
+import { PatientRegistrationByDocSCComponent } from './patient-registration-by-doc-sc/patient-registration-by-doc-sc.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { TmPatientRegistrationByDocSCComponent } from './tm-patient-registration-by-doc-sc/tm-patient-registration-by-doc-sc.component';
+
+
+@NgModule({
+  declarations: [PatientRegistrationByDocSCComponent, TmPatientRegistrationByDocSCComponent],
+  imports: [
+    CommonModule,
+    RegisterPatientRoutingModule,
+    SharedModule
+  ],
+  providers: [DatePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class RegisterPatientModule { }

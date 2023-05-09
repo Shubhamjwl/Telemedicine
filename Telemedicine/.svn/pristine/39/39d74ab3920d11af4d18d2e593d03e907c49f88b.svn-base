@@ -1,0 +1,978 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+
+<div class="container">
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1%">
+    <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+      <h2 class="mb-1 pl-1 d-inline-block">
+        <span>
+          <b>{{ 'lblUpdateProfile' | l10n }}</b>
+        </span>
+      </h2>
+    </div>
+  </div>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 6%; margin-left: 2%">
+    <div class="row" *ngIf="userRole === 'PATIENT' && ndhmFlag">
+      <div class="col-6 col-lg-6">
+        <input
+          type="text"
+          [(ngModel)]="abhaNumber"
+          class="input-border"
+          id="abhaNumber"
+          #address="ngModel"
+          style="display: inline-block; border-bottom: 1px solid #e43927 !important; width: 47%"
+          placeholder="Enter ABHA/ ABHA Address"
+        />
+        <div class="error" [hidden]="address.valid || address.untouched">Enter Valid Address</div>
+        <!-- <mat-error
+        class="ml-1"
+        *ngIf="form.get('abhaNumber').errors && (form.get('abhaNumber').touched || form.get('abhaNumber').dirty)"
+      >
+        <span *ngIf="form.get('abhaNumber').errors.required">ABHA ID /ABHA Address required.</span>
+      </mat-error> -->
+      </div>
+      <div class="col-6 col-lg-6">
+        <button type="button" class="button" style="font-size: 13px; margin-left: -43%" (click)="openPopup()">
+          Verify ABHA
+        </button>
+      </div>
+    </div>
+    <!-- <div style="margin-top: 3%" *ngIf="showMsg">
+      <p style="color: red">
+      Alert: Duplicate records Found. Patient is already registered with you in Protean Clinic.
+      </p>
+    </div> -->
+    <!-- <div
+      class="modal"
+      tabindex="-1"
+      role="dialog"
+      [ngStyle]="{ display: displayStyle }"
+      style="margin-top: 8%; margin-left: -13%; max-height: 80%; overflow-y: scroll"
+    >
+      <div class="modal-dialog" role="document" style="max-width: 38%">
+        <div class="modal-content modal-cntr" style="border: 1px solid #e43927">
+          <div class="modal-head" style="background-color: #e43927; margin-top: -20px; margin-left: -20px">
+            <p style="color: white; font-size: 18px; padding-top: 10px; margin-left: 2%">Update Profile</p>
+            <h1 style="color: white; cursor: pointer; margin-right: 2%; margin-top: 1%" (click)="closePopup()">X</h1>
+          </div>
+          <div class="modal-body" style="width: 105%">
+            <div class="row">
+              <div class="col-3 col-lg-3"></div>
+              <div class="col-3 col-lg-5">Information Details Available from ABDM</div>
+              <div class="col-3 col-lg-4">Keep Protean Clinic Details</div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">First Name</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.firstName}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Middle Name</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.middleName}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Last Name</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.lastName}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Mobile Number</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.mobile}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Gender</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.gender === 'M' ? accountProfileData?.gender === 'M': 'Male' ? accountProfileData?.gender === 'F': 'Female' ? accountProfileData?.gender === 'T': 'Transgender'}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Email ID</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.email}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 col-lg-3">Address</div>
+              <div class="col-3 col-lg-5">{{accountProfileData?.address}}</div>
+              <div class="col-3 col-lg-4"></div>
+            </div>
+            <br />
+            <div>
+              <input type="radio" id="html" name="fav_language" class="input-radio-btn" value="HTML" />
+              <label for="html">Use ABDM details to update your Protean Clinic’s profile</label><br />
+              <input type="radio" id="css" name="fav_language" class="input-radio-btn" value="CSS" />
+              <label for="css">Keep Protean Clinic profile details</label><br />
+            </div>
+            <br />
+            <div class="row">
+              <p style="margin-top: 5px">Do you want to update details in Protean clinic?</p>
+              <button class="yes-no-button" style="margin-left: 2%">Yes</button>
+              <button class="yes-no-button" style="margin-left: 3%">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="card borderRadius10 mt-0">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10">
+              <div class="row">
+                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>
+                      <b>{{ 'lblFullName' | l10n }}</b>
+                    </mat-label>
+                    <input
+                      matInput
+                      maxlength="30"
+                      formControlName="fullName"
+                      placeholder="Enter {{ 'lblFullName' | l10n }}"
+                      required
+                    />
+                    <mat-error
+                      *ngIf="
+                        form.get('fullName').errors && (form.get('fullName').touched || form.get('fullName').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('fullName').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                      <span *ngIf="form.get('fullName').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                      <span *ngIf="form.get('fullName').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="text-secondary">
+                      <b>{{ 'lblMobileNumber' | l10n }}</b>
+                    </mat-label>
+                    <input matInput type="number" numberOnly length="10" formControlName="mobileNo" required />
+                    <mat-error
+                      *ngIf="
+                        form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('mobileNo').errors.required">{{ 'errMobileRequired' | l10n }}</span>
+                      <span *ngIf="form.get('mobileNo').errors.maxlength">{{ 'errMobileMaxLength' | l10n }}</span>
+                      <span *ngIf="form.get('mobileNo').errors.pattern">{{ 'errMobilePattern' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="text-secondary">
+                      <b>{{ 'lblEmailId' | l10n }}</b>
+                    </mat-label>
+                    <input matInput formControlName="email" required />
+                    <mat-error
+                      *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)"
+                    >
+                      <span *ngIf="form.get('email').errors.required">{{ 'errEmailRequired' | l10n }}</span>
+                      <span *ngIf="form.get('email').errors.email">{{ 'errEmailPattern' | l10n }}</span>
+                      <span *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{
+                        'errEmailMaxlength' | l10n
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!--  -->
+              <div class="row">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="disableDob == false">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>
+                      <b>{{ 'lblDateOfBirth' | l10n }}</b>
+                    </mat-label>
+                    <input
+                      matInput
+                      formControlName="dob"
+                      [matDatepicker]="picker"
+                      [max]="maxDate"
+                      [disabled]="disableDob"
+                      readonly
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label>
+                      <b>{{ 'lblGender' | l10n }}</b>
+                    </mat-label>
+                    <mat-select formControlName="gender" required>
+                      <mat-option *ngFor="let gender of genderList" [value]="gender.masterValue">{{
+                        gender.masterValue
+                      }}</mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('gender').errors && (form.get('gender').touched || form.get('gender').dirty)"
+                    >
+                      <span *ngIf="form.get('gender').errors.required">{{ 'errGenderRequired' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="disableBloodGroup == false">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblBloodGroup' | l10n }}</b></mat-label
+                    >
+                    <mat-select formControlName="bloodGroup" [disabled]="disableBloodGroup">
+                      <mat-option *ngFor="let type of bloodGroupTypes" [value]="type.value">{{ type.key }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- <mat-form-field class="example-full-width w-100" appearance="outline">
+                                        <mat-label>
+                                            <b>{{'lblBloodGroup' | l10n}}</b>  
+                                        </mat-label>
+                                        <input matInput maxlength="10" formControlName="bloodGroup" [readonly]="disableBloodGroup">
+                                    </mat-form-field> -->
+                </div>
+                <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2" *ngIf="disableHeight == false">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="text-secondary">
+                      <b>{{ 'lblHeight' | l10n }}</b>
+                    </mat-label>
+                    <input matInput type="number" formControlName="height" [readonly]="disableHeight" />
+                  </mat-form-field>
+                </div>
+                <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2" *ngIf="disableWeight == false">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="text-secondary">
+                      <b>{{ 'lblWeight' | l10n }}</b>
+                    </mat-label>
+                    <input matInput type="number" formControlName="weight" [readonly]="disableWeight" />
+                  </mat-form-field>
+                </div>
+
+                <!-- Early separate row 1 -->
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblState' | l10n }}</b></mat-label
+                    >
+                    <mat-select formControlName="state" (selectionChange)="onSelectState($event.value)" required>
+                      <!-- <mat-option>{{'lblState' | l10n}}</mat-option> -->
+                      <mat-option *ngFor="let state of states" [value]="state.stateName"
+                        >{{ state.stateName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="form.get('state').errors && (form.get('state').touched || form.get('state').dirty)"
+                    >
+                      <span *ngIf="form.get('state').errors.required">{{ 'errStateRequired' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblCity' | l10n }}</b></mat-label
+                    >
+                    <mat-select formControlName="city" required>
+                      <!-- <mat-option>{{'lblCity' | l10n}}</mat-option> -->
+                      <mat-option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('city').errors && (form.get('city').touched || form.get('city').dirty)">
+                      <span *ngIf="form.get('city').errors.required">{{ 'errCityRequired' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblAddresLine1' | l10n }}</b>
+                    </mat-label>
+                    <input matInput maxlength="75" formControlName="address1" placeholder="Enter Address1" required />
+                    <mat-error
+                      *ngIf="
+                        form.get('address1').errors && (form.get('address1').touched || form.get('address1').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('address1').errors.required">{{ 'errAddressRequired' | l10n }}</span>
+                      <!-- <span *ngIf="form.get('address1').errors.maxlength">{{'errAddressMaxLength' | l10n}}</span>
+                                            <span *ngIf="form.get('address1').errors.pattern">{{'errAddressPattern' | l10n}}</span> -->
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblAddresLine2' | l10n }}</b>
+                    </mat-label>
+                    <input matInput maxlength="75" formControlName="address2" placeholder="Enter Address2" />
+                  </mat-form-field>
+                </div>
+
+                <!-- Early separate row 2 -->
+                <div class="col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblAddresLine3' | l10n }}</b>
+                    </mat-label>
+                    <input matInput maxlength="75" formControlName="address3" placeholder="Enter Address3" />
+                  </mat-form-field>
+                </div>
+
+                <!-- Health Id Number row 2 -->
+                <div class="col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole !== 'DOCTOR' && ndhmFlag">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblHealthId' | l10n }}</b>
+                    </mat-label>
+                    <input
+                      matInput
+                      maxlength="75"
+                      formControlName="healthId"
+                      placeholder="Enter Health Id"
+                      [readonly]="isDisabledFlag"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole !== 'DOCTOR' && ndhmFlag">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblHealthIdNumber' | l10n }}</b>
+                    </mat-label>
+                    <input
+                      matInput
+                      maxlength="75"
+                      formControlName="healthIdNumber"
+                      placeholder="Enter Health Id Number"
+                      [readonly]="isDisabledFlag"
+                    />
+                  </mat-form-field>
+                </div>
+
+                <!-- Doctor fields Row -->
+                <!-- <div class="row" *ngIf="userRole == 'DOCTOR'"> -->
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblSMCNo' | l10n }}</b>
+                      <span class="text-danger">*</span>
+                    </mat-label>
+                    <input
+                      matInput
+                      maxlength="30"
+                      formControlName="smcNo"
+                      placeholder="Enter {{ 'lblSMCNo' | l10n }}"
+                    />
+                    <mat-error
+                      *ngIf="form.get('smcNo').errors && (form.get('smcNo').touched || form.get('smcNo').dirty)"
+                    >
+                      <span *ngIf="form.get('smcNo').errors.required">{{ 'errSMCrequired' | l10n }}</span>
+                      <span *ngIf="form.get('smcNo').errors.maxlength">{{ 'errSMCMaxLength' | l10n }}</span>
+                      <span *ngIf="form.get('smcNo').errors.pattern">{{ 'errSMCPattern' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblMICNo' | l10n }}</b>
+                      <span class="text-danger">*</span>
+                    </mat-label>
+                    <input
+                      matInput
+                      maxlength="30"
+                      formControlName="micNo"
+                      placeholder="Enter {{ 'lblMICNo' | l10n }}"
+                    />
+                    <mat-error
+                      *ngIf="form.get('micNo').errors && (form.get('micNo').touched || form.get('micNo').dirty)"
+                    >
+                      <span *ngIf="form.get('micNo').errors.required">{{ 'errMCIRequired' | l10n }}</span>
+                      <span *ngIf="form.get('micNo').errors.maxlength">{{ 'errMCIMaxLength' | l10n }}</span>
+                      <span *ngIf="form.get('micNo').errors.pattern">{{ 'errMCIPattern' | l10n }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14">
+                      <b>{{ 'lblConsultationFee' | l10n }}</b>
+                      <span class="text-danger">*</span>
+                    </mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      numberOnly
+                      length="15"
+                      formControlName="consultationFee"
+                      placeholder="Enter {{ 'lblConsultationFee' | l10n }}"
+                    />
+                    <mat-error
+                      *ngIf="
+                        form.get('consultationFee').errors &&
+                        (form.get('consultationFee').touched || form.get('consultationFee').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('consultationFee').errors.required">{{
+                        'errConsultantRequired' | l10n
+                      }}</span>
+                      <span *ngIf="form.get('consultationFee').errors.maxlength">{{
+                        'errConsultantMaxLength' | l10n
+                      }}</span>
+                      <span *ngIf="form.get('consultationFee').errors.pattern">{{
+                        'errConsultantPattern' | l10n
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblSpecialization' | l10n }}</b>
+                      <span class="text-danger">*</span>
+                    </mat-label>
+                    <mat-select formControlName="speciality">
+                      <mat-option *ngFor="let sp of dataPassingService.specializationList" [value]="sp.masterValue">{{
+                        sp.masterValue
+                      }}</mat-option>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="
+                        form.get('speciality').errors &&
+                        (form.get('speciality').touched || form.get('speciality').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('speciality').errors.required">{{
+                        'errSpecilasationRequired' | l10n
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblAssociation' | l10n }} </b></mat-label
+                    >
+                    <mat-select formControlName="associationName">
+                      <mat-option *ngFor="let association of associationList" [value]="association.associationName">
+                        {{ association.associationName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3" *ngIf="userRole == 'DOCTOR'">
+                  <mat-form-field class="example-full-width w-100" appearance="outline">
+                    <mat-label class="labelSize14"
+                      ><b>{{ 'lblAssociationNo' | l10n }}</b>
+                    </mat-label>
+                    <input matInput type="text" maxlength="30" formControlName="associationNumber" />
+                    <mat-error
+                      *ngIf="
+                        form.get('associationNumber').errors &&
+                        (form.get('associationNumber').touched || form.get('associationNumber').dirty)
+                      "
+                    >
+                      <span *ngIf="form.get('associationNumber').errors.required">{{
+                        'errAssociationNoRequired' | l10n
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+            <!-- Profile photo -->
+            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+              <div class="row">
+                <div class="col">
+                  <span>
+                    <b>{{ 'lblUploadPhoto' | l10n }}</b
+                    >&nbsp;
+                    <label class="switch">
+                      <input type="checkbox" (click)="onClickSwitch()" [checked]="isSwitcheChecked" />
+                      <span class="slider round"></span>
+                    </label>
+                  </span>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 upload-wrapper" *ngIf="!isSwitcheChecked">
+                  <div class="profile-wrapper">
+                    <img
+                      src="{{ uploadedImage }}"
+                      id="ProfilePhoto"
+                      width="50%"
+                      alt="Avatar"
+                      class="uploadPhoto rounded-circle ml-4"
+                    />
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" *ngIf="isSwitcheChecked">
+                  <div>
+                    <!-- [height]="150"   -->
+                    <webcam
+                      [height]="75"
+                      [width]="100"
+                      [trigger]="triggerObservable"
+                      (initError)="handleInitError($event)"
+                      (imageCapture)="handleImage($event)"
+                    >
+                    </webcam>
+                    <!-- &nbsp;  -->
+                    <br />
+                    <button class="actionBtn btn btn-info btn-sm" (click)="triggerSnapshot()">
+                      {{ 'lblTakepicture' | l10n }}
+                    </button>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mr-3">
+                  <!-- <label class="uploadPhotoText text-muted mt-1">{{'lblUploadPhoto' | l10n}}</label> &nbsp;&nbsp; -->
+
+                  <div class="col-10 text-center mt-2">
+                    <input
+                      type="file"
+                      id="browse"
+                      formControlName="profilePhoto"
+                      class="mt-1"
+                      (change)="uploadProfilePhoto($event)"
+                      hidden
+                    />
+                    <button *ngIf="!isSwitcheChecked" class="btn btn-info btn-sm" (click)="browse()">Browse</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <!-- *ngIf="hasPreAssessmentLink" -->
+            <div class="row" *ngIf="authService.isUserDoctor() && hasPreAssessmentLink">
+              <div class="col-md-3" style="flex: 0 0 20%; max-width: 20%">
+                <p style="margin-top: 1.5rem">
+                  <b>{{ 'preAssessmentLink' | l10n }} :</b>
+                  <!-- <b>Pre-Assessment Link :</b> -->
+                </p>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width w-100" appearance="outline">
+                  <input
+                    matInput
+                    formControlName="pre_assessment_link"
+                    placeholder="Enter Pre-Assessment Link"
+                    #userinput
+                    readonly
+                  />
+                </mat-form-field>
+              </div>
+              <button class="btn" title="Copy to clipboard" (click)="copyInputMessage(userinput)">
+                <i class="fa fa-copy"></i>
+              </button>
+              <div class="col-md-3">
+                <input
+                  style="margin-top: 1.5rem"
+                  type="checkbox"
+                  formControlName="pre_assessment_flag"
+                  id="pre_assessment_flag"
+                />
+                <span> Send Pre-Assessment link at the time of appoinment</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- doctor profile Link  -->
+          <!-- *ngIf="hasDoctorWebsiteLink" -->
+          <div class="row">
+            <div
+              class="col-md-12"
+              *ngIf="authService.isUserDoctor() && form.get('drProfileLink').value && hasDoctorWebsiteLink"
+            >
+              <p>
+                <b>Your personalized website link to share with your patients :</b>
+                <a
+                  *ngIf="form.get('drProfileLink').value"
+                  id="drProfileLink"
+                  href="{{ form.get('drProfileLink').value }}"
+                  target="_blank"
+                  >Website link</a
+                >
+
+                <!-- <span
+                    *ngIf="form.get('link').value"
+                    class=""
+                    id="link"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    >{{ form.get("link").value }}
+                    </span> -->
+
+                <button
+                  class="btn"
+                  title="Copy to clipboard"
+                  (click)="clickToDrProfile(form.get('drProfileLink').value)"
+                >
+                  <i class="fa fa-copy"></i>
+                </button>
+                <span Id="custom-tooltip">copied!</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Appointment Book Link  -->
+          <!-- *ngIf="hasAppointmentBookLink" -->
+          <div class="row">
+            <div class="col-md-12" *ngIf="authService.isUserDoctor() && hasAppointmentBookLink">
+              <p>
+                <b>Appointment Book Link :</b>
+                <a *ngIf="form.get('link').value" id="link" href="{{ form.get('link').value }}" target="_blank"
+                  >Appointment link</a
+                >
+
+                <!-- <span
+                  *ngIf="form.get('link').value"
+                  class=""
+                  id="link"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                  >{{ form.get("link").value }}
+                  </span> -->
+
+                <button class="btn" title="Copy to clipboard" (click)="clickToAppointmentReg(form.get('link').value)">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <span Id="custom-tooltip">copied!</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Patient Registration Link  -->
+          <div class="row">
+            <div class="col-md-12" *ngIf="authService.isUserDoctor()">
+              <p>
+                <b>Patient Registration Link :</b>
+                <a *ngIf="form.get('ptlink').value" id="ptlink" href="{{ form.get('ptlink').value }}" target="_blank"
+                  >Patient Reg link</a
+                >
+                <!-- <span
+                  *ngIf="form.get('ptlink').value"
+                  class=""
+                  id="ptlink"
+                  data-toggle="tooltip"
+                  data-placement="bottom"
+                 >{{ form.get("ptlink").value }}</span> -->
+                <button class="btn" title="Copy to clipboard" (click)="clickToPatientReg(form.get('ptlink').value)">
+                  <i class="fa fa-copy"></i>
+                </button>
+                <span Id="custom-tooltip1">copied!</span>
+              </p>
+            </div>
+          </div>
+          <!--  -->
+          <div class="row" *ngIf="userRole == 'DOCTOR'">
+            <div class="col-12">
+              <h3 class="mb-1">Uploaded Documents</h3>
+            </div>
+
+            <div class="col-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">File Name</th>
+                    <th scope="col">File Type</th>
+                    <th scope="col">Download</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let files of alreadyUploadedFiles; let j = index">
+                    <th scope="row">{{ j + 1 }}</th>
+                    <td>{{ files?.ddtDocsName }}</td>
+                    <td>{{ files?.ddtDocsType }}</td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm float-center"
+                        (click)="download(files)"
+                        data-toggle="tooltip"
+                        title="Download"
+                      >
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <ul class="fileUpload p-0 mb-2">
+                <li class="border-bottom">
+                    <b>Type: </b> {{files?.ddtDocsType}}
+                    <b>| File Name: </b> {{files?.ddtDocsName}}
+                    <button type="button" class="btn btn-default btn-sm p-0 m-1 mt-0 float-right" (click)="downloadFile(j)" data-toggle="tooltip" title="Download">
+                        <i class="fa fa-download text-primary" aria-hidden="true"></i>
+                    </button>
+                </li>
+            </ul> -->
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="offset-5 col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+              <button type="button" (click)="cancelUpdateProfile()" class="btn btn-outline-secondary btn-sm mt-2 mr-2">
+                Back
+              </button>
+              <button type="button" (click)="updateProfileDetails()" class="btn btnColor btn-sm mt-2">
+                Update Profile
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #abhaRef>
+  <div style="background-color: #e43927" class="d-flex align-items-center p-2">
+    <div style="color: white; font-size: 18px">OTP</div>
+    <a role="button" style="color: white; font-size: larger" class="ml-auto mr-2" (click)="closePopupVerify()"> X </a>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="radio">
+        <label>
+          <input
+            type="radio"
+            name="radio"
+            value="New"
+            (click)="setradio('New')"
+            [checked]="true"
+            [(ngModel)]="isChecked"
+            [ngModelOptions]="{ standalone: true }"
+            ngModel
+          />
+          Using Mobile number linked with Aadhaar
+        </label>
+      </div>
+      <div *ngIf="selectedLink === 'New'">
+        <form [formGroup]="aadharValidationForm">
+          <label style="font-size: 12px; font-weight: bold">OTP<sup class="error">*</sup></label>
+          <div style="display: flex">
+            <input
+              type="text"
+              class="input-border"
+              formControlName="otp"
+              [(ngModel)]="otp"
+              [ngModelOptions]="{ standalone: true }"
+              style="display: inline-block; border-bottom: 1px solid #e43927 !important"
+              placeholder="OTP"
+            />
+
+            <button
+              type="button"
+              class="button"
+              [disabled]="!aadharValidationForm.get('otp').valid"
+              style="font-size: 13px; margin-left: 8%; margin-right: 2%"
+              (click)="submitAdharOtp()"
+            >
+              SUBMIT
+            </button>
+            <button
+              type="button"
+              class="button"
+              [disabled]="!showResendButton"
+              style="font-size: 13px"
+              (click)="sendOtp('New')"
+            >
+              RESEND OTP
+            </button>
+          </div>
+          <mat-error
+            *ngIf="
+              aadharValidationForm.get('otp').errors &&
+              (aadharValidationForm.get('otp').touched || aadharValidationForm.get('otp').dirty)
+            "
+          >
+            <span style="margin-left: 10px" *ngIf="aadharValidationForm.get('otp').errors.required"
+              >Please Enter OTP</span
+            >
+            <span style="margin-left: 10px" *ngIf="aadharValidationForm.get('otp').errors.pattern"
+              >Please Enter Correct OTP</span
+            >
+          </mat-error>
+          <div>
+            <div style="float: right">
+              <p *ngIf="showTimer">{{ timeLeft | formatTime }}</p>
+            </div>
+            <div style="margin-top: 10px">
+              <p style="font-size: 15px; margin-top: 1rem">OTP has been sent your registered mobile number</p>
+            </div>
+          </div>
+          <br />
+        </form>
+      </div>
+      <div class="radio" style="margin-top: 10px">
+        <label>
+          <input
+            type="radio"
+            name="radio"
+            value="Renewal"
+            [(ngModel)]="isChecked2"
+            [ngModelOptions]="{ standalone: true }"
+            (click)="setradio('Renewal')"
+            ngModel
+          />
+          Using Mobile number registered with ABHA
+        </label>
+      </div>
+      <br />
+
+      <div *ngIf="selectedLink === 'Renewal'">
+        <form [formGroup]="otpValidationForm">
+          <div style="text-align: center">
+            <p style="font-size: 15px; margin-top: 1rem">OTP has been sent your registered mobile number</p>
+          </div>
+          <p style="font-size: 12px; font-weight: bold">OTP <span style="color: red">*</span></p>
+          <div style="display: flex">
+            <input
+              type="text"
+              formControlName="adhaarOtp"
+              class="input-border"
+              [(ngModel)]="adhaarOtp"
+              [ngModelOptions]="{ standalone: true }"
+              style="display: inline-block; border-bottom: 1px solid #e43927 !important"
+              placeholder="OTP"
+            />
+            <button
+              type="button"
+              [disabled]="!otpValidationForm.get('adhaarOtp').valid"
+              class="button"
+              style="font-size: 13px; margin-right: 2%; margin-left: 8%"
+              (click)="submitMobileOtp()"
+            >
+              SUBMIT
+            </button>
+            <button
+              type="button"
+              class="button"
+              [disabled]="!showOtpForNumber"
+              style="font-size: 13px"
+              (click)="sendOtp('Renewal')"
+            >
+              RESEND OTP
+            </button>
+          </div>
+          <mat-error
+            *ngIf="
+              otpValidationForm.get('adhaarOtp').errors &&
+              (otpValidationForm.get('adhaarOtp').touched || otpValidationForm.get('adhaarOtp').dirty)
+            "
+          >
+            <span style="margin-left: 10px" *ngIf="otpValidationForm.get('adhaarOtp').errors.required"
+              >Please Enter OTP</span
+            >
+            <span style="margin-left: 10px" *ngIf="otpValidationForm.get('adhaarOtp').errors.pattern"
+              >Please Enter Correct OTP</span
+            >
+          </mat-error>
+          <div style="float: right">
+            <p *ngIf="showTimerForOtp">{{ timeLeft | formatTime }}</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updateProfRef>
+  <div style="background-color: #e43927" class="d-flex align-items-center p-2">
+    <div style="color: white; font-size: 18px">Update Profile</div>
+    <a role="button" style="color: white; font-size: larger" class="ml-auto mr-2" (click)="closePopup()"> X </a>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="row">
+        <div class="col-3 col-lg-3"></div>
+        <div class="col-3 col-lg-5">Information Details Available from ABDM</div>
+        <div class="col-3 col-lg-4">Keep Protean Clinic Details</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">First Name</div>
+        <div class="col-3 col-lg-5">{{ accountProfileData?.firstName }}</div>
+        <div class="col-3 col-lg-4">{{ firstName }}</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Middle Name</div>
+        <div class="col-3 col-lg-5">{{ accountProfileData?.middleName }}</div>
+        <div class="col-3 col-lg-4">{{ middleName }}</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Last Name</div>
+        <div class="col-3 col-lg-5">{{ accountProfileData?.lastName }}</div>
+        <div class="col-3 col-lg-4">{{ lastName }}</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Mobile Number</div>
+        <div class="col-3 col-lg-5">{{ accountProfileData?.mobile }}</div>
+        <div class="col-3 col-lg-4">{{ this.form.get('mobileNo').value }}</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Gender</div>
+        <div class="col-3 col-lg-5" *ngIf="accountProfileData?.gender === 'M'">Male</div>
+        <div class="col-3 col-lg-5" *ngIf="accountProfileData?.gender === 'F'">Female</div>
+        <div class="col-3 col-lg-5" *ngIf="accountProfileData?.gender === 'T'">Transgender</div>
+        <div class="col-3 col-lg-4" *ngIf="this.form.get('gender').value === 'M'">Male</div>
+        <div class="col-3 col-lg-4" *ngIf="this.form.get('gender').value === 'F'">Female</div>
+        <div class="col-3 col-lg-4" *ngIf="this.form.get('gender').value === 'T'">Transgender</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Email ID</div>
+        <div class="col-3 col-lg-5" style="word-wrap: break-word">{{ accountProfileData?.email }}</div>
+        <div class="col-3 col-lg-4" style="word-wrap: break-word">{{ this.form.get('email').value }}</div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-3 col-lg-3">Address</div>
+        <div class="col-3 col-lg-5" style="word-wrap: break-word">{{ accountProfileData?.address }}</div>
+        <div class="col-3 col-lg-4" style="word-wrap: break-word">{{ this.form.get('address1').value }}</div>
+      </div>
+      <br />
+      <div>
+        <input
+          type="radio"
+          id="abdm"
+          name="fav_language"
+          class="input-radio-btn"
+          value="abdm"
+          (change)="onChange($event)"
+        />
+        <label for="abdm">Use ABDM details to update your Protean Clinic’s profile</label><br />
+        <input
+          type="radio"
+          id="protean"
+          name="fav_language"
+          class="input-radio-btn"
+          value="protean"
+          (change)="onChange($event)"
+        />
+        <label for="protean">Keep Protean Clinic profile details</label><br />
+      </div>
+      <br />
+      <div class="row" style="padding-left: 15px">
+        <p style="margin-top: 5px">Do you want to update details in Protean clinic?</p>
+        <button class="yes-no-button" style="margin-left: 2%" (click)="UpdateAbdmDetails(accountProfileData)">
+          Yes
+        </button>
+        <button class="yes-no-button" style="margin-left: 3%" (click)="closePopup()">No</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

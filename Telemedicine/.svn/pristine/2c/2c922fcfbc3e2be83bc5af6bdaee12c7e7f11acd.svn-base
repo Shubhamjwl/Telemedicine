@@ -1,0 +1,379 @@
+package com.nsdl.telemedicine.service.impl;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.telemedicine.constant.ErrorConstants;
+import com.nsdl.telemedicine.constant.MarketPlaceConstant;
+import com.nsdl.telemedicine.dto.MarketPlaceDetailsDTO;
+import com.nsdl.telemedicine.dto.MarketPlaceDtlsResponseDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsDTO;
+import com.nsdl.telemedicine.dto.OrderDetailsResponse;
+import com.nsdl.telemedicine.dto.OrderHistoryDetailsDTO;
+import com.nsdl.telemedicine.dto.OrderHistoryDtlsResponse;
+import com.nsdl.telemedicine.dto.UserDTO;
+import com.nsdl.telemedicine.entity.MarketPlaceDetailsEntity;
+import com.nsdl.telemedicine.exception.MarketPlaceDetailsException;
+import com.nsdl.telemedicine.repository.DocRegDtlsRepository;
+import com.nsdl.telemedicine.repository.MarketPlaceDtlsRepo;
+import com.nsdl.telemedicine.repository.PatientPersonalDetailsRepository;
+import com.nsdl.telemedicine.service.MarketPlaceService;
+
+@Service
+public class MarketPlaceServiceImpl implements MarketPlaceService {
+
+	@Autowired
+	private MarketPlaceDtlsRepo marketRepo;
+
+	@Value("${market.place.client.secret}")
+	private String marketClientSecret;
+
+	@Value("${prescription_path}")
+	private String prescriptionPath;
+
+	@Value("${WindowDocPath}")
+	private String windowdocpath;
+
+	@Autowired
+	private UserDTO userDetails;
+
+	@Autowired
+	private DocRegDtlsRepository docRegRepo;
+
+	@Autowired
+	private PatientPersonalDetailsRepository patientPerRepo;
+
+	public static final String dot = ".";
+
+	private static final Logger logger = LoggerFactory.getLogger(MarketPlaceServiceImpl.class);
+
+	@Override
+	public MarketPlaceDtlsResponseDTO saveMarketPlaceDetailsUrl(MarketPlaceDetailsDTO marketPlaceDtls) {
+		validateMobileNumber(marketPlaceDtls.getPtMobile());
+		MarketPlaceDtlsResponseDTO marketResponse = new MarketPlaceDtlsResponseDTO();
+		MarketPlaceDetailsEntity marketDtlsEntity = new MarketPlaceDetailsEntity();
+		List<MarketPlaceDetailsEntity> checkRecordExist = marketRepo.isRecordExist(marketPlaceDtls.getTranstId());
+		if(checkRecordExist!=null&&!checkRecordExist.isEmpty()) {
+			marketResponse.setMessage("Prescribe details already exist");
+			marketResponse.setClientSecret(marketClientSecret);
+			marketResponse.setPatientName(marketPlaceDtls.getPtNname());
+			marketResponse.setPatientContact(marketPlaceDtls.getPtMobile());
+			return marketResponse;
+		}
+		marketDtlsEntity.setModTranstIid(marketPlaceDtls.getTranstId());
+		marketDtlsEntity.setModDrEmail(marketPlaceDtls.getDrEmail().toUpperCase());
+		marketDtlsEntity.setModPtNname(marketPlaceDtls.getPtNname().toUpperCase());
+		marketDtlsEntity.setModPtMobile(marketPlaceDtls.getPtMobile());
+		marketDtlsEntity.setModCreationBy(marketPlaceDtls.getDrEmail());
+		marketDtlsEntity.setModCreationTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+		marketDtlsEntity.setModModifyBy(marketPlaceDtls.getDrEmail());
+		marketDtlsEntity.setModModifyTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+		MarketPlaceDetailsEntity saveDetails = marketRepo.save(marketDtlsEntity);
+		if (saveDetails != null) {
+			marketResponse.setClientSecret(marketClientSecret);
+			marketResponse.setPatientName(saveDetails.getModPtNname());
+			marketResponse.setPatientContact(saveDetails.getModPtMobile());
+			marketResponse.setMessage("Prescribe details saved successfully");
+			return marketResponse;
+		} else {
+			logger.error("Market place details not saved in DB");
+			throw new MarketPlaceDetailsException(ErrorConstants.MARKET_PLACE_DTLS_NOT_SAVED.getCode(),
+					ErrorConstants.MARKET_PLACE_DTLS_NOT_SAVED.getMessage());
+		}
+	}
+
+	@Override
+	public OrderDetailsResponse saveOrderPlaceDetails(OrderDetailsDTO orderDetailsDTO) {
+		validateMobileNumber(orderDetailsDTO.getPtMobile());
+		MarketPlaceDetailsEntity marketDtlsEntity = null;
+		List<MarketPlaceDetailsEntity> orderDetailList = null;
+		Iterable<MarketPlaceDetailsEntity> entityData = null;
+		OrderDetailsResponse orderResponse = new OrderDetailsResponse();
+		marketDtlsEntity = new MarketPlaceDetailsEntity();
+		if (orderDetailsDTO.getTranstId() == null || orderDetailsDTO.getTranstId().isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			orderDetailsDTO.setTranstId(uuid.toString());
+		} else {
+			entityData = marketRepo.findByTranstId(orderDetailsDTO.getTranstId());
+			if (entityData == null)
+				throw new MarketPlaceDetailsException(ErrorConstants.NO_DATA_FOUND.getCode(),
+						ErrorConstants.NO_DATA_FOUND.getMessage());
+			if (orderDetailsDTO.getPrescriptionFile() == null && orderDetailsDTO.getPrescriptionText() == null) {
+				orderDetailList = (List<MarketPlaceDetailsEntity>) marketRepo
+						.findByTranstId(orderDetailsDTO.getTranstId());
+				if (orderDetailList.isEmpty()) {
+					throw new MarketPlaceDetailsException(ErrorConstants.NO_DATA_FOUND.getCode(),
+							ErrorConstants.NO_DATA_FOUND.getMessage());
+				} else {
+					return updateOrderDetailsWithStatus(orderDetailsDTO, orderDetailList, orderResponse);
+				}
+			}
+
+		}
+		marketDtlsEntity.setModTranstIid(orderDetailsDTO.getTranstId());
+		marketDtlsEntity.setModDrEmail(orderDetailsDTO.getDrEmail().toUpperCase());
+		marketDtlsEntity.setModPtNname(orderDetailsDTO.getPtNname().toUpperCase());
+		marketDtlsEntity.setModPtMobile(orderDetailsDTO.getPtMobile());
+		marketDtlsEntity.setModOrderId(orderDetailsDTO.getOrderId());
+		marketDtlsEntity.setModOrderDate(orderDetailsDTO.getOrderDate());
+		marketDtlsEntity.setModOrderStatus(orderDetailsDTO.getOrderStatus());
+		marketDtlsEntity.setModSpecialistDoctorName(orderDetailsDTO.getSpecialistDoctorName());
+		marketDtlsEntity.setModProductName(orderDetailsDTO.getProductName());
+		marketDtlsEntity.setModProductPrice(orderDetailsDTO.getProductPrice());
+
+		if (orderDetailsDTO.getPrescriptionFile() != null) {
+			// encoding prescription file and save on path
+			String fileName = orderDetailsDTO.getPrescriptionFileName();
+			String fileType = orderDetailsDTO.getPrescriptionFileType();
+			try {
+				File byteStorePath = null;
+				byteStorePath = new File(prescriptionPath);
+				String temppath;
+				createDirectory(MarketPlaceConstant.OrderHistoryDirectory);
+				temppath = byteStorePath + File.separator + MarketPlaceConstant.OrderHistoryDirectory;
+				String filePath = temppath + File.separator + fileName + getRandomNumberString() + dot + fileType;
+				File file = new File(filePath);
+				byte[] decodeString = Base64.getDecoder().decode(orderDetailsDTO.getPrescriptionFile());
+				try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+					outputStream.write(decodeString);
+					logger.info("Prescription file saved in path");
+					marketDtlsEntity.setModOrderPrescriptionPath(filePath);
+				} catch (IOException ie) {
+					logger.error("Prescription file not saved");
+					throw new MarketPlaceDetailsException(ErrorConstants.FILE_NOT_SAVED.getCode(),
+							ErrorConstants.FILE_NOT_SAVED.getMessage());
+				}
+			} catch (Exception e) {
+				logger.error("Something went wrong while storing file");
+				throw new MarketPlaceDetailsException(ErrorConstants.PRESCRIPTION_FILE_INVALID.getCode(),
+						ErrorConstants.PRESCRIPTION_FILE_INVALID.getMessage());
+			}
+		}
+		marketDtlsEntity.setModOrderPrescriptionText(orderDetailsDTO.getPrescriptionText());
+		marketDtlsEntity.setModCreationBy(orderDetailsDTO.getDrEmail());
+		marketDtlsEntity.setModCreationTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+		marketDtlsEntity.setModModifyBy(orderDetailsDTO.getDrEmail());
+		marketDtlsEntity.setModModifyTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+		MarketPlaceDetailsEntity orderDetals = marketRepo.save(marketDtlsEntity);
+		if (orderDetals != null) {
+			orderResponse.setStatus("Order details saved successfully");
+			orderResponse.setTransactionId(orderDetals.getModTranstIid());
+		} else {
+			logger.error("Order details not saved in DB");
+			throw new MarketPlaceDetailsException(ErrorConstants.ORDER_DTLS_NOT_SAVED.getCode(),
+					ErrorConstants.ORDER_DTLS_NOT_SAVED.getMessage());
+		}
+		return orderResponse;
+
+	}
+
+	private OrderDetailsResponse updateOrderDetailsWithStatus(OrderDetailsDTO orderDetailsDTO,
+			List<MarketPlaceDetailsEntity> orderDetailList, OrderDetailsResponse orderResponse) {
+		Iterable<MarketPlaceDetailsEntity> updatedOrderDtlsEntityList = new ArrayList<MarketPlaceDetailsEntity>();
+		orderDetailList.forEach(order -> {
+			order.setModTranstIid(orderDetailsDTO.getTranstId());
+			order.setModDrEmail(orderDetailsDTO.getDrEmail().toUpperCase());
+			order.setModPtNname(orderDetailsDTO.getPtNname().toUpperCase());
+			order.setModPtMobile(orderDetailsDTO.getPtMobile());
+			order.setModOrderId(orderDetailsDTO.getOrderId());
+			order.setModOrderDate(orderDetailsDTO.getOrderDate());
+			order.setModOrderStatus(orderDetailsDTO.getOrderStatus());
+			order.setModSpecialistDoctorName(orderDetailsDTO.getSpecialistDoctorName());
+			order.setModProductName(orderDetailsDTO.getProductName());
+			order.setModProductPrice(orderDetailsDTO.getProductPrice());
+			if (order.getModCreationBy() == null) {
+				order.setModCreationBy(orderDetailsDTO.getDrEmail());
+				order.setModCreationTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+			}
+			order.setModModifyBy(orderDetailsDTO.getDrEmail());
+			order.setModModifyTmstmp(Timestamp.valueOf(LocalDateTime.now()));
+			((List<MarketPlaceDetailsEntity>) updatedOrderDtlsEntityList).add(order);
+		});
+		Iterable<MarketPlaceDetailsEntity> orderDetals = marketRepo.saveAll(updatedOrderDtlsEntityList);
+		if (orderDetals != null) {
+			orderResponse.setStatus("Order details saved successfully");
+			orderDetals.forEach(t -> {
+				orderResponse.setTransactionId(t.getModTranstIid());
+			});
+			return orderResponse;
+		} else {
+			logger.error("Order details not saved in DB");
+			throw new MarketPlaceDetailsException(ErrorConstants.ORDER_DTLS_NOT_SAVED.getCode(),
+					ErrorConstants.ORDER_DTLS_NOT_SAVED.getMessage());
+		}
+	}
+
+	@Override
+	public List<OrderHistoryDtlsResponse> getOrderHistoryDtls(OrderHistoryDetailsDTO orderHistoryDtls) {
+		String patientName = null;
+		if (orderHistoryDtls.getPatientName() != null) {
+			patientName = orderHistoryDtls.getPatientName().toUpperCase();
+		}
+		Date orderDate = orderHistoryDtls.getOrderDate();
+		String orderId = orderHistoryDtls.getOrderId();
+		List<MarketPlaceDetailsEntity> marketPlaceDetailsList = null;
+		List<OrderHistoryDtlsResponse> orderHistoryDtlsResponse = null;
+		if (patientName != null || orderDate != null || orderId != null) {
+			if (userDetails.getRole().equalsIgnoreCase(MarketPlaceConstant.DOCTOR_ROLE)) {
+				String drdEmail = docRegRepo.findByUserId(userDetails.getUserName()).getDrdEmail();
+				if (patientName != null && orderId != null && orderDate != null) {
+					marketPlaceDetailsList = marketRepo.searchByDoctorFourParameters(drdEmail, orderDate, patientName,
+							orderId);
+					if (marketPlaceDetailsList.isEmpty()) {
+						logger.error("No search data found");
+						throw new MarketPlaceDetailsException(ErrorConstants.NO_SEARCH_DATA_FOUND.getCode(),
+								ErrorConstants.NO_SEARCH_DATA_FOUND.getMessage());
+					} else {
+						orderHistoryDtlsResponse = populateOrderDetails(marketPlaceDetailsList);
+					}
+				} else if ((patientName != null && orderDate != null) || (patientName != null && orderId != null)) {
+					marketPlaceDetailsList = marketRepo.searchByDoctorThreeParameters(drdEmail, orderDate, patientName,
+							orderId);
+					if (marketPlaceDetailsList.isEmpty()) {
+						logger.error("No search data found");
+						throw new MarketPlaceDetailsException(ErrorConstants.NO_SEARCH_DATA_FOUND.getCode(),
+								ErrorConstants.NO_SEARCH_DATA_FOUND.getMessage());
+					} else {
+						orderHistoryDtlsResponse = populateOrderDetails(marketPlaceDetailsList);
+					}
+				} else {
+					marketPlaceDetailsList = marketRepo.searchByDoctorTwoParameters(drdEmail, orderDate, patientName,
+							orderId);
+					if (marketPlaceDetailsList.isEmpty()) {
+						logger.error("No search data found");
+						throw new MarketPlaceDetailsException(ErrorConstants.NO_SEARCH_DATA_FOUND.getCode(),
+								ErrorConstants.NO_SEARCH_DATA_FOUND.getMessage());
+					} else {
+						orderHistoryDtlsResponse = populateOrderDetails(marketPlaceDetailsList);
+					}
+				}
+				return orderHistoryDtlsResponse;
+			} else if ((userDetails.getRole().equalsIgnoreCase(MarketPlaceConstant.PATIENT_ROLE))) {
+				String patName = patientPerRepo.findByPatUserId(userDetails.getUserName()).getPtFullName();
+				if ((orderId != null) && (orderDate != null)) {
+					marketPlaceDetailsList = marketRepo.searchByPatientTwoParameters(orderDate, orderId, patName);
+					if (marketPlaceDetailsList.isEmpty()) {
+						logger.error("No search data found");
+						throw new MarketPlaceDetailsException(ErrorConstants.NO_SEARCH_DATA_FOUND.getCode(),
+								ErrorConstants.NO_SEARCH_DATA_FOUND.getMessage());
+					} else {
+						orderHistoryDtlsResponse = populateOrderDetails(marketPlaceDetailsList);
+					}
+				} else {
+					marketPlaceDetailsList = marketRepo.searchByPatientOneParameters(orderDate, orderId, patName);
+					if (marketPlaceDetailsList.isEmpty()) {
+						logger.error("No search data found");
+						throw new MarketPlaceDetailsException(ErrorConstants.NO_SEARCH_DATA_FOUND.getCode(),
+								ErrorConstants.NO_SEARCH_DATA_FOUND.getMessage());
+					} else {
+						orderHistoryDtlsResponse = populateOrderDetails(marketPlaceDetailsList);
+					}
+				}
+				return orderHistoryDtlsResponse;
+			} else {
+				logger.error("User authorization failed");
+				throw new MarketPlaceDetailsException(ErrorConstants.SOMETHING_WENT_WRONG.getCode(),
+						ErrorConstants.SOMETHING_WENT_WRONG.getMessage());
+			}
+		} else {
+			logger.error("Search fields are empty");
+			throw new MarketPlaceDetailsException(ErrorConstants.SEARCH_fIELD_EMPTY.getCode(),
+					ErrorConstants.SEARCH_fIELD_EMPTY.getMessage());
+		}
+	}
+
+	private static boolean validateMobileNumber(String mobileNumber) {
+		boolean flag = false;
+
+		// validating numeric
+		String regex = "[0-9]+";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher m = pattern.matcher(mobileNumber);
+		if (m.matches()) {
+			flag = true;
+		} else {
+			logger.error("Mobile number not valid");
+			throw new MarketPlaceDetailsException(ErrorConstants.PT_MOBILE_NOT_VALID.getCode(),
+					ErrorConstants.PT_MOBILE_NOT_VALID.getMessage());
+		}
+		logger.info("validate mobile number");
+		// validating number size
+		if (mobileNumber.length() == 10) {
+			flag = true;
+		} else {
+			logger.error("Mobile number length not correct");
+			throw new MarketPlaceDetailsException(ErrorConstants.PT_MOBILE_LENGTH_NOT_VALID.getCode(),
+					ErrorConstants.PT_MOBILE_LENGTH_NOT_VALID.getMessage());
+		}
+		return flag;
+	}
+
+	private static String getRandomNumberString() {
+		Random rnd = new Random();
+		int number = rnd.nextInt(99999);
+		return String.format("%05d", number);
+	}
+
+	public void createDirectory(String folder_name) throws IOException {
+		String directoryFilePath = windowdocpath + "/" + folder_name;
+		File file = new File(directoryFilePath);
+		if (!file.exists()) {
+			try {
+				file.mkdirs();
+			} catch (Exception e) {
+			}
+		} else {
+		}
+	}
+
+	public List<OrderHistoryDtlsResponse> populateOrderDetails(List<MarketPlaceDetailsEntity> entity) {
+
+		List<OrderHistoryDtlsResponse> orderHistoryDtlsListResponse = new ArrayList<OrderHistoryDtlsResponse>();
+		entity.forEach(order -> {
+			if(order.getModOrderId()!=null) {
+			OrderHistoryDtlsResponse orderDetails = new OrderHistoryDtlsResponse();
+			if (order.getModOrderDate() != null) {
+				java.sql.Date sqlDate = new java.sql.Date(order.getModOrderDate().getTime());
+				String formattedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(sqlDate);
+				orderDetails.setOrderDate(formattedDate);
+			}
+			orderDetails.setOrderId(order.getModOrderId());
+			orderDetails.setDrEmail(order.getModDrEmail());
+			orderDetails.setOrderStatus(order.getModOrderStatus());
+			orderDetails.setPrescriptionPath(order.getModOrderPrescriptionPath());
+			orderDetails.setPrescriptionText(order.getModOrderPrescriptionText());
+			orderDetails.setProductName(order.getModProductName());
+			orderDetails.setProductPrice(order.getModProductPrice());
+			orderDetails.setPtMobile(order.getModPtMobile());
+			orderDetails.setPtNname(order.getModPtNname());
+			orderDetails.setSpecialistDoctorName(order.getModSpecialistDoctorName());
+			orderDetails.setTranstId(order.getModTranstIid());
+			orderHistoryDtlsListResponse.add(orderDetails);
+			}
+		});
+
+		return orderHistoryDtlsListResponse;
+	}
+
+}

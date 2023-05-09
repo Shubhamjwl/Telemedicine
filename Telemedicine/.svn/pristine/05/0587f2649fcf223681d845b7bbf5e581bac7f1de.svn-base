@@ -1,0 +1,14 @@
+import { ka } from 'date-fns/locale';
+
+export class SeverUrlConstant {
+  // Local URL
+  // public static devBaseUrl: string = 'http://telemed.nas-nsdl.com/'; //prod
+  public static devBaseUrl: string =    'https://uattele.cloudvoice.in/ndhm/v1/'; //UAT
+  // http://101.53.155.156
+  // Production build URL
+ //public static devBaseUrl: string = 'http://localhost:8082//ndhm/v1/';
+
+  // public static devBaseUrl: string = './telemedicine/';
+  // public static devBaseUrl: string = 'http://172.19.75.247/';
+  // ng build --prod --base-href=.//
+}

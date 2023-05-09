@@ -1,0 +1,264 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+
+@Component({
+  selector: 'app-tm-create-slot-dashboard',
+  templateUrl: './tm-create-slot-dashboard.component.html',
+  styleUrls: ['./tm-create-slot-dashboard.component.scss'],
+})
+export class TmCreateSlotDashboardComponent implements OnInit {
+  slotBookForm: FormGroup;
+  autoRepeatStartYear: string;
+  autoRepeatEndYear: string;
+  currentYear: string;
+  slotMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  slotDurations = [5,10, 20, 30, 40, 50, 60];
+  slotWorkingDayList = [
+    { property: 'sun', label: 'Sunday' },
+    { property: 'mon', label: 'Monday' },
+    { property: 'tue', label: 'Tuesday' },
+    { property: 'wed', label: 'Wednesday' },
+    { property: 'thu', label: 'Thursday' },
+    { property: 'fri', label: 'Friday' },
+    { property: 'sat', label: 'Saturday' },
+  ];
+
+  constructor(
+    private consultationService: ConsultationService,
+    private toastrMessage: ToastMessageService,
+    public fb: FormBuilder,
+    private spinner: NgxSpinnerService
+  ) {}
+  ngOnInit(): void {
+    this.createTimeSlotFormValidation(); // form for slot
+    this.getCreatedTimeSlotDetails();
+
+    this.slotBookForm.get('autRepeat').valueChanges.subscribe((value) => {
+      if (value) {
+        this.calculateAutoRepeat();
+      } else {
+        this.autoRepeatStartYear = '';
+        this.autoRepeatEndYear = '';
+        this.currentYear = '';
+      }
+    });
+    this.slotBookForm
+      .get('selectedRepeatMonths')
+      .valueChanges.subscribe((value) => {
+        this.slotBookForm.get('autRepeat').patchValue(false);
+      });
+  }
+
+  calculateAutoRepeat() {
+    let monthsToadd = this.slotBookForm.get('selectedRepeatMonths').value
+      ? parseInt(this.slotBookForm.get('selectedRepeatMonths').value)
+      : 0;
+    let today = new Date();
+    this.currentYear =
+      today.toLocaleString('default', { month: 'long' }) +
+      ' ' +
+      today.getFullYear();
+
+    let nxtMonth = new Date(today.setMonth(today.getMonth() + 1));
+    this.autoRepeatStartYear =
+      nxtMonth.toLocaleString('default', { month: 'long' }) +
+      ' ' +
+      nxtMonth.getFullYear();
+
+    let newDate = new Date(today.setMonth(today.getMonth() + monthsToadd));
+    this.autoRepeatEndYear =
+      newDate.toLocaleString('default', { month: 'long' }) +
+      ' ' +
+      newDate.getFullYear();
+  }
+
+  private createTimeSlotFormValidation() {
+    this.slotBookForm = this.fb.group({
+      selectedTimeSlotDuration: [
+        '',
+        [Validators.required, Validators.maxLength(2), Validators.minLength(1)],
+      ],
+      slotWorkingDays: this.fb.array([]),
+      selectedRepeatMonths: [''], //['', [Validators.required, Validators.maxLength(2), Validators.minLength(1)]],
+      autRepeat: [false],
+      workingTimeArray: this.fb.array([this.initWorkingTime()]),
+      slotType: ['', Validators.required],
+    });
+  }
+
+  private initWorkingTime() {
+    return this.fb.group({
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+    });
+  }
+
+  /**
+   * Used to show selected slot duration time in a type:number
+   */
+  selectedSlotDuration(value: number) {
+    this.slotBookForm.get('selectedTimeSlotDuration').setValue(value);
+  }
+
+  /**
+   * Used for Repeat For Months
+   */
+  repeatForMonths(value: any) {
+    this.slotBookForm.get('selectedRepeatMonths').setValue(value);
+  }
+
+  selectedSlotType(value: string) {
+    this.slotBookForm.get('slotType').setValue(value);
+  }
+
+  selectSlotWorkingDays(value: string) {
+    const workingDays = this.slotBookForm.get('slotWorkingDays') as FormArray;
+    const index = workingDays.value?.findIndex((val) => val === value);
+    if (index > -1) {
+      workingDays.removeAt(index);
+    } else {
+      workingDays.push(this.fb.control(value));
+    }
+  }
+
+  /**
+   * Used to add extra working time
+   */
+  addWorkingTime() {
+    (<FormArray>this.slotBookForm.get('workingTimeArray')).push(
+      this.initWorkingTime()
+    );
+  }
+
+  /**
+   * Used to remove added working time
+   */
+  removeWorkingTime(index: any) {
+    (<FormArray>this.slotBookForm.get('workingTimeArray')).removeAt(index);
+  }
+
+  startTimeValidation(index) {
+    let startTime = this.slotBookForm.value.workingTimeArray[index].startTime;
+    let endTime = this.slotBookForm.value.workingTimeArray[index].endTime;
+    if (startTime == endTime) {
+      this.toastrMessage.showErrorMsg(
+        'Start time and end time is same',
+        'Error'
+      );
+      ((this.slotBookForm.get('workingTimeArray') as FormArray).at(
+        index
+      ) as FormGroup)
+        .get('startTime')
+        .setValue(null);
+      ((this.slotBookForm.get('workingTimeArray') as FormArray).at(
+        index
+      ) as FormGroup)
+        .get('endTime')
+        .setValue(null);
+      this.slotBookForm.value.workingTimeArray.splice(index, 1);
+      this.slotBookForm.updateValueAndValidity();
+    } else if (endTime < startTime) {
+      if (startTime && endTime) {
+        this.toastrMessage.showErrorMsg(
+          'End time is less than start time',
+          'Error'
+        );
+        ((this.slotBookForm.get('workingTimeArray') as FormArray).at(
+          index
+        ) as FormGroup)
+          .get('startTime')
+          .setValue(null);
+        ((this.slotBookForm.get('workingTimeArray') as FormArray).at(
+          index
+        ) as FormGroup)
+          .get('endTime')
+          .setValue(null);
+        this.slotBookForm.value.workingTimeArray.splice(index, 1);
+        this.slotBookForm.updateValueAndValidity();
+      }
+    }
+  }
+
+  getCreatedTimeSlotDetails() {
+    this.spinner.show();
+
+    let request = {
+      id: 'slot',
+      version: '1.0',
+      requestTime: '2020-01-02T10:01:21.331Z',
+      request: '',
+    };
+    this.consultationService.getSlotCreatedDays(request).subscribe(
+      (result) => {
+        this.spinner.hide();
+        if (result.response != null) {
+          if (result.response.length > 0) {
+            for (let day of result.response) {
+            }
+          }
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        // this.technicalBackendErrorMsg();
+      }
+    );
+  }
+
+  technicalBackendErrorMsg() {
+    this.toastrMessage.showErrorMsg(
+      ErrorSuccessMessage.SELECTALLFIELDS,
+      'Error'
+    );
+  }
+
+  /**
+   * Used to save time slot details
+   */
+  saveTimeSlot(value) {
+    this.spinner.show();
+    let request = {
+      id: 'slot',
+      version: '1.0',
+      requestTime: '2020-01-02T10:01:21.331Z',
+      request: {
+        slotDuration: value.selectedTimeSlotDuration,
+        repetForMonths: value.selectedRepeatMonths
+          ? value.selectedRepeatMonths
+          : 1,
+        consultAmount: '',
+        autoRep: value.autRepeat,
+        slotWorkingDays: value.slotWorkingDays,
+        workingTime: value.workingTimeArray,
+        slotType: value.slotType,
+      },
+    };
+    this.consultationService.saveSlotDetails(request).subscribe(
+      (data) => {
+        this.spinner.hide();
+        if (data.status) {
+          this.toastrMessage.showSuccessMsg(data.response, 'Success');
+          this.createTimeSlotFormValidation();
+          this.getCreatedTimeSlotDetails();
+        } else {
+          if (data.errors != null) {
+            let errMsg = ' ';
+            for (let item of data.errors) {
+              errMsg += item.message;
+            }
+            this.toastrMessage.showErrorMsg(errMsg, 'Error');
+          }
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        // this.showCalendarFlag = false;
+        this.technicalBackendErrorMsg();
+      }
+    );
+  }
+}

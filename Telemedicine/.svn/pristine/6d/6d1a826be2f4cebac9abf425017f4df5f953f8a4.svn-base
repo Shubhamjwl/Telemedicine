@@ -1,0 +1,100 @@
+@import '~@angular/material/theming';
+
+// @import "./theming/badge";
+@import "./theming/button";
+// @import "./theming/card";
+// @import "./theming/chip";
+@import "./theming/dialog";
+@import "./theming/checkbox";
+// @import "./theming/expansion";
+// @import "./theming/form-field";
+// @import "./theming/input";
+// @import "./theming/menu";
+// @import "./theming/pagination";
+// @import "./theming/table";
+// @import "./theming/tabs";
+// @import "./theming/toaster";
+
+@include mat-core();
+
+$client-primary: (
+  50: #fce7e5,
+  100: #f7c4be,
+  200: #f29c93,
+  300: #ec7468,
+  400: #e85747,
+  500: #e43927,
+  600: #e13323,
+  700: #dd2c1d,
+  800: #d92417,
+  900: #d1170e,
+  A100: #fffdfd,
+  A200: #ffccca,
+  A400: #ff9b97,
+  A700: #ff827e,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  ),
+);
+$client-secondary: (
+  50: #fce7e5,
+  100: #f7c4be,
+  200: #f29c93,
+  300: #ec7468,
+  400: #e85747,
+  500: #e43927,
+  600: #e13323,
+  700: #dd2c1d,
+  800: #d92417,
+  900: #d1170e,
+  A100: #fffdfd,
+  A200: #ffccca,
+  A400: #ff9b97,
+  A700: #ff827e,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  ),
+);
+
+
+// Define a light theme
+$light-primary: mat-palette($client-primary);
+$light-accent: mat-palette($client-secondary);
+$light-theme: mat-light-theme(
+  (
+    color: (
+      primary: $light-primary,
+      accent: $light-accent,
+    ),
+  )
+);
+
+@include angular-material-theme($light-theme);
+
+$app-font-family: "Roboto", sans-serif;

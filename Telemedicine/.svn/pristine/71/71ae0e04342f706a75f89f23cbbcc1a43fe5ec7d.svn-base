@@ -1,0 +1,4 @@
+server.port=8001
+server.context-path=/razorpayapp
+spring.thymeleaf.mode=LEGACYHTML5
+#security.require-ssl=true

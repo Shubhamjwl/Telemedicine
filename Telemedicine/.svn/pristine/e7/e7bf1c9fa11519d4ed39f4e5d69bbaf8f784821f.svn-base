@@ -1,0 +1,103 @@
+package com.nsdl.telemedicine.doctor.constant;
+/**
+ * @author SayaliA
+ *
+ */
+
+public enum DoctorRegConstant {
+	
+	OTP_SUCCESS("OTP_SUCCESS", "Otp has been sent to your Registered Mobile : mobileNo And Email : emailID registered with Virtual App and will be valid for 10 minutes. If you have not received the OTP,Please click on 'Regenerate OTP' button."),
+	OTP_FAILURE("OTP_FAIL", "Registration and Otp service failed due to wrong info., please try again"),
+	OTP_FAILURE_DE_REG_DOCTOR("OTP_FAIL", "De-Registration Doctor and Otp service failed due to wrong info."),
+	STATUS_SUCCESS("SUCCESS", "Success"),
+	STATUS_FAIL("FAIL", "Fail"),
+	REGISTRATION_SUCCESS_STATUS(true),
+	REGISTRATION_FAIL_STATUS(false),
+	EMAIL_EXCEPTION_MSG("EMAIL_EXC", "Email Id is not valid"),
+	PASSWORD_EXCEPTION_MSG("PSWD", "Password is not in correct format"),
+	USERID_EXCEPTION_MSG("USER_EXC", "UserID should not be blank"),
+	DOC_PHOTO_MSG("SCRB_PHOTO", "Scribe profile photo is mandatory"),
+	ACTIVE_STATUS("Y"),
+	DEACTIVE_STATUS("N"),
+	REGISTRATIONSUCCESS("true"),
+	DELETEDOCUMENT(true),
+	DELETEDOCUMENTFAIL(false),
+	SUCCESS_MSG("File Delete Successfully"),
+	FAIL_MSG("FAIL_MSG","Something went wrong, please try again"),
+	SUCCESS_DELETE_MSG("SUCCESS_DELETE_MSG","Files deleted successfully"),
+	SUCCESS_UPLOAD_MSG("SUCCESS_UPLOAD_MSG","Files uploaded successfully"),
+	MOBILE_EXCEPTION_MSG("MBLE_EXC", "Mobile number is not valid"),
+	DOCTOR_FULLNAME_VALIDATE("DOCTOR_NAME", "Full Name must be an alphabetic value"),
+	USER_ID_EXIST("USER_ID_EXIST", "UserID already exist"),
+	MOBILE_EXIST("MBL_EXIST", "Mobile already exist"),
+	MCINO_EXCEPTION_MSG("MCI_EXC", "MCI number should not be blank"),
+	SMCNO_EXCEPTION_MSG("SMC_EXC", "SMC number should not  be blank"),
+	Speciliztion_EXCEPTION_MSG("SPEC_EXC", "Doctor Speclization should not  be blank"),
+	SMC_EXCEPTION_MSG("SPC_EXC", "SMC number cannot  start from 0"),
+	AUDIT_EXCEPTION_MSG("AUD_EXC", "Something went wrong, please try again"),
+	OTP_FOR("reg"),
+	OTP_FOR_DEREG_INITIATE("Dereg"), //Added by swati
+	OTP_FOR_DEREGISTER("Deregister"),	//Added by swati
+	OTP_SEND_TYPE("both"),
+	DOCTOR("DOCTOR"),
+	OTP_GENERATE_TYPE("same"),
+	File_EXCEPTION_MSG("FILE_EXCEPTION", "Something went wrong while file upload, please try again later"),
+	PROFILE_PHOTO_INVALID("PHOTO_ERROR", "Something went wrong while uploading profile photo, please try again"),
+	CREATE_USER_FAILURE("USER_FAIL", "Create User failed, please try again"),
+	MCI_EXCEPTION_MSG("MCI_EXC", "MCI number cannot  start from 0"),
+	SIZE_LIMIT("SIZE_LIMIT", "Size limit exceed, Please selct profile photo up to 1 MB"),
+	FILE_SIZE_LIMIT("FILE_SIZE_LIMIT", "File Size limit exceed, Please selct every file up to 1 MB"),
+	CAPTCHA_VERIFY_MSG("CAPTCHA_MSG", "Capctha Sevice failed due to wrong information"),
+	ADDRESS_EXCEPTION_MSG("ADDRESS_EXC", "Doctor Address can not be blank or empty"),
+	EMAIL_EXIST("EMAIL_EXIST", "Email ID alreday exists"),
+	USERID_ERROR("USERID_ERROR","User Id must be a alphanumeric value and cannot start with number"),
+	SMCMCI_ERROR("DR_REG","SMC Number and MCI Number can not be same"),
+	EMPTY_FILES("FILE_EMPTY", "No selcted files to uplaod"),
+	OTP_SUCESS_MSG("OTP_SUCCESS","One Time Password (OTP) has been generated and sent to the registered email / Mobile number. "),
+	SUCCESSFUL_REG("REG_SUCCESS", "Congratulation Your registration is successful"),
+	SUCCESSFUL_UPDATION_TERMS_AND_CONDITION("UPDATE_TC_SUCCESS", "Terms And Condition Updated Successfully"),
+	No_DATA_PRESENT("DRREG-0012","No Data present"),
+	ASSOCIATION_NUMBER_INCORRECT("DDREG-0013","Association number is incorrect"),
+	ASSOCIATION_NUMBER_EMPTY("DDREG-0014","Association number is empty");
+
+	
+	private boolean status;
+	
+	private String validate;
+	
+	private String code;
+	
+	private String msg;
+
+	private DoctorRegConstant(boolean status) {
+		this.status = status;
+	}
+	
+	private DoctorRegConstant(String validate) {
+		this.validate = validate;
+	}
+	
+	private DoctorRegConstant(String code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public String getValidate() {
+		return validate;
+	}
+	
+	
+
+}

@@ -1,0 +1,60 @@
+https://healthidsbx.ndhm.gov.in/api/v1/registration/mobile/createHealthId
+
+Request
+--------
+{
+  "address": "",
+  "dayOfBirth": "1",
+  "districtCode": "484",
+  "email": "",
+  "firstName": "Ramesh",
+  "gender": "M",
+  "healthId": "ramesh12",
+  "lastName": "",
+  "middleName": "",
+  "monthOfBirth": "11",
+  "name": "Ramesh",
+  "password": "Rah@3aze",
+  "pincode": "",
+  "profilePhoto": "",
+  "restrictions": "",
+  "stateCode": "27",
+  "subdistrictCode": "",
+  "token": "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiI5NzY2OTE5MjIwIiwiY2xpZW50SWQiOiJTQlhfMDAwMzEyIiwiZXhwIjoxNjQ0MzA2NTcyLCJpYXQiOjE2NDQzMDQ3NzIsInR4bklkIjoiMjA2YjBiODgtZTIxMS00OTBhLWFlYjQtYjBjYWZlOTMyZjEyIn0.gA94BNTxEiTN40OprqTMiw5nVE6Bw0qBZQKmASUWBzsgq73aFAGyMuwUtQBAvTrvi1ZFIiFQ-vQahKdW7UQw7X-BS4lc8vnbVjjYhlyEczihw9-syyu-_s2-_Slb2U-lwNVqII3FnujVNQcrjbabgBTDkANBRI4YsZriAgfEf_zda-SZvs-EYcVy08TRMfp6Hx1y1jOaSDH_I3-7D4VNoGOlWuq0mkh9DXwQ9UonM5wlPuRwHcIb7Wgw4MEsPKk29wnoleD5ZYbR9Lj1RT_TNKCuKwQcKaBrSX5OqXpsj1qTRr6P94YVGBKolTa9YqdTwo2REhHDmmD_YEOsva3AbJBTjzNVQhUJbckPRkYL0m45Z7m_PkmXg-wUKm1oivwI_l-9jfxPoM_Cjem5-Q067GQXbcKq9ai9HCR8zNgieFfTTSmDszY14YyWTf7NgQXMq3knsmqHQjr3J7YY2aDCVQMEh9GZdTl95uYcCTYR39ECDqA4RwqDsAi_DjNiO9Ca74CnGHVqclIXfkgtD2ytdrESBPSYiwYgeljL3QvkvihZi8hQaikMHwdLuBXpgyCUan44GO80qR5gnZKmWVHHJouOUJOWehMto5Uh78FMUGaCAoejKX0T6jFTbKpMZFXrDj5rGIIJScEk42LiDzzD_NINktyvXjB7Ew0rZ4mDbrw",
+  "townCode": "",
+  "txnId": "206b0b88-e211-490a-aeb4-b0cafe932f12",
+  "villageCode": "",
+  "wardCode": "",
+  "yearOfBirth": "2000"
+}
+
+Response
+---------
+{
+    "token": "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiI0MC0xNDQ0LTEyNDQtMTY1OSIsImNsaWVudElkIjoiU0JYXzAwMDMxMiIsIm1vYmlsZSI6Ijk3NjY5MTkyMjAiLCJoZWFsdGhJZCI6InJhbWVzaDEyIiwiZXhwIjoxNjQ0MzA2Njc4LCJoZWFsdGhJZE51bWJlciI6IjQwLTE0NDQtMTI0NC0xNjU5IiwiaWF0IjoxNjQ0MzA0ODc4fQ.f5yJhTU9Op4aIM2aLrJ5OvQ7iCuC-mFJHoTC_IcBNlNijVddAzgUw8tYA9rk-1t2h_y169eHxzLOURZILmK5Nzcxr6BTJFX8SbJrj-tj6t1IL5cKEHZkgAqtGZp13Ozb62D3VE3spWgsZpL3sTOuNBMuNgdzwiMzrDJwR19FkIQR1md8H-ncLI0ebOlxpvMSdlcMo6pdofiq9tC2G2J3dD_fPhoSm2PKFtcajKkKu41eE1k7zyf5yirg2o3tkJ3d0Vgq042mV-ou5ujQv_me9sjwdKmE23mOWWJmy-ixcB7TsLaTPMX_uQBM754LvXZASueyHZNjBKHcdDFIE4TI5rR9bHLrKmA_H51XiyyN_AVCB4O0R76eLUIlD8N8x3R6DoJ_hISaza5XsRAVSViPLVgXHMnZHRQcm0dUzaySptQy_P7vQ2n8jLBjAFFNbgDWQ1XIP6K3_B2E7J7anC6-meFGacUa4gg06B18EdgQdXMYbX1G9vQjj3u4rhSbd5sJ6KqDyNJRmzZUuHB0hekdz0xutVkIaORU9MLb1Ebs3YtaXo75bIGJ0Ao4wqZjcEcZ9WVWSiWdqcWoqqLYapsqojtPjNBkQtCZUq60Jzhp7Wyjk1C46CrFFS0KZMqL3VwvKWZQlrIYTLoq3P4pOEnAsChfwVt5OjnaqR8Q5t-BwgE",
+    "healthIdNumber": "40-1444-1244-1659",
+    "name": "Ramesh",
+    "gender": "M",
+    "yearOfBirth": "2000",
+    "monthOfBirth": "11",
+    "dayOfBirth": "1",
+    "firstName": "Ramesh",
+    "healthId": "ramesh12",
+    "lastName": "",
+    "middleName": "",
+    "stateCode": "27",
+    "districtCode": "484",
+    "stateName": "MAHARASHTRA",
+    "districtName": "NAGPUR",
+    "email": "",
+    "kycPhoto": null,
+    "profilePhoto": null,
+    "mobile": "9766919220",
+    "authMethods": [
+        "DEMOGRAPHICS",
+        "PASSWORD",
+        "MOBILE_OTP"
+    ],
+    "tags": {},
+    "new": true
+}

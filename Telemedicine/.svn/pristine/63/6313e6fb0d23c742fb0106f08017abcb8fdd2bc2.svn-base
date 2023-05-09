@@ -1,0 +1,55 @@
+package com.nsdl.telemedicine.service.impl;
+
+import java.util.List;
+
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.nsdl.telemedicine.constant.ErrorConstants;
+import com.nsdl.telemedicine.dto.DoctorSpeakFlagRequest;
+import com.nsdl.telemedicine.dto.DoctorSpeakFlagResponse;
+import com.nsdl.telemedicine.entity.FeatureCategoryMapDtlsEntity;
+import com.nsdl.telemedicine.exception.DateParsingException;
+import com.nsdl.telemedicine.exception.ServiceErrors;
+import com.nsdl.telemedicine.repository.FeatureCategoryMapDtlsRepo;
+import com.nsdl.telemedicine.service.FeatureCategoryMapService;
+
+import ch.qos.logback.classic.Logger;
+
+@Service
+public class FeatureCategoryMapServiceImpl implements FeatureCategoryMapService {
+
+	@Autowired
+	private FeatureCategoryMapDtlsRepo featureFlagDtlsRepo;
+	
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(FeatureCategoryMapServiceImpl.class);
+
+
+	@Override
+	public DoctorSpeakFlagResponse getDoctorSpeakDtlsByDrEmailId(DoctorSpeakFlagRequest doctorSpeakFlagRequest) {
+		DoctorSpeakFlagResponse featureFlagResponse = new DoctorSpeakFlagResponse();
+		List<FeatureCategoryMapDtlsEntity> featureCategoryDtlsList = featureFlagDtlsRepo
+				.findByDrEmailId(doctorSpeakFlagRequest.getDrEmailId());
+
+		if (!featureCategoryDtlsList.isEmpty()) {
+			for (FeatureCategoryMapDtlsEntity featureCategory : featureCategoryDtlsList) {
+				if (featureCategory.getDfmdCategoryName().equalsIgnoreCase("Doctor Speak")) {
+
+					featureFlagResponse.setDoctorSpeakFlag(featureCategory.getDfmdFlag());
+					featureFlagResponse.setDrEmailId(featureCategory.getDfmdDrEmailId());
+					logger.info("Mapped doctor speak flag to response");
+					return featureFlagResponse;
+				}
+			}
+			featureFlagResponse.setDoctorSpeakFlag(false);
+			featureFlagResponse.setDrEmailId(doctorSpeakFlagRequest.getDrEmailId());
+			logger.info("No Doctor Speak flag found for given doctor emailid");
+			return featureFlagResponse;
+		}
+		logger.info("No feature category found");
+		ServiceErrors error = new ServiceErrors(ErrorConstants.FEATURE_CATEGORY_DATA_NOT_FOUND.getCode(),
+				ErrorConstants.FEATURE_CATEGORY_DATA_NOT_FOUND.getMessage());
+		throw new DateParsingException(error);
+	}
+
+}

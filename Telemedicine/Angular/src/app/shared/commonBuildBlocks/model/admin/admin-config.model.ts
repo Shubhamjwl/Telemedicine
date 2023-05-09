@@ -1,0 +1,61 @@
+
+export interface AdminConfig {
+  drFullName: string,
+  drUserID: string,
+  drEmail: string,
+  drSpecilization: string,
+  associateName: string,
+  city: string,
+  registerOn: string,
+  category: AdminConfigCategory[]
+}
+
+export interface AdminConfigCategory {
+  //categoryId: string;
+  categoryName: FeaturesCategoryEnum;
+  categoryFlag: boolean;
+}
+
+export interface AdminConfigRequest {
+  criteriaType: string,
+  fromDate: string,
+  toDate: string,
+  specialization: string,
+  associationName: string,
+  city: string,
+  categoryType: string[]
+}
+
+export interface UpdateCategoryRequest {
+  category: AdminConfigCategory[],
+  drEmailId: string,
+  drUserId:string,
+  //flag: boolean;
+}
+
+export interface AdminConfigCategory {
+  //categoryId: string;
+  categoryName: FeaturesCategoryEnum;
+  categoryFlag: boolean;
+}
+
+
+export interface UpdateCategoryResponse {
+  drUserId: string;
+  msg: string;
+}
+
+export enum FeaturesCategoryEnum {
+  CREATE_LINK_ABHA = 'Create/Link ABHA',
+  DOCTOR_SPEAK = 'Doctor Speak',
+  APPOINTMENT_BOOK_LINK = 'Appointment book link',
+  PRE_ASSESSMENT_LINK = 'Pre-Assessment link',
+  DOCTOR_WEBSITE_LINK = 'Doctor website link',
+  ROUTINE_DIAGNOSTIC_SERVICES ='Routine Diagnostic Services',
+  SPECIALIST='Specialist',
+  SPEIALIZED_SERVICES ='Specialized services'
+
+}
+
+
+

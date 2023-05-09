@@ -1,0 +1,788 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { OtpModalComponent } from 'src/app/layout/shared-modules/modals/otp-modal/otp-modal.component';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { MasterTypes } from 'src/app/shared/commonBuildBlocks/enum/master-type.enum';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { PasswordPatternValidator } from 'src/app/shared/commonBuildBlocks/validators/password-pattern.validator';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { IAssociation } from 'src/app/shared/commonBuildBlocks/interfaces/association.interface';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatHorizontalStepper } from '@angular/material/stepper';
+
+@Component({
+  selector: 'app-tm-register-doctor',
+  templateUrl: './tm-register-doctor.component.html',
+  styleUrls: ['./tm-register-doctor.component.scss'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
+  }]
+})
+export class TmRegisterDoctorComponent implements OnInit {
+
+  @ViewChild(MatHorizontalStepper) stepper: MatHorizontalStepper;
+  slotBookForm: FormGroup;
+  associationList: IAssociation[];
+
+  slotMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  slotDurations = [10, 20, 30, 40, 50, 60];
+  slotWorkingDayList = [
+    { property: 'sun', label: 'Sunday' },
+    { property: 'mon', label: 'Monday' },
+    { property: 'tue', label: 'Tuesday' },
+    { property: 'wed', label: 'Wednesday' },
+    { property: 'thu', label: 'Thursday' },
+    { property: 'fri', label: 'Friday' },
+    { property: 'sat', label: 'Saturday' }
+  ];
+
+  termcondModelRef: any;
+
+
+
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private userManagementService: AuthService,
+    private router: Router,
+    private toastrMessage: ToastMessageService,
+    private consultationService: ConsultationService,
+    private spinner: NgxSpinnerService,
+    private modelService: NgbModal
+  ) {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+  }
+  isSwitcheChecked = false;
+
+  // form: FormGroup;
+  firstForm: FormGroup;
+  secondForm: FormGroup;
+  thirdForm: FormGroup;
+
+
+  /**
+   * Used to show | hide password.
+   */
+  hidePassword = true;
+  hideReEnterPassword = true;
+  disableSelect = new FormControl(false);
+
+  /**
+   * used to show uploaded files names
+   */
+  uploadedFileNames: any = [];
+
+  profilePhotoBase64: any;
+  uploadedFile: any;
+  randomStringForCaptcha: string;
+  captcha: any;
+  uploadedImage = 'assets/img/photo.png';
+  filesArray = []
+  specializationList = [];
+  genderList = [];
+  states = []
+  cities = []
+  documentTypes = []
+
+  public webcamImage: WebcamImage = null;
+  private trigger: Subject<void> = new Subject<void>();
+
+
+
+  ngOnInit() {
+    this.formValidation();
+    this.getCpachaImage();
+    this.getDoctorSpecialization();
+    this.getState();
+    // this.getCity('');
+    this.getDocumentTypes();
+    this.getGenderList();
+    this.getAssociationNameList();
+    this.uploadedFileNames = [];
+    this.checkForDuplicate();
+    this.createTimeSlotFormValidation(); // form for slot
+  }
+
+  private checkForDuplicate() {
+    const controlForDuplicateForm1 = [
+      { controlName: 'mobileNo', type: 'mobile'},
+      { controlName: 'smcNo', type: 'smcNo'},
+      {controlName: 'micNo', type: 'mciNo'},
+    ];
+    controlForDuplicateForm1.forEach(details => {
+      this.checkForDuplicateExistance(this.firstForm,details.controlName, details.type);
+    });
+    const controlForDuplicateForm3 = [
+      { controlName: 'email',  type: 'email'},
+      { controlName: 'userName',  type: 'userId'}
+    ];
+    controlForDuplicateForm3.forEach(details => {
+      this.checkForDuplicateExistance(this.thirdForm,details.controlName, details.type);
+    });
+  }
+
+  private randomString(length, chars) {
+    let result = '';
+    for (let i = length; i > 0; --i) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  public handleInitError(error: WebcamInitError): void {
+    if (
+      error.mediaStreamError &&
+      error.mediaStreamError.name === 'NotAllowedError'
+    ) {
+      this.toastrMessage.showWarningMsg(
+        'Camera access was not allowed by user!',
+        'Information'
+      );
+    }
+  }
+
+  triggerSnapshot(): void {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+    this.trigger.next();
+  }
+
+  onSelectState(value: string) {
+    if (value) {
+      this.getCity(value);
+    }
+  }
+
+  handleImage(webcamImage: WebcamImage): void {
+    this.profilePhotoBase64 = webcamImage['_imageAsDataUrl'];
+    this.uploadedImage = this.profilePhotoBase64;
+  }
+
+  public get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  onClickSwitch() {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+  }
+
+  private formValidation() {
+
+    // creation of first tab form
+    this.firstForm = this.fb.group({
+      doctorName: ['', [Validators.required, CustomValidators.fullNameValidator(30)]],
+      smcNo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      micNo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      specialization: ['', Validators.required],
+      consultationFee: ['', [Validators.required, CustomValidators.numberOnlyValidator]],
+      mobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+      gender: ['', Validators.required],
+      state: ['', Validators.required],
+      city: ['', Validators.required],
+      locality: [''],
+      address1: ['', Validators.required],
+      address2: [''],
+      address3: [''],
+      associationName: [''],
+      associationNumber: [{ value: '', disabled: true }, Validators.required],
+    });
+
+    // creation of second tab form
+    this.secondForm = this.fb.group({
+      pre_assessment_link: [''],
+      documentType: ['', Validators.required],
+      filesToUpload: [],
+      profilePhoto: [''],
+    });
+
+    // creation of third tab form
+    this.thirdForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(250)]],
+      userName: ['', [Validators.required, CustomValidators.userNameValidator]],
+      password: ['', [Validators.required, PasswordPatternValidator.strong]],
+      reEnterPassword: ['', Validators.required],
+      captcha: ['', Validators.required],
+      terms: ['', Validators.required],
+    });
+
+    // validation added in associationNo
+    this.firstForm.get('associationName').valueChanges.subscribe(res => {
+      const associationNo = this.firstForm.get('associationNumber');
+      if (res !== 'Not selected') {
+        associationNo.enable();
+      } else {
+        associationNo.setValue('');
+        associationNo.disable();
+      }
+    });
+  }
+
+  /* Called on each input in either password field */
+  onPasswordInput() {
+    if (this.thirdForm.hasError('passwordMismatch')) {
+      this.thirdForm.get('reEnterPassword').setErrors([{ 'passwordMismatch': true }]);
+    } else {
+      this.thirdForm.get('reEnterPassword').setErrors(null);
+    }
+  }
+
+  generateCaptcha() {
+    this.userManagementService.generateCaptcha(this.randomStringForCaptcha).subscribe((result) => {
+      this.createImageFromBlob(result);
+    }, (error) => {
+      this.toastrMessage.showErrorMsg(error.message, 'Error');
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.captcha = reader.result;
+      },
+      false
+    );
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  stepperNext(stepper: MatHorizontalStepper) {
+    // TODO: Submit on 3rd step then only move to 4th step
+    if (this.stepper.selectedIndex === 2) {
+      this.verifyCaptcha();
+      // this.stepper.next();
+    } else if (this.stepper.selectedIndex === 3) {
+      this.stepper.next();
+    } else {
+      this.stepper.next();
+    }
+  }
+
+
+  private createTimeSlotFormValidation() {
+    this.slotBookForm = this.fb.group({
+      selectedTimeSlotDuration: ['', [Validators.required, Validators.maxLength(2), Validators.minLength(1)]],
+      slotWorkingDays: this.fb.array([]),
+      selectedRepeatMonths: [''],//['', [Validators.required, Validators.maxLength(2), Validators.minLength(1)]],
+      autRepeat: [false],
+      workingTimeArray: this.fb.array([
+        this.initWorkingTime()
+      ]),
+      slotType: ['', Validators.required],
+    })
+  }
+
+  private initWorkingTime() {
+    return this.fb.group({
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+    })
+  }
+
+  stepperPrevious(stepper: MatHorizontalStepper) {
+    console.log(stepper);
+    this.stepper.previous();
+  }
+
+  verifyCaptcha() {
+    this.spinner.show();
+    if (this.firstForm.invalid || this.secondForm.invalid || this.thirdForm.invalid) {
+      this.spinner.hide();
+      this.firstForm.markAllAsTouched();
+      this.secondForm.markAllAsTouched();
+      this.thirdForm.markAllAsTouched();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.DOCREGISTERVALIDATIONMSG, 'Warning');
+      return;
+    } else if (!this.firstForm.get('smcNo').value && !this.firstForm.get('micNo').value) {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELECTSMCMCI, 'Warning');
+      return;
+    } else if (this.firstForm.get('smcNo').value === this.firstForm.get('micNo').value) {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SMCMCINOTSAME, 'Warning');
+      return;
+    } else if (!(this.filesArray && this.filesArray.length)) {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELCETDOCUMENT, 'Warning');
+      return;
+    } else {
+      const captcha = this.thirdForm.get('captcha').value;
+      this.userManagementService.verifyCaptcha(this.randomStringForCaptcha, captcha).subscribe((result) => {
+        this.spinner.hide();
+        if (result.status) {
+          this.registerDoctor();
+        } else {
+          if (result.errors) {
+            this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+          }
+        }
+      }, error => {
+        this.spinner.hide();
+        this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+      });
+
+    }
+  }
+
+  /**
+   * Used to Login User
+   */
+  registerDoctor() {
+    this.spinner.show();
+    const {
+      doctorName,
+      smcNo,
+      micNo,
+      specialization,
+      consultationFee,
+      mobileNo,
+      gender,
+      state,
+      city,
+      locality,
+      address1,
+      address2,
+      address3,
+      associationName,
+      associationNumber,
+    } = this.firstForm.value;
+
+    const {
+      pre_assessment_link,
+      documentType
+    } = this.secondForm.value;
+    let {
+      email,
+      userName,
+      password,
+      reEnterPassword,
+      captcha,
+      terms,
+    } = this.thirdForm.value;
+
+    let payload = {
+      drFullName: doctorName,
+      drMobNo: mobileNo,
+      drEmail: email,
+      drUserID: userName,
+      drPassword: password,
+      drSMCNo: smcNo,
+      drMCINo: micNo,
+      drConsultFee: consultationFee,
+      drSpecilization: specialization,
+      drGender: gender,
+      drAddress1: address1,
+      drAddress2: address2,
+      drAddress3: address3,
+      drCity: city,
+      drState: state,
+      captchaCode: captcha,
+      sessionId: this.randomStringForCaptcha,
+      drProfilePhoto: this.profilePhotoBase64 ? this.profilePhotoBase64 : '',
+      documents: this.filesArray,
+      drPreassessmentLink: pre_assessment_link,
+      drTermsAndConditionFlag: terms,
+      associationName: associationName,
+      associationNumber: associationNumber
+    };
+    this.userManagementService.registerDoctor(payload, this.uploadedFile).subscribe((result) => {
+      this.spinner.hide();
+      if (result['response'] && result['status']) {
+        this.consultationService.doctorUserID = userName;
+        this.stepper.next();
+      }
+      if (result['status'] == false) {
+        this.refreshCpacha();
+        this.toastrMessage.showErrorMsg(result['errors'][0].message, 'Error');
+      }
+    }, error => {
+      this.spinner.hide();
+      this.refreshCpacha();
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    });
+  }
+
+  /**
+   * Used to Navigate to OTP Dialog Modal
+   */
+  openDialog(userName, message): void {
+    const dialogRef = this.dialog.open(OtpModalComponent, {
+      disableClose: true,
+      width: '500px',
+      data: { type: 'doctorRegister', userID: userName, role: 'doctor', mobileNo: this.firstForm.value.mobileNo, emailID: this.thirdForm.value.email, message },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.reset()
+      this.router.navigate(['sign-in']);
+    });
+  }
+
+  /**
+   * Used to set selected profile photo
+   */
+  uploadProfilePhoto(event) {
+    let hasImg = event.target?.files[0]?.type?.includes('image') ? true : false;
+    let hasSize = event.target.files[0].size <= 1000000 ? true : false; //1000000
+    if (hasImg && hasSize) {
+      const files = event.target.files;
+      const file = files[0];
+      if (files && file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.profilePhotoBase64 = e.target.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+        //  this._handleReaderLoaded(reader);
+      }
+      document
+        .getElementById('ProfilePhoto')
+        .setAttribute('src', window.URL.createObjectURL(event.target.files[0]));
+    } else {
+      if (!hasImg) {
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGFORMATE, 'Warning');
+        event.target.files = '';
+      }
+      if (!hasSize) {
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGSIZE, 'Warning');
+        event.target.files = '';
+      }
+    }
+  }
+
+  /**
+   * Used to select profile photo
+   */
+  browse() {
+    document.getElementById("browse").click();
+  }
+
+
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.result;
+    this.profilePhotoBase64 = btoa(binaryString);
+    return this.profilePhotoBase64;
+  }
+
+  /**
+   * Used to show Selected Files
+   */
+  showSelectedFiles(event) {
+    let file = event.target.files.length ? event.target.files[0].name ? event.target.files[0].name.toLowerCase() : null : null
+    let fileTypes = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.jpg', '.jpeg', '.png']
+    let isFile = fileTypes.some(el => file?.includes(el));
+    let hasSize = event.target.files[0].size <= 2000000 ? true : false; //1000000
+
+    if (isFile) {
+      if (hasSize) {
+        const files = event.target.files;
+        const file = files[0];
+        if (files && file) {
+          for (let file of event.target.files) {
+            this.uploadedFile = event.target.files[0];
+            this.uploadedFileNames.push(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              let file = JSON.stringify(e.target.result);
+              let name = `:${event.target.files[0].name}/${this.secondForm.get('documentType').value};`
+              file = file.replace(/:[a-zA-z]*\/[a-zA-Z-]*;/g, name);
+              this.filesArray.push(
+                { files: file }
+              )
+            };
+            reader.readAsDataURL(event.target.files[0]);
+          }
+        }
+      } else {
+        if (!hasSize) {
+          this.toastrMessage.showWarningMsg(ErrorSuccessMessage.FILESIZE, 'Warning');
+          event.target.files = '';
+        }
+      }
+    } else {
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.FILEFORMATE, 'Warning');
+    }
+  }
+
+  /**
+   * Delete selected files
+   */
+  removeFiles(index) {
+    this.uploadedFileNames.splice(index, 1);
+    this.filesArray.splice(index, 1);
+  }
+
+  /**
+   * Used to get the CPACHA image from API response
+   */
+  getCpachaImage() {
+    this.generateCaptcha();
+  }
+
+  /**
+   * Used to get New CPACHA image from API response
+   */
+  refreshCpacha() {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+    this.thirdForm.get('captcha').setValue(null);
+    this.getCpachaImage();
+  }
+
+  /**
+   * Used to get specialization list 
+   */
+  private getDoctorSpecialization() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.SPECIALIZATION).subscribe(result => {
+      if (result.status && result.response) {
+        this.specializationList = result.response
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      // console.log(error["errors"]);
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  private getGenderList() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.GENDER).subscribe(result => {
+      if (result.status && result.response) {
+        this.genderList = result.response
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      // console.log(error["errors"]);
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  private getAssociationNameList() {
+    this.consultationService.getAssociationNameList().subscribe(result => {
+      if (result.status && result.response) {
+        this.associationList = result.response
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error.message, 'Error');
+    })
+  }
+
+  /**
+   * Used to get State
+  */
+  private getState() {
+    this.consultationService.getStateList().subscribe(result => {
+      if (result['status'] && result['response']) {
+        this.states = result['response']
+      } else if (result['errors']) {
+        this.toastrMessage.showErrorMsg(result['errors'][0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  private getCity(state: string) {
+    if (state) {
+      this.consultationService.getCityList(state).subscribe(result => {
+        if (result['status'] && result['response']) {
+          this.cities = result['response']
+        } else if (result['errors']) {
+          this.toastrMessage.showErrorMsg(result['errors'][0].message, 'Error');
+        }
+      }, error => {
+        this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+      })
+    }
+  }
+  /**
+   * Used to get documentType
+  */
+  private getDocumentTypes() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.DOCUMENTTYPE).subscribe(result => {
+      if (result.status && result.response) {
+        this.documentTypes = result.response
+      } else if (result.errors) {
+        this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+      }
+    }, error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  /**
+   * Used for Upload Documents
+   */
+  browseFile() {
+    let file = this.secondForm.get('documentType').value
+    if (file) {
+      document.getElementById("browseFile").click();
+    } else {
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.SELECTDOCTYPE, 'Warning');
+    }
+  }
+
+  private checkForDuplicateExistance(form: FormGroup, controlName: string, type: string) {
+    form.get(controlName).statusChanges
+      .pipe(debounceTime(2000))
+      .subscribe(
+        status => {
+          if (status === 'VALID') {
+            const data = {
+              request: { [type]: form.get(controlName).value }
+            };
+            this.consultationService.checkDuplicate(data).subscribe(result => {
+              if (!result['response'].isavailable) {
+                form.get(controlName).setValue('');
+                this.toastrMessage.showErrorMsg(result['response'].message, 'Error');
+              } else if (result['errors']) {
+                this.toastrMessage.showErrorMsg(result['errors'][0].message, 'Error');
+              }
+            }, error => {
+              this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+            })
+          }
+        }
+      )
+  }
+
+  reset() {
+
+    this.firstForm.reset();
+    this.secondForm.reset();
+    this.thirdForm.reset();
+    this.firstForm.markAsPristine();
+    this.secondForm.markAsPristine();
+    this.thirdForm.markAsPristine();
+    this.refreshCpacha();
+  }
+
+  /**
+   * Used to show selected slot duration time in a type:number
+   */
+  selectedSlotDuration(value: number) {
+    this.slotBookForm.get('selectedTimeSlotDuration').setValue(value);
+  }
+
+  /**
+   * Used for Repeat For Months
+   */
+  repeatForMonths(value: any) {
+    this.slotBookForm.get('selectedRepeatMonths').setValue(value);
+  }
+
+  selectedSlotType(value: string) {
+    this.slotBookForm.get('slotType').setValue(value);
+  }
+
+  selectSlotWorkingDays(value: string) {
+    const workingDays = this.slotBookForm.get('slotWorkingDays') as FormArray;
+    const index = workingDays.value?.findIndex(val => val === value);
+    if (index > -1) {
+      workingDays.removeAt(index);
+    } else {
+      workingDays.push(this.fb.control(value));
+    }
+  }
+
+  /**
+   * Used to add extra working time
+  */
+  addWorkingTime() {
+    (<FormArray>this.slotBookForm.get('workingTimeArray')).push(this.initWorkingTime());
+  }
+
+  /**
+   * Used to remove added working time
+  */
+  removeWorkingTime(index: any) {
+    (<FormArray>this.slotBookForm.get('workingTimeArray')).removeAt(index);
+  }
+
+  openDialogTC(content) {
+    this.modelService.open(content, { size: 'lg', backdrop: 'static' });
+  }
+
+  startTimeValidation(index) {
+    let startTime = this.slotBookForm.value.workingTimeArray[index].startTime;
+    let endTime = this.slotBookForm.value.workingTimeArray[index].endTime;
+    if (startTime == endTime) {
+      this.toastrMessage.showErrorMsg("Start time and end time is same", "Error");
+      ((this.slotBookForm.get('workingTimeArray') as FormArray).at(index) as FormGroup).get('startTime').setValue(null);
+      ((this.slotBookForm.get('workingTimeArray') as FormArray).at(index) as FormGroup).get('endTime').setValue(null);
+      this.slotBookForm.value.workingTimeArray.splice(index, 1);
+      this.slotBookForm.updateValueAndValidity();
+    } else if (endTime < startTime) {
+      if (startTime && endTime) {
+        this.toastrMessage.showErrorMsg("End time is less than start time", "Error");
+        ((this.slotBookForm.get('workingTimeArray') as FormArray).at(index) as FormGroup).get('startTime').setValue(null);
+        ((this.slotBookForm.get('workingTimeArray') as FormArray).at(index) as FormGroup).get('endTime').setValue(null);
+        this.slotBookForm.value.workingTimeArray.splice(index, 1);
+        this.slotBookForm.updateValueAndValidity();
+
+      }
+
+    }
+  }
+
+  /**
+   * Used to save time slot details
+   */
+  saveTimeSlot() {
+    const value = this.slotBookForm.value;
+    this.spinner.show();
+    let request = {
+      id: "slot",
+      version: "1.0",
+      requestTime: new Date().toISOString(),
+      request: {
+        doctorUserID: this.consultationService.doctorUserID,
+        slotDuration: value.selectedTimeSlotDuration,
+        repetForMonths: value.selectedRepeatMonths ? value.selectedRepeatMonths : 1,
+        consultAmount: '',
+        autoRep: value.autRepeat,
+        slotWorkingDays: value.slotWorkingDays,
+        workingTime: value.workingTimeArray,
+        slotType: value.slotType
+      }
+    }
+    this.consultationService.saveSlotDetailsForDoctorRegistration(request).subscribe(data => {
+      this.spinner.hide();
+      if (data.status) {
+        this.toastrMessage.showSuccessMsg(data.response, 'Success');
+        this.slotBookForm.reset();
+        this.router.navigateByUrl('/sign-in');
+      } else {
+        if (data.errors) {
+          let errMsg = ' ';
+          for (let item of data.errors) {
+            errMsg += item.message;
+          }
+          this.toastrMessage.showErrorMsg(errMsg, "Error");
+        }
+      }
+    }, error => {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.CODEFAILUIR, "Error");
+    });
+  }
+}
+

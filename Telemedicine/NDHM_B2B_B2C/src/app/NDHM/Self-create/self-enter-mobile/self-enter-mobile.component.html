@@ -1,0 +1,83 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Create ABDM issued ABHA ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id :</p>
+      <form #enterMobileForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-4 lable">
+            <p class="mt-1"><b>Enter Mobile Number<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="+91"
+                style="
+                  width: 15%;
+                  display: inline-block;
+                  background-color: #daf5f2;
+                  border-color: #2196f3;
+                "
+                class="form-control mr-2"
+              />
+              <input
+                type="tel"
+                class="form-control input"
+                name="mobileNo"
+                #mobileNo="ngModel"
+                [(ngModel)]="mobileNoSel"
+                maxlength="10"
+                pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                required
+              />
+              <div
+                class="error"
+                [hidden]="mobileNo.valid || mobileNo.untouched"
+              >
+                {{ ERR.MOBILE_ERR }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn btn-primary mr-3"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+        >
+          Back
+        </button>
+        <button
+          class="btn btn-primary"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+          (click)="otp()"
+          [disabled]="!enterMobileForm.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

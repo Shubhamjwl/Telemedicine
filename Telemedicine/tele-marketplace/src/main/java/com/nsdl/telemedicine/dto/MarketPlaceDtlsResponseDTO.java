@@ -1,0 +1,13 @@
+package com.nsdl.telemedicine.dto;
+
+
+import lombok.Data;
+
+@Data
+public class MarketPlaceDtlsResponseDTO {
+	
+	private String clientSecret;
+	private String patientName;
+	private String patientContact;
+	private String message;
+}

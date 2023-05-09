@@ -1,0 +1,42 @@
+package com.nsdl.ndhm.transfer.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.nsdl.ndhm.transfer.dto.ShareAddressDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Builder
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+/* @Table(name = "hiprequest", schema = "ndhm") */
+@Table(name = "profile_share_dtls")
+
+public class ShareProfileEntity {
+
+	@Id
+	private String requestId;
+	private String timeStamp;
+	private String hipCode;
+	private String healthId;
+	private String healthIdNumber;
+	private String name;
+	private String gender;
+	private int yearOfBirth;
+	private int dayOfBirth;
+	private int monthOfBirth;
+	private String acknowledgementStatus;
+	private Boolean callbackStatus;
+
+}

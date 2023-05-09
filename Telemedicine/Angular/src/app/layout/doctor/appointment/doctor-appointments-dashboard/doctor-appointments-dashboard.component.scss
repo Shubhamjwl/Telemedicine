@@ -1,0 +1,53 @@
+.appointmentDetails {
+    .example-additional-selection {
+        opacity: 0.75;
+        font-size: 0.75em;
+      }
+}
+
+.slotBorder {
+  border: 1px solid #d7d4d4;
+  cursor:pointer;
+}
+
+.videoIcon {
+  color: gray;
+}
+
+.editIcon {
+  color: red;
+}
+
+.leftdate {
+  margin-left:auto; 
+  margin-right:0px;
+}
+
+.slotTopBorder {
+  border-top: 1px solid white;
+  font-size: 14px;
+}
+
+.completedBgColor {
+  background: #e2e2e2 !important;
+  pointer-events: none;
+}
+
+.wrapper {
+    max-width: 110px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.scheduledAppt {
+  background-color: #daf5f2; //paleturquoise;
+}
+
+.availableAppt {
+  background-color: #d2fdc7;
+}
+
+.pendingPayAppt {
+  background-color: #fdc29ac9;
+}

@@ -1,0 +1,386 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenerateSessionRespDTO } from 'src/app/models/common/GenerateSessionRespDTO';
+import { MainResponseDTO } from 'src/app/models/common/MainResponseDTO';
+import { GenerateOtpResp } from 'src/app/models/healthidMobile/GenerateOtpResp';
+import { ResendOtpResp } from 'src/app/models/healthidMobile/ResendOtpResp';
+import { AuthInitReqDTO } from 'src/app/models/verifyHealthid/AuthInitReqDTO';
+import { VerifyHealthIdQueryDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdQueryDTO';
+import { VerifyHealthIdRequesterDTO } from 'src/app/models/verifyHealthid/VerifyHealthIdRequesterDTO';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ERR_MSGS, REGEX } from 'src/config/constant';
+import { HealthidCreationServiceService } from '../../healthid-creation-service.service';
+import * as uuid from 'uuid';
+import { CredentialDTO } from 'src/app/models/verifyHealthid/CredentialDTO';
+import { IdentifierDTO } from 'src/app/models/verifyHealthid/IdentifierDTO';
+import { DemographicDTO } from 'src/app/models/verifyHealthid/DemographicDTO';
+import { OnConfirmRequestDTO } from 'src/app/models/verifyHealthid/OnConfirmRequestDTO';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Location } from '@angular/common';
+
+@Component({
+  selector: 'app-patien-auther',
+  templateUrl: './patien-auther.component.html',
+  styleUrls: ['./patien-auther.component.css'],
+})
+export class PatienAutherComponent implements OnInit {
+  healthId: any;
+  healthIdNumber: any;
+  ERR = ERR_MSGS;
+  PATTERN = REGEX;
+  mobileNoSel: any;
+  namesel: any;
+  gender: any;
+  dateOfBirth: any;
+  txnId: any;
+  otp: any;
+  requestId: any;
+  timestamp: any;
+  accessToken: any;
+  authMode: any;
+  responseToken: MainResponseDTO<GenerateSessionRespDTO>;
+  resendOtpResp: MainResponseDTO<ResendOtpResp>;
+  responseOTP: MainResponseDTO<GenerateOtpResp>;
+  verifyHealthIdQueryDTO: VerifyHealthIdQueryDTO;
+  requester: VerifyHealthIdRequesterDTO;
+  mainOnFetchModesRequestDTO: MainResponseDTO<AuthInitReqDTO>;
+  timeLeft: number = 60;
+  interval;
+  getOnInitFlag: boolean = false;
+  isOTPShow: boolean = true;
+  getOnConfirmFlag: boolean = false;
+  isHealthIdDisabled: boolean = true;
+  isNameDisabled: boolean = true;
+  isMobileNoDisabled: boolean = true;
+  isDobDisabled: boolean = true;
+  isGenderDisabled: boolean = true;
+  credentialDTO: CredentialDTO;
+  demographic: DemographicDTO;
+  identifier: IdentifierDTO;
+  mainOnConfirmRequestDTO: MainResponseDTO<OnConfirmRequestDTO>;
+  showData: boolean = false;
+  authAccessToken: any;
+  isConsentChecked: boolean = false;
+  showPopupButtonFlag: boolean = false;
+  selectOptions = ['Male', 'Female', 'Transgender'];
+
+  selectedOption = 'Male';
+  displayStyle = 'none';
+  isChecked: boolean = true;
+  MobileNo: any;
+  shortMobileNo: any;
+  countNum: string;
+  CodedMobileNo: string;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastrMessage: ToastMessageService,
+    private _servises: HealthidCreationServiceService,
+    private spinner: NgxSpinnerService,
+    private _location: Location
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      //console.log(params);
+      if (params && params.healthId) {
+        this.healthId = params.healthId;
+      }
+      if (params && params.namesel) {
+        this.namesel = params.namesel;
+      }
+      if (params && params.gender) {
+        this.gender = params.gender;
+      }
+      if (params && params.dateOfBirth) {
+        this.dateOfBirth = params.dateOfBirth;
+      }
+      if (params && params.mobileNoSel) {
+        this.mobileNoSel = atob(params.mobileNoSel).trim();
+
+        (this.MobileNo = this.mobileNoSel),
+          (this.shortMobileNo = this.MobileNo.slice(-2)),
+          (this.countNum = '');
+
+        for (var i = this.MobileNo.length - 2; i > 0; i--) {
+          this.countNum += '*';
+        }
+        this.CodedMobileNo = '+91' + this.countNum + this.shortMobileNo;
+      }
+      if (params && params.authMode) {
+        this.authMode = params.authMode;
+      }
+    });
+    this.startTimer();
+    this.sendOtp();
+  }
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      }
+      // else {
+      //   this.timeLeft = 60;
+      // }
+    }, 1000);
+  }
+  sendOtp() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.accessToken = result.response.accessToken;
+        //console.log('this.accessToken::', this.accessToken);
+        if (
+          this.responseToken &&
+          this.responseToken.response &&
+          this.responseToken.response.accessToken
+        ) {
+          this.initRequest(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+  initRequest(accessToken) {
+    this.spinner.show();
+    var myUUID = uuid.v4();
+    //console.log('myUUID::' + myUUID);
+    this.requestId = myUUID;
+    //console.log('this.requestId::', this.requestId);
+    this.timestamp = this.currentTimestamp();
+    //console.log('this.timestamp::', this.timestamp);
+    this.verifyHealthIdQueryDTO = new VerifyHealthIdQueryDTO();
+    this.verifyHealthIdQueryDTO.id = this.healthId;
+    this.verifyHealthIdQueryDTO.purpose = 'KYC_AND_LINK';
+    this.verifyHealthIdQueryDTO.authMode = this.authMode;
+    this.requester = new VerifyHealthIdRequesterDTO();
+    this.requester.type = 'HIP';
+    this.requester.id = 'NASHIPDEV';
+    this.verifyHealthIdQueryDTO.requester = this.requester;
+    this._servises
+      .init(
+        this.requestId,
+        this.timestamp,
+        this.verifyHealthIdQueryDTO,
+        accessToken
+      )
+      .subscribe(
+        (result) => {
+          //console.log('result', result);
+          this.getOnInit();
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg('Unable to send OTP', 'Error');
+        }
+      );
+  }
+  getOnInit() {
+    this._servises
+      .getOnInit(this.requestId, this.timestamp, this.accessToken)
+      .subscribe(
+        (result) => {
+          if (result) {
+            //console.log('result', result);
+            this.mainOnFetchModesRequestDTO = result;
+            this.getOnInitFlag = result.status;
+            if (this.getOnInitFlag) {
+              this.mainOnFetchModesRequestDTO = result;
+              this.txnId = result.response.auth.transactionId;
+              this.isOTPShow = true;
+              //console.log('this.txnId getOnInit::', this.txnId);
+              //console.log('result getOnInit::', result);
+              this.spinner.hide();
+            } else {
+              this.getOnInit();
+            }
+          }
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg(
+            'Unable to get On Fetch Modes Data',
+            'Error'
+          );
+        }
+      );
+  }
+  submit() {
+    //console.log('this.txnId from submit::', this.txnId);
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.accessToken = result.response.accessToken;
+        ////console.log('accessToken::', this.accessToken);
+        if (
+          this.responseToken &&
+          this.responseToken.response &&
+          this.responseToken.response.accessToken
+        ) {
+          this.authConfirm(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to verify OTP', 'Error');
+      }
+    );
+  }
+  authConfirm(accessToken) {
+    this.spinner.show();
+    //console.log('this.txnId from authConfirm::', this.txnId);
+    var myUUID = uuid.v4();
+    //console.log('myUUID::' + myUUID);
+    this.requestId = myUUID;
+    //console.log('this.requestId::', this.requestId);
+    this.timestamp = this.currentTimestamp();
+    //console.log('this.timestamp::', this.timestamp);
+    this.credentialDTO = new CredentialDTO();
+    //console.log('this.otp::' + this.otp);
+    this.credentialDTO.authCode = this.otp;
+    this.demographic = new DemographicDTO();
+    this.demographic.name = this.namesel;
+    //console.log('this.name::' + this.namesel);
+    this.demographic.gender = this.gender;
+    //console.log('this.gender::' + this.gender);
+    this.demographic.dateOfBirth = this.dateOfBirth;
+    this.identifier = new IdentifierDTO();
+    if (this.authMode === 'MOBILE_OTP') {
+      this.identifier.type = 'MOBILE';
+      this.identifier.value = this.mobileNoSel;
+    } else if (this.authMode === 'AADHAAR_OTP') {
+      this.identifier.type = 'AADHAAR';
+      this.identifier.value = this.mobileNoSel;
+    }
+
+    //console.log('this.mobileNoSel::' + this.mobileNoSel);
+    this.demographic.identifier = this.identifier;
+    this.credentialDTO.demographic = this.demographic;
+    this._servises
+      .authConfirm(
+        this.requestId,
+        this.timestamp,
+        this.txnId,
+        this.credentialDTO,
+        accessToken
+      )
+      .subscribe(
+        (result) => {
+          //console.log('result::', result);
+          this.getOnConfirm();
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg(
+            'Health ID has not been linked to your Patient Profile for Telemedicine, please try again.',
+            'Error'
+          );
+        }
+      );
+  }
+  getOnConfirm() {
+    this._servises
+      .getOnConfirm(this.requestId, this.timestamp, this.accessToken)
+      .subscribe(
+        (result) => {
+          if (result) {
+            //console.log('result::', result);
+            //console.log('result.status::', result.status);
+            this.getOnConfirmFlag = result.status;
+            if (this.getOnConfirmFlag) {
+              this.mainOnConfirmRequestDTO = result;
+              console.log('result inside::', result);
+              if (result.response.auth) {
+                //console.log('result inside auth::', result.response.auth);
+                this.authAccessToken = result.response.auth.accessToken;
+                //console.log('this.authAccessToken::', this.authAccessToken);
+                if (result.response.auth.patient) {
+                  this.healthId = result.response.auth.patient.id;
+                  this.namesel = result.response.auth.patient.name;
+                  this.gender = result.response.auth.patient.gender;
+                  if (result.response.auth.patient.identifiers) {
+                    var identifiers = result.response.auth.patient.identifiers;
+                    for (let index = 0; index < identifiers.length; index++) {
+                      const element = identifiers[index];
+                      if (element.type === 'MOBILE') {
+                        this.mobileNoSel = element.value;
+                      } else if (element.type === 'HEALTH_NUMBER') {
+                        this.healthIdNumber = element.value;
+                      }
+                    }
+                  }
+                }
+                this.spinner.hide();
+                this.showData = true;
+              }
+            } else {
+              this.getOnConfirm();
+            }
+          }
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg(
+            'Unable to get On Confirm data',
+            'Error'
+          );
+        }
+      );
+  }
+
+  currentTimestamp() {
+    const event = new Date();
+    if (!Date.prototype.toISOString) {
+      (function () {
+        function pad(number) {
+          if (number < 10) {
+            return '0' + number;
+          }
+          return number;
+        }
+
+        Date.prototype.toISOString = function () {
+          return (
+            this.getUTCFullYear() +
+            '-' +
+            pad(this.getUTCMonth() + 1) +
+            '-' +
+            pad(this.getUTCDate()) +
+            'T' +
+            pad(this.getUTCHours()) +
+            ':' +
+            pad(this.getUTCMinutes()) +
+            ':' +
+            pad(this.getUTCSeconds()) +
+            '.' +
+            (this.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
+            'Z'
+          );
+        };
+      })();
+    }
+    return event.toISOString();
+  }
+  afterData() {
+    this.showPopupButtonFlag = true;
+    this.toastrMessage.showSuccessMsg(
+      'Health ID Number ' +
+        this.healthIdNumber +
+        ' has been linked to your Patient Profile for Telemedicine.',
+      'Success'
+    );
+  }
+  back() {
+    //this._location.back();
+    window.history.back();
+  }
+  openPopup() {
+    this.displayStyle = 'block';
+  }
+  closePopup() {
+    this.displayStyle = 'none';
+  }
+}

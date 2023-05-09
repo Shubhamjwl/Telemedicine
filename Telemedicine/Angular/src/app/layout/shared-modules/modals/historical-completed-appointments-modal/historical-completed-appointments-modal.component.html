@@ -1,0 +1,68 @@
+<div>
+    <ngx-spinner>
+        <p class="loading">Loading...</p>
+    </ngx-spinner>
+
+    <div class="modal-header py-2">
+        <h4 class="modal-title mb-0">Historical Completed Appointments</h4>
+        <!-- <button mat-button [mat-dialog-close]="data" type="button">×</button> -->
+        <button type="button" class="close" aria-label="Close" (click)="onClickClose()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div>
+        <div class="example-container mt-2" *ngIf="dataSource && dataSource.data && dataSource.data.length">
+
+            <mat-table [dataSource]="dataSource" matSort>
+
+                <!-- ID Column -->
+                <ng-container matColumnDef="appointmentId">
+                    <mat-cell *matCellDef="let row" class="appointmentId" width="10%"> {{row.appointmentId}} </mat-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header > <b> Appointment ID </b> </mat-header-cell>
+                    <!-- <mat-cell *matCellDef="let row" class="appointmentId"> {{row.appointmentId}} </mat-cell> -->
+                </ng-container>
+
+                <ng-container matColumnDef="name" *ngIf="!authService.isUserPatient()">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header > <b> Patient Name </b> </mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="appointmentId"> {{row.patientName}} </mat-cell>
+                </ng-container>
+                <!-- Progress Column -->
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="date"> <b> Date </b> </mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="date">  {{row.appointmentDate}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="view">
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="view"> <b> View </b> </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <i (click)="getPrescriptionDetails(row, 'view')"  class="fa fa-eye eye-icon text-secondary cursor-details"></i>
+                        <!-- <mat-icon  matSuffix class="text-secondary cursor-details" (click)="getPrescriptionDetails(row, 'view')">visibility</mat-icon> -->
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Color Column -->
+                <ng-container matColumnDef="download">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="download"> <b> Download </b> </mat-header-cell>
+                    <mat-cell *matCellDef="let row" [class]="row.download">
+                        <i (click)="getPrescriptionDetails(row, 'download')" class="fa fa-download  text-secondary cursor-details"></i>
+                        <!-- <mat-icon matSuffix class="text-secondary cursor-details" (click)="getPrescriptionDetails(row, 'download')">get_app</mat-icon>  -->
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator #paginator
+                            [pageSize]="5"
+                            [pageSizeOptions]="[5, 10, 20]">
+            </mat-paginator>
+        </div>
+        <div *ngIf="!dataSource || !dataSource.data || !dataSource.data.length">
+            <h4 class="ml-3 mt-3">No Data Found</h4>
+        </div>
+    </div>
+</div>

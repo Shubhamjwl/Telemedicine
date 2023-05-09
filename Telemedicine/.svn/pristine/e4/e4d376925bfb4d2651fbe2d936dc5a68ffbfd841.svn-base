@@ -1,0 +1,89 @@
+<!-- <div class="resp-tabs-container hor_1">
+    <div class="resp-tab-content hor_1 resp-tab-content-active" aria-labelledby="hor_1_tab_item-2"
+        style="display: block">
+        <div class="report-data">
+            <div class="report-title-area">
+                <div class="report-title1">Report Type</div>
+                <div class="report-title2 view1">View</div>
+                <div class="report-title2">Download</div>
+            </div>
+        </div>
+        <div class="report-detail">
+            <div class="report-title1">
+                <a href="#">Krishnavali-Document-Name.JPG</a>
+            </div>
+            <div class="report-title2 view1 tool">
+                <a href="#"><img src="assets/img/view-red.svg" alt="" /><span class="B-st st1">View</span></a>
+            </div>
+            <div class="report-title2 down tool">
+                <a href="#"><img src="assets/img/download.svg" alt="" /><span class="B-st st1">Download</span></a>
+            </div>
+        </div>
+        <div class="report-detail">
+            <div class="report-title1">
+                <a href="#">Krishnavali-Prescription-file.JPG</a>
+            </div>
+            <div class="report-title2 view1 tool">
+                <a href="#"><img src="assets/img/view-red.svg" alt="" /><span class="B-st st1">View</span></a>
+            </div>
+            <div class="report-title2 down tool">
+                <a href="#"><img src="assets/img/download.svg" alt="" /><span class="B-st st1">Download</span></a>
+            </div>
+        </div>
+        <div class="report-detail">
+            <div class="report-title1">
+                <a href="#">Krishnavali-Medical-Reports.PDF</a>
+            </div>
+            <div class="report-title2 view1 tool">
+                <a href="#"><img src="assets/img/view-red.svg" alt="" /><span class="B-st st1">View</span></a>
+            </div>
+            <div class="report-title2 down tool">
+                <a href="#"><img src="assets/img/download.svg" alt="" /><span class="B-st st1">Download</span></a>
+            </div>
+        </div>
+        <div class="report-detail">
+            <div class="report-title1">
+                <a href="#">Krishnavali-ECG-Report.JPG</a>
+            </div>
+            <div class="report-title2 view1 tool">
+                <a href="#"><img src="assets/img/view-red.svg" alt="" /><span class="B-st st1">View</span></a>
+            </div>
+            <div class="report-title2 down tool">
+                <a href="#"><img src="assets/img/download.svg" alt="" /><span class="B-st st1">Download</span></a>
+            </div>
+        </div>
+        <div class="back-btn"><a href="#">Prev</a></div>
+        <div class="next-btn"><a href="#">Next</a></div>
+    </div>
+</div> -->
+
+
+<mat-table [dataSource]="dataSource" class="clinic-table">
+    <!-- ID Column -->
+    <ng-container matColumnDef="reportname">
+        <mat-header-cell *matHeaderCellDef> <b> Report Type </b> </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="appointmentId" width="10%"> {{element.reportname}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="view">
+        <mat-header-cell *matHeaderCellDef class="view"> <b> View </b> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <img src="assets/img/view-red.svg" ngbTooltip="View" role="button" class="w-auto m-0"
+                (click)="openDialog(element)" />
+        </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="download">
+        <mat-header-cell *matHeaderCellDef class="download"> <b> Download </b> </mat-header-cell>
+        <mat-cell *matCellDef="let element" [class]="row.download">
+            <img src="assets/img/download.svg" ngbTooltip="Download" role="button" class="w-auto m-0"
+                (click)="download(element)" />
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+</mat-table>

@@ -1,0 +1,54 @@
+spring.application.name=user-management-service
+
+#Database properties
+server.port = 7072
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.jpa.properties.hibernate.show_sql=true
+hibernate.dialect=org.hibernate.dialect.PostgreSQL95Dialect
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+#hibernate.hbm2ddl.auto=none
+#hibernate.show_sql=true
+#hibernate.format_sql=false
+
+usrmgmt.api.version=v1
+usrmgmt.api.id=user
+
+auth.jwt.secret=sshhhhhh!!!
+auth.jwt.base=Bearer
+auth.jwt.expiry=86400000
+auth.token.header=Authorization
+
+##login properties##
+#freez time in seconds (2 min)
+login.password.locking.time=120
+#expiration time in minutes (1 week)
+login.password.expiry.time=10080
+login.password.incorrect.attempt.threshold=3
+login.password.limit=3
+login.password.hash.algorithm=SHA-256
+login.password.hash.enable.flag=true
+login.generate.token.flag=true
+
+
+#email regular expression
+#login.email.regex=^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$
+#login.password.regex=^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$
+#login.mobile.regex=^[7-9][0-9]{9}$
+#login.smc.regex=[A-Za-z1-9]{1}[A-Za-z0-9]*$
+#login.mci.regex=[A-Za-z1-9]{1}[A-Za-z0-9]*$
+
+server.servlet.context-path=/usermanagement/${usrmgmt.api.version}/user
+email.notification.url=http://172.30.151.100:7076/OTPManager/sendNotification
+captcha.url=http://172.30.151.100:8073/captcha/verifyCaptcha
+
+user.manager.verifyDoctor.response.msg=doctor verification has been verified successfully
+spring.profiles.active=dev
+
+
+

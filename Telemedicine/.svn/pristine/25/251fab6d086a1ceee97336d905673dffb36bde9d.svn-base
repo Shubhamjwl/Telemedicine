@@ -1,0 +1,22 @@
+package com.nsdl.notification.dto;
+
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class NotificationDTO {
+
+	private int notificationId;
+	private String notificationType;
+	private String notification;
+	private LocalDateTime createdTmstp;
+	private boolean unReadFlag;
+
+}

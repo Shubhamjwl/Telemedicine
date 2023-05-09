@@ -1,0 +1,3 @@
+<div class="editor-container">
+  <quill-editor [formControl]="control" [modules]="modules" [styles]="editorStyle" #quillComp> </quill-editor>
+</div>

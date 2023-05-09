@@ -1,0 +1,33 @@
+$asset-img-path: "~src/assets/img";
+.footer-left::after {
+  background: url("#{$asset-img-path}/bottom-left-bg.png") no-repeat left top;
+
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 299px;
+  height: 146px;
+}
+.footer-right::after {
+  background: url("#{$asset-img-path}/bottom-right-bg.png") no-repeat left top;
+
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 469px;
+  height: 229px;
+}
+
+.copyright {
+  float: left;
+  clear: both;
+  font-size: 13px;
+  position: absolute;
+  color: #fff;
+  padding-left: 21px;
+  margin-top: 50px;
+  bottom: 11px;
+  letter-spacing: 0.78px;
+}

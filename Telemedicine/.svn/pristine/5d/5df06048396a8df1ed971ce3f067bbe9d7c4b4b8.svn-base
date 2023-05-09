@@ -1,0 +1,18 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BreadcrumbRoutingModule } from './breadcrumb-routing.module';
+import { BreadcrumbComponent } from './breadcrumb.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+@NgModule({
+  declarations: [BreadcrumbComponent],
+  imports: [
+    CommonModule,
+    BreadcrumbRoutingModule,
+    NgbModule
+  ],
+  exports: [BreadcrumbComponent]
+})
+export class BreadcrumbModule { }

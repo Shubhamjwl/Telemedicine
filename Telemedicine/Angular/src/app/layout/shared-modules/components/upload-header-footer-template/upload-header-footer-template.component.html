@@ -1,0 +1,72 @@
+<app-breadcrumb [profileDetails]="profilePhoto"></app-breadcrumb>
+
+<div class="container">
+    <div class="col-sm-12 offset-md-3 col-md-6 offset-xl-3 col-lg-6 offset-xl-3 col-xl-6 mt-4">
+        <h1 class="mb-1">
+            <!-- <b>  -->
+                Upload Header and Footer
+            <!-- </b> -->
+        </h1>
+    </div>
+
+    <div class="col-sm-12 offset-md-3 col-md-6 offset-xl-3 col-lg-6 offset-xl-3 col-xl-6 mt-3 text-center bg-light bgShadowStyle">
+        <!--************************ Today***************** -->
+        <div class="div">
+            <div class="row">
+                <div class="col-md-12 mt-2 text-center">
+                    <div class="row mt-2">
+                        <div class="col-2 text-right">
+                            <label class="labelSize">
+                                <b>Header:</b>
+                            </label>
+                        </div>
+                        <div class="col-2">
+                            <input type="file" id="browseHeader" (change)="uploadProfilePhoto($event, 'header')" hidden>
+                            <button type="button" class="btn btn-info btn-sm" (click)="browse('header')">
+                                Browse
+                            </button>   
+                        </div>
+                        <div class="col-7 p-0">
+                            <div class="col-12 p-0">
+                                <div class="row">
+                                    <img id="HeaderPhoto" width="80%" class="uploadPhoto ml-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <hr/>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-2 text-right">
+                            <label class="labelSize">
+                                <b>Footer:</b>
+                            </label>
+                        </div>
+                        <div class="col-2">
+                            <input type="file" id="browseFooter" (change)="uploadProfilePhoto($event, 'footer')" hidden>
+                            <button type="button" class="btn btn-info btn-sm" (click)="browse('footer')">
+                                Browse
+                            </button>  
+                        </div>
+                        <div class="col-7 p-0">
+                            <div class="col-12 p-0">
+                                <div class="row">
+                                    <img id="FooterPhoto" width="80%" class="uploadPhoto ml-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div><br>
+                    
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center mb-3">
+                            <button class="btn btnColor mt-2" mat-raised-button (click) = "submitHeaderFooter()">Submit</button>&nbsp;
+                            <button class="btn btnColor mt-2" mat-raised-button (click) = "cancel()" >Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

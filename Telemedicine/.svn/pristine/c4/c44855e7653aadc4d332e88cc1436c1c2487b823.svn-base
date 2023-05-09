@@ -1,0 +1,15 @@
+spring.application.name=video-call-conference-service
+server.port=7083
+server.servlet.context-path=/videoconference
+videoConferencing.manager.service.version=v1.0
+videoConferencing.manager.service.id=videoconference
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+
+
+
+
+
+

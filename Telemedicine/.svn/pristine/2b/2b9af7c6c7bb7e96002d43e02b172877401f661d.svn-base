@@ -1,0 +1,763 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { CongratulationsModalComponent } from 'src/app/layout/shared-modules/modals/congratulations-modal/congratulations-modal.component';
+import { OtpModalComponent } from 'src/app/layout/shared-modules/modals/otp-modal/otp-modal.component';
+import { CreateSlotComponent } from 'src/app/layout/shared-modules/modals/create-slot/create-slot.component';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { MasterTypes } from 'src/app/shared/commonBuildBlocks/enum/master-type.enum';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { passwordMatchValidator } from 'src/app/shared/commonBuildBlocks/validators/match-password.validator';
+import { PasswordPatternValidator } from 'src/app/shared/commonBuildBlocks/validators/password-pattern.validator';
+
+@Component({
+  selector: 'app-register-doctor',
+  templateUrl: './register-doctor.component.html',
+  styleUrls: ['./register-doctor.component.scss']
+})
+export class RegisterDoctorComponent implements OnInit {
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private userManagementService: AuthService,
+    private http: HttpClient,
+    private router: Router,
+    private toastrMessage: ToastMessageService,
+    private consultationService: ConsultationService,
+    private datapassingService: DataPassingService,
+    private spinner: NgxSpinnerService
+  ) {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+  }
+
+  isSwitcheChecked = false;
+  /**
+   * Used to store SignIn Form.
+   */
+  form: FormGroup;
+
+  /**
+   * Used to show | hide password.
+   */
+  hidePassword = true;
+  hideReEnterPassword = true;
+  disableSelect = new FormControl(false);
+
+  /**
+   * used to show uploaded files names
+   */
+  uploadedFileNames: any = [];
+
+  /**
+   * used to show progress bar for file upload
+   */
+  progress = 90;
+
+  /**
+   * personal details of patient
+   */
+  personalDataList = [
+    {
+      stepName: 'Full Name',
+      stepValue: '',
+    },
+    {
+      stepName: 'Mobile No',
+      stepValue: '',
+    },
+    {
+      stepName: 'Email',
+      stepValue: '',
+    },
+    {
+      stepName: 'Username',
+      stepValue: '',
+    },
+    // {
+    //   "stepName":"Cpacha",
+    //   "stepValue":"",
+    // },
+    {
+      stepName: 'SMC No',
+      stepValue: '',
+    },
+    {
+      stepName: 'MCI No',
+      stepValue: '',
+    },
+    {
+      stepName: 'Consultation Fee',
+      stepValue: '',
+    },
+    {
+      stepName: 'Specialization',
+      stepValue: '',
+    },
+    {
+      stepName: 'Documents',
+      stepValue: '',
+    },
+    {
+      stepName: 'Gender',
+      stepValue: '',
+    },
+    {
+      stepName: 'State',
+      stepValue: '',
+    },
+    {
+      stepName: 'City',
+      stepValue: '',
+    },
+  ];
+
+  profilePhotoBase64;
+  uploadedFile;
+  randomStringForCaptcha;
+  captcha;
+  uploadedImage = 'assets/images/img_avatar.png';
+  filesArray = []
+  specializationList = [];
+  genderList = [];
+  states = []
+  cities = []
+  documentTypes = []
+  verifyDoc = '';
+  public webcamImage: WebcamImage = null;
+  private trigger: Subject<void> = new Subject<void>();
+  public controlDetailsForExistenceCheck = [
+    {
+      controlName: 'email',
+      type: 'email'
+    },
+    {
+      controlName: 'mobileNo',
+      type: 'mobile'
+    },
+    {
+      controlName: 'userName',
+      type: 'userId'
+    },    {
+      controlName: 'smcNo',
+      type: 'smcNo'
+    },   
+    {
+      controlName: 'micNo',
+      type: 'mciNo'
+    },
+  ];
+
+   ngOnInit() {
+    this.formValidation();
+    this.getCpachaImage();
+    this.getDoctorSpecialization();
+    this.getState();
+    this.getDocumentTypes();
+    this.getGenderList();
+    this.uploadedFileNames = [];
+    this.controlDetailsForExistenceCheck.forEach(details => {
+      this.checkForEmailExistance(details.controlName, details.type);
+    });
+  }
+
+   randomString(length, chars) {
+    let result = '';
+    for (let i = length; i > 0; --i) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  public handleInitError(error: WebcamInitError): void {
+    if (
+      error.mediaStreamError &&
+      error.mediaStreamError.name === 'NotAllowedError'
+    ) {
+      this.toastrMessage.showWarningMsg(
+        'Camera access was not allowed by user!',
+        'Information'
+      );
+    }
+  }
+
+  triggerSnapshot(): void {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+    this.trigger.next();
+  }
+  
+  onSelectState(value) {
+    if(value) {
+      this.getCity(value);
+    }
+  }
+  handleImage(webcamImage: WebcamImage): void {
+    this.profilePhotoBase64 = webcamImage['_imageAsDataUrl'];
+    this.uploadedImage = this.profilePhotoBase64;
+  }
+
+  public get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+   onClickSwitch() {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+  }
+
+   formValidation() {
+    this.form = this.fb.group({
+      profilePhoto: [''],
+      doctorName: ['', [Validators.required, CustomValidators.fullNameValidator(30)]],
+      mobileNo: ['',[Validators.required, CustomValidators.mobileValidator]],
+      email: ['', [Validators.required, Validators.email,Validators.maxLength(250)]],
+      userName: ['',[ Validators.required, CustomValidators.userNameValidator]],
+      password: ['', [Validators.required, PasswordPatternValidator.strong]],
+      reEnterPassword: ['', Validators.required],
+      captcha: ['', Validators.required],
+      smcNo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      micNo: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
+      consultationFee: ['', [Validators.required, CustomValidators.numberOnlyValidator]],
+      address1: ['', Validators.required],
+      address2: [''],
+      address3: [''],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      gender:['', Validators.required],
+      locality:[''],
+      specialization: ['', Validators.required],
+      filesToUpload: [null],
+      documentType: ['', Validators.required],
+      pre_assessment_link: [''],
+    }, {validator: passwordMatchValidator});
+    this.setPersonalDetails();
+  }
+
+  /* Called on each input in either password field */
+  onPasswordInput() {
+    if (this.form.hasError('passwordMismatch')) {
+      this.form.get('reEnterPassword').setErrors([{'passwordMismatch': true}]);
+    }else {
+      this.form.get('reEnterPassword').setErrors(null);
+    }
+  }
+
+  setPersonalDetails() {
+    this.form.valueChanges.subscribe((value) => {
+      this.personalDataList[0].stepValue = value.doctorName;
+      this.personalDataList[1].stepValue = value.mobileNo;
+      this.personalDataList[2].stepValue = value.email;
+      this.personalDataList[3].stepValue = value.userName;
+      this.personalDataList[4].stepValue = value.smcNo;
+      this.personalDataList[5].stepValue = value.micNo;
+      this.personalDataList[6].stepValue = value.consultationFee;
+      this.personalDataList[7].stepValue = value.specialization;
+      this.personalDataList[8].stepValue = value.filesToUpload;
+      this.personalDataList[9].stepValue = value.gender;
+      this.personalDataList[10].stepValue = value.state;
+      this.personalDataList[11].stepValue = value.city;
+
+    });
+  }
+
+   generateCaptcha() {
+    this.userManagementService.generateCaptcha(this.randomStringForCaptcha).subscribe((result) => {
+        this.createImageFromBlob(result);
+      },(error) => {
+        this.toastrMessage.showErrorMsg(error.message, 'Error');
+      });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.captcha = reader.result;
+      },
+      false
+    );
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  verifyCaptcha() {
+    this.spinner.show();
+    if (this.form.invalid) {
+      this.spinner.hide();
+      this.form.markAllAsTouched();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.DOCREGISTERVALIDATIONMSG, 'Warning');
+      return;
+    } else if(!this.form.get('smcNo').value && !this.form.get('micNo').value) {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELECTSMCMCI, 'Warning');
+      return;
+    } else if(this.form.get('smcNo').value === this.form.get('micNo').value) { 
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SMCMCINOTSAME, 'Warning');
+      return;
+    }else if(!(this.filesArray && this.filesArray.length)) { 
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELCETDOCUMENT, 'Warning');
+      return;
+    }
+    else {
+      console.log("enter in else of verify captcha ")
+      let captcha = this.form.get('captcha').value;
+      this.userManagementService.verifyCaptcha(this.randomStringForCaptcha, captcha).subscribe((result) => {
+          this.spinner.hide();
+          if (result.status) {
+            this.registerDoctor();
+          } else {
+            if (result.errors) {
+              this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+            }
+          }
+        },error => {
+          this.spinner.hide();
+          this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+        });
+     
+    }
+  }
+
+  /**
+   * Used to Login User
+   */
+  registerDoctor() {
+    
+    this.spinner.show();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.spinner.hide();
+      return;
+    } else if(!this.form.get('smcNo').value && !this.form.get('micNo').value) {
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELECTSMCMCI, 'Warning');
+    } else if(this.form.get('smcNo').value === this.form.get('micNo').value) { 
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SMCMCINOTSAME, 'Warning');
+    }else if(!(this.filesArray && this.filesArray.length)) { 
+      this.spinner.hide();
+      this.toastrMessage.showErrorMsg(ErrorSuccessMessage.SELCETDOCUMENT, 'Warning');
+      return;
+    } else {
+      let {
+        profilePhoto,
+        doctorName,
+        mobileNo,
+        email,
+        userName,
+        password,
+        reEnterPassword,
+        captcha,
+        smcNo,
+        micNo,
+        consultationFee,
+        address1,
+        address2,
+        address3,
+        city,
+        state,
+        gender,
+        specialization,
+        pre_assessment_link,
+        filesToUpload,
+      } = this.form.value;
+
+      let payload = {
+        drFullName: doctorName,
+        drMobNo: mobileNo,
+        drEmail: email,
+        drUserID: userName,
+        drPassword: password,
+        drSMCNo: smcNo,
+        drMCINo: micNo,
+        drConsultFee: consultationFee,
+        drSpecilization: specialization,       
+        drGender: gender,        
+        drAddress1: address1,
+        drAddress2: address2,
+        drAddress3: address3,
+        drCity: city,
+        drState: state,
+        captchaCode: this.form.get('captcha').value,
+        sessionId: this.randomStringForCaptcha,
+        drProfilePhoto: this.profilePhotoBase64 ? this.profilePhotoBase64 : '',
+        documents: this.filesArray,
+        drPreassessmentLink: pre_assessment_link
+      };
+      this.userManagementService.registerDoctor(payload, this.uploadedFile).subscribe((result) => {
+        this.spinner.hide();
+          if (result['response'] && result['status'] ) {
+            // this.openDialog(userName, result['response']);
+            let message = "Thank You for registering into TeleMedicine. Your application is pending for verification, you will be able to login once the verification process is completed. You will receive a notification of the same on your registered Email ID / Mobile no."
+            let role = 'doctor';
+            const dialogRef = this.dialog.open(CongratulationsModalComponent, {
+              disableClose: true ,
+              width: '500px',
+              data: {
+                role: role ? role : null,
+                message: message
+              }
+            });
+            this.consultationService.doctorUserID = userName
+              if(role === 'scribe'){
+                this.router.navigate(['appointments']);
+              }else {
+                const slotdialogRef = this.dialog.open(CreateSlotComponent, {
+                  disableClose: true ,
+                  // width: '500px',
+                  data: { type: 'createSlot', userID:userName , role: 'doctor', formValue: this.form, message},
+                });
+
+                slotdialogRef.afterClosed().subscribe((data) => {
+                    this.form.reset();
+                    this.form.markAsPristine();
+                    this.refreshCpacha();
+                    // this.router.navigate(['sign-in']);
+                });
+              }
+          } 
+          if (result['status'] == false) {
+            this.refreshCpacha();
+            this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+          }
+        },error => {
+          this.spinner.hide();
+          this.refreshCpacha();
+          this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+        });
+   
+     
+     }
+  }
+
+  /**
+   * Used to Navigate to OTP Dialog Modal
+   */
+  openDialog(userName, message): void {
+    const dialogRef = this.dialog.open(OtpModalComponent, {
+      disableClose: true ,
+      width: '500px',
+      data: { type: 'doctorRegister', userID: userName , role: 'doctor', formValue: this.form, message},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        this.form.reset();
+        this.form.markAsPristine();
+        this.refreshCpacha();
+        this.router.navigate(['sign-in']);
+    });
+  }
+
+  /**
+   * Used to set selected profile photo
+   */
+  uploadProfilePhoto(event) {
+    let hasImg = event.target.files[0].type.includes('image') ? true : false;
+    let hasSize = event.target.files[0].size <= 1000000 ? true : false; //1000000
+    if(hasImg && hasSize) {
+      const files = event.target.files;
+      const file = files[0];
+      if (files && file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.profilePhotoBase64 = e.target.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+        //  this._handleReaderLoaded(reader);
+      }
+      document
+        .getElementById('ProfilePhoto')
+        .setAttribute('src', window.URL.createObjectURL(event.target.files[0]));
+    }else{
+      if(!hasImg){
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGFORMATE, 'Warning');
+        event.target.files = ''; 
+      }
+      if(!hasSize){
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGSIZE, 'Warning');
+        event.target.files = ''; 
+      }
+    }
+  }
+
+  /**
+   * Used to select profile photo
+   */
+  browse() {
+    document.getElementById("browse").click();
+  }
+
+
+  _handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.result;
+    this.profilePhotoBase64 = btoa(binaryString);
+    return this.profilePhotoBase64;
+  }
+  
+  /**
+   * Used to show Selected Files
+   */
+  showSelectedFiles(event) {
+    let file = event.target.files.length ? event.target.files[0].name ? event.target.files[0].name.toLowerCase() : null : null
+    let fileTypes = ['.pdf','.doc','.docx','.xls','.xlsx','.jpg','.jpeg','.png']
+    let isFile = fileTypes.some(el => file.includes(el));
+    let hasSize = event.target.files[0].size <= 2000000 ? true : false; //1000000
+    
+    if(isFile){
+      if(hasSize){
+        const files = event.target.files;
+        const file = files[0];
+        if (files && file) {
+          for (let file of event.target.files) {
+            this.uploadedFile = event.target.files[0];
+            this.uploadedFileNames.push(file);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              let file = JSON.stringify(e.target.result);
+              let name =  `:${event.target.files[0].name}/${this.form.get('documentType').value};`
+              file = file.replace(/:[a-zA-z]*\/[a-zA-Z-]*;/g, name);
+              this.filesArray.push(
+                {files : file}
+              )
+            };
+            reader.readAsDataURL(event.target.files[0]);
+          }
+        }
+      }else{
+        if(!hasSize){
+          this.toastrMessage.showWarningMsg(ErrorSuccessMessage.FILESIZE, 'Warning');
+          event.target.files = ''; 
+        }
+      }
+    }else{
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.FILEFORMATE, 'Warning');
+    }
+  }
+
+  /**
+   * Delete selected files
+   */
+  removeFiles(index) {
+    this.uploadedFileNames.splice(index, 1);
+    this.filesArray.splice(index, 1);
+  }
+
+  /**
+   * Used to get the CPACHA image from API response
+   */
+  getCpachaImage() {
+    this.generateCaptcha();
+  }
+
+  /**
+   * Used to get New CPACHA image from API response
+   */
+  refreshCpacha() {
+    this.randomStringForCaptcha = this.randomString(
+      10,
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    );
+    this.form.controls['captcha'].setValue(null);
+    this.getCpachaImage();
+  }
+
+  /**
+   * Used to get specialization list 
+   */
+  getDoctorSpecialization() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.SPECIALIZATION).subscribe(result => {
+      if(result.status && result.response){
+        this.specializationList = result.response
+      }else if(result.errors) {
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      // console.log(error["errors"]);
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  getGenderList() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.GENDER).subscribe(result => {
+      if(result.status && result.response){
+        this.genderList = result.response
+      }else if(result.errors) {
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      // console.log(error["errors"]);
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  /**
+   * Used to get State
+  */
+  getState(){
+    this.consultationService.getStateList().subscribe(result => {
+      if(result['status'] && result['response']){
+        this.states = result['response']
+      }else if(result['errors']) {
+        this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+      }
+    },error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  /**
+   * Used to get State
+  */
+  getCity(state){
+    if(state) {
+      this.consultationService.getCityList(state).subscribe(result => {
+        if(result['status'] && result['response']){
+          this.cities = result['response']
+        }else if(result['errors']) {
+          this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+        }
+      },error => {
+        this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+      })
+    }
+  }
+
+  /**
+   * Used to get documentType
+  */
+  getDocumentTypes(){
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.DOCUMENTTYPE).subscribe(result => {
+      if(result.status && result.response){
+        this.documentTypes = result.response
+      }else if(result.errors) {
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+
+  verify(){
+    this.consultationService.verifyDoctor(this.verifyDoc).subscribe(result => {
+
+    })
+  }
+
+  onClickedOutside(e: Event, type) {
+    let value;
+    if(type === 'mobile'){
+	    value = this.form.get('mobileNo').value
+    }else if(type === 'email'){
+	    value = this.form.get('email').value
+    }else if(type === 'userId'){
+	    value = this.form.get('userName').value
+    }
+    if(value){
+      this.consultationService.checkDuplicate(value).subscribe(result => {
+        if(result['response']){
+          if(!result['response'].isavailable){
+            let value;
+            if(type === 'mobile'){
+              this.form.controls['mobileNo'].setValue('');
+            }else if(type === 'email'){
+              this.form.controls['email'].setValue('');
+            }else if(type === 'userId'){
+              this.form.controls['userName'].setValue('');
+            }
+            this.toastrMessage.showErrorMsg( result['response'].message, 'Error');
+          }
+        }else if(result['errors']) {
+          if(type === 'mobile'){
+            this.form.controls['mobileNo'].setValue('');
+          }else if(type === 'email'){
+            this.form.controls['email'].setValue('');
+          }else if(type === 'userId'){
+            this.form.controls['userName'].setValue('');
+          }
+          this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+        }
+      },error => {
+        if(type === 'mobile'){
+          this.form.controls['mobileNo'].setValue('');
+        }else if(type === 'email'){
+          this.form.controls['email'].setValue('');
+        }else if(type === 'userId'){
+          this.form.controls['userName'].setValue('');
+        }
+        this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+      })
+    }
+  }
+
+  /**
+   * Used for Upload Documents
+   */
+  browseFile() {
+    let file = this.form.get('documentType').value
+    if(file){
+      document.getElementById("browseFile").click();
+    }else{
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.SELECTDOCTYPE, 'Warning');
+    }
+  }
+
+  checkForEmailExistance(controlName, type) {
+    this.form.get(controlName).statusChanges
+    .pipe(debounceTime(2000))
+    .subscribe(
+      status => {
+        if(status === 'VALID') {
+          const data = {
+            request : {[type]: this.form.get(controlName).value}
+          };
+          this.consultationService.checkDuplicate(data).subscribe(result => {
+            if (!result['response'].isavailable) {
+              this.form.get(controlName).setValue('');
+              this.toastrMessage.showErrorMsg( result['response'].message, 'Error');
+            }else if(result['errors']) {
+                  this.toastrMessage.showErrorMsg( result['errors'][0].message, 'Error');
+            }
+          },error => {
+              this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+          })
+        }
+      }
+    )
+  }
+
+  reset() {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.refreshCpacha();
+  }
+
+  onClickCancel(){
+    // this.router.navigate(['']);
+    this.router.navigate(['sign-in']);
+    // this.userManagementService.signOut().subscribe(result => {
+    //   if(result && result.response) {
+    //     sessionStorage.clear();
+    //     this.router.navigate(['']);
+    //     this.datapassingService.scribeList = [];
+    //   }else if(result && result.errors){
+    //     alert(result.errors[0].message)
+    //   }
+    // })
+  }
+}
+

@@ -1,0 +1,101 @@
+<div class="doctor-detils-wrapper" *ngIf="dataSource != null">
+    <div class="details-wrap mt-4">
+        <div class="row doctor-header m-3">
+            <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                <div class="profile-wrapper">
+                    <img [src]="dataSource.drdPhotoPath ? dataSource.drdPhotoPath : 'assets/images/img_avatar.png'" alt="doctor-profle">
+                </div>
+            </div>
+            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <h2 class="text-danger">{{dataSource.drdDrName}}</h2>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div>
+                            <span>{{'lblSMCNo' | l10n}} </span><span class="pr-1">{{dataSource.drdSmcNumber}} </span>|
+                            <span>{{'lblMICNo' | l10n}}</span><span class="pl-1"> {{dataSource.drdMciNumber}}</span>
+                        </div>
+                    </div>
+                </div>
+                <p><span>{{'lblMobileNumber'| l10n}} :</span><span class="pr-1">{{dataSource.drdMobileNo}}</span>|
+                    <span class="pl-1">{{'lblEmailId'| l10n}} :</span>{{dataSource.drdEmail}}
+                </p>
+                <h2>{{'lblconsultationFees' | l10n}} <span class="mr-2">{{dataSource.drdConsulFee}}</span>&#8377;</h2>
+            </div>
+        </div>
+        <div class="upload-wrap m-3 px-3">
+            <div>
+                <h2 class="text-secondary">Uploaded Documents</h2>
+            </div>
+            <table mat-table  [dataSource]="dataSource.drDocsDtls" class="w-100">
+                <!-- Document Name -->
+                <ng-container matColumnDef="Document Name">
+                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"> Document Name</th>
+                    <td mat-cell *matCellDef="let element" class="docName pl-0"> {{element.ddtDocsName}} </td>
+                </ng-container>
+                <!-- Status -->
+                <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"> Document Type</th>
+                    <td mat-cell *matCellDef="let element" class="status"> {{element.ddtDocsType}} </td>
+                </ng-container>
+                <!-- visibiltiy -->
+                <ng-container matColumnDef="Visibility">
+                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"></th>
+                    <td mat-cell *matCellDef="let element" class="action"> 
+                        <i *ngIf="element.verify" matSuffix class="fa fa-eye eye-icon text-secondary cursor-details"></i>
+                        <!-- <mat-icon *ngIf="element.verify" matSuffix class="text-secondary" >visibility</mat-icon> -->
+                        <button *ngIf="!element.verify" class="btn-sm btn-view customBackgroundGreen" (click)="downloadAndView(element)">View</button>
+                    </td>
+                </ng-container>
+                <!-- todo: downlowad icon -->
+                <ng-container matColumnDef="Upgrade">
+                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0"></th>
+                    <td mat-cell *matCellDef="let element" class="action"> 
+                        <i matSuffix (click)="download(element)" class="fa fa-download  text-secondary cursor-details"></i>
+                        <!-- <mat-icon matSuffix class="text-secondary" (click)="download(element)">get_app</mat-icon> -->
+                    </td>
+                </ng-container>
+                <!-- delete -->
+                <!-- <ng-container matColumnDef="Delete">
+                    <th mat-header-cell *matHeaderCellDef class="border-bottom-0 pl-0 pb-0 pr-0"></th>
+                    <td mat-cell *matCellDef="let element" class="action pr-0"> 
+                        <mat-icon matSuffix class="text-secondary">delete</mat-icon>
+                    </td>
+                </ng-container> -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="border-bottom-0 pl-0 pb-0"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div class="text-right mt-4">
+                <button class="btn btn-verify btn-outline-danger mr-4" (click)="notVerify(reason)">Not Verify</button>
+                <button class="btn btn-verify btnColor" (click)="verifyDoc('Y')">Verify</button> 
+            </div>
+
+        </div>
+    </div>
+</div>
+<ng-template #reason let-modal>
+    <div class="model-wrapper">  
+        <div class="modal-header">
+        <h2 class="modal-title">Reason Of Rejection</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body px-4" [formGroup]="reasonGroup"> 
+            <div class="row">
+                <div class="col-sm 12">
+                    <label>Enter reason of rejection</label>
+                    <textarea rows='8' formControlName="reason"></textarea>
+                    <div class="feedback" *ngIf="reasonGroup.get('reason').errors && (reasonGroup.get('reason').touched || reasonGroup.get('reason').dirty)" >
+                        <p *ngIf="reasonGroup.get('reason').errors.required">Reason is required</p>
+                        <p *ngIf="reasonGroup.get('reason').errors.maxlength">200 characters are allowed</p>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btnColor" (click)="verifyDoc('N')">Submit</button>
+        </div>
+    </div>
+</ng-template>

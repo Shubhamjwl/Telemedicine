@@ -1,0 +1,73 @@
+package com.nsdl.ndhm.healthinfo.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.RespDTO;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.healthinfo.dto.HiRequest;
+import com.nsdl.ndhm.healthinfo.dto.HipRequestDTO;
+import com.nsdl.ndhm.healthinfo.dto.OnHipRespDTO;
+import com.nsdl.ndhm.healthinfo.service.HealthInfoService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+@Service
+@LoggingClientInfo
+public class HealthInfoServiceImpl implements HealthInfoService {
+    private static final Logger logger = LoggerFactory.getLogger(HealthInfoServiceImpl.class);
+
+    @Autowired
+    CommonHeadersUtil commonHeadersUtil;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${onRequest}")
+    String onRequest;
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+    @Override
+    public ResponseEntity<String> hipOnRequest(HipRequestDTO hipRequestDTO) {
+        logger.info("Request Receives for hipOnRequest Starts");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        String uuid = UUID.randomUUID().toString();
+        ZonedDateTime now = ZonedDateTime.now();
+
+        String url = onRequest;
+        ResponseEntity<String> result = null;
+        URI uri;
+
+        OnHipRespDTO onHipRespDTO = OnHipRespDTO.builder()
+                .requestId(uuid)
+                .timestamp(formatter.format(now))
+                .hiRequest(HiRequest.builder()
+                        .transactionId(hipRequestDTO.getTransactionId())
+                        .sessionStatus("ACKNOWLEDGED").build())
+                .resp(RespDTO.builder().requestId(hipRequestDTO.getRequestId()).build())
+                .build();
+
+        try {
+            uri = new URI(url);
+            String encryptedString = new Gson().toJson(onHipRespDTO);
+            HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+                    commonHeadersUtil.getHeadersWithXCmIdFromServer());
+            result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+        } catch (Exception e) {
+            logger.error("Error is in hipOnRequest {}",e.getMessage());
+        }
+        return null;
+    }
+}

@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { LayoutRouteGuard } from 'src/app/shared/guards/layout-route-guard';
+import { ResetChangePasswordComponent } from './reset-change-password/reset-change-password.component';
+import { TmResetChangePasswordComponent } from './tm-reset-change-password/tm-reset-change-password.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: TmResetChangePasswordComponent,
+    canActivate: [LayoutRouteGuard]
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class ChangePasswordRoutingModule { }

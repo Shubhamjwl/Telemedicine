@@ -1,0 +1,55 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def mastermanagVersion
+   stage ('create Image Version'){
+   mastermanagVersion = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('tele_uat/mastermanagservice', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'tele_uat') {
+           dockerImage.push "${mastermanagVersion}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi tele_uat/mastermanagservice"
+       sh "docker rmi 172.16.11.166:37719/tele_uat/mastermanagservice:${mastermanagVersion}"
+       }
+
+   stage('run in 172.19.65.128') {
+         sshagent (credentials: ['nsdl']) {
+       sh "echo 'mastermanagVersion=${mastermanagVersion}' > .env"
+       sh "scp -o StrictHostKeyChecking=no .env mosip@172.19.75.247:/var/workspace/telemedicine"
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.19.75.247 /var/workspace/telemedicine/helper/mastermanag.sh"
+         }
+       }              
+       
+   }
+

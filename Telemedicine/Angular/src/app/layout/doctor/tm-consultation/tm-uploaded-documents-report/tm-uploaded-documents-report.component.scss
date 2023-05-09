@@ -1,0 +1,31 @@
+mat-cell {
+  font-size: 13px;
+  letter-spacing: 0.9px;
+  font-weight: normal;
+}
+
+.refresh {
+  width: 15px;
+  filter: brightness(0) invert(1);
+  display: inline;
+  margin-left: 5px;
+}
+
+@media (max-width: 480px) {
+  mat-header-cell {
+    font-size: 9px !important;
+    font-weight: 200 !important;
+    padding-right: 24px;
+  }
+
+  mat-cell {
+    font-size: 9px;
+    letter-spacing: normal;
+    word-break: break-all;
+    padding-right: 24px;
+
+    img {
+      max-width: 20px;
+    }
+  }
+}

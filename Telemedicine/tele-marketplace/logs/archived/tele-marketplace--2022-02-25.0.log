@@ -1,0 +1,257 @@
+  [2022-02-25 15:28:50,820], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$71adac0e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:28:51,243], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-25 15:28:53,102], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator log | Located environment: name=tele-marketplace, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-25 15:28:53,107], , [main], tele-marketplace, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-25 15:28:53,180], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-25 15:28:55,042], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-25 15:28:55,142], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 87ms. Found 4 repository interfaces.
+  [2022-02-25 15:28:55,518], , [main], tele-marketplace, INFO  GenericScope setSerializationId | BeanFactory id=39779bc2-06d6-3359-9b25-ab0690e57c08
+  [2022-02-25 15:28:55,982], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$5593a911] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:28:56,028], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$71adac0e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:28:56,791], , [main], tele-marketplace, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7088 (http)
+  [2022-02-25 15:28:56,813], , [main], tele-marketplace, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 15:28:56,829], , [main], tele-marketplace, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-25 15:28:56,830], , [main], tele-marketplace, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-25 15:28:56,843], , [main], tele-marketplace, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-25 15:28:57,046], , [main], tele-marketplace, INFO  [/marketplace/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-25 15:28:57,047], , [main], tele-marketplace, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3851 ms
+  [2022-02-25 15:28:57,640], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-25 15:28:59,342], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-25 15:28:59,557], , [main], tele-marketplace, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-25 15:28:59,805], , [main], tele-marketplace, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-25 15:28:59,807], , [main], tele-marketplace, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-25 15:29:00,058], , [main], tele-marketplace, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-25 15:29:00,314], , [main], tele-marketplace, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-25 15:29:00,342], , [main], tele-marketplace, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-25 15:29:00,352], , [main], tele-marketplace, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1ed12d10
+  [2022-02-25 15:29:12,695], , [main], tele-marketplace, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-25 15:29:13,308], , [main], tele-marketplace, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-25 15:29:14,242], , [main], tele-marketplace, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-25 15:29:14,348], , [main], tele-marketplace, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-25 15:29:14,838], , [main], tele-marketplace, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-02-25 15:29:15,417], , [main], tele-marketplace, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 15:29:15,479], , [main], tele-marketplace, INFO  TomcatWebServer start | Tomcat started on port(s): 7088 (http) with context path '/marketplace/v1'
+  [2022-02-25 15:29:15,660], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStarted | Started TeleMarketplaceApplication in 26.084 seconds (JVM running for 28.738)
+6008fa313e7e0db5 6008fa313e7e0db5 [2022-02-25 15:30:00,082], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T15:30:00.081890100
+  [2022-02-25 15:43:57,785], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$dfe7afa1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:43:58,333], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-25 15:44:00,711], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator log | Located environment: name=tele-marketplace, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-25 15:44:00,711], , [main], tele-marketplace, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-25 15:44:00,775], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-25 15:44:01,619], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-25 15:44:01,724], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 92ms. Found 4 repository interfaces.
+  [2022-02-25 15:44:02,077], , [main], tele-marketplace, INFO  GenericScope setSerializationId | BeanFactory id=39779bc2-06d6-3359-9b25-ab0690e57c08
+  [2022-02-25 15:44:02,479], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c3cdaca4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:44:02,526], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$dfe7afa1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 15:44:03,184], , [main], tele-marketplace, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7088 (http)
+  [2022-02-25 15:44:03,217], , [main], tele-marketplace, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 15:44:03,251], , [main], tele-marketplace, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-25 15:44:03,252], , [main], tele-marketplace, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-25 15:44:03,270], , [main], tele-marketplace, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-25 15:44:03,460], , [main], tele-marketplace, INFO  [/marketplace/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-25 15:44:03,461], , [main], tele-marketplace, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2668 ms
+  [2022-02-25 15:44:04,178], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-25 15:44:05,790], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-25 15:44:06,035], , [main], tele-marketplace, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-25 15:44:06,281], , [main], tele-marketplace, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-25 15:44:06,285], , [main], tele-marketplace, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-25 15:44:06,748], , [main], tele-marketplace, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-25 15:44:07,128], , [main], tele-marketplace, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-25 15:44:07,163], , [main], tele-marketplace, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-25 15:44:07,173], , [main], tele-marketplace, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@e2f6e13
+  [2022-02-25 15:44:19,924], , [main], tele-marketplace, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-25 15:44:20,473], , [main], tele-marketplace, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-25 15:44:21,348], , [main], tele-marketplace, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-25 15:44:21,474], , [main], tele-marketplace, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-25 15:44:21,789], , [main], tele-marketplace, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-02-25 15:44:22,292], , [main], tele-marketplace, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 15:44:22,341], , [main], tele-marketplace, INFO  TomcatWebServer start | Tomcat started on port(s): 7088 (http) with context path '/marketplace/v1'
+  [2022-02-25 15:44:22,517], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStarted | Started TeleMarketplaceApplication in 25.785 seconds (JVM running for 29.06)
+110a8c70a0343d39 110a8c70a0343d39 [2022-02-25 15:45:00,120], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T15:45:00.120255200
+  [2022-02-25 16:30:22,453], , [HikariPool-1 housekeeper], tele-marketplace, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=23m46s236ms814µs500ns).
+  [2022-02-25 16:33:51,159], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aeceba0a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:33:51,510], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-25 16:33:53,242], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator log | Located environment: name=tele-marketplace, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-25 16:33:53,243], , [main], tele-marketplace, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-25 16:33:53,313], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-25 16:33:54,107], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-25 16:33:54,258], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 137ms. Found 4 repository interfaces.
+  [2022-02-25 16:33:54,698], , [main], tele-marketplace, INFO  GenericScope setSerializationId | BeanFactory id=39779bc2-06d6-3359-9b25-ab0690e57c08
+  [2022-02-25 16:33:55,146], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$92b4b70d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:33:55,192], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aeceba0a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:33:55,808], , [main], tele-marketplace, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7088 (http)
+  [2022-02-25 16:33:55,831], , [main], tele-marketplace, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:33:55,842], , [main], tele-marketplace, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-25 16:33:55,843], , [main], tele-marketplace, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-25 16:33:55,854], , [main], tele-marketplace, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-25 16:33:56,019], , [main], tele-marketplace, INFO  [/marketplace/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-25 16:33:56,020], , [main], tele-marketplace, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2688 ms
+  [2022-02-25 16:33:56,615], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-25 16:33:57,726], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-25 16:33:57,920], , [main], tele-marketplace, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-25 16:33:58,048], , [main], tele-marketplace, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-25 16:33:58,051], , [main], tele-marketplace, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-25 16:33:58,370], , [main], tele-marketplace, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-25 16:33:58,602], , [main], tele-marketplace, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-25 16:33:58,628], , [main], tele-marketplace, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-25 16:33:58,638], , [main], tele-marketplace, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@50ef2906
+  [2022-02-25 16:34:08,452], , [main], tele-marketplace, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-25 16:34:09,025], , [main], tele-marketplace, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-25 16:34:09,898], , [main], tele-marketplace, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-25 16:34:09,989], , [main], tele-marketplace, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-25 16:34:10,228], , [main], tele-marketplace, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-02-25 16:34:10,732], , [main], tele-marketplace, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:34:10,782], , [main], tele-marketplace, INFO  TomcatWebServer start | Tomcat started on port(s): 7088 (http) with context path '/marketplace/v1'
+  [2022-02-25 16:34:10,952], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStarted | Started TeleMarketplaceApplication in 20.957 seconds (JVM running for 23.774)
+3039b9e61e9e5289 3039b9e61e9e5289 [2022-02-25 16:35:00,071], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T16:35:00.071000100
+3039b9e61e9e5289 3039b9e61e9e5289 [2022-02-25 16:37:22,284], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler stopped at 2022-02-25T16:37:22.284422400
+  [2022-02-25 16:40:21,366], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a4bc84ab] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:40:21,683], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-25 16:40:22,416], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator log | Located environment: name=tele-marketplace, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-25 16:40:22,417], , [main], tele-marketplace, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-25 16:40:22,492], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-25 16:40:23,081], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-25 16:40:23,160], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 71ms. Found 4 repository interfaces.
+  [2022-02-25 16:40:23,520], , [main], tele-marketplace, INFO  GenericScope setSerializationId | BeanFactory id=39779bc2-06d6-3359-9b25-ab0690e57c08
+  [2022-02-25 16:40:23,819], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$88a281ae] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:40:23,858], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a4bc84ab] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:40:24,447], , [main], tele-marketplace, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7088 (http)
+  [2022-02-25 16:40:24,468], , [main], tele-marketplace, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:40:24,480], , [main], tele-marketplace, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-25 16:40:24,481], , [main], tele-marketplace, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-25 16:40:24,493], , [main], tele-marketplace, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-25 16:40:24,649], , [main], tele-marketplace, INFO  [/marketplace/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-25 16:40:24,649], , [main], tele-marketplace, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2139 ms
+  [2022-02-25 16:40:25,138], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-25 16:40:26,260], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-25 16:40:26,357], , [main], tele-marketplace, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-25 16:40:26,507], , [main], tele-marketplace, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-25 16:40:26,509], , [main], tele-marketplace, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-25 16:40:26,819], , [main], tele-marketplace, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-25 16:40:27,041], , [main], tele-marketplace, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-25 16:40:27,063], , [main], tele-marketplace, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-25 16:40:27,070], , [main], tele-marketplace, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@22f046b
+  [2022-02-25 16:40:37,646], , [main], tele-marketplace, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-25 16:40:38,135], , [main], tele-marketplace, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-25 16:40:38,882], , [main], tele-marketplace, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-25 16:40:38,965], , [main], tele-marketplace, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-25 16:40:39,210], , [main], tele-marketplace, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-02-25 16:40:39,658], , [main], tele-marketplace, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:40:39,733], , [main], tele-marketplace, INFO  TomcatWebServer start | Tomcat started on port(s): 7088 (http) with context path '/marketplace/v1'
+  [2022-02-25 16:40:39,902], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStarted | Started TeleMarketplaceApplication in 19.517 seconds (JVM running for 21.362)
+bb0ae40f0bc7fd38 bb0ae40f0bc7fd38 [2022-02-25 16:45:00,088], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T16:45:00.088151700
+  [2022-02-25 16:53:40,677], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a267edc1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:53:41,113], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-25 16:53:41,783], , [main], tele-marketplace, INFO  ConfigServicePropertySourceLocator log | Located environment: name=tele-marketplace, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-02-25 16:53:41,784], , [main], tele-marketplace, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-25 16:53:41,844], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-25 16:53:42,467], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-02-25 16:53:42,554], , [main], tele-marketplace, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 79ms. Found 4 repository interfaces.
+  [2022-02-25 16:53:42,959], , [main], tele-marketplace, INFO  GenericScope setSerializationId | BeanFactory id=39779bc2-06d6-3359-9b25-ab0690e57c08
+  [2022-02-25 16:53:43,283], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$864deac4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:53:43,325], , [main], tele-marketplace, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a267edc1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-25 16:53:43,963], , [main], tele-marketplace, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7088 (http)
+  [2022-02-25 16:53:43,986], , [main], tele-marketplace, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:53:43,997], , [main], tele-marketplace, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-25 16:53:43,998], , [main], tele-marketplace, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-02-25 16:53:44,010], , [main], tele-marketplace, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-02-25 16:53:44,195], , [main], tele-marketplace, INFO  [/marketplace/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-25 16:53:44,195], , [main], tele-marketplace, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2337 ms
+  [2022-02-25 16:53:44,808], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-25 16:53:45,830], , [main], tele-marketplace, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-25 16:53:45,941], , [main], tele-marketplace, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-02-25 16:53:46,130], , [main], tele-marketplace, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-02-25 16:53:46,133], , [main], tele-marketplace, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-02-25 16:53:46,821], , [main], tele-marketplace, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-02-25 16:53:47,120], , [main], tele-marketplace, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-25 16:53:47,148], , [main], tele-marketplace, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-02-25 16:53:47,158], , [main], tele-marketplace, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@18b30951
+  [2022-02-25 16:53:56,803], , [main], tele-marketplace, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-25 16:53:57,309], , [main], tele-marketplace, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-02-25 16:53:58,138], , [main], tele-marketplace, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-25 16:53:58,242], , [main], tele-marketplace, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-25 16:53:58,506], , [main], tele-marketplace, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-02-25 16:53:58,993], , [main], tele-marketplace, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7088"]
+  [2022-02-25 16:53:59,035], , [main], tele-marketplace, INFO  TomcatWebServer start | Tomcat started on port(s): 7088 (http) with context path '/marketplace/v1'
+  [2022-02-25 16:53:59,196], , [main], tele-marketplace, INFO  TeleMarketplaceApplication logStarted | Started TeleMarketplaceApplication in 19.705 seconds (JVM running for 21.714)
+853c88b1162d4e14 853c88b1162d4e14 [2022-02-25 16:55:00,239], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T16:55:00.238737300
+  [2022-02-25 16:55:51,605], , [scheduling-1], tele-marketplace, ERROR TaskUtils$LoggingErrorHandler handleError | Unexpected error occurred in scheduled task.
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://14.140.81.157/index.php": Connection timed out: connect; nested exception is java.net.ConnectException: Connection timed out: connect
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:744)
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:710)
+	at org.springframework.web.client.RestTemplate.postForEntity(RestTemplate.java:463)
+	at com.nsdl.telemedicine.scheduler.SchedulerUtils.getApiToken(SchedulerUtils.java:143)
+	at com.nsdl.telemedicine.scheduler.SchedulerUtils.scheduleTaskUsingCronExpression(SchedulerUtils.java:63)
+	at com.nsdl.telemedicine.scheduler.SchedulerUtils$$FastClassBySpringCGLIB$$da02cf9f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at org.springframework.cloud.sleuth.instrument.scheduling.TraceSchedulingAspect.traceBackgroundThread(TraceSchedulingAspect.java:73)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.nsdl.telemedicine.scheduler.SchedulerUtils$$EnhancerBySpringCGLIB$$6ae04cd.scheduleTaskUsingCronExpression(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:84)
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:93)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:574)
+	at java.base/sun.nio.ch.Net.connect(Net.java:563)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:588)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at java.base/java.net.Socket.connect(Socket.java:597)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:242)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1261)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1194)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1082)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1016)
+	at org.springframework.http.client.SimpleBufferingClientHttpRequest.executeInternal(SimpleBufferingClientHttpRequest.java:76)
+	at org.springframework.http.client.AbstractBufferingClientHttpRequest.executeInternal(AbstractBufferingClientHttpRequest.java:48)
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:53)
+	at org.springframework.http.client.InterceptingClientHttpRequest$InterceptingRequestExecution.execute(InterceptingClientHttpRequest.java:108)
+	at brave.spring.web.TracingClientHttpRequestInterceptor.intercept(TracingClientHttpRequestInterceptor.java:51)
+	at org.springframework.cloud.sleuth.instrument.web.client.LazyTracingClientHttpRequestInterceptor.intercept(TraceWebClientAutoConfiguration.java:307)
+	at org.springframework.http.client.InterceptingClientHttpRequest$InterceptingRequestExecution.execute(InterceptingClientHttpRequest.java:92)
+	at org.springframework.http.client.InterceptingClientHttpRequest.executeInternal(InterceptingClientHttpRequest.java:76)
+	at org.springframework.http.client.AbstractBufferingClientHttpRequest.executeInternal(AbstractBufferingClientHttpRequest.java:48)
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:53)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:735)
+	... 35 common frames omitted
+f5e23c7d2debe44f f5e23c7d2debe44f [2022-02-25 17:00:00,009], , [scheduling-1], tele-marketplace, INFO  SchedulerUtils scheduleTaskUsingCronExpression | scheduler running at 2022-02-25T17:00:00.009393900
+  [2022-02-25 18:54:30,233], , [HikariPool-1 housekeeper], tele-marketplace, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56m43s147ms213µs400ns).
+  [2022-02-25 19:40:33,553], , [HikariPool-1 housekeeper], tele-marketplace, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=45m32s740ms368µs400ns).

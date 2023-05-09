@@ -1,0 +1,198 @@
+<div class="verify-main-div">
+    <form [formGroup]="verifyForm">
+        <div class="container">
+            <div class="row single-row">
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Patient's Full Name<sup>*</sup></label><br>
+                        <input type="text" formControlName="firstName" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('firstName').errors && (verifyForm.get('firstName').touched || verifyForm.get('firstName').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('firstName').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('firstName').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('firstName').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Middle Name</label><br>
+                        <input type="text" formControlName="middleName" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('middleName').errors && (verifyForm.get('middleName').touched || verifyForm.get('middleName').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('middleName').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('middleName').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('middleName').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Last Name</label><br>
+                        <input type="text" formControlName="lastName" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('lastName').errors && (verifyForm.get('lastName').touched || verifyForm.get('lastName').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('lastName').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('lastName').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('lastName').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row single-row">
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Mobile Number<sup>*</sup></label><br>
+                        <input type="text" formControlName="mobile" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('mobile').errors && (verifyForm.get('mobile').touched || verifyForm.get('mobile').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('mobile').errors.required">{{ 'errMobileRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('mobile').errors.maxlength">{{ 'errMobileMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('mobile').errors.pattern">{{ 'errMobilePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Email ID<sup>*</sup></label><br>
+                        <input type="text" formControlName="email" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('email').errors && (verifyForm.get('email').touched || verifyForm.get('email').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('email').errors.required">{{ 'errEmailRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('email').errors.email">{{ 'errEmailPattern' | l10n }}</span>
+                            <span *ngIf="!verifyForm.get('email').errors.email && form.get('email').errors.maxlength">{{
+                            'errEmailMaxlength' | l10n
+                            }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Gender<sup>*</sup></label><br>
+                        <select type="text" formControlName="gender">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="T">Transgender</option>
+                        </select>
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('gender').errors && (verifyForm.get('gender').touched || verifyForm.get('gender').dirty)
+                            "
+                        >
+                            <span *ngIf="verifyForm.get('gender').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('gender').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('gender').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row single-row">
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Date of Birth</label>
+                        <input type="text" class="col-10" formControlName="dob" [matDatepicker]="picker" (dateChange)="changeDate($event)" />
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                            <mat-icon matDatepickerToggleIcon>
+                            <img src="assets/img/date-of-birth-small.svg" />
+                            </mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">Address</label><br>
+                        <input type="text" formControlName="address" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('address').errors && (verifyForm.get('address').touched || verifyForm.get('address').dirty)
+                            "
+                        >
+                           
+                            <span *ngIf="verifyForm.get('address').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('address').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('address').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md"></div>
+            </div>
+
+            <div class="row single-row">
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">ABHA Number</label><br>
+                        <input type="text" formControlName="healthIdNumber" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('healthIdNumber').errors && (verifyForm.get('healthIdNumber').touched || verifyForm.get('healthIdNumber').dirty)
+                            "
+                        >
+                           
+                            <span *ngIf="verifyForm.get('healthIdNumber').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('healthIdNumber').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('healthIdNumber').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="input-group half-col right">
+                        <label class="label-text">ABHA Address<sup>*</sup></label><br>
+                        <input type="text" formControlName="healthId" autocomplete="off" />
+            
+                        <mat-error
+                            class="ml-1"
+                            *ngIf="
+                            verifyForm.get('healthId').errors && (verifyForm.get('healthId').touched || verifyForm.get('healthId').dirty)
+                            "
+                        >
+                           
+                            <span *ngIf="verifyForm.get('healthId').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('healthId').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                            <span *ngIf="verifyForm.get('healthId').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="col-md"></div>
+            </div>
+        </div>
+        <div class="btn-area">
+            <button type="button" class="submit-main-btn submit-main-btn2 mr-2"
+                (click)="onClickSubmit()">Submit</button>
+            <button type="button" class="submit-main-btn submit-main-btn2" (click)="onClickCancel()">Cancel</button>
+        </div>
+    </form>
+</div>

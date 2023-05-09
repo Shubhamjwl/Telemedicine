@@ -1,0 +1,28 @@
+<!-- <div>     
+    <ngx-spinner>
+        <p class="loading">Loading...</p>
+    </ngx-spinner> 
+
+    <div class="row close float-right ml-3">
+        <button mat-button [mat-dialog-close]="data" cdkFocusInitial type="button">×</button>
+    </div>  
+    
+    <br>
+    <div>
+        <label id="example-radio-group-label">Payment Options : </label>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPayOption">
+        <mat-radio-button class="example-radio-button" *ngFor="let option of paymentOptions" checked [value]="option.name">
+            {{option.name}}
+        </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div>
+        <div class="float-right">
+            <button [disabled]="!selectedPayOption" type="button" class="btn btnColor" (click) = "onClickConfirmPayment()">Confirm</button>
+        </div>
+    </div>
+</div> -->
+<div *ngIf = "isOnlinePayment">
+    <app-razorpay-payment-gateway></app-razorpay-payment-gateway>
+</div>

@@ -1,0 +1,223 @@
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { PrescriptionDataSharingService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/PrescriptionDataSharingService';
+
+@Component({
+  selector: 'app-diagnostic-support',
+  templateUrl: './diagnostic-support.component.html',
+  styleUrls: ['./diagnostic-support.component.scss'],
+})
+export class DiagnosticSupportComponent implements OnInit {
+  public filteredSymptomsMulti: BehaviorSubject<any> = new BehaviorSubject<any>(
+    []
+  );
+  public filteredDiagnosisMulti = [];
+
+  protected _onDestroy = new Subject<void>();
+
+  symptomDetails = new FormControl([]);
+  diagnosisDetails = new FormControl([]);
+  medicineDetails = new FormControl([]);
+  adviceDetails = new FormControl([]);
+  value = 'Clear';
+  form: FormGroup;
+  public alteredArray: string[] = [];
+  constructor(
+    private fb: FormBuilder,
+    private consultationService: ConsultationService,
+    private prescriptionDataSharingService: PrescriptionDataSharingService,
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.form = this.fb.group({
+      symptomName: new FormControl(),
+    });
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
+  profilePhotoBase64;
+  ngOnInit(): void {
+    this.getPrescriptionDetails();
+
+    // pass data to consultation component on value change
+    this.symptomDetails.valueChanges.subscribe(() => {
+      this.prescriptionDataSharingService.symptomDetailsChangedEvent(
+        Array.prototype.map
+          .call(this.symptomDetails.value, function (item) {
+            return item.name;
+          })
+          .join(', ')
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  getPrescriptionDetails() {
+    this.consultationService.getSymptomsDetails().subscribe((result) => {
+      let res = result['response'];
+      this.filteredSymptomsMulti.next(res.slice());
+
+      // set selected symptoms into form
+      let selectedSymptoms = JSON.parse(
+        localStorage.getItem('selectedSymptoms')
+      );
+      if (selectedSymptoms !== null) {
+        const selectedSymptomsIds = selectedSymptoms.map(
+          (element) => element.id
+        );
+        let alteredArray = res.filter((option) => {
+          if (selectedSymptomsIds.includes(option.id)) {
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional symptom entered by doctor
+        selectedSymptoms.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.symptomDetails.setValue(alteredArray);
+      }
+      // listen for search field value changes
+      this.form.controls.symptomName.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterDetails(
+            res,
+            this.form.controls.symptomName.value,
+            this.filteredSymptomsMulti
+          );
+        });
+    });
+
+    this.consultationService.getDiagnosisDetails().subscribe((result) => {
+      let res = result['response'];
+      //  this.filteredDiagnosisMulti.next(res.slice());
+
+      // set selected diagnosis into form
+      let selectedDiagnosis = JSON.parse(
+        localStorage.getItem('selectedDiagnosis')
+      );
+      if (selectedDiagnosis !== null) {
+        const selectedDiagnosisIds = selectedDiagnosis.map(
+          (element) => element.id
+        );
+        let alteredArray = res.filter((option) => {
+          if (selectedDiagnosisIds.includes(option.id)) {
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional diagnosis entered by doctor
+        selectedDiagnosis.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.diagnosisDetails.setValue(alteredArray);
+      }
+    });
+  }
+
+  protected filterDetails(
+    details: any,
+    searchValue: string,
+    subject: BehaviorSubject<any>
+  ) {
+    if (!details) {
+      return;
+    }
+
+    if (!searchValue) {
+      subject.next(details.slice());
+      this.sort(subject);
+      return;
+    } else {
+      searchValue = searchValue.toLowerCase();
+    }
+    // filter the details
+    subject.next(
+      details.filter(
+        (obj) => obj.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
+      )
+    );
+    this.sort(subject);
+  }
+
+  sort(subject: BehaviorSubject<any>) {
+    subject.getValue().sort(function (x, y) {
+      return x.ruleEngineData === y.ruleEngineData
+        ? 0
+        : x.ruleEngineData
+        ? -1
+        : 1;
+    });
+  }
+
+  displayFn = (): string => '';
+
+  symptomOptionClicked = (event: Event, data: any): void => {
+    event.stopPropagation();
+    this.symptomToggleSelection(data);
+  };
+
+  symptomToggleSelection = (data: any): void => {
+    data.selected = !data.selected;
+    if (data.selected === true) {
+      this.alteredArray = this.symptomDetails.value;
+      this.alteredArray.push(data);
+    } else {
+      this.alteredArray = this.symptomDetails.value.filter((option) => {
+        return option.id !== data.id;
+      });
+    }
+
+    if (this.alteredArray?.length) {
+      this.symptomDetails.setValue(this.alteredArray);
+      this.setRuleEngineData();
+    } else {
+      this.symptomDetails.setValue([]);
+      this.filteredDiagnosisMulti = [];
+    }
+  };
+
+  private setRuleEngineData() {
+    let selectedSymptomIds = Array.prototype.map
+      .call(this.symptomDetails.value, (s) => s.id)
+      .toString();
+    if (selectedSymptomIds === '') {
+      return;
+    }
+
+    this.consultationService
+      .getSearchEngineDetailsBySymtpoms(selectedSymptomIds)
+      .subscribe((result) => {
+        let ruleEngineData = result['response'];
+        this.filteredDiagnosisMulti = ruleEngineData.diagnosisDetails;
+      });
+  }
+
+  /*  to clear the symptoms  */
+  clearSym() {
+    this.filteredDiagnosisMulti = [];
+    this.symptomDetails.setValue([]);
+    this.form.reset();
+    let symptoms = this.filteredSymptomsMulti.value;
+    symptoms = (symptoms || []).map((s: any) => {
+      return { ...s, selected: false };
+    });
+    this.filteredSymptomsMulti.next(symptoms);
+  }
+}

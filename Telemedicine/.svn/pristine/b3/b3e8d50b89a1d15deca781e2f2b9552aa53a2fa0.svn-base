@@ -1,0 +1,327 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar">
+    <span class="navbar-brand logo-Wrapper" >
+      <img src="assets/images/ProteanClinic8.png" alt="logo" style="margin: 0 0 0px 0;">
+      <!-- <img src="assets/images/Protean_Clinic_7.png" alt="logo"> -->
+    </span>
+    
+  </nav>
+<div class="book-appointmnet-wrapper">
+    <div class="container-fluid">
+        <div class="appointment-wrapper mt-4">
+            <form [formGroup]="appointmentFormGroup">
+                <div class="row m-2">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 clearfix"
+                        *ngFor="let doctorDetails of doctorListBySpeciality">
+                        <div class="float-left mr-4">
+                            <div class="profile-wrapper">
+                                <img [src]="doctorDetails.drProfilePhoto" alt="doctor-profle" class="rounded-circle">
+                            </div>
+                        </div>
+
+                        <div class="doc-info">
+                            <title class="text-danger details" *ngIf="doctorDetails.doctorName">Dr.
+                                {{doctorDetails.doctorName}}</title>
+                                <title>Book Appointment with Dr. {{doctorDetails.doctorName}}, {{doctorDetails.speciality}}</title>
+    
+                            <meta property="og:title" content="Book Appointment with Dr. {{doctorDetails.doctorName}}, {{doctorDetails.speciality}}" />
+                            <h2 class="text-danger" *ngIf="!doctorDetails.doctorName">-</h2>
+                            <br>
+                            <b>
+                                <title class="text-secondary details" *ngIf="doctorDetails.speciality">
+                                    {{doctorDetails.speciality}}</title>
+                            </b>
+                            <meta name="description" content="Select date to book appointment for In-clinic or Tele-consultation with {{doctorDetails.doctorName}},{{address}} from {{Locality}}">
+                            <meta property=”og:description content="Select date to book appointment for In-clinic or Tele-consultation with {{doctorDetails.doctorName}},{{address}} from {{Locality}}">
+                            <h5 class="text-secondary" *ngIf="!doctorDetails.speciality"><b>-</b></h5>
+                            <p>Consultation Fees:
+                                <span class="mr-2" *ngIf="doctorDetails.consultFee">{{doctorDetails.consultFee}}</span>
+                                <span class="mr-2" *ngIf="!doctorDetails.consultFee">-</span>
+                                Rupees
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3">
+                        <!-- heading -->
+                        <div>
+                            <h1 class="mb-2">Book Your Time Slot</h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7 mt-3">
+                        <div class="row">
+                            <div class="telesq mr-1 ml-1">
+
+                            </div>
+                            <b><span>Teleconsultation Slots</span></b>
+                            <div class="InClinicSq mr-1 ml-2">
+                            </div>
+                            <b><span>In-Clinic Slots</span></b>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Select Appointment Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date"
+                                (dateChange)="changeDate($event)" readonly required>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+            <div class="row m-2">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 bg-light bgShadowStyle pb-4">
+                    <!--************************ Today***************** -->
+                    <div class="div" *ngIf="!isChangeDate">
+                        <div class="row pt-4">
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 text-left">
+                                <h4 class="mb-0" *ngIf="slotsList.today && slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.today.length}} Slot
+                                    Available)
+                                </h4>
+
+                                <h4 class="mb-0" *ngIf="!slotsList.today || !slotsList.today.length">
+                                    Today, {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.today && slotsList.today.length">
+                            <div class="row">
+                                <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3"
+                                    *ngFor="let data of slotsList.today">
+                                    <!-- Card design -->
+                                    <div [class.disabled]="data.available" class="card cardStyle p-0 m-0"
+                                        (click)="openModel(patientDetails, data, 'today')">
+                                        <div class="card-body px-2 py-3"
+                                            [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''">
+                                            <div>
+                                                <h4 class="card-title text-center mb-0">
+                                                    <strong>{{data.slotTime}}</strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Card design -->
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.today || !slotsList.today.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <h4>No Slots Found!</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="div" *ngIf="isChangeDate">
+                        <div class="row pt-4" *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 text-left">
+                                <h4 class="mb-0">
+                                    {{selectedDate | date: 'dd MMM yyyy'}} ({{slotsList.otherDate.length}} Slot
+                                    Available)
+                                </h4>
+                            </div>
+                        </div>
+                        <div *ngIf="slotsList.otherDate && slotsList.otherDate.length">
+                            <div class="row">
+                                <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 mt-3"
+                                    *ngFor="let data of slotsList.otherDate">
+                                    <!-- Card design -->
+                                    <div [class.disabled]="data.available" class="card cardStyle p-0 m-0"
+                                        (click)="openModel(patientDetails, data, 'other')">
+                                        <div class="card-body px-2 py-3"
+                                            [class]="(data.slotType == 'Teleconsultation') ? 'availableTelemdC' : (data.slotType == 'In-Clinic') ? 'availableInClinic':''">
+                                            <div>
+                                                <h4 class="card-title text-center mb-0">
+                                                    <strong>{{data.slotTime}}</strong>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--End Card design -->
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!slotsList.otherDate || !slotsList.otherDate.length">
+                            <div class="col-md-12 mt-2 text-center">
+                                <div class="row">
+                                    <h4 class="mb-0 mt-1 float-left">
+                                        {{selectedDate | date: 'dd MMM yyyy'}} (0 Slot Available)
+                                    </h4>
+                                </div>
+                                <div class="justify-content-center row">
+                                    <h4>No Slots Found!</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<ng-template #patientDetails let-modal>
+    <div class="model-wrapper">
+        <div class="model-elements-wrap">
+            <div class="modal-header">
+                <h2 class="modal-title">Patient Details </h2>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body px-4">
+                <form [formGroup]="patientGroup">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="name">Patient Name:<span class="text-danger">*</span>
+                            </label>
+                            <mat-form-field>
+                                <input class="input-Upper" matInput id="name" formControlName="name">
+                                <mat-error class="mx-1"
+                                    *ngIf="patientGroup.get('name').errors && (patientGroup.get('name').touched || patientGroup.get('name').dirty)">
+                                    <span *ngIf="patientGroup.get('name').errors.required">{{'errFullNameRequired' |
+                                        l10n}}</span>
+                                    <span *ngIf="patientGroup.get('name').errors.pattern">{{'errFullNamePattern' |
+                                        l10n}}</span>
+                                    <span *ngIf="patientGroup.get('name').errors.maxlength">{{'errFullNameMaxLength' |
+                                        l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="phone">Patient Mobile No.:<span
+                                    class="text-danger">*</span> </label>
+                            <mat-form-field>
+                                <input matInput id="phone" numberOnly length="10" formControlName="phone">
+                                <mat-error class="mx-1"
+                                    *ngIf="patientGroup.get('phone').errors && (patientGroup.get('phone').touched || patientGroup.get('phone').dirty)">
+                                    <span *ngIf="patientGroup.get('phone').errors.required">{{'errMobileRequired' |
+                                        l10n}}</span>
+                                    <span *ngIf="patientGroup.get('phone').errors.maxlength">{{'errMobileMaxLength' |
+                                        l10n}}</span>
+                                    <span *ngIf="patientGroup.get('phone').errors.pattern">{{'errMobilePattern' |
+                                        l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="d-inline-block" for="email">Patient Email: </label>
+                            <mat-form-field>
+                                <input matInput id="emails" formControlName="email">
+                                <mat-error class="mx-1"
+                                    *ngIf="patientGroup.get('email').errors && (patientGroup.get('email').touched || patientGroup.get('email').dirty)">
+                                    <span *ngIf="patientGroup.get('email').errors.required">{{'errEmailRequired' |
+                                        l10n}}</span>
+                                    <span *ngIf="patientGroup.get('email').errors.email">{{'errEmailPattern' |
+                                        l10n}}</span>
+                                    <span
+                                        *ngIf="!patientGroup.get('email').errors.email && patientGroup.get('email').errors.maxlength">{{'errEmailMaxlength'
+                                        | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="d-inline-block" for="email">{{"lblDateOfBirth" | l10n}}: </label>
+                           <input  type="date" class="datepicker"  data-date-format="mm/dd/yyyy" formControlName="dob">
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label class="d-inline-block" for="name">Enter Symptoms:<span class="text-danger">*</span>
+                            </label>
+                            <mat-form-field>
+                                <input class="input-Upper" matInput id="symptomsDetails" formControlName="symptomsDetails">
+                                <mat-error class="mx-1" *ngIf="patientGroup.get('symptomsDetails').errors && (patientGroup.get('symptomsDetails').touched || patientGroup.get('symptomsDetails').dirty)">
+                                    <span *ngIf="patientGroup.get('symptomsDetails').errors.required">{{'errSymptoms' | l10n}}</span>
+                                    <!-- <span *ngIf="patientGroup.get('ptSymptoms').errors.pattern">{{'errFullNamePattern' | l10n}}</span> -->
+                                    <span *ngIf="patientGroup.get('symptomsDetails').errors.maxlength">{{'errSymptomsNameMaxLength' | l10n}}</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="field col-md-12 mt-3">
+                            <div class="control" controlErrorContainer>
+                              <label class="checkbox">
+                              <input type="radio" value="terms" formControlName="terms"  required>
+                            </label>
+                             I agree to the
+                              <button mat-button (click)="openDialogTC(content)" style="padding: 0 2px;"><span style="text-decoration: underline  #007bff; color:#007bff;">Terms of service</span></button>
+                              of Protean Clinic
+                              <mat-error style="text-align:center;" *ngIf="patientGroup.get('terms').errors && (patientGroup.get('terms').touched || patientGroup.get('terms').dirty)">
+                                <span *ngIf="patientGroup.get('terms').errors.required">{{'errTermsRequired' | l10n}}</span>
+                            </mat-error>
+                            </div>
+                          </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="!patientGroup.valid" type="button" class="btn btnColor"
+                    (click)="patientRegistartionByExternalLink()">Submit</button>
+            </div>
+        </div>
+        <div *ngIf="loader" class="model-loader">
+            <div class="loader-wrapper">
+                <div class="spinner-border text-primary loader" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #content let-modal>
+    <div class="model-wrapper">
+        <div class="modal-header py-2">
+            <h2 class="modal-title mb-0">Terms of service</h2>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="text-dark" style="padding: 18px 0 18px 35px;">
+            <div class="container">
+                <p> By proceeding further, I hereby agree and give my consent to the following:
+                  <span class="btindent mt-3 mb-2">
+                      <ul>
+                          <li>I request qualified doctors (“RMP”) registered with Protean Clinic, an online Platform managed by Protean e-Gov Technologies Limited (Protean), to participate in my medical care via use of Protean Clinic.</li><br>
+                          <li>RMP (i) may practice in a different location than where I am present for medical care, (ii) may not have the opportunity to perform an in-person physical examination, and (iii) will solely rely on information provided by me.</li><br>
+                          <li>	I acknowledge that RMP’s advice, recommendations, and/or decision may be based on factors not within their control, such as incomplete or inaccurate data provided by me or distorted / illegible diagnostic images / reports that may result from electronic transmissions.</li><br>
+                          <li>I acknowledge that it is my responsibility to provide information about my medical history, condition and care that is complete and accurate to the best of my ability.</li><br>
+                          <li>	no warranties or guarantees are made to me as to result or cure.</li>
+                      </ul>
+                  </span>
+                  <span class="indent mt-2 mb-2">
+                     <p>  	Protean and their associates are mere facilitator of my interaction with my doctor and they have no liability or responsibility towards diagnosis, prescription, effectiveness of the advice of the RMP. 
+                       I further agree and understand that </p>
+                     <p>  	Based on RMP’s assessment, I may require an in-person medical evaluation and/or additional diagnostic check/tests which I undertake to carry out as per RMP’s recommendation. 
+                     </p>
+                     <p> 	In the event any service delivery on Protean Clinic is interrupted due to a technological problem or equipment failure, alternative means of service delivery may be implemented by RMP. 
+                     </p>
+                     <p> 	Protean Clinic is not suitable for any urgent matter or in the case of emergencies in which in-person consultation is necessary. I agree to go to the nearest doctor, hospital emergency department in such cases. 
+                     </p>
+                     <p> 	I understand that the disclosure of my medical information to RMP, including the audio and/or video, will be by electronic transmission including any recording/photograph taken during the telemedicine session. Although precautions are taken to protect the confidentiality of this information by preventing unauthorized access and use, I understand that confidentiality may be compromised by failures of security safeguards or illegal and improper tampering during electronic transmission of data, video images, and audio. 
+                     </p>
+                     <p>  	I have read it or have had it read to me, and that I understand and agree to the Terms of Use and Privacy Policy for the Protean Clinic and its contents. 
+                     </p>
+                     <p> 	I am above 18 years of age and legally competent to avail these services as a Patient or as a guardian for my ward who is a minor/ disabled, the above consent also applies to such medical care provided to my ward. 
+                     </p>
+                     <p>  	I shall not hold Protean liable for any action or omission of a third party that results in unauthorized access or processing of my personal data, and resultant harm or consequences.
+                     </p>
+                     <p> 	I hereby agree that I am availing Services on Protean Clinic with my free will, without any inducement or influence form Protean and I am fully aware of the limitations around the services provided. 
+                     </p>
+                     <p>     	I confirm that I am physically present in India while availing the services.</p>
+                  </span>
+                 </p>
+               </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btnColor btn-secondary" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+            <!-- <button type="button" class="btn btn-primary">Accept</button> -->
+        </div>
+         </div>
+</ng-template>
+
+<div *ngIf="show">
+    <app-razorpay-payment-gateway-url></app-razorpay-payment-gateway-url>
+</div>

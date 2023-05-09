@@ -1,0 +1,234 @@
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { ConsultationStep } from 'src/app/shared/commonBuildBlocks/enum/consultation-steps.enum';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/interfaces/consultation-patient-details.interface';
+import { IPatientDetailsByAppointmentIDSaveSpec } from 'src/app/shared/commonBuildBlocks/saveSpecs/patient-details-by-appointment-id.savespec';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/model/consultation-patient-details.model';
+import { FormBuilder } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+@Component({
+  selector: 'app-consultation-initiation',
+  templateUrl: './consultation-initiation.component.html',
+  styleUrls: ['./consultation-initiation.component.scss'],
+})
+export class ConsultationInitiationComponent {
+  apiSlotTime: any;
+  slotType: any;
+  slotDate: any;
+  transactionID:any;
+  pTmobile;
+  mobileNo = sessionStorage.getItem('mobileNo');
+  @Input() ptMobileNumber; 
+  @ViewChild("form") formPre: ElementRef;
+  emailid: string;
+  clientSecret: any;
+  ptSymptomsDetails:any;
+  ptName: any;
+  ptmobile: string;
+  form: any;
+  doctorDetails: any;
+  actionURL = environment.prescribedUrl;
+ 
+
+  constructor(
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private consultationService: ConsultationService,
+    public patientService: PatientService,
+    private toastrMessage: ToastMessageService,
+    private spinner: NgxSpinnerService,
+    private dataPassingService: DataPassingService,
+    
+    
+  ) { 
+    this.doctorDetails = this.dataPassingService.getDoctorDetails();
+  }
+
+
+  /**
+   * Used to store route list.
+   */
+   routeList = [
+    RoutesConstant.CHIEF_COMPLAINTS,
+    RoutesConstant.DIAGNOSIS,
+    RoutesConstant.INVESTIGATION,
+    RoutesConstant.MEDICATION,
+    RoutesConstant.ADVICE,
+    RoutesConstant.PRESCRIPTION,
+    RoutesConstant.PRESCRIPTIONDETAILS
+  ];
+   
+  /**
+   * Used to store response of Patient Details
+   */
+   patientDetails: IConsultationPatientDetails;
+   
+
+   /**
+   * Used to store Start Consultation Event
+   */
+  isConsultationInitiate: boolean = false;
+
+  ngOnInIt(): void{
+    this.dataPassingService.setRouteDetails(this.activatedRoute.snapshot.queryParams);
+    this.form = this.fb.group({
+      name: [''],
+      apptId: [''],
+      gender: [''],
+      dob: [''],
+      emailId: [''],
+      mobileNo: [''],
+      address1: [''],
+      address2: [''],
+      address3: [''],
+      symptoms:[''],
+    });
+    this.getPatientDetails();
+    this.onLoadInitiateConsultation();
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem("selectedSymptoms");
+    localStorage.removeItem("selectedAdvice");
+    localStorage.removeItem("selectedDiagnosis");
+    localStorage.removeItem("selectedMedicines");
+  }
+  
+  tabs = [
+    { tabName: 'Details', route: RoutesConstant.PRESCRIPTIONDETAILS, type: ConsultationStep.PRESCRIPTIONDETAILS },
+    { tabName: 'Prescription', route: RoutesConstant.PRESCRIPTION, type: ConsultationStep.PRESCRIPTION }
+
+  ]
+
+  /**
+   * Used to store current tab.
+   */
+  currentTab = ConsultationStep.PRESCRIPTIONDETAILS;
+  // currentTab = ConsultationSteps.CHIEF_COMPLAINTS;
+
+  /**
+   * Used to store available tabs.
+   */
+  availableTabs = ConsultationStep;
+
+  /**
+   * Used to check tab is active or not.
+   * @param type Used to store type of tab.
+   */
+  isTabActivated(type: ConsultationStep) {
+    this.currentTab = (this.activatedRoute.children as ActivatedRoute[])[0] ? (this.activatedRoute.children as ActivatedRoute[])[0].snapshot ? (this.activatedRoute.children as ActivatedRoute[])[0].snapshot?.data?.type : 0 : 0;
+    return (this.activatedRoute.children as ActivatedRoute[])[0] ? (this.activatedRoute.children as ActivatedRoute[])[0].snapshot ? (this.activatedRoute.children as ActivatedRoute[])[0].snapshot?.data?.type === type : 0 : 0;
+  }
+
+  /**
+   * Used to change tab.
+   * @param dir Used to store direcion.
+   */
+  changeTab(dir: 'prev' | 'next') {
+    const index = this.tabs.findIndex(x => this.currentTab === x.type);
+    if (index == -1 || !dir) {
+      return;
+    }
+
+    if (dir === 'prev' && this.tabs[index - 1]) {
+      this.consultationService.currentTab.next(this.tabs[index - 1].route)
+      this.router.navigate([RoutesConstant.CONSULTATION, this.tabs[index - 1].route], { preserveQueryParams: true });
+      return;
+    }
+
+    if (dir === 'next' && this.tabs[index + 1]) {
+      this.consultationService.currentTab.next(this.tabs[index + 1].route)
+      this.router.navigate([RoutesConstant.CONSULTATION, this.tabs[index + 1].route], { preserveQueryParams: true });
+      return;
+    }
+  }
+   
+
+  onLoadInitiateConsultation() {
+    this.router.navigate([RoutesConstant.CONSULTATION, RoutesConstant.PRESCRIPTIONDETAILS], { preserveQueryParams: true });
+    this.isConsultationInitiate = true;
+  }
+  
+  /**
+   * Used to get Patient Details from API Call
+   */
+   ptPersonalDetals;
+  lifeStyleDetails = [];
+  medicalallergies = []
+  medicalchronicDiseases = []
+getPatientDetails() {
+    this.consultationService.getPatientDeailsByAppointmenttID((this.activatedRoute.snapshot.queryParams as IPatientDetailsByAppointmentIDSaveSpec)).subscribe(
+      res => {
+        if (res.response) {
+          this.patientDetails = res.response;
+          this.ptPersonalDetals = res.response.ptPersonalDetals;
+          this.saveMarketPlaceDetails(this.transactionID);
+        } else if (res.errors) {
+        }
+      }, error => {
+      }
+    )
+  }
+
+  onClickPrescribed(){ 
+    this.paymentApi();
+    
+}
+
+paymentApi() {
+let dummyPayload = {
+  docUserID: this.activatedRoute.snapshot.queryParamMap.get('drRegID'),
+  ptUserID: this.activatedRoute.snapshot.queryParamMap.get('ptRegID'),
+  bookedFor: "n",
+  appointmentSlot: this.apiSlotTime,
+  appointmentDate: this.slotDate,
+  appointmentType:this.slotType,
+
+}
+
+this.patientService.dummyPaymentApi(dummyPayload).subscribe(result => {
+  this.transactionID = result;
+      this.getPatientDetails();
+      
+},
+() => {
+  this.toastrMessage.showErrorMsg(ErrorSuccessMessage.APIFAILD, 'Error');
+});
+ }
+
+
+  saveMarketPlaceDetails(transactionID){
+     this.emailid = sessionStorage.getItem('emailID');
+     let data = {
+        request:{
+          transtId:transactionID,
+          drEmail:this.emailid,
+          ptNname: this.ptPersonalDetals.name,
+          ptMobile:this.ptPersonalDetals.mobileNo,
+        },
+     };
+     this.spinner.show();
+     this.consultationService.saveMarketPlaceDetails(data).subscribe(result => {
+      this.spinner.hide();
+      this.clientSecret = result.response.clientSecret;
+      setTimeout(()=>{
+        this.formPre.nativeElement.submit();
+      },1000)
+     });
+
+    }  
+
+  tabChange(route) {
+    this.consultationService.currentTab.next(route);
+  }
+
+
+}

@@ -1,0 +1,769 @@
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatDialog } from '@angular/material/dialog';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { PrescriptionDataSharingService } from '../prescription-data-sharing.service';
+
+@Component({
+  selector: 'app-tm-prescription-details',
+  templateUrl: './tm-prescription-details.component.html',
+  styleUrls: ['./tm-prescription-details.component.scss'],
+})
+export class TmPrescriptionDetailsComponent implements OnInit, OnDestroy {
+  public filteredSymptomsMulti: BehaviorSubject<any> = new BehaviorSubject<any>(
+    []
+  );
+  public filteredDiagnosisMulti: BehaviorSubject<any> =
+    new BehaviorSubject<any>([]);
+  public filteredMedicineMulti: BehaviorSubject<any> = new BehaviorSubject<any>(
+    []
+  );
+  public filteredAdviceMulti: BehaviorSubject<any> = new BehaviorSubject<any>(
+    []
+  );
+
+  protected _onDestroy = new Subject<void>();
+
+  symptomDetails = new FormControl([]);
+  diagnosisDetails = new FormControl([]);
+  medicineDetails = new FormControl([]);
+  adviceDetails = new FormControl([]);
+
+  form: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private consultationService: ConsultationService,
+    private toastrMessage: ToastMessageService,
+    private prescriptionDataSharingService: PrescriptionDataSharingService,
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.form = this.fb.group({
+      symptomName: new FormControl(),
+      diagnosisName: new FormControl(),
+      // medicines: this.medicineDetailsrows,
+      medicineName: new FormControl(),
+      adviceName: new FormControl(),
+      handwirttenPrescription: [null],
+    });
+  }
+
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
+  profilePhotoBase64;
+  ngOnInit(): void {
+    this.getPrescriptionDetails();
+
+    // pass data to consultation component on value change
+    this.symptomDetails.valueChanges.subscribe(() => {
+      this.prescriptionDataSharingService.symptomDetailsChangedEvent(
+        Array.prototype.map
+          .call(this.symptomDetails.value, function (item) {
+            return item.name;
+          })
+          .join(', ')
+      );
+    });
+    this.diagnosisDetails.valueChanges.subscribe(() => {
+      this.prescriptionDataSharingService.diagnosisDetailsChangedEvent(
+        Array.prototype.map
+          .call(this.diagnosisDetails.value, function (item) {
+            return item.name;
+          })
+          .join(', ')
+      );
+    });
+    this.medicineDetails.valueChanges.subscribe(() => {
+      this.prescriptionDataSharingService.medicineDetailsChangedEvent(
+        this.buildMedicineSummaryString(this.medicineDetails)
+      );
+    });
+    this.adviceDetails.valueChanges.subscribe(() => {
+      this.prescriptionDataSharingService.adviceDetailsChangedEvent(
+        this.adviceDetails.value.map((advice) => {
+          return advice.name;
+        })
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+    this.savePrescriptionDetails();
+  }
+
+  getPrescriptionDetails() {
+    this.consultationService.getSymptomsDetails().subscribe((result) => {
+      let res = result['response'];
+      this.filteredSymptomsMulti.next(res.slice());
+
+      // set selected symptoms into form
+      let selectedSymptoms = JSON.parse(
+        localStorage.getItem('selectedSymptoms')
+      );
+      if (selectedSymptoms !== null) {
+        const selectedSymptomsIds = selectedSymptoms.map(
+          (element) => element.id
+        );
+        let alteredArray = res.filter((option) => {
+          if (selectedSymptomsIds.includes(option.id)) {
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional symptom entered by doctor
+        selectedSymptoms.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.symptomDetails.setValue(alteredArray);
+      }
+      // listen for search field value changes
+      this.form.controls.symptomName.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterDetails(
+            res,
+            this.form.controls.symptomName.value,
+            this.filteredSymptomsMulti
+          );
+        });
+    });
+    this.consultationService.getAdviceDetails().subscribe((result) => {
+      let res = result['response'];
+      this.filteredAdviceMulti.next(res.slice());
+
+      // set selected advices into form
+      let selectedAdvice = JSON.parse(localStorage.getItem('selectedAdvice'));
+      if (selectedAdvice !== null) {
+        const selectedAdviceIds = selectedAdvice.map((element) => element.id);
+        let alteredArray = res.filter((option) => {
+          if (selectedAdviceIds.includes(option.id)) {
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional advice entered by doctor
+        selectedAdvice.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.adviceDetails.setValue(alteredArray);
+      }
+      // listen for search field value changes
+      this.form.controls.adviceName.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterDetails(
+            res,
+            this.form.controls.adviceName.value,
+            this.filteredAdviceMulti
+          );
+        });
+    });
+    this.consultationService.getDiagnosisDetails().subscribe((result) => {
+      let res = result['response'];
+      this.filteredDiagnosisMulti.next(res.slice());
+
+      // set selected diagnosis into form
+      let selectedDiagnosis = JSON.parse(
+        localStorage.getItem('selectedDiagnosis')
+      );
+      if (selectedDiagnosis !== null) {
+        const selectedDiagnosisIds = selectedDiagnosis.map(
+          (element) => element.id
+        );
+        let alteredArray = res.filter((option) => {
+          if (selectedDiagnosisIds.includes(option.id)) {
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional diagnosis entered by doctor
+        selectedDiagnosis.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.diagnosisDetails.setValue(alteredArray);
+      }
+      // listen for search field value changes
+      this.form.controls.diagnosisName.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterDetails(
+            res,
+            this.form.controls.diagnosisName.value,
+            this.filteredDiagnosisMulti
+          );
+        });
+    });
+    this.consultationService.getMedicinesDetails().subscribe((result) => {
+      let res = result['response'];
+      this.filteredMedicineMulti.next(res.slice());
+
+      // set selected medicines into form
+      let selectedMedicines = JSON.parse(
+        localStorage.getItem('selectedMedicines')
+      );
+      if (selectedMedicines !== null) {
+        const selectedMedicinesIds = selectedMedicines.map(
+          (element) => element.id
+        );
+        let alteredArray = res.filter((option) => {
+          if (selectedMedicinesIds.includes(option.id)) {
+            let entry = selectedMedicines.find((e) => e.id === option.id);
+            if (entry.prescription !== undefined) {
+              option.prescription = entry.prescription;
+              option.type = entry.type;
+              option.units = entry.units;
+              option.frequency = entry.frequency;
+              option.meal = entry.meal;
+              option.instruction = entry.instruction;
+              option.period = entry.period;
+            }
+            option.selected = !option.selected;
+            return true;
+          }
+        });
+        // adding additional medicine entered by doctor
+        selectedMedicines.forEach((element) => {
+          if (element.id === 'x') {
+            alteredArray.push(element);
+          }
+        });
+        this.medicineDetails.setValue(alteredArray);
+      }
+      // setting rule engine data
+      this.setRuleEngineData();
+
+      // listen for search field value changes
+      this.form.controls.medicineName.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterDetails(
+            res,
+            this.form.controls.medicineName.value,
+            this.filteredMedicineMulti
+          );
+        });
+    });
+  }
+
+  protected filterDetails(
+    details: any,
+    searchValue: string,
+    subject: BehaviorSubject<any>
+  ) {
+    if (!details) {
+      return;
+    }
+
+    if (!searchValue) {
+      subject.next(details.slice());
+      this.sort(subject);
+      return;
+    } else {
+      searchValue = searchValue.toLowerCase();
+    }
+    // filter the details
+    subject.next(
+      details.filter(
+        (obj) => obj.name.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
+      )
+    );
+    this.sort(subject);
+  }
+
+  sort(subject: BehaviorSubject<any>) {
+    subject.getValue().sort(function (x, y) {
+      return x.ruleEngineData === y.ruleEngineData
+        ? 0
+        : x.ruleEngineData
+        ? -1
+        : 1;
+    });
+  }
+
+  clearOtherFields() {
+    // clear all fields when selecting symptom
+    this.form.controls.diagnosisName.setValue('');
+    this.form.controls.medicineName.setValue('');
+    this.form.controls.adviceName.setValue('');
+
+    this.filteredDiagnosisMulti.getValue().sort((a, b) => a.id - b.id);
+    this.filteredDiagnosisMulti.getValue().forEach((element) => {
+      element.ruleEngineData = false;
+    });
+
+    this.filteredMedicineMulti.getValue().sort((a, b) => a.id - b.id);
+    this.filteredMedicineMulti.getValue().forEach((element) => {
+      element.ruleEngineData = false;
+    });
+
+    this.filteredAdviceMulti.getValue().sort((a, b) => a.id - b.id);
+    this.filteredAdviceMulti.getValue().forEach((element) => {
+      element.ruleEngineData = false;
+    });
+  }
+
+  displayFn = (): string => '';
+  displayFn2 = (): string => '';
+  displayFn3 = (): string => '';
+  displayFn4 = (): string => '';
+
+  symptomOptionClicked = (event: Event, data: any): void => {
+    event.stopPropagation();
+    this.symptomToggleSelection(data);
+  };
+
+  symptomToggleSelection = (data: any): void => {
+    data.selected = !data.selected;
+
+    let alteredArray = [];
+    if (data.selected === true) {
+      alteredArray = this.symptomDetails.value;
+      alteredArray.push(data);
+    } else {
+      // remove symptom data
+      alteredArray = this.symptomDetails.value.filter((option) => {
+        if (data.id === 'x') {
+          return option.name !== data.name;
+        } else {
+          return option.id !== data.id;
+        }
+      });
+    }
+    this.symptomDetails.setValue(alteredArray);
+
+    // setting rule engine data
+    this.setRuleEngineData();
+  };
+
+  setRuleEngineData() {
+    this.clearOtherFields();
+    let selectedSymptomIds = Array.prototype.map
+      .call(this.symptomDetails.value, (s) => s.id)
+      .toString();
+    if (selectedSymptomIds === '') {
+      return;
+    }
+
+    this.consultationService
+      .getSearchEngineDetailsBySymtpoms(selectedSymptomIds)
+      .subscribe((result) => {
+        let ruleEngineData = result['response'];
+
+        ruleEngineData.diagnosisDetails.reverse().forEach((diagnosis) => {
+          this.filteredDiagnosisMulti.getValue().sort(function (x, y) {
+            if (x.id == diagnosis.id) {
+              x.ruleEngineData = true;
+            }
+            return x.id == diagnosis.id ? -1 : y.id == diagnosis.id ? 1 : 0;
+          });
+        });
+
+        ruleEngineData.medicinesDetails.reverse().forEach((medicine) => {
+          this.filteredMedicineMulti.getValue().sort(function (x, y) {
+            if (x.id == medicine.id) {
+              x.ruleEngineData = true;
+            }
+            return x.id == medicine.id ? -1 : y.id == medicine.id ? 1 : 0;
+          });
+        });
+
+        ruleEngineData.advicesDetails.reverse().forEach((advice) => {
+          this.filteredAdviceMulti.getValue().sort(function (x, y) {
+            if (x.id == advice.id) {
+              x.ruleEngineData = true;
+            }
+            return x.id == advice.id ? -1 : y.id == advice.id ? 1 : 0;
+          });
+        });
+      });
+  }
+
+  adviceOptionClicked = (event: Event, data: any): void => {
+    event.stopPropagation();
+    this.adviceToggleSelection(data);
+  };
+
+  adviceToggleSelection = (data: any): void => {
+    data.selected = !data.selected;
+
+    let alteredArray = [];
+    if (data.selected === true) {
+      alteredArray = this.adviceDetails.value;
+      alteredArray.push(data);
+    } else {
+      alteredArray = this.adviceDetails.value.filter((option) => {
+        if (data.id === 'x') {
+          return option.name !== data.name;
+        } else {
+          return option.id !== data.id;
+        }
+      });
+    }
+    this.adviceDetails.setValue(alteredArray);
+  };
+
+  diagnosisOptionClicked = (event: Event, data: any): void => {
+    event.stopPropagation();
+    this.diagnosisToggleSelection(data);
+  };
+
+  diagnosisToggleSelection = (data: any): void => {
+    data.selected = !data.selected;
+
+    let alteredArray = [];
+    if (data.selected === true) {
+      alteredArray = this.diagnosisDetails.value;
+      alteredArray.push(data);
+    } else {
+      alteredArray = this.diagnosisDetails.value.filter((option) => {
+        if (data.id === 'x') {
+          return option.name !== data.name;
+        } else {
+          return option.id !== data.id;
+        }
+      });
+    }
+    this.diagnosisDetails.setValue(alteredArray);
+  };
+
+  medicineOptionClicked = (event: Event, data: any): void => {
+    event.stopPropagation();
+    this.medicineToggleSelection(data);
+  };
+
+  medicineToggleSelection = (data: any): void => {
+    data.selected = !data.selected;
+
+    let alteredArray = [];
+    if (data.selected === true) {
+      this.resetMedicinePrescriptionData(data);
+      alteredArray = this.medicineDetails.value;
+      alteredArray.push(data);
+    } else {
+      data.prescription = undefined;
+      this.resetMedicinePrescriptionData(data);
+      alteredArray = this.medicineDetails.value.filter((option) => {
+        if (data.id === 'x') {
+          return option.name !== data.name;
+        } else {
+          return option.id !== data.id;
+        }
+      });
+    }
+    this.medicineDetails.setValue(alteredArray);
+  };
+
+  resetMedicinePrescriptionData(medicine: any) {
+    medicine.type = '';
+    medicine.units = '';
+    medicine.frequency = '';
+    medicine.meal = '';
+    medicine.instruction = '';
+    medicine.period = '';
+  }
+
+  saveMedicine() {
+    if (this.form.controls.medicineName.value) {
+      let entry = this.medicineDetails.value.find(
+        (el) => el.name === this.form.controls.medicineName.value
+      );
+
+      if (entry === undefined) {
+        let medicineDetail = {};
+        medicineDetail['id'] = 'x';
+        medicineDetail['name'] = this.form.controls.medicineName.value;
+        medicineDetail['solrid'] = 0;
+        medicineDetail['selected'] = true;
+        this.resetMedicinePrescriptionData(medicineDetail);
+        let alteredArray = this.medicineDetails.value;
+        alteredArray.push(medicineDetail);
+        this.medicineDetails.setValue(alteredArray);
+      }
+    }
+  }
+
+  saveDetails(name: any, details: FormControl) {
+    if (name.value) {
+      let entry = details.value.find((el) => el.name === name.value);
+
+      if (entry === undefined) {
+        let detailJson = {};
+        detailJson['id'] = 'x';
+        detailJson['name'] = name.value;
+        detailJson['solrid'] = 0;
+        detailJson['selected'] = true;
+        let alteredArray = details.value;
+        alteredArray.push(detailJson);
+        details.setValue(alteredArray);
+      }
+    }
+  }
+
+  savePrescriptionDetails() {
+    let scribeList = sessionStorage.getItem('SCRIBE');
+
+    let request = {
+      ctApptId: null,
+      ctDoctorId: null,
+      ctPatientId: null,
+      ctScribeId: scribeList ? scribeList : '', //"JEEVANK121",
+      ctChiefComplaints: this.symptomDetails.value?.length
+        ? Array.prototype.map
+            .call(this.symptomDetails.value, function (item) {
+              return item.name;
+            })
+            .join(', ')
+        : null,
+      ctDiagnosis: this.diagnosisDetails.value?.length
+        ? Array.prototype.map
+            .call(this.diagnosisDetails.value, function (item) {
+              return item.name;
+            })
+            .join(', ')
+        : null,
+      ctMedication: this.medicineDetails.value?.length
+        ? this.buildMedicineContent()
+        : null,
+      ctAdvice: this.adviceDetails.value?.length
+        ? Array.prototype.map
+            .call(this.adviceDetails.value, function (item) {
+              return item.name;
+            })
+            .join(', ')
+        : null,
+      handwrittenPrescription: this.profilePhotoBase64
+        ? this.profilePhotoBase64
+        : null,
+    };
+
+    localStorage.setItem(
+      'selectedSymptoms',
+      JSON.stringify(this.symptomDetails.value)
+    );
+    localStorage.setItem(
+      'selectedDiagnosis',
+      JSON.stringify(this.diagnosisDetails.value)
+    );
+    localStorage.setItem(
+      'selectedMedicines',
+      JSON.stringify(this.medicineDetails.value)
+    );
+    localStorage.setItem(
+      'selectedAdvice',
+      JSON.stringify(this.adviceDetails.value)
+    );
+
+    if (
+      this.symptomDetails.value?.length ||
+      this.diagnosisDetails.value?.length ||
+      this.medicineDetails.value?.length ||
+      this.adviceDetails.value?.length ||
+      this.profilePhotoBase64 !== undefined
+    ) {
+      this.consultationService
+        .savePrescriptionDetails(request)
+        .subscribe((result) => {});
+    } else {
+      this.toastrMessage.showWarningMsg(
+        'Please enter Prescription details',
+        'Warning'
+      );
+      return;
+    }
+  }
+
+  buildMedicineContent(): string {
+    let content = '';
+    this.medicineDetails.value.forEach((medicine) => {
+      let type = '';
+      if (medicine.type !== undefined) {
+        type = medicine.type;
+      }
+      let period = '';
+      if (medicine.period !== undefined) {
+        period = ' x ' + '(' + medicine.period + ' day/s)';
+      }
+      let meal = '';
+      if (medicine.meal !== undefined) {
+        meal = medicine.meal;
+      }
+      let units = '';
+      if (medicine.units !== undefined) {
+        units = medicine.units;
+        if (
+          medicine.type === 'Syp.' ||
+          medicine.type === 'Inj.' ||
+          medicine.type === 'Resp.'
+        ) {
+          units = units + 'ml';
+        }
+      }
+      let instruction = '';
+      if (medicine.instruction !== '') {
+        instruction = '\n' + '- ' + medicine.instruction;
+      }
+
+      let details =
+        type +
+        medicine.name +
+        '    ' +
+        units +
+        '  ' +
+        meal +
+        ' (' +
+        this.includesCheck(medicine.frequency, 'Morning') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Afternoon') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Evening') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Night') +
+        ')' +
+        period +
+        instruction;
+      content = content.concat(details + '\n\n');
+    });
+    return content;
+  }
+
+  changeEvent() {
+    this.prescriptionDataSharingService.medicineDetailsChangedEvent(
+      this.buildMedicineSummaryString(this.medicineDetails)
+    );
+  }
+
+  typeValChange(medicineDetails: any, input: MatButtonToggleChange) {
+    medicineDetails.type = input.value;
+    this.changeEvent();
+  }
+
+  frequencyValChange(medicineDetails: any, input: MatButtonToggleChange) {
+    medicineDetails.frequency = input.value;
+    this.changeEvent();
+  }
+
+  mealValChange(medicineDetails: any, input: MatButtonToggleChange) {
+    medicineDetails.meal = input.value;
+    this.changeEvent();
+  }
+
+  buildMedicineSummaryString(medicineDetails: any): string[] {
+    const resultArray = medicineDetails.value.map((medicine) => {
+      let type = '';
+      if (medicine.type !== undefined) {
+        type = medicine.type;
+      }
+      let period = '';
+      if (medicine.period !== undefined) {
+        period = ' x ' + '(' + medicine.period + ' day/s)';
+      }
+      let units = '';
+      if (medicine.units !== undefined) {
+        units = medicine.units;
+        if (
+          medicine.type === 'Syp.' ||
+          medicine.type === 'Inj.' ||
+          medicine.type === 'Resp.'
+        ) {
+          units = units + 'ml';
+        }
+      }
+
+      medicine.prescription =
+        medicine.name +
+        ' (' +
+        type +
+        units +
+        ')' +
+        ' (' +
+        this.includesCheck(medicine.frequency, 'Morning') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Afternoon') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Evening') +
+        '-' +
+        this.includesCheck(medicine.frequency, 'Night') +
+        ')' +
+        period;
+      return medicine.prescription;
+    });
+    return resultArray;
+  }
+
+  includesCheck(data: any, input: string) {
+    if (data !== undefined && data.includes(input)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Used to select profile photo
+   */
+  browse() {
+    document.getElementById('browseFile').click();
+  }
+  /**
+   * Used to set selected profile photo
+   */
+  uploadProfilePhoto(event) {
+    let hasImg = event.target.files[0].type.includes('image') ? true : false;
+    let hasSize = event.target.files[0].size <= 1000000 ? true : false; //1000000
+    // if(hasImg && hasSize) {
+    const files = event.target.files;
+    const file = files[0];
+    if (files && file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.profilePhotoBase64 = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      //  this._handleReaderLoaded(reader);
+    }
+    this.toastrMessage.showSuccessMsg('Image Added successfully!', 'Success');
+    // }else{
+    //   if(!hasImg){
+    //     this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGFORMATE, 'Warning');
+    //     event.target.files = '';
+    //   }
+    //   if(!hasSize){
+    //     this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGSIZE, 'Warning');
+    //     event.target.files = '';
+    //   }
+    // }
+  }
+
+  numberOnly(event): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  onDoseToggleValChange(medicine, value) {
+    medicine.units = value;
+    this.changeEvent();
+  }
+
+  onDurationToggleValChange(medicine, value) {
+    medicine.period = value;
+    this.changeEvent();
+  }
+}

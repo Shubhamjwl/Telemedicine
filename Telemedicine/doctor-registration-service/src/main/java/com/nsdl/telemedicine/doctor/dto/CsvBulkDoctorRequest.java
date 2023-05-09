@@ -1,0 +1,42 @@
+package com.nsdl.telemedicine.doctor.dto;
+
+import lombok.Data;
+
+@Data
+public class CsvBulkDoctorRequest {
+	
+	private Integer consultationFee;
+
+	private String firstName;
+	
+	private String middleName;
+
+	private String lastName;
+
+	private String email;
+
+	private String gender;
+
+	private String mciNumber;
+
+	private Long mobile;
+
+	private String smcNumber;
+
+	private String specialization;
+	
+	private String address1;
+	
+	private String address2;
+	
+	private String address3;
+	
+	private String state;
+	
+	private String city; 
+	
+	private String associationName;
+	
+	private String associationNumber;
+
+}

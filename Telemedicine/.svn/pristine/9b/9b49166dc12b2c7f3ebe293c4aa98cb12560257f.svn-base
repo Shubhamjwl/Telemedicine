@@ -1,0 +1,64 @@
+package com.nsdl.captcha.controller;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.captcha.dto.CaptchaResponseDTO;
+import com.nsdl.captcha.dto.MainResponseDTO;
+import com.nsdl.captcha.logger.LoggingClientInfo;
+import com.nsdl.captcha.service.CaptchaService;
+
+/**
+ * Controller class provides API's to perform captcha generation and validation
+ */
+@RestController
+@RequestMapping("/")
+@CrossOrigin("*")
+@LoggingClientInfo
+public class CaptchaController {
+
+	@Autowired
+	CaptchaService captchaService;
+	private static final Logger logger = LoggerFactory.getLogger(CaptchaController.class);
+
+	@PostMapping(value = "/generateCaptcha")
+	public void generateCaptcha(@RequestHeader(value = "sessionId", required = true) String sessionId,
+			HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Captcha Generation request Received");
+		ByteArrayInputStream bais = new ByteArrayInputStream(captchaService.generateCaptcha(sessionId));
+		BufferedImage bi = ImageIO.read(bais);
+		OutputStream out = response.getOutputStream();
+		ImageIO.write(bi, "png", out);
+		out.close();
+		logger.info("Captcha sent to screen");
+	}
+
+	@PostMapping(value = "/verifyCaptcha", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<CaptchaResponseDTO>> verifyCaptcha(
+			@RequestHeader(value = "sessionId", required = true) String sessionId,
+			@RequestHeader(value = "captchaValue", required = true) String captchaValue,
+			@RequestHeader(value = "flagValue", required = true) String flagValue) {
+		logger.info("Captcha Verification request Received");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(captchaService.verifyCaptcha(sessionId, captchaValue, flagValue));
+	}
+}

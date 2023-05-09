@@ -1,0 +1,167 @@
+.header {
+    background-color: skyblue;
+}
+.history-form {
+border : 1px solid black;
+margin-top: 50px;
+margin-left: 50px;
+margin-right: 50px
+}
+.form-field{
+    font-size: 16px;
+
+}
+.Details{
+    margin: 40px;
+    display: flex;
+}
+.input{
+    margin-left :40px;
+}
+.searchBtn {
+    background-color:#aecbe3;
+    padding: 7px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.clearBtn{
+    background-color: #c5e3c5;
+    padding: 7px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+
+
+////table
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+  }
+  
+.next {
+background-color: #4CAF50;
+color: white;
+}
+
+.round {
+    border-radius: 50%;
+}
+
+.userImage {
+    cursor: pointer;
+}
+
+.profile-wrapper-cr{
+    height: 35px;
+    width: 35px;
+}
+
+.docDetailsbtn {
+    background-color: red;
+    color: white;
+    font-size: 11px;
+    padding: 0px 2px 0px 2px;
+}
+
+.editBtn {
+    padding: 2px 5px;
+}
+.doc-info {
+    p{
+        font-weight: 600;
+    }
+    span{
+        font-size: 12px;
+    }
+}
+
+.wrapper {
+    max-width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.btn-acc{
+    border: 1px solid #e6dbdb;
+    border-radius: 50%;
+    height: 25px;
+    width: 26px;
+    padding: 1px 2px 30px 1px;
+    font-size: 20px;
+    background-color: #fbf8f8;
+}
+
+.card {
+    justify-content: center;
+    padding: 16px;
+    border-radius: 8px;
+    margin-right: 50px;
+    margin-left: -15px;
+}
+
+.arr-btn{
+    min-width: 95%;
+    display: flex;
+}
+
+.carousel-item {
+    margin-right: 0;
+}
+
+.slide-wrapper {
+    height: 4rem
+}
+.back-Scheduled{
+    background-color:#daf5f2;
+}
+.back-Completed{
+    background-color: #cacaca;
+}
+.back-Resheduled{
+    background-color:#daf5f2; //#94C4F9;
+}
+.back-Canceled {
+    background-color: #FFFFF1;
+}
+::ng-deep .carousel-control-prev-icon{
+    background-image: url('https://apufpel.com.br/assets/img/seta_prim.png')
+ }
+ ::ng-deep  .carousel-control-next-icon{
+   background-image: url('https://apufpel.com.br/assets/img/seta_ult.png')
+ }
+
+
+::ng-deep .carousel-control-prev {
+    left: -23px;
+    justify-content: left;
+    width: auto;
+}
+
+::ng-deep .carousel-control-next {
+    right: -20px;
+    width: auto;
+}
+
+::ng-deep .carousel-inner {
+    margin: 0 30px;
+}
+table {
+    width: 100%;
+    height:100%;
+}
+select{
+    height: 40px;
+    width: 100%;
+    border: 1px solid #dee2e6!important;
+}
+
+.username {
+    width: 160px;
+}
+
+table {
+    width: 100%;
+  }
+  

@@ -1,0 +1,73 @@
+package com.nsdl.ndhm.controller;
+
+import com.nsdl.ndhm.dto.DisLinkingInitReqDTO;
+import com.nsdl.ndhm.dto.LinkConfirmDTO;
+import com.nsdl.ndhm.dto.OnAddContextResponseDTO;
+import com.nsdl.ndhm.service.LinkCallbackService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/v0.5/links/link")
+public class LinkCallbackController {
+
+	private static final Logger logger = LoggerFactory.getLogger(LinkCallbackController.class);
+
+	@Autowired
+	LinkCallbackService linkCallbackService;
+
+	@Value("${discover.flag}")
+	String flag;
+
+	/* Callback for on add context */
+	@PostMapping("/on-add-contexts")
+	public ResponseEntity<String> onAddContext(@RequestHeader Map<String, String> headers,
+			@RequestBody OnAddContextResponseDTO addContextResponseDTO) {
+		logger.info("Callback On Add Contexts received");
+
+		linkCallbackService.updateOnAddContext(addContextResponseDTO);
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+
+	}
+
+	/**
+	 * Dummy method for test discover api
+	 */
+	@PostMapping(value = "/init")
+	public ResponseEntity<String> discoverInitDummy(@RequestHeader Map<String, String> headers,
+			@RequestBody DisLinkingInitReqDTO disLinkingInitReqDTO) {
+		logger.info("Request Received For Discovery Init Starts");
+/*		logger.info("Discover init Request : {} ", disLinkingInitReqDTO);
+		if (flag.contentEquals("dummy")) {*/
+			linkCallbackService.discoverInitDemo(disLinkingInitReqDTO);
+/*		} else {
+			linkCallbackService.discoverInit(disLinkingInitReqDTO);
+		}*/
+
+		logger.info("Request Received For Discovery init ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	/* Callback for link confirm */
+	@PostMapping("/confirm")
+	public ResponseEntity<String> linkConfirmation(@RequestHeader Map<String, String> headers,
+			@RequestBody LinkConfirmDTO linkConfirmDTO) {
+		logger.info("Callback for Link Confirm received");
+/*		if (flag.contentEquals("dummy")) {*/
+			linkCallbackService.linkOnConfirm(linkConfirmDTO);
+/*		} else {
+			linkCallbackService.linkOnConfirmActual(linkConfirmDTO);
+		}*/
+
+		logger.info("Callback for Link Confirm ends");
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+}

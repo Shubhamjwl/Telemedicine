@@ -1,0 +1,27 @@
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { environment } from "src/environments/environment";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class LayoutRouteGuard implements CanActivate {
+
+    constructor(private router: Router) { }
+    private routers = ['sign-in'];
+
+    canActivate(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot): boolean | Promise<boolean> {
+        if (environment.newLayout) {
+            console.log('URL path', state.url);
+            const url = state.url.split('/')[1];
+            if (this.routers.includes(url)) {
+                const newPath = `tm-${url}`;
+                console.log('new URL path', newPath);
+                this.router.navigate([`/${newPath}`], { skipLocationChange: false });
+            }
+        }
+        return true;
+    }
+}

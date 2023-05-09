@@ -1,0 +1,510 @@
+  [2022-02-28 18:05:51,082], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-28 18:05:51,116], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-28 18:05:51,964], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$444a683e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:05:52,610], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-28 18:05:53,665], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-28 18:05:53,667], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-28 18:05:53,764], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-28 18:05:56,385], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-28 18:05:56,564], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 160ms. Found 5 JPA repository interfaces.
+  [2022-02-28 18:05:57,128], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-28 18:05:58,129], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:05:58,246], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$444a683e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:06:02,364], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-28 18:06:02,408], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:06:02,409], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-28 18:06:02,410], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-28 18:06:02,697], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-28 18:06:02,698], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 8896 ms
+  [2022-02-28 18:06:04,959], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-28 18:06:05,169], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-28 18:06:07,206], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-28 18:06:08,069], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-28 18:06:21,155], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-28 18:06:23,105], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-28 18:06:38,381], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-28 18:06:40,531], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-28 18:06:40,727], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-28 18:06:41,115], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-28 18:06:44,240], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-28 18:06:44,486], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-28 18:06:46,389], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-28 18:06:46,553], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:06:46,618], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-28 18:06:46,626], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 56.725 seconds (JVM running for 61.601)
+  [2022-02-28 18:18:37,586], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-28 18:18:37,606], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-28 18:18:38,100], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ee70eb06] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:18:38,705], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-28 18:18:39,512], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-28 18:18:39,512], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-28 18:18:39,569], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-28 18:18:41,920], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-28 18:18:42,058], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 123ms. Found 5 JPA repository interfaces.
+  [2022-02-28 18:18:42,458], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-28 18:18:43,070], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:18:43,186], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ee70eb06] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:18:44,118], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-28 18:18:44,135], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:18:44,136], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-28 18:18:44,136], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-28 18:18:44,338], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-28 18:18:44,338], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4750 ms
+  [2022-02-28 18:18:45,952], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-28 18:18:46,115], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-28 18:18:46,406], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-28 18:18:46,621], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-28 18:18:48,343], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-28 18:18:49,296], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-28 18:19:02,525], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-28 18:19:04,334], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-28 18:19:04,556], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-28 18:19:04,760], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-28 18:19:07,121], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-28 18:19:07,394], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-28 18:19:08,974], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-28 18:19:09,137], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:19:09,202], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-28 18:19:09,241], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 32.475 seconds (JVM running for 35.685)
+  [2022-02-28 18:20:08,131], , [http-nio-7083-exec-2], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-28 18:20:08,143], , [http-nio-7083-exec-2], video-call-conference-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-28 18:20:08,890], , [http-nio-7083-exec-2], video-call-conference-service, INFO  DispatcherServlet initServletBean | Completed initialization in 746 ms
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:09,234], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::18:20:09.233569500
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:09,238], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::18:20:09.238347400
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:09,975], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:10,001], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:10,002], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:15,905], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=54565675877, dialNumber=613-555-1234, message=, voiceBridge=41436, duration=65, hasBeenForciblyEnded=false, createTime=1646052612070, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=6fb7c372aa227b43dfd84221c7b9c4b3050e19ab-1646052612070, createDate=Mon Feb 28 12:50:12 UTC 2022}
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:16,702], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:16,705], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::18:20:16.705490400
+a9d5e0ace92f53f4 a9d5e0ace92f53f4 [2022-02-28 18:20:16,707], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::18:20:16.707492
+2c548a86f84bce98 2c548a86f84bce98 [2022-02-28 18:31:04,314], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::18:31:04.307831900
+2c548a86f84bce98 2c548a86f84bce98 [2022-02-28 18:31:04,380], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::18:31:04.380530900
+2c548a86f84bce98 2c548a86f84bce98 [2022-02-28 18:31:05,232], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+2c548a86f84bce98 2c548a86f84bce98 [2022-02-28 18:31:05,239], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::18:31:05.239049300
+2c548a86f84bce98 2c548a86f84bce98 [2022-02-28 18:31:05,241], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::18:31:05.241047200
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:31:59,996], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::18:31:59.996635400
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:31:59,997], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::18:31:59.997633500
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:00,190], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:00,191], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:00,191], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:00,795], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=5456567587777, dialNumber=613-555-1234, message=, voiceBridge=35589, duration=65, hasBeenForciblyEnded=false, createTime=1646053316983, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=a85f46c617363db46c03e35e0abc39c0f5d44c30-1646053316983, createDate=Mon Feb 28 13:01:56 UTC 2022}
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:01,150], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:01,151], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::18:32:01.151962500
+a935e3f5a635ee97 a935e3f5a635ee97 [2022-02-28 18:32:01,152], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::18:32:01.152960500
+66ba7d22c65d8861 66ba7d22c65d8861 [2022-02-28 18:32:18,235], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::18:32:18.235660300
+66ba7d22c65d8861 66ba7d22c65d8861 [2022-02-28 18:32:18,238], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::18:32:18.236658100
+66ba7d22c65d8861 66ba7d22c65d8861 [2022-02-28 18:32:18,439], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+66ba7d22c65d8861 66ba7d22c65d8861 [2022-02-28 18:32:18,440], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::18:32:18.440257700
+66ba7d22c65d8861 66ba7d22c65d8861 [2022-02-28 18:32:18,441], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::18:32:18.441251900
+  [2022-02-28 18:37:56,988], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-28 18:37:57,004], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-28 18:37:57,326], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a2a0fe79] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:37:57,641], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-28 18:37:58,233], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-28 18:37:58,234], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-28 18:37:58,327], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-28 18:37:59,607], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-28 18:37:59,711], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 92ms. Found 5 JPA repository interfaces.
+  [2022-02-28 18:38:00,052], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-28 18:38:00,587], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:38:00,697], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a2a0fe79] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:38:02,108], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-28 18:38:02,122], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:38:02,123], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-28 18:38:02,124], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-28 18:38:02,298], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-28 18:38:02,299], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3945 ms
+  [2022-02-28 18:38:03,926], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-28 18:38:04,101], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-28 18:38:04,405], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-28 18:38:04,626], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-28 18:38:06,985], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-28 18:38:08,116], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-28 18:38:20,449], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-28 18:38:22,501], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-28 18:38:22,671], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-28 18:38:22,872], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-28 18:38:25,119], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-28 18:38:25,424], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-28 18:38:26,910], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-28 18:38:27,038], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:38:27,087], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-28 18:38:27,091], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 30.845 seconds (JVM running for 32.567)
+  [2022-02-28 18:44:34,568], , [http-nio-7083-exec-1], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-28 18:44:34,569], , [http-nio-7083-exec-1], video-call-conference-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-28 18:44:34,637], , [http-nio-7083-exec-1], video-call-conference-service, INFO  DispatcherServlet initServletBean | Completed initialization in 67 ms
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:34,823], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::18:44:34.822077400
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:34,824], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::18:44:34.824071
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:35,085], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:35,100], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:35,101], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://test-install.blindsidenetworks.com/bigbluebutton
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:37,131], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=54565675877789, dialNumber=18632080022, message=, voiceBridge=895363524, duration=65, hasBeenForciblyEnded=false, createTime=1646054076675, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=f07dea4a0abd887ef48e6dfe860c37ec230791bb-1646054076675, createDate=Mon Feb 28 13:14:36 UTC 2022}
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:37,590], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:37,591], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::18:44:37.591212800
+eef3ea3ab183070d eef3ea3ab183070d [2022-02-28 18:44:37,591], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::18:44:37.591212800
+d7a83438341fde3a d7a83438341fde3a [2022-02-28 18:45:09,984], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::18:45:09.984307800
+d7a83438341fde3a d7a83438341fde3a [2022-02-28 18:45:09,985], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::18:45:09.985304800
+d7a83438341fde3a d7a83438341fde3a [2022-02-28 18:45:10,193], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+d7a83438341fde3a d7a83438341fde3a [2022-02-28 18:45:10,194], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::18:45:10.194749
+d7a83438341fde3a d7a83438341fde3a [2022-02-28 18:45:10,195], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::18:45:10.195753
+  [2022-02-28 18:46:28,806], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-02-28 18:46:28,814], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-02-28 18:46:28,818], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-28 18:46:28,827], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2022-02-28 18:46:28,831], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2022-02-28 18:46:28,833], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:46:28,853], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-02-28 18:46:28,856], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  [/videoconference] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-02-28 18:46:28,862], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:46:28,865], , [RMI TCP Connection(11)-127.0.0.1], video-call-conference-service, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:47:01,210], , [restartedMain], video-call-conference-service, INFO  ChangeableUrls logTo | The Class-Path manifest attribute in C:\Users\DELL\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/DELL/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+  [2022-02-28 18:47:01,224], , [restartedMain], video-call-conference-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-02-28 18:47:01,539], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a28e5ab1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:47:01,854], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-02-28 18:47:02,451], , [restartedMain], video-call-conference-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=video-call-conference-service, profiles=[dev], label=null, version=null, state=null
+  [2022-02-28 18:47:02,452], , [restartedMain], video-call-conference-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-02-28 18:47:02,516], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-02-28 18:47:03,538], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+  [2022-02-28 18:47:03,638], , [restartedMain], video-call-conference-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 92ms. Found 5 JPA repository interfaces.
+  [2022-02-28 18:47:03,959], , [restartedMain], video-call-conference-service, INFO  GenericScope setSerializationId | BeanFactory id=93405c01-f975-3923-adbb-00bc8f2d56e5
+  [2022-02-28 18:47:04,529], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:47:04,588], , [restartedMain], video-call-conference-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$a28e5ab1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-02-28 18:47:05,466], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7083 (http)
+  [2022-02-28 18:47:05,480], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:47:05,480], , [restartedMain], video-call-conference-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-02-28 18:47:05,481], , [restartedMain], video-call-conference-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.29]
+  [2022-02-28 18:47:05,645], , [restartedMain], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring embedded WebApplicationContext
+  [2022-02-28 18:47:05,646], , [restartedMain], video-call-conference-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3110 ms
+  [2022-02-28 18:47:07,006], , [restartedMain], video-call-conference-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+  [2022-02-28 18:47:07,167], , [restartedMain], video-call-conference-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.4.9.Final}
+  [2022-02-28 18:47:07,387], , [restartedMain], video-call-conference-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+  [2022-02-28 18:47:07,543], , [restartedMain], video-call-conference-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-02-28 18:47:08,979], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-02-28 18:47:09,929], , [restartedMain], video-call-conference-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-02-28 18:47:23,663], , [restartedMain], video-call-conference-service, WARN  ExceptionHandlerLoggedImpl handleException | GenerationTarget encountered exception accepting command : Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table appointment.dr_slot_dtls add constraint FK8oaysmi662xnm1bne4g724roj foreign key (dsd_dr_user_id_fk) references registration.dr_mstr_dtls (dmd_user_id)" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:320)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:462)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1237)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:391)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:378)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1855)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.telemedicine.videoConference.VideoCallConferenceServiceApplication.main(VideoCallConferenceServiceApplication.java:13)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.postgresql.util.PSQLException: ERROR: insert or update on table "dr_slot_dtls" violates foreign key constraint "fk8oaysmi662xnm1bne4g724roj"
+  Detail: Key (dsd_dr_user_id_fk)=(SHUBHAM123) is not present in table "dr_mstr_dtls".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2497)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2233)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:310)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:446)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:370)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:311)
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:297)
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:274)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:269)
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95)
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54)
+	... 38 common frames omitted
+  [2022-02-28 18:47:25,570], , [restartedMain], video-call-conference-service, INFO  JtaPlatformInitiator initiateService | HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+  [2022-02-28 18:47:25,762], , [restartedMain], video-call-conference-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-02-28 18:47:25,938], , [restartedMain], video-call-conference-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-02-28 18:47:27,761], , [restartedMain], video-call-conference-service, WARN  JpaBaseConfiguration$JpaWebConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-02-28 18:47:27,964], , [restartedMain], video-call-conference-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-02-28 18:47:29,339], , [restartedMain], video-call-conference-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-02-28 18:47:29,479], , [restartedMain], video-call-conference-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7083"]
+  [2022-02-28 18:47:29,512], , [restartedMain], video-call-conference-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7083 (http) with context path '/videoconference'
+  [2022-02-28 18:47:29,515], , [restartedMain], video-call-conference-service, INFO  VideoCallConferenceServiceApplication logStarted | Started VideoCallConferenceServiceApplication in 28.905 seconds (JVM running for 31.016)
+  [2022-02-28 18:48:10,332], , [http-nio-7083-exec-2], video-call-conference-service, INFO  [/videoconference] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-02-28 18:48:10,333], , [http-nio-7083-exec-2], video-call-conference-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-02-28 18:48:10,366], , [http-nio-7083-exec-2], video-call-conference-service, INFO  DispatcherServlet initServletBean | Completed initialization in 33 ms
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:10,455], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::18:48:10.455076500
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:10,456], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::18:48:10.456074700
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:10,692], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:10,703], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:10,703], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:11,934], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=545656758777899, dialNumber=613-555-1234, message=, voiceBridge=19572, duration=65, hasBeenForciblyEnded=false, createTime=1646054288125, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=a1058f3d825a57ec767a28061125511ec4c33807-1646054288125, createDate=Mon Feb 28 13:18:08 UTC 2022}
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:12,314], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:12,315], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::18:48:12.315073800
+9b80e13e63730ca8 9b80e13e63730ca8 [2022-02-28 18:48:12,315], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::18:48:12.315073800
+55269dd1a1894e0f 55269dd1a1894e0f [2022-02-28 18:48:28,451], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::18:48:28.451516200
+55269dd1a1894e0f 55269dd1a1894e0f [2022-02-28 18:48:28,452], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::18:48:28.452512900
+55269dd1a1894e0f 55269dd1a1894e0f [2022-02-28 18:48:28,643], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+55269dd1a1894e0f 55269dd1a1894e0f [2022-02-28 18:48:28,644], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::18:48:28.643007200
+55269dd1a1894e0f 55269dd1a1894e0f [2022-02-28 18:48:28,644], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::18:48:28.644001800
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:45,864], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::18:52:45.864643500
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:45,865], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::18:52:45.865642400
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:46,049], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:46,049], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:46,050], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:47,753], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=54565675877789977, dialNumber=613-555-1234, message=, voiceBridge=91124, duration=65, hasBeenForciblyEnded=false, createTime=1646054562892, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=f9af0286f94f180009c4f25e4349720a4d8411c6-1646054562892, createDate=Mon Feb 28 13:22:42 UTC 2022}
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:48,069], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:48,070], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::18:52:48.070206900
+f0cfb4ac1a722661 f0cfb4ac1a722661 [2022-02-28 18:52:48,070], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::18:52:48.070206900
+a4ac85a708899dad a4ac85a708899dad [2022-02-28 18:53:08,675], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::18:53:08.675261400
+a4ac85a708899dad a4ac85a708899dad [2022-02-28 18:53:08,675], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::18:53:08.675261400
+a4ac85a708899dad a4ac85a708899dad [2022-02-28 18:53:09,138], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+a4ac85a708899dad a4ac85a708899dad [2022-02-28 18:53:09,139], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::18:53:09.139608
+a4ac85a708899dad a4ac85a708899dad [2022-02-28 18:53:09,140], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::18:53:09.140602700
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:56,436], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::19:03:56.435439200
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:56,446], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::19:03:56.446409700
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:56,658], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:56,659], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:56,660], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:59,537], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=1234567890, dialNumber=613-555-1234, message=, voiceBridge=45507, duration=65, hasBeenForciblyEnded=false, createTime=1646055233609, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=01b307acba4f54f55aafc33bb06bbbf6ca803e9a-1646055233609, createDate=Mon Feb 28 13:33:53 UTC 2022}
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:59,857], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:59,858], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::19:03:59.858763
+c007ea853b0622ff c007ea853b0622ff [2022-02-28 19:03:59,859], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-10], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::19:03:59.859762100
+4fe04ae434ff4a51 4fe04ae434ff4a51 [2022-02-28 19:04:34,292], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::19:04:34.292753900
+4fe04ae434ff4a51 4fe04ae434ff4a51 [2022-02-28 19:04:34,293], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::19:04:34.293751800
+4fe04ae434ff4a51 4fe04ae434ff4a51 [2022-02-28 19:04:34,493], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+4fe04ae434ff4a51 4fe04ae434ff4a51 [2022-02-28 19:04:34,494], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::19:04:34.494879500
+4fe04ae434ff4a51 4fe04ae434ff4a51 [2022-02-28 19:04:34,495], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-1], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::19:04:34.495875400
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:42,489], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::19:09:42.489783700
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:42,491], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::19:09:42.491778200
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:42,675], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:42,676], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:42,676], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:43,138], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=12345678901, dialNumber=613-555-1234, message=, voiceBridge=58302, duration=65, hasBeenForciblyEnded=false, createTime=1646055579266, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=266dc053a8163e676e83243070241c8917f8a8a3-1646055579266, createDate=Mon Feb 28 13:39:39 UTC 2022}
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:43,423], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:43,424], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::19:09:43.424373400
+3cb1cfd7757ff0be 3cb1cfd7757ff0be [2022-02-28 19:09:43,425], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-4], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::19:09:43.425378300
+33b606ef9467648e 33b606ef9467648e [2022-02-28 19:09:55,908], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-5], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::19:09:55.908529300
+33b606ef9467648e 33b606ef9467648e [2022-02-28 19:09:55,909], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-5], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::19:09:55.909525700
+33b606ef9467648e 33b606ef9467648e [2022-02-28 19:09:56,108], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-5], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+33b606ef9467648e 33b606ef9467648e [2022-02-28 19:09:56,109], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-5], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::19:09:56.109616
+33b606ef9467648e 33b606ef9467648e [2022-02-28 19:09:56,109], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-5], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::19:09:56.109616
+434032599b1f45e7 434032599b1f45e7 [2022-02-28 19:17:55,607], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::19:17:55.607785100
+434032599b1f45e7 434032599b1f45e7 [2022-02-28 19:17:55,608], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::19:17:55.608783100
+434032599b1f45e7 434032599b1f45e7 [2022-02-28 19:17:55,793], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+434032599b1f45e7 434032599b1f45e7 [2022-02-28 19:17:55,793], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::19:17:55.793469900
+434032599b1f45e7 434032599b1f45e7 [2022-02-28 19:17:55,794], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-7], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::19:17:55.794468100
+9d216ff77510cbd5 9d216ff77510cbd5 [2022-02-28 19:18:08,748], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-9], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::19:18:08.748030500
+9d216ff77510cbd5 9d216ff77510cbd5 [2022-02-28 19:18:08,749], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-9], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::19:18:08.749027600
+9d216ff77510cbd5 9d216ff77510cbd5 [2022-02-28 19:18:08,928], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-9], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+9d216ff77510cbd5 9d216ff77510cbd5 [2022-02-28 19:18:08,929], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-9], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::19:18:08.929080800
+9d216ff77510cbd5 9d216ff77510cbd5 [2022-02-28 19:18:08,929], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-9], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::19:18:08.929080800
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,109], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::19:36:04.109678600
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,113], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::19:36:04.113668700
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,311], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,312], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,312], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:04,931], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Getting response from bigbluebutton::{moderatorPW=moderator123, messageKey=, returncode=SUCCESS, meetingID=12345678902, dialNumber=613-555-1234, message=, voiceBridge=00984, duration=65, hasBeenForciblyEnded=false, createTime=1646057161080, hasUserJoined=false, attendeePW=attendee123, parentMeetingID=bbb-none, internalMeetingID=99d12d4b6a72e905e68359d799b2aa5e93229f94-1646057161080, createDate=Mon Feb 28 14:06:01 UTC 2022}
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:05,285], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Meeting details saved into db
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:05,287], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution end time::19:36:05.287652400
+ce6ced9e853649f7 ce6ced9e853649f7 [2022-02-28 19:36:05,288], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-2], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution end time::19:36:05.288649700
+cda9f98f67f1c4ea cda9f98f67f1c4ea [2022-02-28 19:36:18,246], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution start time::19:36:18.246447600
+cda9f98f67f1c4ea cda9f98f67f1c4ea [2022-02-28 19:36:18,247], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution start time::19:36:18.247443900
+cda9f98f67f1c4ea cda9f98f67f1c4ea [2022-02-28 19:36:18,455], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | Giving call to bigbluebutton join api
+cda9f98f67f1c4ea cda9f98f67f1c4ea [2022-02-28 19:36:18,456], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  BBBMeetingImpl getJoinMeetingURL | getJoinMeetingURL excecution end time::19:36:18.456972600
+cda9f98f67f1c4ea cda9f98f67f1c4ea [2022-02-28 19:36:18,457], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-3], video-call-conference-service, INFO  VideoConfuthenticationController joinBBBMeeting | joinBBBMeeting excecution end time::19:36:18.457970800
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:17,676], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  VideoConfuthenticationController createBBBMeeting | createBBBMeeting excecution start time::19:44:17.676840100
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:17,677], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | createMeeting excecution start time::19:44:17.677838600
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:17,853], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Calculating check sum for query parameter
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:17,854], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl createMeeting | Giving call to bigbluebutton create api
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:17,854], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, INFO  BBBMeetingImpl doAPICall | Calling url::https://uattele.cloudvoice.in/bbb/bigbluebutton
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:18,497], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, ERROR BBBMeetingImpl doAPICall | BBB server responded with HTTP status code 404
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:18,501], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, ERROR BBBMeetingImpl createMeeting | Error while creating meeting::BBB server responded with HTTP status code 404
+d398d83a99439118 d398d83a99439118 [2022-02-28 19:44:18,657], 0:0:0:0:0:0:0:1, [http-nio-7083-exec-6], video-call-conference-service, WARN  ExceptionHandlerExceptionResolver logException | Resolved [com.nsdl.telemedicine.videoConference.exception.BBBException: BBB server responded with HTTP status code 404]
+  [2022-02-28 20:33:18,875], , [HikariPool-1 housekeeper], video-call-conference-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m7s823ms421µs400ns).
+  [2022-02-28 21:31:21,217], , [HikariPool-1 housekeeper], video-call-conference-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=57m32s310ms745µs300ns).
+  [2022-02-28 22:35:07,670], , [HikariPool-1 housekeeper], video-call-conference-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52m46s307ms204µs200ns).
+  [2022-02-28 23:51:13,643], , [HikariPool-1 housekeeper], video-call-conference-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h16m5s980ms309µs900ns).
+  [2022-02-28 23:52:43,814], , [RMI TCP Connection(94)-127.0.0.1], video-call-conference-service, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.

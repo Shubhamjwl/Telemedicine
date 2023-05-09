@@ -1,0 +1,25 @@
+.cursor {
+    cursor: pointer !important;
+}
+.captcha-wrapper{
+    height: 25px;
+    width: 84%;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.textColor {
+    color: white;
+}
+::-webkit-input-placeholder {
+    font-size: 12px;
+  }
+  ::-moz-placeholder {
+    font-size: 12px;
+  }
+  :-ms-input-placeholder {
+    font-size: 12px;
+  }
+  ::placeholder {
+    font-size: 12px;
+  }

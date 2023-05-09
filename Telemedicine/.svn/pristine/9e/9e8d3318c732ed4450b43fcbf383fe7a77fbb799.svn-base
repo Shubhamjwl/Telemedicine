@@ -1,0 +1,17 @@
+package com.nsdl.ndhm.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.nsdl.ndhm.entity.AuthConfirmEntity;
+
+public interface AuthConfirmRepository extends JpaRepository<AuthConfirmEntity, String> {
+
+	@Modifying
+	@Transactional
+	@Query("update AuthConfirmEntity u set u.response = ?1, u.status = ?4 , u.token = ?2 where u.requestId = ?3")
+	void updateResponseAndTokenByRequestId(String response, String token, String requestid ,boolean status);
+	
+}

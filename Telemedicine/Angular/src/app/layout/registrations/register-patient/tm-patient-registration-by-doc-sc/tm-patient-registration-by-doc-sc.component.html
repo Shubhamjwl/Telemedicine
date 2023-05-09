@@ -1,0 +1,390 @@
+<div>
+  <app-tm-breadcrumb [showHomePageOptions]="true"></app-tm-breadcrumb>
+  <ngx-spinner>
+    <p class="loading">Loading...</p>
+  </ngx-spinner>
+  <!--  New patient UX start here -->
+  <div class="main-container">
+    <div class="content-area content-area2 login-form">
+      <div class="page-title">Register A Patient</div>
+
+      <div class="register-form register-form2">
+        <div class="mb-3" *ngIf="ndhmFlag">
+          <label class="mr-2" *ngFor="let option of radioButtonLList">
+            <input
+              type="radio"
+              [attr.checked]="option.value === 'abha'"
+              [value]="option.value"
+              [(ngModel)]="selectedRadio"
+            />
+            <span class="ml-1">{{ option.name }}</span>
+          </label>
+        </div>
+
+        <div class="mb-3" *ngIf="!ndhmFlag">
+          <label class="mr-2" *ngFor="let option of radioButtonLList">
+            <input
+              type="radio"
+              [hidden]="option.value === 'abha'"
+              [attr.checked]="option.value === 'single'"
+              [value]="option.value"
+              [(ngModel)]="selectedRadio"
+            />
+            <span class="ml-1" [hidden]="option.name === 'Use ABHA'">{{ option.name }}</span>
+          </label>
+        </div>
+        <form [formGroup]="form">
+          <ng-container *ngIf="selectedRadio === 'single'">
+            <div class="input-group half-col right">
+              <label>Patient's Full Name<sup>*</sup></label>
+              <input type="text" formControlName="patientName" autocomplete="off" />
+
+              <mat-error
+                class="ml-1"
+                *ngIf="
+                  form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)
+                "
+              >
+                <span *ngIf="form.get('patientName').errors.required">{{ 'errFullNameRequired' | l10n }}</span>
+                <span *ngIf="form.get('patientName').errors.maxlength">{{ 'errFullNameMaxLength' | l10n }}</span>
+                <span *ngIf="form.get('patientName').errors.pattern">{{ 'errFullNamePattern' | l10n }}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col left">
+              <label>Mobile Number<sup>*</sup></label>
+              <input type="text" formControlName="mobileNo" length="10" numberOnly autocomplete="off" />
+              <mat-error
+                class="ml-1"
+                *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)"
+              >
+                <span *ngIf="form.get('mobileNo').errors.required">{{ 'errMobileRequired' | l10n }}</span>
+                <span *ngIf="form.get('mobileNo').errors.maxlength">{{ 'errMobileMaxLength' | l10n }}</span>
+                <span *ngIf="form.get('mobileNo').errors.pattern">{{ 'errMobilePattern' | l10n }}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col right">
+              <label>Email Id</label>
+              <input type="email" formControlName="email" autocomplete="off" />
+              <mat-error
+                class="ml-1"
+                *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)"
+              >
+                <span *ngIf="form.get('email').errors.required">{{ 'errEmailRequired' | l10n }}</span>
+                <span *ngIf="form.get('email').errors.email">{{ 'errEmailPattern' | l10n }}</span>
+                <span *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{
+                  'errEmailMaxlength' | l10n
+                }}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col left">
+              <label>Date of Birth</label>
+              <input type="text" class="col-10" formControlName="dob" [matDatepicker]="picker" />
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>
+                  <img src="assets/img/date-of-birth-small.svg" />
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </div>
+
+            <div class="input-group half-col left attach-col">
+              <label>Upload Photo</label>
+
+              <div class="toogle-area">
+                <mat-slide-toggle [checked]="isSwitcheChecked" (change)="onClickSwitch()"> </mat-slide-toggle>
+                <div class="attach-img" *ngIf="!isSwitcheChecked">
+                  <img [src]="uploadedImage" id="ProfilePhoto" />
+                </div>
+                <div *ngIf="isSwitcheChecked" class="d-flex flex-column">
+                  <webcam
+                    [height]="75"
+                    [width]="100"
+                    [trigger]="triggerObservable"
+                    (initError)="handleInitError($event)"
+                    (imageCapture)="handleImage($event)"
+                  >
+                  </webcam>
+
+                  <button type="button" class="submit-main-btn btn btn-sm" (click)="triggerSnapshot()">
+                    Take Photo
+                  </button>
+                </div>
+                <div *ngIf="!isSwitcheChecked" class="row ml-1">
+                  <input
+                    type="text"
+                    placeholder="Browse Files"
+                    class="col-10 pass"
+                    formControlName="profilePhoto"
+                    disabled
+                  />
+                  <input
+                    type="file"
+                    id="browse"
+                    formControlName="profilePhoto"
+                    class="mt-1"
+                    (change)="uploadProfilePhoto($event)"
+                    hidden
+                  />
+                  <img class="col-2 upload-document" src="assets/img/attachment.svg" (click)="browse()" />
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="selectedRadio === 'multiple'">
+            <div>
+              Click <a class="link-primary" (click)="download()"> Download file </a> to download and attach patient
+              details
+            </div>
+
+            <div class="d-flex my-3">
+              <input
+                type="text"
+                placeholder="Browse Files"
+                (click)="inputFile.click()"
+                class="col-10 browse_file"
+                [value]="selectedFileName"
+                disabled
+              />
+              <input #inputFile type="file" class="d-none" accept=".xlsx" multiple (change)="selectFiles($event)" />
+              <img src="assets/img/attachment.svg" (click)="inputFile.click()" class="upload-sample" alt="" />
+              <button type="button" class="btn btn-primary" [disabled]="!selectedFileName" (click)="uploadFiles()">
+                Upload
+              </button>
+            </div>
+            <div class="my-3" *ngIf="uploadedFiles && uploadedFiles.length">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr *ngFor="let file of uploadedFiles; let i = index">
+                    <td>{{ file.name }}</td>
+                    <td class="text-danger pointer" (click)="removeFile(i)"><b>X</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="selectedRadio === 'abha' && ndhmFlag">
+            <div class="row">
+              <div class="col-6 col-lg-6">
+                <input
+                  type="text"
+                  formControlName="healthId"
+                  class="input-border"
+                  id="healthId"
+                  style="display: inline-block; border-bottom: 1px solid #e43927 !important; margin-bottom: 2%"
+                  placeholder="Enter ABHA ID/ ABHA Address"
+                />
+                <br />
+                <mat-error
+                  *ngIf="form.get('healthId').errors && (form.get('healthId').touched || form.get('healthId').dirty)"
+                >
+                  <span *ngIf="form.get('healthId').errors.required">ABHA ID /ABHA Address required.</span>
+                  <span *ngIf="form.get('healthId').errors.pattern">ABHA ID Required, Example: abc@sbx</span>
+                </mat-error>
+              </div>
+              <div class="col-6 col-lg-6">
+                <button
+                  type="button"
+                  class="submit-main-btn submit-main-btn2 mr-2"
+                  style="font-size: 14px; margin-left: 20%"
+                  (click)="openAbhaPopup()"
+                  [disabled]="!form.get('healthId').valid"
+                >
+                  Verify ABHA
+                </button>
+              </div>
+            </div>
+            <div style="margin-top: 3%" *ngIf="showMsg">
+              <p style="color: red">
+                <b> Alert: Duplicate records Found. Patient is already registered with you in Protean Clinic.</b>
+              </p>
+            </div>
+          </ng-container>
+          <!-- <div *ngIf="selectedRadio !== 'abha'" class="input-group full-col btn-area">
+            <button type="button" class="submit-main-btn submit-main-btn2 mr-2" (click)="onClickSubmit()">
+              Submit not Abha
+            </button>
+          </div> -->
+          <div class="input-group full-col btn-area" *ngIf="selectedRadio === 'multiple' || selectedRadio === 'single'">
+            <span *ngIf="selectedRadio === 'multiple'" class="my-2 text-danger font-weight-bold"
+              >Note: Please download file from above link and attach with updated details and file name should be
+              sample.xlsx</span
+            >
+            <button
+              type="button"
+              class="submit-main-btn submit-main-btn2 mr-2"
+              [disabled]="selectedRadio === 'multiple' && !uploadedFiles?.length"
+              (click)="onClickSubmit()"
+            >
+              Submit
+            </button>
+            <button type="button" class="submit-main-btn submit-main-btn2" (click)="onClickCancel()">Cancel</button>
+          </div>
+        </form>
+        <div *ngIf="showPatientVerificationPage && selectedRadio === 'abha'">
+          <app-abha-tm-patient-verify
+            [profileData]="accountProfileData"
+            [isUpdate]="isUpdate"
+            (goToPatientPage)="patientData($event)"
+          >
+          </app-abha-tm-patient-verify>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br /><br />
+
+<ng-template #abhaRef style="width: 100% !important">
+  <div style="background-color: #e43927" class="d-flex align-items-center p-2">
+    <div style="color: white; font-size: 18px">OTP</div>
+    <a role="button" style="color: white; font-size: larger" class="ml-auto mr-2" (click)="closePopup()"> X </a>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="radio">
+        <label>
+          <input
+            type="radio"
+            name="radio"
+            value="New"
+            (click)="setradio('New')"
+            [checked]="true"
+            [(ngModel)]="isChecked"
+            [ngModelOptions]="{ standalone: true }"
+            ngModel
+          />
+          Using Mobile number linked with Aadhaar
+        </label>
+      </div>
+      <div *ngIf="isSelected('New')">
+        <form [formGroup]="aadharValidationForm">
+          <label style="font-size: 12px; font-weight: bold">OTP<sup class="error">*</sup></label>
+          <div style="display: flex">
+            <input
+              type="text"
+              class="input-border"
+              formControlName="otp"
+              [(ngModel)]="otp"
+              [ngModelOptions]="{ standalone: true }"
+              style="display: inline-block; border-bottom: 1px solid #e43927 !important"
+              placeholder="OTP"
+            />
+
+            <button
+              type="button"
+              class="button"
+              [disabled]="!aadharValidationForm.get('otp').valid"
+              style="font-size: 13px; margin-left: 8%; margin-right: 2%"
+              (click)="submitAdharOtp()"
+            >
+              SUBMIT
+            </button>
+            <button
+              type="button"
+              class="button"
+              [disabled]="!showResendButton"
+              style="font-size: 13px"
+              (click)="sendOtp('New')"
+            >
+              RESEND OTP
+            </button>
+          </div>
+          <mat-error
+            *ngIf="
+              aadharValidationForm.get('otp').errors &&
+              (aadharValidationForm.get('otp').touched || aadharValidationForm.get('otp').dirty)
+            "
+          >
+            <span style="margin-left: 10px" *ngIf="aadharValidationForm.get('otp').errors.required"
+              >Please Enter OTP</span
+            >
+            <span style="margin-left: 10px" *ngIf="aadharValidationForm.get('otp').errors.pattern"
+              >Please Enter Correct OTP</span
+            >
+          </mat-error>
+          <div>
+            <div style="float: right">
+              <p *ngIf="showTimer">{{ timeLeft | formatTimePipe }}</p>
+            </div>
+            <div style="margin-top: 10px">
+              <p style="font-size: 15px; margin-top: 1rem">OTP has been sent your registered mobile number</p>
+            </div>
+          </div>
+          <br />
+        </form>
+      </div>
+
+      <div class="radio">
+        <label>
+          <input
+            type="radio"
+            name="radio"
+            value="Renewal"
+            [(ngModel)]="isChecked2"
+            [ngModelOptions]="{ standalone: true }"
+            (click)="setradio('Renewal')"
+            ngModel
+          />
+          Using Mobile number registered with ABHA
+        </label>
+      </div>
+
+      <div *ngIf="isSelected('Renewal')">
+        <form [formGroup]="otpValidationForm">
+          <div style="text-align: center">
+            <p style="font-size: 15px; margin-top: 1rem">OTP has been sent your registered mobile number</p>
+          </div>
+          <p style="font-size: 12px; font-weight: bold">OTP <span class="error">*</span></p>
+          <div style="display: flex">
+            <input
+              type="text"
+              class="input-border"
+              formControlName="adhaarOtp"
+              [(ngModel)]="adhaarOtp"
+              [ngModelOptions]="{ standalone: true }"
+              style="display: inline-block; border-bottom: 1px solid #e43927 !important"
+              placeholder="OTP"
+            />
+
+            <button
+              type="button"
+              [disabled]="!otpValidationForm.get('adhaarOtp').valid"
+              class="button"
+              style="font-size: 13px; margin-left: 8%; margin-right: 2%"
+              (click)="submitMobileOtp()"
+            >
+              SUBMIT
+            </button>
+            <button
+              type="button"
+              class="button"
+              [disabled]="!showOtpForNumber"
+              style="font-size: 13px"
+              (click)="sendOtp('Renewal')"
+            >
+              RESEND OTP
+            </button>
+          </div>
+          <mat-error
+            *ngIf="
+              otpValidationForm.get('adhaarOtp').errors &&
+              (otpValidationForm.get('adhaarOtp').touched || otpValidationForm.get('adhaarOtp').dirty)
+            "
+          >
+            <span style="margin-left: 10px" *ngIf="otpValidationForm.get('adhaarOtp').errors.required"
+              >Please Enter OTP</span
+            >
+            <span style="margin-left: 10px" *ngIf="otpValidationForm.get('adhaarOtp').errors.pattern"
+              >Please Enter Correct OTP</span
+            >
+          </mat-error>
+          <div style="float: right">
+            <p *ngIf="showTimerForOtp">{{ timeLeft | formatTimePipe }}</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<app-footer></app-footer>

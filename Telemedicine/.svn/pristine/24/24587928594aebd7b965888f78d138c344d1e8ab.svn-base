@@ -1,0 +1,9 @@
+package com.nsdl.ndhm.service;
+
+import com.nsdl.ndhm.dto.OnAddContextResponseDTO;
+
+public interface LinkCallbackService {
+
+	void updateOnAddContext(OnAddContextResponseDTO addContextResponseDTO);
+
+}

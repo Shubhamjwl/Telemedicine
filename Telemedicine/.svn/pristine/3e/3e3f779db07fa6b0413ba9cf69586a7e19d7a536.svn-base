@@ -1,0 +1,98 @@
+.bookAppointmentDashboard {
+    .headingTag1 {
+        // color: #63a4ec;
+        font-weight: 500;
+        font-size: 20px;
+    }
+    .hedingTag3 {
+        font-weight: 600;
+        color: #ff5549;
+        font-size: 28px;
+    }
+    
+}
+.section-1 {
+    // background: #feffbb;
+    .hedingTag2 {
+        font-weight: 600;
+        color: #ff5549;
+        font-size: 28px;
+    }
+    .allProblems {
+        .dataDiv {
+            overflow: hidden !important;
+            // white-space: nowrap !important;
+            flex-wrap: unset !important;
+            // .customCard {
+            //     display: inline-block !important;
+            //     float: none !important;
+            // }
+        }
+        .previousBtn, .nextBtn {
+            background: #9c8888;
+            width: 40px;
+            height: 50px;
+            border-radius: 40px;
+            margin-top: 60px;
+        }
+    }
+}
+.cursor {
+    cursor: pointer;
+}
+.selectedProbBgColor {
+    background-color: #fffc98  !important;
+    // border: 1px solid #000000;
+    box-shadow: 0 0 10px -4px;
+}
+.section-2 {
+    background: #07d0b283;
+    // border: 1px solid gray;
+    // border-radius: 10px;
+}
+.section-3 {
+   .heading-3 {
+      letter-spacing: 1px;
+   }
+   .custom-height {
+        max-height: 490px;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+    .docCard {
+        .doctor-name {
+            color: red;
+            letter-spacing: 1px;
+            font-size: 16px;
+        }
+        .time, .consultation-fee {
+            font-size: 16px;
+        }
+    }
+    .cardHover:hover {
+        border: none !important;
+        box-shadow: 0 0 10px -4px !important;
+    }
+    .card{
+        width: 100%;
+        min-height: 270px;
+    }
+}
+
+.customAutoComplete {
+    height: 48px !important;
+    background: #ffffff !important;
+    border: none !important;
+    // color: red !important;
+    font-size: 16px !important;
+    border-radius: 40px !important;
+    box-shadow: 0 0 8px 0px #D8A7A3 !important;
+  }
+  .autoCompleteSearchIcon {
+    font-size: 22px;
+    position: absolute !important;
+    box-shadow: none !important;
+    margin-left: -10% !important;
+    margin-top: 6px !important;
+  }
+ 

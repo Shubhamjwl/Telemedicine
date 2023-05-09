@@ -1,0 +1,177 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { IConsultationPatientDetails } from 'src/app/shared/commonBuildBlocks/interfaces/consultation-patient-details.interface';
+import { IPatient } from 'src/app/shared/commonBuildBlocks/interfaces/patient.interface';
+import { IPatientDetailsByAppointmentIDSaveSpec } from 'src/app/shared/commonBuildBlocks/saveSpecs/patient-details-by-appointment-id.savespec';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-prescribe-service',
+  templateUrl: './prescribe-service.component.html',
+  styleUrls: ['./prescribe-service.component.scss']
+})
+export class PrescribeServiceComponent implements OnInit {
+  patientDetailsList; 
+  filteredOptions: Observable<IPatient[]>;
+  form: FormGroup;
+  doctorDetails: any;
+  consultationService: any;
+  @ViewChild("form") formPre: ElementRef;
+  clientSecret: any;
+  emailid: string;
+  transactionID:any;
+  actionURL = environment.prescribedUrl;
+  mobileNo = sessionStorage.getItem('mobileNo');
+  constructor(
+    private patientService: PatientService,
+    private dataPassingService: DataPassingService,
+    private fb: FormBuilder,
+    private toastrMessage: ToastMessageService,
+    private spinner: NgxSpinnerService,
+    private router: Router,
+    private activateRoute: ActivatedRoute,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.form = this.fb.group({
+      searchPtByName: [null],
+    })
+    this.doctorDetails = this.dataPassingService.getDoctorDetails();
+   }
+
+   /**
+   * Used to store response of Patient Details
+   */
+    patientDetails: IConsultationPatientDetails;
+
+  ngOnInit(): void {
+
+    this.form.get('searchPtByName').valueChanges.pipe(debounceTime(1000)).subscribe(value => {
+      if (typeof value === 'string') {
+        this.getPatientDetails(value);
+      }
+    })
+  }
+
+  getPatientDetails(nameOrMob) {
+    this.patientService.getPatientByName(nameOrMob).subscribe((result: any) => {
+      if (result.status && result.response) {
+        this.patientDetailsList = result ? result.response ? result.response : null : null;
+        this.filterOptions();
+      } else {
+        // this.patientDetailsList = MockResponse.patientList.response;
+        // this.filterOptions();
+        this.toastrMessage.showErrorMsg(result.errors[0].message, "Error");
+      }
+    }, error => {
+      // this.patientDetailsList = MockResponse.patientList.response;
+      // this.filterOptions();
+      this.toastrMessage.showErrorMsg(error.errors[0].message, "Error");
+    })
+  }
+
+  filterOptions() {
+    this.filteredOptions = this.form.get('searchPtByName').valueChanges.pipe(
+      startWith(''),
+      map((value: any) => typeof value === 'string' ? value : value.name),
+      map(name => name ? this._filter(name) : this.patientDetailsList.slice())
+    );
+  }
+  displayFn(user): string {
+    return user && user.ptFullName ? user.ptFullName : '';
+  }
+  private _filter(name): IPatient[] {
+    const filterValue = name.toLowerCase();
+    if (this.hasNumbers(filterValue)) {
+      let mobNo: number = +filterValue;
+      return this.patientDetailsList.filter(option => option.ptMobNo.indexOf(mobNo) === 0);
+    } else {
+      return this.patientDetailsList.filter(option => option.ptFullName.toLowerCase().indexOf(filterValue) === 0);
+    }
+  }
+
+  hasNumbers(t) {
+    var regex = /\d/g;
+    return regex.test(t);
+  }
+  
+   /**
+   * Used to get Patient Details from API Call
+   */
+    ptPersonalDetals;
+  getPatientDetailS() {
+    this.consultationService.getPatientDeailsByAppointmenttID((this.activatedRoute.snapshot.queryParams as IPatientDetailsByAppointmentIDSaveSpec)).subscribe(
+      res => {
+        if (res.response) {
+          this.patientDetails = res.response;
+          this.ptPersonalDetals = res.response.ptPersonalDetals;
+          this.saveMarketPlaceDetails(this.transactionID);
+        } else if (res.errors) {
+        }
+      }, error => {
+      }
+    )
+  }
+
+  onClickPrescribed(){ 
+    this.paymentApi();
+    
+}
+
+paymentApi() {
+  let dummyPayload = {
+    docUserID: this.activatedRoute.snapshot.queryParamMap.get('drRegID'),
+    ptUserID: this.activatedRoute.snapshot.queryParamMap.get('ptRegID'),
+    bookedFor: "n",
+    appointmentSlot: "null",
+    appointmentDate: "null",
+    appointmentType:"null",
+  
+  }
+  
+  this.patientService.dummyPaymentApi(dummyPayload).subscribe(result => {
+    this.transactionID = result;
+        this.getPatientDetailS();
+        
+  },
+  () => {
+    this.toastrMessage.showErrorMsg(ErrorSuccessMessage.APIFAILD, 'Error');
+  });
+   }
+  
+  
+    saveMarketPlaceDetails(transactionID){
+       this.emailid = sessionStorage.getItem('emailID');
+       let data = {
+          request:{
+            transtId:transactionID,
+            drEmail:this.emailid,
+            ptNname: this.ptPersonalDetals.name,
+            ptMobile:this.ptPersonalDetals.mobileNo,
+          },
+       };
+       this.spinner.show();
+       this.consultationService.saveMarketPlaceDetails(data).subscribe(result => {
+        this.spinner.hide();
+        this.clientSecret = result.response.clientSecret;
+        setTimeout(()=>{
+          this.formPre.nativeElement.submit();
+        },1000)
+       });
+  
+      }  
+  
+
+
+}

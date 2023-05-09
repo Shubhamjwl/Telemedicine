@@ -1,0 +1,58 @@
+<div class="login-container">
+    <div class="login-panel">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2>Create NDHM issued Health ID?</h2>
+        </div>
+      </div>
+      <div
+        class="login-form-box"
+        style="
+          width: 700px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        "
+      >
+        
+        
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 15%;
+            "
+            (click)="healthidYes()"
+          >
+            Yes
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 15%;
+            "
+            (click)="healthidNo()"
+          >
+            No
+          </button>&nbsp;&nbsp;
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 25%;
+            "
+            (click)="haveHealthid()"
+          >
+            Have Health Id
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

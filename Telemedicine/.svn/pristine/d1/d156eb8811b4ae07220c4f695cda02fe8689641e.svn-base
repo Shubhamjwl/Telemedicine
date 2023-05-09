@@ -1,0 +1,620 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand logo-wrapper" >
+      <img src="assets/img/protean-clinic-logo.png" alt="logo" style="margin: 0 0 -7px 0;">
+      <!-- <img src="assets/images/Protean_Clinic_7.png" alt="logo"> -->
+    </span>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="col-5 navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link cursor" (click)="navigateToPage('home')">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('aboutUs')">About Us</a>
+            </li> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('contactUs')">Contact Us</a>
+            </li> -->
+        </ul>
+        
+        <!-- <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 user">
+            <a class="cursor float-right mt-2 nav-link" target="_blank" [href]="getLink()" download>Download APK</a>
+        </div>
+   -->
+        <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+            <button type="button" (click)="onClickContactUs()" class="btn btn-outline-info">
+                Contact Us
+            </button>
+        </div> -->
+  
+    </div>
+  </nav>
+  <div class="container shadow mt-3" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col text-center text-danger pt-3">
+               <h2><strong>TERMS OF USE</strong></h2>
+            </div>
+            <div class="col pt-5 textJustify">
+              <p>
+                <strong>BY ACCESSING OR OTHERWISE USING THE PLATFORM, YOU AGREE TO THESE TERMS
+                     AND CONDITIONS AND YOU AGREE TO RECEIVE REQUIRED NOTICES AND TO TRANSACT WITH US ELECTRONICALLY.</strong>
+                </p>
+
+                <p>
+                    <strong>IF YOU DO NOT AGREE, PLEASE DO NOT USE THE PLATFORM/ SERVICES.</strong>
+                  </p>
+
+                <p>
+                    Welcome to our website <a href="https://www.protean-health.com">https://www.protean-health.com</a>(hereinafter referred as “Website” or “Site” or “Platform”). 
+                    The Platform is to provide users(“you, your, yours”) with an online platform for  
+                    interaction between the patient, duly qualified doctors i.e. Registered Medical Practitioners, 
+                    Specialists, and other service providers. Patient or Caregiver of Patient (if the Patient is a minor 
+                    or disabled), Registered Medical Practitioners (RMP), Specialists and other Service Providers all are
+                     users of this Platform and hereinafter shall be referred as “You” or “Users” as per the context. 
+                </p>
+                <p>The Platform is owned and operated by Protean eGov Technologies Limited (formerly known as NSDL e-Governance Infrastructure Limited), and having its registered office at 1st floor, Times Tower, Kamala Mills Compound, 
+                    Lower Parel, Mumbai - 400 013, India, (herein after referred as “We, Us, Our, Company” or “Protean”)</p>
+                 
+                    <p>
+                        These Terms of Use along with the applicable policies including Privacy Policy 
+                        (Collectively referred to as “Agreement”) which are incorporated herein by way of reference govern 
+                        the use of this Platform.  By mere use of the Platform, the Users shall be contracting with Us and 
+                        these terms and conditions including the policies constitute the binding obligations. Where any part 
+                        of the Agreement is modified in
+                         accordance with the terms of the Agreement, the Agreement shall be enforceable in its modified form.
+                    </p>
+                <h3 class="text-danger"><strong>1.THE PLATFORM</strong></h3>
+                <p>
+                    1.1. Through the Platform, Protean facilitates the purchase of services offered for sale by RMP, 
+                    Specialists and other Service Providers (Collectively referred as “Registered Service Providers”). 
+                    You understand and agree that Protean is merely providing technology platform. All Services offered 
+                    for sale through/on the Platform are owned by respective Registered Service Providers. 
+                    Protean has no control over Registered Service Providers and does not originate or initiate the 
+                    transmission or select the sender/recipient of the transmission. The authenticity and genuineness of 
+                    the service made available by Registered Service Providers through the Platform shall be the sole 
+                    responsibility of Registered Service Providers. You understand and agree that the Protean shall have no liability
+                     with respect to the quality and standard of the services being facilitated through the Platform. 
+                 </p>
+                 <p>
+                    1.2. User understand, agree and acknowledge that Protean is only a technology facilitator and is not and shall not be a party to any services including telemedicine/teleconsultation services provided  via the Platform. User also understand and agree that the Protean cannot and will not control the services in any manner except as provided in this Agreement.
+                 </p>
+                 <p>1.3. Any contract of sale of services on the Platform is a strictly bipartite contract between the Users on the Platform. </p>
+                 <p>1.4. Protean does not make any representation or warranty as to services of Registered Service Providers. </p>
+                 <p>1.5. Protean is not responsible for any non-performance or breach of any contract entered between You and other Users on the Platform. Protean cannot and does not guarantee that the concerned Users will perform any transaction concluded on the Platform. 
+                     Protean is not responsible for unsatisfactory or non-performance of services or damages or delays.</p>
+                <p>1.6. Subject to the limitations of the services, the Registered Service Providers shall make reasonable efforts to address Your complaints. </p>
+                <p>
+                    1.7. Users release and indemnify the Protean and/or any of its officers and representatives from any cost, damage, liability or other consequence of any of the actions of the Users on the Platform and specifically waive any claims that Users may have in this behalf under any applicable law, 
+                    provided that the cost, damage, liability or other consequence is not due to actions or omissions of the Protean. 
+                </p>
+                
+                <h3 class="text-danger"><strong>2.	REGISTRATION</strong></h3>
+
+                <p>
+                    2.1. User must register on this Platform in order to use the Platform functions by providing a username, mobile number, a valid email address and any other information as may be require from time to time (“Account”).  </p>
+               
+                <p>2.2. Any RMP can create Account of its Patient or send a link to the Patient/ Caregiver the  link to the Platform. Once account is registered (except the Patient registered by the RMP who upon first login in the Account as the Patient) the account holder shall be treated as User.   </p>
+                <p>2.3. During registration, User will be required to provide contact information, consisting of an email address, username and one-time password sent to User’s mobile number entered while registration. User undertakes that he/she is genuine user and is not impersonating any another person. </p>
+                <p>2.4. User will be required to furnish certain information and details, including name, mobile number, e-mail address, residential address, location, payment information (credit/debit card details) if required, and any other information deemed necessary by the Platform. User are required to provide accurate and complete information. </p>
+                <p>2.5. User is responsible for maintaining the confidentiality of the account details and User are fully 
+                    responsible for all activities that occur under the account. User’s account must be used only by the 
+                    User and must not be shared with, or transferred to any other individual.  User agree to ensure that 
+                    the User is successfully logged out from the account at the end of each session; and the User must 
+                    immediately notify us of any suspected or actual, unauthorized or fraudulent use of User’s account or
+                     any other breach of security.  If there is reason to believe that there is likely to be a breach of
+                      security or misuse of User’s account, we may suspend User’s account without any liability to the 
+                      Protean, for such period of time as we deem appropriate in the circumstances. 
+                    We shall not be liable for any loss or damage arising from User’s failure to comply with this provision.</p>
+                <p>2.6. User acknowledge that the ability to use User’s account is dependent upon external factors such as internet service providers and internet network availability and the Protean cannot guarantee accessibility to the Platform at all times. In addition to the disclaimers set forth in the Agreement, the Protean shall not be liable to Users for any damages arising from Users inability to log into their account and access the services of the Platform at any time.</p>
+             
+                <p>
+                    2.7. Users can access and update much of the information provided in the User Account area of the Platform. 
+                </p>
+               
+                <h3 class="text-danger"><strong>3.	COMPETENT TO CONTRACT </strong></h3>
+                <p>
+                    User represent that User is “competent/capable” of contracting within the meaning of the Indian 
+                    Contract Act, 1872 and is eligible to register on the Platform and utilise the Services. By using the
+                     Platform or Services, User warrants that all the data, information etc.  provided by the User is accurate and complete. The Protean reserves the right to terminate the subscription and / or refuse to provide User with access to the Platform if
+                    it is discovered that User is not competent to contract or has provided any inaccurate information.</p>
+                
+                    <h3 class="text-danger"><strong>4.	PRIVACY POLICY</strong></h3>  
+                    <p>
+                        Use of the Platform signifies User’s continuing consent to the Privacy Policy, which Users can examine any time by clicking on the “Privacy” link on the Platform. If you supply any personal information to the Company and any information 
+                        about your use of Platform that we obtain will be subject to the Privacy Policy on the Platform.v
+                    </p>
+
+                <h3 class="text-danger"><strong>5.	SERVICES</strong></h3>
+                <p>
+                    5.1. Subject to the limitations and restrictions imposed by the Agreement and applicable laws, the Platform may be used to provide online consultations to Patient by the RMP, Consultation of the Specialists by RMP, ordering of lab tests, medicines by the patients with 
+                    Registered Service Providers other than RMP and Specialists and other services as may be intimated from time to time (“Services”). The Services are non-transferable. 
+                </p>
+                <p>
+                    5.2. You may consult for yourself as a patient or any minor of your family who is in need of consultation. Only parents and guardian may consult on behalf of their children/ward. Every Patient shall have a separate Account. Patient can be User only if any RMP registers patient as User or shares the link to such patient to become User. 
+                </p>
+                <p>
+                    5.3. You understand that Services are being provided on personal basis. You are advised not to use the Platform in case of any medical emergency or if patient is in a critical condition.
+                </p>
+                <p>
+                    5.4. If You do not satisfy the above pre-conditions, please do not avail the services on Platform. Protean will not be responsible or
+                     liable for any harm or loss that User may suffer if You elect to access those Services.
+                </p>
+                <p>
+                    5.5. All Users, who are patients, and who opt for availing Services, may be required to undergo an initial medical examination to ascertain and record medical history, medication history and medical status.
+                </p>
+                <p>
+                    5.6. Online consultation services are provided at Patient’s express consent and the same shall not be
+                    construed as a replacement for physical consultation and the Services are meant for general
+                    consultation only. If after online consultation, if it is recommended to undergo any diagnostic tests or if Patient is issued with a Prescription, the same are provided based on the information and preliminary examination, hence the same shall not be treated as accurate, final and conclusive. RMP reserves their rights to modify the prescription or 
+                    recommended diagnostic tests if the User provides any additional information in future consultation.  
+                </p>
+                <p>
+                    5.7. Online consultation services may be provided via the following communication channels
+                     Video call / Telephones / Mobiles / Online Chats / emails/ SMS & Text Chats with and without camera 
+                     and video facilities at the sole discretion of the Registered Service Providers. Reasonable efforts 
+                    will be made to protect Patient’s privacy and confidentiality across health consultation services. 
+                </p>
+                <p>
+                    5.8. The Registered Service Providers shall ensure that the Services provided to
+                     Users are always in compliance with applicable laws prescribed in this regard from time to time.  
+                </p>
+                <p>
+                    5.9. RMP, Specialists and other Service Providers understand and Agree that they are bound by all the applicable laws related to their offering of services including professional conduct, etiquette and ethics regulations
+                     and have same liability towards the Patient as in offline consultation/ provision of service . 
+                </p>
+                <p>
+                    5.10. Registered Service Providers including RMPs understand and agree that any technological 
+                    assistance offered by Platform in patient evaluation, diagnosis or management, is merely a tool to 
+                    assist and support a RMP or such Registered Service Provider. The final services including the 
+                    prescription, counselling or advice  are to be delivered by  
+                    the Registered Service Provider and Protean is not liable for such services in any event. 
+                </p>
+                <p>
+                    5.11. Registered Service Providers agree that in the event any non-compliance to the applicable laws  by Registered Service Provider is brought to  the notice of Protean, Protean shall have all the rights to suspend/ terminate the 
+                    account of such Registered Service Providers and report the same to appropriate authorities.
+                </p>
+
+                
+                
+                <h3 class="text-danger"><strong>6.	USE OF PLATFORM </strong></h3>
+                <p>
+                    6.1. Subject to User’s compliance with the Agreement, we grant Users a limited, personal, revocable, non-transferable, non-sub licensable, and non-exclusive licence to use Our Platform for provision/access of Services on the Platform (“Licence”). Any use of the Platform or their contents other than for specified purposes is prohibited.</p>
+                <p>
+                    6.2. The Licence to use Our Platform is restricted to use of the object code of the Software, and it is a condition of the Licence that, except where permitted under applicable law, Users do not (and do not allow any third party to) copy, modify, create a derivative work from, reverse engineer, reverse assemble or otherwise attempt to discover any source code, sell, rent, lease, loan, assign, sublicense, grant a security interest in or otherwise transfer any right in the Software. 
+                </p>
+                <p>
+                    6.3. Users agree not to access the Platform by any means other than through the interfaces that are provided by Us for use in accessing the Platform /Services.
+                </p>
+                <p>
+                    6.4. Use of this Platform shall be subjected to the following restrictions:
+                    <span class="indent">
+                        <p>
+                            i.	Users may not reword, rephrase, reverse engineer, or disassemble the contents of the Application and / or our Website and/or Services/ products or modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any information or software obtained from the Application and / or our Website and/or Services/products, or remove any copyright, trademark registration, or other proprietary
+                             notices from the contents of the Application and / or and / or our Website and/or Services/products.
+                        </p>
+                        <p>
+                            ii.	Users will not 
+                            <span class="indent">
+                                <p>a.	use the Platform for any other purposes except for the specified purposes, or</p>
+                                <p>b.	use or access the Platform in any way that is unlawful, or harms the Protean or any other person or entity as determined by the Protean.</p>
+                                <p>
+                                    c.	use the Platform in any way that causes, or is likely to cause, the Platform or access to it to be interrupted, damaged or impaired in any way. Users understand that Users, and not the Protean,
+                                     are responsible for all electronic communications and content sent from their computer.  
+                                </p>
+                                <p>d.	use the Platform for any of the following:
+                                    <span class="indent">
+                                        <p>
+                                            (a)	for fraudulent purposes, or in connection with a criminal offense or other unlawful activity
+                                        </p>
+                                        <p>
+                                            (b)	to send, use or reuse any material
+                                            <span class="indent">
+                                                <p>that does not belong to User; or </p>
+                                                <p>2.	that is illegal, offensive (including but not limited to material that is sexually explicit content or which promotes racism, bigotry, hatred or physical harm), deceptive, misleading, abusive, indecent, 
+                                                    harassing, blasphemous, defamatory, libellous, obscene, pornographic, paedophilic or menacing; </p>
+                                                <p>
+                                                    3.	that is ethnically objectionable, disparaging or in breach of copyright, trademark, confidentiality, 
+                                                    privacy or any other proprietary information or right; or is otherwise injurious to third parties; or
+                                                </p>
+                                                <p>
+                                                    4.	that relates to or promotes money laundering or gambling; or 
+                                                </p>
+                                                <p>
+                                                    5.	that is harmful to minors in any way; or
+                                                </p>
+                                                <p>
+                                                    6.	that impersonates another person; or 
+                                                </p>
+                                                <p>
+                                                    7.	that threatens the unity, integrity, 
+                                                    security or sovereignty of India or friendly relations with foreign States; or
+                                                </p>
+                                                <p>
+                                                    8.	that is objectionable or otherwise unlawful in any manner whatsoever; or which consists of or contains software viruses, 
+                                                    political campaigning, commercial solicitation, chain letters, mass mailings or any spam.
+                                                </p>
+                                            </span>
+                                        </p>
+                                    </span>
+                                </p>
+                            </span>
+                        </p>
+
+                    </span>
+                </p>
+                
+                <h3 class="text-danger"><strong>7.	PAYMENT</strong></h3>
+                <p>
+                    7.1. Any payment made against the purchases/services on Platform shall be made in Indian currency only.
+                </p>
+                <p>7.2. You understand, accept and agree that
+                    <span class="indent">
+                        <p>7.2.1.	 the payment facility provided by the Protean is not a banking nor financial service; </p>
+                        <p>
+                            7.2.2.	 Protean is merely a facilitator to provide an online payment facility for the Transactions on the Platform using
+                             the existing third parties such as authorized banking infrastructure and payment gateway networks; and
+                        </p>
+                        <p>
+                            7.2.3.	Any service fee paid via payment facility  of the Platform  does not include any  
+                            amount that may be charged to you by your bank related to  the payment of service fee.  
+                        </p>
+                    </span>
+                </p>
+                <p>
+                    7.3. We shall not be responsible or assume liability, whatsoever in respect of any loss or damage arising directly or
+                     indirectly to You, while availing any of the payment methods available on the Platform due to:
+                     <span class="indent">
+                         <p>a.	Lack of authorization for any transaction/s, or</p>
+                         <p>b.	Exceeding the pre-set limit mutually agreed by You and between "Bank/s", or</p>
+                         <p>c.	Any payment issues arising out of the transaction, or</p>
+                         <p>d.	Decline of transaction for any other reason/s.</p>
+                     </span>
+                </p>
+                <p>
+                    7.4. We shall not be deemed as a trustee or acting in any fiduciary capacity with respect to the transaction or
+                     the transaction price merely because we have facilitated/ provided for the payment facility.  
+                </p>
+                <h3 class="text-danger"><strong>8.	PATIENT EMERGENCIES</strong></h3>
+                <p>
+                    The Services are not a replacement for emergency services offered by Registered Service Provider and
+                     should not be accessed if the patient is in a critical condition. In Medical Emergency,
+                     please contact emergency services and/or rush to the nearest Registered Service Providers. 
+                </p>
+                <h3 class="text-danger"><strong>9.	USER CONTACT</strong></h3>
+                <p>9.1. Upon registration through any means whatsoever, the Protean may contact Users through the registered mobile number or e-mail or any other mobile number or contact number or email provided by Users to enable effective provision of Services/use of Platform. The User expressly permits 
+                    the Protean to contact him/her, through the abovementioned means at any time post registration. </p>
+                <p>9.2. User agrees and allows the Protean to collect data with respect to his/her usage of the Platform/ consultations/ review/ feedback etc and utilise the same to enable effective provision of Services/use of Platform. The Protean shall have the right to store, use, monitor the usage or the pattern of usage of the Platform/services/consultations and the contents 
+                    thereof by the User for enhancing performance of Platform and enabling provision of Services. </p>
+
+                <h3 class="text-danger"><strong>10.	ELECTRONIC DELIVERY STATEMENT AND YOUR CONSENT</strong></h3>
+                  <p>10.1. The Protean may, based on any available or future form of access to the Platform (including free download/trials) or Services, contact the User through SMS, email and call, to give information about 
+                      services as well as notifications on various important updates and/or to seek permission for demonstration of its services.  </p>
+                  <p>
+                    10.2. The User expressly grants such permission to contact him/her through telephone, SMS, e-mail and holds the Protean indemnified against any liabilities including financial penalties, damages, expenses in case the User’s mobile number is registered with Do not Disturb (DND) database. By registering yourself, you agree to make your contact details available to Our employees, associates and partners so that
+                     you may be contacted for any information or promotions through telephone, SMS, email etc. 
+                  </p>
+                  <p>
+                    10.3. You agree that we may provide to you notices and other information concerning Platform/ Services electronically,
+                     including notice to any email address that you may provide. 
+                  </p>
+                  <p>
+                    10.4. You understand and acknowledge that there are inherent risks involved in sending the instructions/communications/documents to the other parties via SMS, emails and calls and You hereby agree and confirm that the Protean shall not be liable for 
+                    any losses or damages arising as a result of any miscommunication, or technological error. 
+                  </p>
+                  <h3 class="text-danger"><strong>11.PROPRIETARY INFORMATION</strong></h3>
+                  <p>11.1. Except as mentioned below, all information, content, material, trademarks, our name and logo, services marks, trade names, and trade secrets, design , concept, intellectual property of the Protean including but not limited to the software, text, images, graphics, video, script and audio, contained in the Application, Website, services
+                       and products of the Protean are proprietary property of the Protean (“Proprietary Information”).</p>
+                  <p>
+                    11.2. You are granted no general right or commercial license with respect to our 
+                    Proprietary Information including trademarks, service marks and logos.
+                  </p>
+                  <p>
+                    11.3. No Proprietary Information may be copied, downloaded, reproduced, modified, republished, uploaded, posted, transmitted or distributed in any way without obtaining prior written permission from the Protean and nothing on this Platform or Services shall be deemed to confer a license of or any other right, interest or
+                    title to or in any of the intellectual property rights belonging to the Protean, to the User. 
+                  </p>
+                  <p>
+                    11.4. You may own the medium on which the information, content or materials resides, but the Protean shall at all times retain full and complete title to the information,
+                    content or materials and all intellectual property rights inserted by the Protean on such medium.  
+                  </p>
+                  <p>
+                    11.5. Certain contents, trademarks, service marks and/or logos on the Website may belong to third parties. Such contents have been reproduced after taking prior consent from 
+                    said party and all rights relating to such content will remain with such third party.  
+                  </p>
+                  <p>
+                    11.6. You recognize and acknowledge that the ownership of such contents, all trademarks, copyright, logos, service marks and other intellectual property owned by any third party shall continue to vest with such party and You are 
+                    not permitted to use the same without the consent of the respective third party.
+                  </p>
+                  <h3 class="text-danger"><strong>12.	CODE OF CONDUCT </strong></h3>
+                  <p>
+                    Once User have an account, you can create an online profile (“Profile”). When creating your account/ profile, you agree to 
+                       <span class="indent">
+                           <p>i.	provide accurate, current and complete information; and</p>
+                           <p>
+                            ii.	be personally responsible for the information provide in the Profile. We reserve the right to suspend or terminate the account if we, acting reasonably, suspect that any
+                             information provided in the Profile is untrue, inaccurate or does not comply with this Agreement. 
+                           </p>
+                           <p>
+                            iii.	User may not create a link to 
+                            the website from another website or document without the Protean’s prior written consent.
+                           </p>
+                           <p>
+                            iv.	No User shall be permitted to perform any of the
+                             following prohibited activities while using the Platform or availing the Services:
+                               <span class="indent">
+                                   <p>a.	Bullying, Stalking, intimidating and/or harassing another and/or inciting other to commit violence;</p>
+                                   <p>b.	Making available any content that is misleading, unlawful, harmful, threatening, abusive, defamatory, libellous, vulgar, obscene, pornographic, lewd, lascivious, profane, invasive of another’s privacy, 
+                                       hateful, or racially, ethnically or otherwise objectionable;</p>
+                                   <p>
+                                    c.	Transmitting material that encourages anyone to commit a criminal offence, that 
+                                    results in civil liability or otherwise breaches any relevant laws, regulations or code of practice;
+                                   </p>
+                                   <p>
+                                    d.	Interfering with any other organisation/person’s 
+                                    use or enjoyment of the platform/application/website/services;
+                                   </p>
+                                   <p>
+                                    e.	Making, transmitting or storing electronic copies of materials protected by copyright without the permission of the owner, committing any act that amounts to the infringement of intellectual property or making available any material 
+                                    that infringes any intellectual property rights or other proprietary rights of anyone else;
+                                   </p>
+                                   <p>
+                                    f.	Make available any content or material that You do not have a right to make available under any law or contractual or fiduciary relationship, unless You own or control the
+                                     rights thereto or have received all necessary written consents for such use of the content;
+                                   </p>
+                                   <p>
+                                    g.	Impersonate any person
+                                     or entity, or falsely state or otherwise misrepresent Your affiliation with a person or entity;
+                                   </p>
+                                   <p>
+                                    h.	Post, transmit or make available any material that contains spyware,  viruses, trojan horses, worms, time bombs, cancel-bots, or other computer programming routines, code, files or such other programs that may harm the Application/services, interests or rights of other users or limit the functionality of any computer software, computer accessories, hardware or telecommunications, 
+                                    or that may harvest or collect any data or personal information about other Users without their consent;
+                                   </p>
+                                   <p>
+                                    i.	Access or use the Application/Website/Services/products in any manner that could damage, disable, overburden or impair any of the Application’s/Website’s
+                                     servers or the networks connected to any of the servers on which the Application/Website is hosted;
+                                   </p>
+                                   <p>
+                                    j.	Intentionally or unintentionally interfere with or disrupt the services or violate any applicable laws related to the access to or use of the Application/Website/Services/products, violate any requirements, procedures, policies or regulations of networks connected to 
+                                    the Application/Website/Services/products, or engage in any activity prohibited by these Terms;
+                                   </p>
+                                   <p>
+                                    k.	Disrupt or interfere with the security of, or otherwise cause harm to, the Application/Website/Services/products, materials, systems resources, or gain unauthorized access to user accounts, passwords, servers or networks connected to or
+                                     accessible through the Application/Website/Services/products or any affiliated or linked sites;
+                                   </p>
+                                   <p>
+                                    l.	Use any Artificial Intelligence (AI) tools for monitoring and tracking the changes made on Protean’s portal or websites to derive big data for any commercial consumption
+                                   </p>
+                                   <p>
+                                    m.	Interfere with, or inhibit any user from using and enjoying access to the Application/Website/ Services/products, or other affiliated sites, or engage in disruptive
+                                     attacks such as denial of service attack on the Application/Website/Services/products; 
+                                   </p>
+                                   <p>
+                                    n.	Use deep-links, robot, spider or other automatic device, program, algorithm or methodology, 
+                                    or any similar or equivalent manual process, to increase traffic to the Application/Website/Services/products, to access, acquire, copy or monitor any portion of the Application /Website/Services/products, or in any way reproduce or circumvent the navigational structure or presentation of the Application, or any content, to obtain or attempt to obtain any content, documents or information 
+                                    through any means not specifically made available through the Application/ Website/Services/products; 
+                                   </p>
+                                   <p>
+                                    o.	Alter or modify any part of the Services and content.
+                                   </p>
+                                   <p>
+                                    p.	Use the Services for purposes that are not permitted by: (i) these Terms; and (ii) any applicable law, 
+                                    regulation or generally accepted practices or guidelines in the relevant jurisdiction; or
+                                   </p>
+                                   <p>
+                                    q.	Violate any of the terms
+                                     specified under the Terms for the use of the Application /Website/Services/products. 
+                                   </p>
+
+
+                               </span>
+                           </p>
+                       </span>
+                  </p>
+                  <h3 class="text-danger"><strong>13.	NO DUTY TO MONITOR</strong></h3>
+                  <p>
+                    We have no duty to screen content/information that Users may supply or post, but we have the right to refuse to post or to edit submitted information.</p>
+                 
+                  <h3 class="text-danger"><strong>14.	ERRORS IN APPLICATION </strong></h3>
+                  <p>
+                    14.1. In the preparation of the Platform and contents therein, every effort has been made to offer the most current, correct, and clearly expressed information possible. Nevertheless, inadvertent errors may occur. In particular, but without limiting anything here, the Protean disclaims any responsibility
+                     for any errors and accuracy of the information that may be contained in the Application.</p>
+                 <p>
+                    14.2. Protean also reserves the right and discretion to make any changes/corrections or withdraw/add contents at any time without notice. Neither the Protean nor any third parties provide any warranty or guarantee as to the accuracy, timeliness, performance, completeness or 
+                    suitability of the information and materials found or offered on Platform for any particular purpose.
+                 </p>
+                 <p>
+                    14.3. User acknowledges that such information and materials may contain inaccuracies or errors and we expressly
+                     exclude liability for any such inaccuracies or errors to the fullest extent permitted by law.
+                 </p>
+                 <p>
+                    14.4. We provide this Platform and its contents and Services on “AS IS.” basis with all faults and without any warranty of any kind. 
+                     We  do not make any express warranties or guarantees about this Platform. <strong>TO THE EXTENT PERMITTED BY  LAW,  WE  AND  OUR  SUPPLIERS  DISCLAIM  ALL WARRANTIES AND CONDITIONS WITH REGARD TO THE PLATFORM, INCLUDING WITHOUT LIMITATION, IMPLIED  WARRANTIES INCLUDING ANY WARRANTY 
+                     THAT THE PLATFORM/ SERVICES IS OR WILL BE MERCHANTABLE, OF SATISFACTORY QUALITY, ACCURATE, TIMELY, FIT FOR A PARTICULAR PURPOSE OR NEED, OR NON-INFRINGING. WE DO NOT GUARANTEE THAT THIS PLATFORM OR ITS CONTENT WILL MEET YOUR REQUIREMENTS, OR IS ERROR-FREE, RELIABLE, OR WILL OPERATE WITHOUT INTERRUPTION. 
+                     ADDITIONALLY, THE PROTEAN SHALL NOT BE LIABLE FOR ANY DAMAGES ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SITE, OR THE APPLICATION OR THE SERVICES. USE OF ANY INFORMATION OR MATERIALS ON
+                     THIS PLATFORM IS ENTIRELY AT YOUR OWN RISK, FOR WHICH WE SHALL NOT BE LIABLE. IT SHALL BE YOUR OWN RESPONSIBILITY TO ENSURE THAT SERVICES PROVIDED BY US MEET YOUR SPECIFIC REQUIREMENTS.</strong>
+                 </p>
+                 <p><strong>
+                    14.5. WE ASSUME NO LIABILITY FOR THE ACCURACY OR COMPLETENESS OR USE OR NON OBSOLESCENCE OF ANY INFORMATION PROVIDED ON THE SITE/APPLICATION/SERVICES. WE SHALL NOT BE LIABLE TO UPDATE OR ENSURE CONTINUITY OF SUCH INFORMATION CONTAINED ON THE WEBSITE. WE WOULD NOT BE RESPONSIBLE FOR ANY ERRORS, WHICH MIGHT APPEAR IN SUCH INFORMATION, WHICH IS COMPILED FROM THIRD
+                     PARTY SOURCES OR FOR ANY UNAVAILABILITY OF SUCH INFORMATION. FROM TIME TO TIME THE WEBSITE MAY ALSO INCLUDE LINKS TO OTHER WEBSITES. THESE LINKS ARE PROVIDED FOR YOUR CONVENIENCE TO PROVIDE FURTHER INFORMATION. THEY DO NOT SIGNIFY THAT WE ENDORSE THE WEBSITE(S). WE HAVE NO RESPONSIBILITY FOR THE CONTENT OF THE LINKED WEBSITE(S). 
+                 </strong>
+                 </p>
+
+                 <h3 class="text-danger"><strong>15.	FEEDBACK </strong></h3>
+                 <p>
+                    15.1. Any feedback from User is most welcome to make the Platform and contents thereof error free and user friendly. You may from time to time provide suggestions, comments or other feedback (Feedback) to Us regarding the Our Platform and services. 
+                    Parties agree that all Feedback is and shall be given entirely voluntarily. 
+                 </p>
+                 <p>
+                    15.2. Feedback, even if designated as confidential, shall not create any confidentiality obligation for Us. Furthermore, We shall be free to use, disclose, reproduce, license or otherwise distribute, and exploit the Feedback provided to us, royalty free, entirely without
+                     obligation or restriction of any kind on account of intellectual property rights or otherwise. 
+                 </p>
+                 <p>
+                    15.3. By submitting the feedback, User represent and warrant that
+                    <span class="indent">
+                        <p>
+                            i.	feedback does not contain confidential or proprietary information of User or of third parties;
+                        </p>
+                        <p>
+                            ii.	the Protean is not under any obligation of confidentiality, express or implied, with respect to the feedback; 
+                        </p>
+                        <p>
+                            iii.	the Platform may have something similar to the feedback already under consideration or in development; and
+                        </p>
+                        <p>
+                            iv.	User is not entitled to any compensation or reimbursement of
+                             any kind from the Protean for the feedback under any circumstances, unless specified.
+                        </p>
+                    </span>    
+                 </p>
+
+                 <h3 class="text-danger"><strong>16.	USE  </strong></h3>
+                 <p>
+                    You will use the Platform and the features provided on the Platform only in relation to and in compliance with all applicable Indian laws. You will not use this Platform, or any feature provided on the Platform for any purposes not intended under this Agreement.You will use the Platform and the features provided on the Platform only in relation to and in compliance with all applicable Indian laws. You will not use this Platform, 
+                    or any feature provided on the Platform for any purposes not intended under this Agreement.
+                 </p>
+                 <h3 class="text-danger"><strong>17.	ACCESS AND TERMINATION </strong></h3>
+                 <p>
+                    Subject to the nature of the internet, Protean will try to ensure the uninterrupted availability of the Platform and errorfree transmissions. Your access to the Platform/ Services may also be occasionally suspended or restricted to allow for repairs, maintenance, 
+                    or the introduction of new facilities or services at any time without prior notice. 
+                 </p>
+                 <p>
+                    We may terminate User’s access to the Platform or Services if there is breach of this Agreement after providing you a written notice.   
+                 </p>
+
+                 <h3 class="text-danger"><strong>18.	LIABILITIES UPON TERMINATION </strong></h3>
+                   <p>
+                    Without prejudice to any rights or remedies available to the Protean, the User shall upon termination of the Agreement be liable for payment of any balance fees or charges payable until the date of termination. 
+                   </p>
+                 <h3 class="text-danger"><strong>19.	NO LIABILITY  </strong></h3>
+                  <p>
+                    User understands and agrees that the Protean is merely a facilitator between  Users and Protean shall not be liable for:
+                    <span class="indenr">
+                       <p>19.1. User interactions and associated issues Users have with other Users;</p>
+                       <p>19.2. the ability or intent of the Users or the lack of it, in fulfilling their obligations towards other Users;</p>
+                       <p>19.3. any negligent, inappropriate behaviour, misconduct, non-professional conduct etc. by the Users or its staff;</p>
+                       <p>
+                        19.4. inappropriate service, or similar difficulties or any type of inconvenience suffered by any User due to a failure on the part of the Registered Service Providers to provide agreed Services; 
+                       </p>
+                       <p>
+                        19.5. any cancellation or no show by the RMP or rescheduling of booked appointment or any variation in the fees charged by the Registered Service Providers.
+                       </p>
+                    </span>
+                  </p>
+                 <h3 class="text-danger"><strong>20.	LIMITATIONS OF LIABILITY </strong></h3>
+                 <p>
+                    20.1. Protean, our officers, employees, contractors, suppliers, affiliates, agents and licensors shall have no responsibility for any loss or damages including but not limited to  loss of profit, inaccurate results, damages caused to Laptop/personnel computer, mobile  tablet or any other hardware and / or software and/or instrument, as well as
+                     loss of data or effect on the processing speed, resulting from Your use of our Platform and Services. 
+                 </p>
+                 <p>
+                    20.2. User agrees not to use our Platform for any purposes other than specified in this Agreement, and we have no liability to you for any loss of profit, loss of business, business interruption, or loss of business opportunity. User may not assert claims for damages arising from this Platform or its contents/Services. In no event shall Protean, its officers, directors, employees, partners or agents be liable to User or any third party for any special, incidental, indirect, consequential or punitive damages whatsoever, including those resulting from loss of use, data or profits
+                     or any other claim arising out, of or in connection with, User’s use of, or access to, the Platform.  
+                 </p>
+                 <p>
+                    20.3. The maximum aggregate liability of us to User in relation to any paid Services (whether such liability arises in contract, tort (including negligence), breach of statutory duty or otherwise) shall, to the fullest extent permitted by applicable law, not exceed the total amount of the Fees paid by User to Us for the Services in the 1 months prior to the initial action giving rise to the liability, which is an aggregate limit that will not increase according to the number of claims brought by User. If no Fees have been paid by User and use of the Services has
+                     been limited to the free Services, you shall not be entitled to any damages of any kind.
+                 </p>
+                 <h3 class="text-danger"><strong>21.	FORCE MAJEURE </strong></h3>
+                 <p>
+                    The Protean or any Registered Service Provider shall not be liable to the User for any default or delay in performance of its obligations under this Agreement to the extent such default or delay is attributable to force majeure events i.e. events which are beyond the reasonable control of the Protean  including acts of God, fires, explosions, accidents,  epidemics, pandemics, natural calamity or disasters, unusually severe weather conditions, embargoes, 
+                    wars, riots, labour disputes, strikes, governmental requirements and any other similar events. 
+                 </p>
+                 <h3 class="text-danger"><strong>22.	INDEMNIFICATION</strong></h3>
+                   <p>
+                    User agrees to defend, indemnify and hold harmless the Protean, its officers, directors, employees and agents, from and against any and all claims, damages, obligations, losses, liabilities,
+                     costs or debt, and expenses (including but not limited to attorney’s fees) arising from: 
+                     <span class="indent">
+                         <p>i.	User’s use of and access of Platform/Services; </p>
+                         <p>ii.	User’s violation of any term of this Agreement or any other policy of Protean;</p>
+                         <p>iii.	User’s violation of any third party right, including without limitation, any copyright, property, or privacy right; or </p>
+                         <p>iv.	any claim that User’s use of the Platform/ Services has caused damage to a third party. This indemnification obligation will survive this Agreement. </p>
+
+
+                     </span>
+                   </p>
+                 <h3 class="text-danger"><strong>23.	BREACH OF TERMS</strong></h3>
+                   <p>
+                    23.1. Any violation by Users of the terms of this Clause may result in immediate suspension or termination of User’s Accounts apart from any legal remedy that the Protean can avail. In such instances, the Protean may also disclose User’s Account Information if required by any Governmental or legal authority. User understand that the 
+                    violation of this Agreement could also result in civil or criminal liability under applicable laws.
+                   </p>
+                   <p>
+                    23.2. In the event of User’s breach of this Agreement, User agree that the Protean will be irreparably harmed and may not have an adequate remedy in money or damages. The Protean therefore, shall be entitled in such event to obtain an injunction against such a breach from any court of competent jurisdiction. Protean’s 
+                    right to obtain such relief shall not limit its right to obtain other remedies.
+                   </p>
+                 <h3 class="text-danger"><strong>24.	AMENDMENT /MODIFICATION </strong></h3>
+                 <p>
+                    24.1. User understands and agrees that We may discontinue or change or amend any of Our contents, services, functions or features at any time with or without notice. Users are responsible for checking these terms periodically for changes. The most current version of these terms shall
+                     be accessed by clicking on the Terms of Use [insert link] located at the bottom of our web pages. 
+                 </p>
+                 <p>24.2. We will publish all changes on this page with the date these amendments are made located at the top of the page, so that you know when we last updated the Agreement. This also applies to our Privacy and Cookie Policies. User’s continued use of our Platform after any amendments constitutes User’s acceptance of any such amendments. If Users do not agree to comply with this Agreement, please do not register to use, access or continue to use our Platform. 
+                     We recommend that you print a copy of this Agreement for future reference. </p>
+                 <h3 class="text-danger"><strong>25.	GOVERNING LAW</strong></h3>
+                 <p>The Terms shall be governed by and construed in accordance with the laws of India, without regard to conflict of law principles. Further, the Terms shall be subject to the exclusive jurisdiction of the competent courts 
+                     located in Mumbai and User hereby accede to and accept the jurisdiction of such courts.</p>
+                 <h3 class="text-danger"><strong>26.	CUSTOMER CARE</strong></h3>
+                 <p>
+                    We make all best endeavours to provide Users with a pleasant experience. In the unlikely event that User faces any issues, please contact us at [email id]
+                 </p>
+                 <h3 class="text-danger"><strong>27.	GRIEVANCE REDRESSAL </strong></h3>
+                   <p>Any complaints, abuse or concerns with regards to content and or comment or breach of these terms shall be immediately informed to the designated Grievance Officer as mentioned below via in writing or through email signed with the electronic 
+                       signature to writetous@nsdl.co.in or Mr. Kapil Kumar (“Grievance Officer”) </p>
+                       <address>
+                        <pre>
+                        <strong>
+ Mr. Kapil Kumar
+ Grievance Officer  
+ Protean eGov Technologies Limited 
+ 1st floor, Times Tower, Kamala Mills Compound, Lower Parel, Mumbai - 400 013, India 
+ Ph: 022-24994200
+</strong>
+                        </pre>
+                        </address>   
+                    <p>The Protean shall not be responsible for any communication, if addressed, to any non-designated person in this regard.</p>                   
+                 <h3 class="text-danger"><strong>28.	DISPUTE RESOLUTION</strong></h3>
+                   <p>
+                    28.1. If a User has a dispute with another User relating to, arising from, or in any way connected with any of the Services offered by Registered Service Providers, the said User releases us from all claims,
+                    demands and damages of any kind or nature arising out of or in any way connected with such dispute. 
+                   </p>
+                   <p>
+                    28.2. Any dispute or difference of any nature whatsoever arising out of or in relation to this
+                     Agreement including in respect of the indemnity clause of this Agreement shall be finally decided
+                      by a Sole Arbitrator to be nominated by the Director of the Protean (hereinafter referred as "the 
+                      nominating authority"). The User shall not be entitled to raise any objection to any such Sole 
+                      Arbitrator appointed by the nominating authority on any ground whatsoever. The arbitration shall be 
+                      held in accordance with the provisions of the Arbitration & Conciliation Act, 1996 or any other
+                      applicable law at the relevant point of time. The language of the arbitration shall be English and 
+                      the award rendered in arbitration shall be a reasoned award in writing and 
+                    shall be conclusive and binding on the parties. The venue of arbitration shall be at Mumbai, India.
+                   </p>
+                 <h3 class="text-danger"><strong>29.	GENERAL PROVISIONS </strong></h3>
+                 <p>
+                    29.1. <i>Notice</i>: All notices served by the Protean shall be provided via email to Your account or as a general notification on the Application.
+                     Any notice to be provided to the Protean should be sent to <i>writetous@nsdl.co.in</i>.
+                 </p>
+                 <p>
+                    29.2. <i>Entire Agreement</i>: The Agreement and any other guidelines made applicable to the Platform from time to time, constitute the entire agreement between 
+                    the Protean and You with respect to Your access to or use of the Platform and the Services thereof. 
+                 </p>
+                 <p>
+                    29.3. <i>Assignment</i>: Users cannot assign or otherwise transfer their obligations under the Agreement, or any right granted hereunder to any third party. The Protean’s rights under the Agreement are freely 
+                    transferable by the Protean to any third parties without the requirement of seeking User’s consent.
+                 </p>
+                 <p>
+                    29.4. <i>Severability</i>: If, for any reason, a court of competent jurisdiction finds any provision of the Agreement, or portion thereof, to be unenforceable, that provision shall be enforced to the maximum extent permissible so as to give effect to the intent of the parties as reflected by that provision,
+                    and the remainder of the Agreement shall continue in full force and effect.
+                 </p>
+                 <p>
+                    29.5. <i>Waiver</i>: Any failure by the Protean to enforce or exercise any provision of the Agreement, or any related right, shall not constitute a waiver by the Protean of that provision or right. 
+                 </p>
+                 <p>
+                    29.6. <i>Relationship</i>: Users acknowledge that their participation on the Platform, does not make them an employee or agency or partnership or joint venture or franchise of the Protean.
+                 </p>
+                 <p>
+                    29.7. The Protean provides these terms so that User is aware of the terms that apply to his/her use of the Platform and Services. User acknowledge that, the Protean has given User a reasonable opportunity to review the Agreement and that User has agreed to them.
+                 </p>
+              </div>
+            
+        </div>
+    </div>
+</div>

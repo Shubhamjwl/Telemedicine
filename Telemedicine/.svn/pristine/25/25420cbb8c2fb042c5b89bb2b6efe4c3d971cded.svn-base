@@ -1,0 +1,9 @@
+FROM nginx:1.16.1
+
+COPY nginx_vol.conf /etc/nginx/nginx.conf
+
+RUN  mkdir -p /usr/share/nginx/html/telemedicine/telemedicine
+
+#COPY dist /usr/share/nginx/html
+
+COPY telemedicine /usr/share/nginx/html/telemedicine/telemedicine/

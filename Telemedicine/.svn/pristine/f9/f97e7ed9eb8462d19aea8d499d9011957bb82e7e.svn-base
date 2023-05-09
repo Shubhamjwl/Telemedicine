@@ -1,0 +1,362 @@
+<div>
+   <app-tm-breadcrumb></app-tm-breadcrumb>
+   <ngx-spinner>
+      <p class="loading">Loading...</p>
+   </ngx-spinner>
+   <div class="main-container">
+      <div class="content-area">
+         <div class="app-top-area left">
+            <div class="breadcrumb-area"><a href="index.html">Home</a></div>
+            <div class="page-title">Appointment</div>
+         </div>
+
+         <div class="app-top-area right">
+            <input type="text" #appointmentDate (focus)="picker.open()" class="select-app" id="datepicker"
+               placeholder="Select Appointment Date*" formControlName="dob" [matDatepicker]="picker">
+            <mat-datepicker #picker (closed)="appointmentDate.blur()"></mat-datepicker>
+            <button class="create-slot-btn" (click)="onClickTimeSlot()">Create Slot</button>
+            <button class="delete-slot" (click)="onClickDeleteTimeSlot()">Delete Slot</button>
+            <a href="#" class="refreash-slot"></a>
+         </div>
+         <div class="month-text">31st January 2022</div>
+         <div class="month-text2">
+            <div class="month-icon"><img src="assets/img/tel-consulting.svg" alt=""></div>
+            <div class="text1">Tele Consultation</div>
+            <div class="month-icon"><img src="assets/img/in-clinic.svg" alt=""></div>
+            <div class="text1">In-Clinic</div>
+         </div>
+         <div class="app-area">
+            <div class="app-box">
+               <div class="app-title">
+                  <div class="app-icon app-icon1"><img src="assets/img/morning.svg" alt=""></div>
+                  <div class="app-text">Morning <br><span>(7AM - 12PM)</span></div>
+               </div>
+               <div class="blue">
+                  <div class="small-box">
+                     08:00 AM - 08:20 AM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box">
+                     09:20 AM - 09:40 AM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box">
+                     10:00 AM - 10:20 AM
+                  </div>
+               </div>
+               <div class="green booked">
+                  <div class="small-box">
+                     08:00 AM - 08:20 AM
+                  </div>
+                  <div class="acc-green">
+                     <div class="green-icon tool"><img src="assets/img/name2.svg" class="" alt=""><span
+                           class="B-st st1">Patient Name</span></div>
+                     <div class="green-icon tool"><img src="assets/img/modify2.svg" class="" alt=""><span
+                           class="B-st">Modify</span></div>
+                     <div class="green-icon tool"><img src="assets/img/video2.svg" class="" alt=""><span
+                           class="B-st st2">Video Consultation</span></div>
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box">
+                     10:40 AM - 11:00 AM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box">
+                     11:00 AM - 11:20 AM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box">
+                     11:20 AM - 11:40 AM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box">
+                     11:40 AM - 12:00 PM
+                  </div>
+               </div>
+            </div>
+            <div class="app-box accordion_container">
+               <div class="app-title">
+                  <div class="app-icon app-icon2"><img src="assets/img/afternoon.svg" alt=""></div>
+                  <div class="app-text">Afternoon <br><span>(12PM - 5PM)</span></div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     12:20 PM - 12:40 PM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     02:00 PM - 02:20 PM
+                  </div>
+               </div>
+               <div class="green">
+                  <div class="small-box accordion_head">
+                     02:40 PM - 03:00 PM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box accordion_head">
+                     03:00 PM - 03:20 PM
+                  </div>
+               </div>
+               <div class="green">
+                  <div class="small-box accordion_head">
+                     03:20 PM - 03:40 PM
+                  </div>
+               </div>
+               <div class="green">
+                  <div class="small-box accordion_head">
+                     04:00 PM - 04:20 PM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     04:20 PM - 04:40 PM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     04:40 PM - 05:00 PM
+                  </div>
+               </div>
+            </div>
+            <div class="app-box accordion_container">
+               <div class="app-title">
+                  <div class="app-icon app-icon3"><img src="assets/img/evening.svg" alt=""></div>
+                  <div class="app-text">Evening <br><span>(5PM - 12PM)</span></div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     05:20 PM - 05:40 PM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     06:00 PM - 06:20 PM
+                  </div>
+               </div>
+               <div class="blue">
+                  <div class="small-box accordion_head">
+                     06:20 PM - 06:40 PM
+                  </div>
+               </div>
+               <div class="green">
+                  <div class="small-box accordion_head">
+                     07:20 PM - 07:40 PM
+                  </div>
+               </div>
+               <div class="green">
+                  <div class="small-box accordion_head">
+                     07:40 PM - 08:00 PM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box accordion_head">
+                     08:20 PM - 08:20 PM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box accordion_head">
+                     08:20 PM - 08:40 PM
+                  </div>
+               </div>
+               <div class="gray">
+                  <div class="small-box accordion_head">
+                     08:40 PM - 09:00 PM
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Model -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-template #appDetails let-modal>
+   <div class="model-wrapper">
+      <!-- <form [formGroup]="reportGroup"> -->
+      <!-- <div class="modal-content"> -->
+      <div class="modal-header">
+         <!-- <h2 class="modal-title">Appointment</h2> -->
+         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      <!-- [class.disabled]="user.status != 'Scheduled'" -->
+      <div class="modal-body">
+         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="row">
+               <div class="card w-100 m-0 bgShadowStyle">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                           <div class="row">
+                              <div class="col-md-3 col-lg-3 col-xl-3">
+                                 <div *ngIf="authService.isUserDoctor()" class="profile-wrapper">
+                                    <img [src]="profilePhoto ? profilePhoto : 'assets/assets/img/img_avatar.png'"
+                                       class="rounded-circle" alt="Doctor_Photo">
+                                 </div>
+                                 <div *ngIf="!authService.isUserDoctor()" class="profile-wrapper">
+                                    <img
+                                       [src]="user.profilePhoto ? user.profilePhoto : 'assets/assets/img/img_avatar.png'"
+                                       class="rounded-circle" alt="Doctor_Photo">
+                                 </div>
+                              </div>
+                              <div class="col-md-9 col-lg-9 col-xl-9">
+                                 <div class="row">
+                                    <div class="col-4">
+                                       <div class="row">
+                                          <h3 class="text-truncate">
+                                             <b>DR. {{user.doctorName}}</b>
+                                          </h3>
+                                       </div>
+                                    </div>
+                                    <div class="col">
+                                       <div class="row">
+                                          <p class="text-secondary">
+                                             <b> | </b> {{user.doctorSpeciality}}
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+
+                                 <div class="row">
+                                    <div class="col-8 p-0">
+                                       <h3 class="text-truncate">
+                                          Appointment ID: {{user.appointmentID}}
+                                       </h3>
+                                    </div>
+                                 </div>
+                              </div>
+
+                           </div>
+                           <hr class="border" />
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                           <div class="col-12 p-0 text-success text-right">
+                              <h1 class="mb-0">
+                                 <i class="fa fa-clock-o mr-1" aria-hidden="true"></i>
+                                 <span>
+                                    {{timer}}
+                                 </span>
+                              </h1>
+                           </div>
+                           <button
+                              *ngIf="timer != 'Appointment is not attended by user.'  && userRole !== 'RECEPTIONIST'"
+                              type="button" class="btn btn-outline-success btn-sm mt-3 float-right"
+                              (click)="onClickAppointment(user, 'today')">
+                              Start Prescription
+                           </button>
+
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-6">
+                           <div class="col-12">
+                              <div class="row">
+                                 <div class="col">
+                                    <div class="row">
+                                       <h3 class="text-secondary mb-0">
+                                          <b> Patient Name </b><!-- <b> Booking Appointment For </b> -->
+                                       </h3>
+                                    </div>
+                                    <div class="row">
+                                       <h3 class="mb-2">
+                                          {{user.patientName}}
+                                       </h3>
+                                    </div>
+                                 </div>
+
+                                 <div class="col">
+                                    <div class="row">
+                                       <h3 class="text-secondary mb-0">
+                                          <b>
+                                             Appointment Time
+                                          </b>
+                                       </h3>
+                                    </div>
+                                    <div class="row">
+                                       <h3 class="mb-2">
+                                          {{user.appointmentDate}} | {{user.appointmentTime}}
+                                       </h3>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div id="forRes" class="col-md-6 col-lg-6 col-xl-6"
+                           *ngIf="timer !== 'Appointment is not attended by user.' && userRole !== 'SCRIBE' && !Valid">
+                           <div class="row justify-content-end">
+                              <div class="col-4">
+                                 <button type="button" class="btn btn-outline-danger btn-block float-left"
+                                    (click)="openReasonModel(reason, user.appointmentID)">
+                                    Cancel
+                                 </button>
+                              </div>
+                              <div class="col-4">
+                                 <button type="button" class="btn btnColor btn-block float-right"
+                                    (click)="rescheduleAppointment()"> Reschedule
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- End Appointment Detsila -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</ng-template>
+<!-- reason model -->
+<ng-template #reason let-modal>
+   <div class="model-wrapper">
+      <div class="modal-header">
+         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      <form [formGroup]="reasonGroup">
+         <div class="modal-body px-4">
+            <div class="row">
+               <div class="col-sm 12">
+                  <label class="d-block mb-4">Do you want to cancel the appointment ?</label>
+                  <div class="feedback" *ngIf="reasonGroup.get('error').value">
+                     <p class="text-danger">{{ reasonGroup.get('error').value}}</p>
+                  </div>
+                  <div class="text-right">
+                     <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor mr-2"
+                        (click)="cancelAppointment()">Yes</button>
+                     <button [disabled]="!reasonGroup.valid" type="button" class="btn btnColor"
+                        (click)="modal.dismiss('Cross click')">No</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</ng-template>
+
+<div *ngIf="isPayLater">
+   <app-payment-option-modal></app-payment-option-modal>
+</div>

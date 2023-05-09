@@ -1,0 +1,22 @@
+package com.nsdl.ndhm.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.nsdl.ndhm.dto.CareContextTMRequsetDTO;
+import com.nsdl.ndhm.dto.DistrictDTO;
+import com.nsdl.ndhm.dto.FetchPatientDetailsFromTMDTO;
+import com.nsdl.ndhm.dto.GenerateSessionRespDTO;
+import com.nsdl.ndhm.dto.MainRequestDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.StateDtlsDTO;
+
+public interface CommonApiService {
+	public MainResponseDTO<GenerateSessionRespDTO> generateToken();
+
+	public MainResponseDTO<List<StateDtlsDTO>> getStates(Map<String, String> headers);
+
+	public MainResponseDTO<List<DistrictDTO>> getDistricts(Map<String, String> headers, String stateCode);
+
+	public MainResponseDTO<FetchPatientDetailsFromTMDTO> testTM(MainRequestDTO<CareContextTMRequsetDTO> careContextTMRequset);
+}

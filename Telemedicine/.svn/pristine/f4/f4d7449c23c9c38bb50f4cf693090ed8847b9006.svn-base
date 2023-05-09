@@ -1,0 +1,122 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Details, PTDetails } from 'src/app/shared/commonBuildBlocks/model/remove-element.model';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { DoctorService } from 'src/app/shared/commonBuildBlocks/services/doctorServices/doctor.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-view-patient-list',
+  templateUrl: './view-patient-list.component.html',
+  styleUrls: ['./view-patient-list.component.scss']
+})
+export class ViewPatientListComponent implements OnInit  {
+  displayedColumns = ['profile','details', 'action'];
+  dataSource = new MatTableDataSource([]);
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(
+    public authService:AuthService,
+    public patientService: PatientService,
+    public doctorService: DoctorService,
+    private spinner: NgxSpinnerService,
+    public toastMessage: ToastMessageService,
+  ) { }
+
+	ngOnInit(): void {
+		if(this.authService.isUserPatient()){
+			this.getDoctorList();
+		} else {
+			this.getPatientList();
+		}
+
+	}
+	ngAfterViewInit() {
+		this.dataSource.paginator = this.paginator;
+	  }
+	getDoctorList(){
+		let data = { ptRegId: this.authService.getUserId()};
+		this.patientService.getMappedDrListByPatientId(data).subscribe((resp:any)=> {
+			if(resp){
+				if(resp.response && resp.response.length){
+						// resp.response.forEach(element => {
+						// 	element.photopath = element.photopath ? element.photopath.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 'assets/images/img_avatar.png'
+						// });
+						let details = new Details(resp.response);
+						this.dataSource = new MatTableDataSource(details.data);
+
+						setTimeout(()=> {
+							this.dataSource.paginator = this.paginator;
+						}, 500);
+
+				} else if(resp.errors){
+					this.dataSource = new MatTableDataSource([]);
+					this.dataSource.paginator = this.paginator;
+					//this.toastMessage.showErrorMsg(resp.errors[0].message, "Error");
+				}
+				}
+			}, error => {
+			this.spinner.hide();
+			console.log(error);
+			// / this.errorMessage = error.errors[0].message;
+		})
+	}
+	getPatientList(){
+
+		let data = {
+			drRegId: this.authService.isUserDoctor() ? this.authService.getUserId() : this.authService.getDrId()
+		}
+
+		this.doctorService.getMappedDrListByPatientId(data).subscribe((resp:any)=> {
+			if(resp){
+				if(resp.response && resp.response.length){
+						resp.response.forEach(element => {
+							element.photopath = element.photopath ? element.photopath.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 'assets/images/img_avatar.png'
+						});
+						let details = new PTDetails(resp.response);
+						this.dataSource = new MatTableDataSource(details.data);
+						setTimeout(()=> {
+							this.dataSource.paginator = this.paginator;
+						}, 10);
+
+				} else if(resp.errors){
+					this.dataSource = new MatTableDataSource([]);
+					this.toastMessage.showErrorMsg(resp.errors[0].message, "Error");
+				}
+				}
+			}, error => {
+			this.spinner.hide();
+			console.log(error);
+			// / this.errorMessage = error.errors[0].message;
+		})
+	}
+	remove(id){
+		this.patientService.unMappedPatientOrDrById(id).subscribe((resp:any)=> {
+			if(resp){
+				if(resp.status){
+					// this.toastMessage.showSuccessMsg(resp.response.message, "Success");
+					if(this.authService.isUserPatient()){
+						this.getDoctorList();
+						this.toastMessage.showSuccessMsg('Doctor removed successfully', "Success");
+					} else {
+						this.getPatientList();
+						this.toastMessage.showSuccessMsg('Patient removed successfully', "Success");
+					}
+				} else if(resp.errors){
+					this.toastMessage.showErrorMsg(resp.errors[0].message, "Error");
+				}
+				}
+			}, error => {
+			this.spinner.hide();
+			console.log(error);
+			// / this.errorMessage = error.errors[0].message;
+		})
+	}
+}
+

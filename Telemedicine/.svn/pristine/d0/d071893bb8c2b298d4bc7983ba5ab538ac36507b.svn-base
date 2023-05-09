@@ -1,0 +1,8 @@
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+spring.application.name=ipan-service
+
+server.port=7087
+server.servlet.context-path=/ipan/v1

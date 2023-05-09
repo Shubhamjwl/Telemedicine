@@ -1,0 +1,84 @@
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="modal-header py-2">
+    <h2 class="modal-title mb-0">Delete Slot</h2>
+    <button type="button" class="close" aria-label="Close" (click)="onClickClose()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form [formGroup]="form">  
+    <!-- *ngFor="let slots of filteredSlotsMulti | async" -->
+    <div class="row">
+        <div class="col-md-7">
+        <mat-form-field class="example-full-width mr-1" appearance="fill">
+            <mat-label>Select Appointment Date</mat-label>
+            <input matInput [matDatepicker]="picker" [min]="startDate" (dateChange)="changeDate($event)" readonly
+                required>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+        <div class="col-md-5 mt-2" *ngIf="arrayLength >0">
+            <button type="button" class="btn btnColor float-right btn-sm " (click)="deleteSlots()">Delete Slots</button>
+    
+        </div>
+    </div>
+
+    
+
+    <mat-card class="w-100 pb-0">
+    <div class="row" style="overflow: auto;">
+        <ng-container *ngIf="slotsList && slotsList.length">
+            <ng-container *ngFor="let slot of slotsList; let i = index">
+                <ng-container *ngFor="let appointment of appointmentSlotsList[slot]">
+                    <ng-container *ngIf="appointment?.appointmentID==null">
+                        <div class="col-md-3 col-lg-3 col-sm-3 p-1">
+                            <div *ngIf="appointment.appointmentTime" ngbTooltip="{{appointment.appointmentTime}}"
+                                placement="bottom" class="slotBorder d-flex flex-column text-center justify-content-center"
+                                [class]="(appointment.status === 'Available' && appointment.slotType == 'Teleconsultation') ? 'availableTelemd' : (appointment.status === 'Available' && appointment.slotType == 'In-Clinic') ? 'availableinClinic' : appointment.status.toLowerCase()">
+                                <div class="p-1">
+                                    <input type="checkbox" (click)="isChecked(appointment.appointmentTime)">
+                                    <span> <b> {{appointment.appointmentTime}} </b> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="row" *ngIf="!(slotsList && slotsList.length)">
+        <div class="col-12 text-center">
+            <h3>No Slots found</h3>
+        </div>
+    </div>
+ 
+ </mat-card>
+    <!-- <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 overFlow" style="display: flex;">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput [placeholder]="'Search slots'" formControlName="slotName">
+            <mat-autocomplete [displayWith]="displayFn">
+                <mat-option >
+                    <div (click)="slotOptionClicked()"> -->
+                        <!-- <mat-checkbox [checked]="symptom.selected" (change)="symptomToggleSelection()"
+                            (click)="$event.stopPropagation()">
+                        </mat-checkbox> -->
+                    <!-- </div>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field> -->
+<!-- #auto="matAutocomplete"  [matAutocomplete]="auto"  -->
+        <!-- <button class="add-button" (click)="saveDetails()" matSuffix>
+            <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+        </button> -->
+        <!-- <div class="valueTags">
+            <span>
+                <span class="position-relative btn btn-info btn-sm mt-2 mr-3">exampleTag<button type="button"
+                        (click)="symptomToggleSelection()"
+                        class="btn badge badge-pill translate-middle border border-dark bg-light badge-position">x</button></span>
+            </span>
+        </div> -->
+    <!-- </div> -->
+</form>

@@ -1,0 +1,64 @@
+.doctor-detils-wrapper{
+    .details-wrap{
+        border: 1px solid #FF5549;
+        border-radius: 20px;
+        background-color: #fffbe9;
+        .doctor-header{
+            border-bottom: 0.5px solid #ff554947;
+        }
+    }
+    .profile-img-wrapper{
+        border: 1px solid gray;
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+    .docName{
+        width: 25%;
+    }
+    .status{
+        width: 45%;
+    }
+    .action {
+        width: 10%;
+        text-align: center;
+        cursor: pointer;
+    }
+    .btn-view{
+        border: 0 none;
+        border-radius: 12px;
+        padding: 2px 12px;
+        color: #fff;
+        font-size: 10px;
+    }
+    .mat-table {
+        background-color: transparent;
+    }
+    .btn-verify{
+        width: 110px;
+        padding: 4px 10px;
+    }
+    tr.mat-header-row {
+        height: 20px;
+    }
+    .mat-expansion-panel-body{
+        padding: 0;
+    }
+}
+textarea{
+    width: 100%;
+}
+.feedback{
+    p {
+        color: red;
+    }
+}
+button:focus, textarea:focus{
+    outline: none;
+}

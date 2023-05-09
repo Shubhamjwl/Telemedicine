@@ -1,0 +1,21 @@
+package com.nsdl.ndhm.transfer.dto;
+
+import java.util.List;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class ConsentDetailDTO {
+	private String schemaVersion;
+	private String consentId;
+	private String createdAt;
+	private PatientDTO patient;
+	private List<CareContextDTO> careContexts;
+	private PurposeDTO purpose;
+	private HipDTO hip;
+	private ConsentManagerDTO consentManager;
+	private List<String> hiTypes;
+	private PermissionDTO permission;
+}

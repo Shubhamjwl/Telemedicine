@@ -1,0 +1,46 @@
+
+
+<h2 mat-dialog-title class="text-danger text-center">Terms of service</h2>
+<mat-dialog-content class="mat-typography">
+<div class="container">
+ <p> By proceeding further, I hereby agree and give my consent to the following:
+  <span class="btindent mt-2 mb-2">
+    <ul>
+      <li>I request qualified doctors (“RMP”) registered with Protean Clinic, an online Platform managed by Protean e-Gov Technologies Limited (Protean), to participate in my medical care via use of Protean Clinic.</li><br>
+      <li>RMP (i) may practice in a different location than where I am present for medical care, (ii) may not have the opportunity to perform an in-person physical examination, and (iii) will solely rely on information provided by me.</li><br>
+      <li>	I acknowledge that RMP’s advice, recommendations, and/or decision may be based on factors not within their control, such as incomplete or inaccurate data provided by me or distorted / illegible diagnostic images / reports that may result from electronic transmissions.</li><br>
+      <li>I acknowledge that it is my responsibility to provide information about my medical history, condition and care that is complete and accurate to the best of my ability.</li><br>
+      <li>	no warranties or guarantees are made to me as to result or cure.</li>
+  </ul>
+</span>
+  <span class="indent mt-2 mb-2">
+     <p>  	Protean and their associates are mere facilitator of my interaction with my doctor and they have no liability or responsibility towards diagnosis, prescription, effectiveness of the advice of the RMP. 
+        I further agree and understand that </p>
+      <p>  	Based on RMP’s assessment, I may require an in-person medical evaluation and/or additional diagnostic check/tests which I undertake to carry out as per RMP’s recommendation. 
+      </p>
+      <p> 	In the event any service delivery on Protean Clinic is interrupted due to a technological problem or equipment failure, alternative means of service delivery may be implemented by RMP. 
+      </p>
+      <p> 	Protean Clinic is not suitable for any urgent matter or in the case of emergencies in which in-person consultation is necessary. I agree to go to the nearest doctor, hospital emergency department in such cases. 
+      </p>
+      <p> 	I understand that the disclosure of my medical information to RMP, including the audio and/or video, will be by electronic transmission including any recording/photograph taken during the telemedicine session. Although precautions are taken to protect the confidentiality of this information by preventing unauthorized access and use, I understand that confidentiality may be compromised by failures of security safeguards or illegal and improper tampering during electronic transmission of data, video images, and audio. 
+      </p>
+      <p>  	I have read it or have had it read to me, and that I understand and agree to the Terms of Use and Privacy Policy for the Protean Clinic and its contents. 
+      </p>
+      <p> 	I am above 18 years of age and legally competent to avail these services as a Patient or as a guardian for my ward who is a minor/ disabled, the above consent also applies to such medical care provided to my ward. 
+      </p>
+      <p>  	I shall not hold Protean liable for any action or omission of a third party that results in unauthorized access or processing of my personal data, and resultant harm or consequences.
+      </p>
+      <p> 	I hereby agree that I am availing Services on Protean Clinic with my free will, without any inducement or influence form Protean and I am fully aware of the limitations around the services provided. 
+      </p>
+      <p>     	I confirm that I am physically present in India while availing the services.</p>
+   </span>
+  </p>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btnColor" (click)="closeTC()" >Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial class="btnColor" (click)="acceptTC()">Accept</button>
+</mat-dialog-actions>
+
+
+    

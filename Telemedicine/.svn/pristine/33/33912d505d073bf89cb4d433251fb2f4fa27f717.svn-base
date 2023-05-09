@@ -1,0 +1,237 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GenerateSessionRespDTO } from 'src/app/models/common/GenerateSessionRespDTO';
+import { MainResponseDTO } from 'src/app/models/common/MainResponseDTO';
+import { ConfirmOtpResp } from 'src/app/models/healthidMobile/ConfirmOtpResp';
+import { ResendOtpResp } from 'src/app/models/healthidMobile/ResendOtpResp';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { ERR_MSGS, REGEX } from 'src/config/constant';
+import { HealthidCreationServiceService } from '../healthid-creation-service.service';
+import { Location } from '@angular/common';
+import { GenerateOtpResp } from 'src/app/models/healthidMobile/GenerateOtpResp';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+@Component({
+  selector: 'app-otp',
+  templateUrl: './otp.component.html',
+  styleUrls: ['./otp.component.css'],
+})
+export class OTPComponent implements OnInit {
+  ERR = ERR_MSGS;
+  PATTERN = REGEX;
+  name: any;
+  gender: any;
+  mobileNoSel: any;
+  email: any;
+  dob: any;
+  address: any;
+  txnId: any;
+  otp: any;
+  refreshToken: any;
+  responseToken: MainResponseDTO<GenerateSessionRespDTO>;
+  resendOtpResp: MainResponseDTO<ResendOtpResp>;
+  confirmOtpResp: MainResponseDTO<ConfirmOtpResp>;
+  responseTokenDTO: MainResponseDTO<GenerateSessionRespDTO>;
+  responseOTP: MainResponseDTO<GenerateOtpResp>;
+  timeLeft: number = 60;
+  interval;
+  accessToken: string;
+  shortMobileNo: string;
+  MobileNo: any;
+  countNum: string;
+  CodedMobileNo: string;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastrMessage: ToastMessageService,
+    private _location: Location,
+    private _servises: HealthidCreationServiceService,
+    private patientService: PatientService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      //console.log(params);
+      if (params && params.name) {
+        this.name = atob(params.name).trim();
+        // console.log('123this.name::' + this.name);
+      }
+      if (params && params.gender) {
+        this.gender = atob(params.gender).trim();
+        //console.log("this.gender::"+this.gender);
+      }
+      if (params && params.mobileNoSel) {
+        this.mobileNoSel = atob(params.mobileNoSel).trim();
+        // console.log('123this.mobileNoSel::' + this.mobileNoSel);
+        (this.MobileNo = this.mobileNoSel),
+          (this.shortMobileNo = this.MobileNo.slice(-2)),
+          (this.countNum = '');
+
+        for (var i = this.MobileNo.length - 2; i > 0; i--) {
+          this.countNum += '*';
+        }
+        this.CodedMobileNo = '+91' + this.countNum + this.shortMobileNo;
+      }
+      if (params && params.email) {
+        this.email = atob(params.email).trim();
+        //console.log("this.email::"+this.email);
+      }
+      if (params && params.dob) {
+        this.dob = atob(params.dob).trim();
+        // console.log('123this.dob::' + this.dob);
+      }
+      if (params && params.address) {
+        this.address = atob(params.address).trim();
+        //console.log("this.address::"+this.address);
+      }
+      if (params && params.txnId) {
+        this.txnId = atob(params.txnId).trim();
+        //console.log("this.txnId::"+this.txnId);
+      }
+    });
+    this.startTimer();
+    this.generateOTP();
+  }
+  generateOTP() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseTokenDTO = result;
+        this.refreshToken = result.response.refreshToken;
+        this.accessToken = result.response.accessToken;
+        if (
+          this.responseTokenDTO &&
+          this.responseTokenDTO.response &&
+          this.responseTokenDTO.response.accessToken
+        ) {
+          this.generate(result.response.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+  generate(accessToken) {
+    this._servises
+      .generateOTPForMobile(this.mobileNoSel, accessToken)
+      .subscribe(
+        (result) => {
+          this.responseOTP = result;
+          this.txnId = result.response.txnId;
+          //console.log('this.txnId', this.txnId);
+          //console.log('this.mobileNoSel', this.mobileNoSel);
+          // this.router.navigate(['/otp'], {
+          //   queryParams: {
+          //     name: this.name,
+          //     gender: this.gender,
+          //     mobileNoSel: this.mobileNoSel,
+          //     email: this.email,
+          //     dob: this.dob,
+          //     txnId: this.txnId
+          //   }, skipLocationChange: true
+          // });
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg('Unable to send OTP', 'Error');
+        }
+      );
+  }
+  resendOTP() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.refreshToken = this.responseToken.response.refreshToken;
+        this.accessToken = this.responseToken.response.accessToken;
+        this.timeLeft = 60;
+        //console.log('this.refreshToken::', this.refreshToken);
+        if (
+          this.responseToken &&
+          this.responseToken.response &&
+          this.responseToken.response.accessToken
+        ) {
+          this.resendOTPForMobile(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to generate token', 'Error');
+      }
+    );
+  }
+  resendOTPForMobile(accessToken) {
+    this._servises.resendOTPForMobile(this.txnId, accessToken).subscribe(
+      (result) => {
+        this.resendOtpResp = result;
+        //console.log('txnId', result.response.txnId);
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to send OTP', 'Error');
+      }
+    );
+  }
+  submit() {
+    this._servises.generateToken().subscribe(
+      (result) => {
+        this.responseToken = result;
+        this.refreshToken = result.response.refreshToken;
+        this.accessToken = result.response.accessToken;
+        if (
+          this.responseToken &&
+          this.responseToken.response &&
+          this.responseToken.response.accessToken
+        ) {
+          this.verifyOTPForMobile(this.accessToken);
+        }
+      },
+      (error) => {
+        //console.log(error.message, 'Error');
+        this.toastrMessage.showErrorMsg('Unable to verify OTP', 'Error');
+      }
+    );
+  }
+  verifyOTPForMobile(accessToken) {
+    this._servises
+      .verifyOTPForMobile(this.otp, this.txnId, accessToken)
+      .subscribe(
+        (result) => {
+          this.confirmOtpResp = result;
+          //console.log('token', result.response.token);
+          this.router.navigate(['/verfymobile'], {
+            queryParams: {
+              name: this.name,
+              gender: this.gender,
+              mobileNoSel: this.mobileNoSel,
+              email: this.email,
+              dob: this.dob,
+              address: this.address,
+              token: result.response.token,
+              txnId: this.txnId,
+            },
+            skipLocationChange: true,
+          });
+        },
+        (error) => {
+          //console.log(error.message, 'Error');
+          this.toastrMessage.showErrorMsg('Unable to verify OTP', 'Error');
+        }
+      );
+  }
+  back() {
+    //this._location.back();
+    window.history.back();
+  }
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      }
+      // else {
+      //   this.timeLeft = 60;
+      // }
+    }, 1000);
+  }
+}

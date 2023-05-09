@@ -1,0 +1,34 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IAPIResponseWrapper } from '../../interfaces/api-response-wrapper.interface';
+import { AdminConfig, AdminConfigRequest, UpdateCategoryRequest, UpdateCategoryResponse } from '../../model/admin-config.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminService {
+
+  private baseUrl = 'admin';
+
+  constructor(private httpClient: HttpClient) { }
+
+  getAdminConfig(config: AdminConfigRequest): Observable<IAPIResponseWrapper<AdminConfig[]>> {
+    const payload = {
+      id: 1,
+      version: 'v1.0',
+      request: config
+    }
+    return this.httpClient.post<IAPIResponseWrapper<AdminConfig[]>>(`${this.baseUrl}/adminConfig`, payload);
+  }
+
+  updateCategoryStatus(request: UpdateCategoryRequest[]): Observable<IAPIResponseWrapper<UpdateCategoryResponse>> {
+    const payload = {
+      id: 1,
+      version: 'v1.0',
+      request: request
+    }
+    return this.httpClient.put<IAPIResponseWrapper<UpdateCategoryResponse>>(`${this.baseUrl}/updateCategoryStatus`, payload);
+  }
+
+}

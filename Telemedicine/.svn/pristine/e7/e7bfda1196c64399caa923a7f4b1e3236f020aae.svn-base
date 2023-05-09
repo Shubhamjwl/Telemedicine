@@ -1,0 +1,66 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id :</p>
+      <div style="background-color: rgb(195, 211, 245); padding: 10px">
+        <div class="row mt-4">
+          <div class="col-md-2" style="height: 38px">
+            <p class="mt-1"><b>Enter OTP<span class="error">*</span></b></p>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <input type="text" class="form-control input" />
+            </div>
+            <div style="margin-left: 35%">
+              <label
+                style="
+                  background-color: lightcyan;
+                  width: 50%;
+                  text-align: center;
+                  border-radius: 5%;
+                "
+              >
+                00:{{ timeLeft }}</label
+              >
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button style="background-color: goldenrod">Resend OTP</button>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="submit()"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

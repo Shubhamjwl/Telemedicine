@@ -1,0 +1,20 @@
+cron.expression=0 30 23 * * ?
+
+marketplace.url=http://14.140.81.156/index.php
+marketplace.key=yH6nby2H80RT6n5yV5dsphsBqbbBlp30GAD2Unp422lIapsKRIXfJ6x5bTkJvP6Ept4rpChrRsWqRKQXkascSiv4f7qW6HuzBJCOIjGOojv6VYceyCIvd1CUPr73Ql2T3cyLrSIuau6G3TyPwMVq7d2RoX0fYolEiR54RtoGLy65gZC7cHQb3NqREjoLcTsGJORS0hudj3dQW0olZCSV5Tf7vFkrGa3Wgk2f7iHh7MxXXw27658dSEyPL3tuONu8
+marketplace.username=telemkt
+
+server.port=8089
+marketplace.api.version=v1
+server.servlet.context-path=/marketplace/${marketplace.api.version}
+
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto =update
+spring.jpa.properties.hibernate.jdbc.batch_size=25
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+hibernate.show_sql=true

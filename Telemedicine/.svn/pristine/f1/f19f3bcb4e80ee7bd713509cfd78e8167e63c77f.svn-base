@@ -1,0 +1,305 @@
+.time-slot-wrapper {
+    .card{
+        background-color: initial !important;
+        margin: 5px 10px;
+    }
+    .cardStyle {
+        border: 1px solid #fd7b7b;
+        border-radius: 12px;
+        width: 200px;
+        min-width: 200px;
+        float: left;
+        .card-body {
+            .card-text {
+                .fa {
+                    font-size: 20px !important;
+                }
+            }
+        }
+    }
+    .cardStyle.disabled{
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .cardStyle:hover {
+        background: #ffffff !important;
+    }
+    .example-additional-selection {
+        opacity: 0.75;
+        font-size: 0.75em;
+      }
+     .timeslot-button{
+        min-width: 200px;
+        height: 34px;
+        padding: 2px 5px;
+        border: 1px solid #ff5549;
+        border-radius: 12px;
+        background: #fff;
+        position: relative;
+        z-index: 9999;
+     } 
+    .time-picker-wrap{
+        background-color: #fff;
+        padding: 20px 10px;
+        min-width: 200px;
+        max-width: 201px;
+        position: absolute;
+        z-index: 999;
+        left: 15%;
+        top: 25px;
+        border-bottom-left-radius: 15px 15px;
+        border-bottom-right-radius: 15px 15px;
+        .time-picker {
+            width: 80%;
+            display: inline-block;
+            .ngb-tp-input-container{
+                .ngb-tp-input {
+                    border: none !important;
+                }
+            }
+        } 
+        span{
+            width: 20%;
+            display: inline-block;
+        } 
+    }
+    .time-slot-wrap{
+        // background-color: #fff;
+        min-width: 200px;
+        max-width: 201px;
+        position: absolute;
+        z-index: 999;
+        left: 20px;
+        top: 0;
+        border-bottom-left-radius: 15px 15px;
+        border-bottom-right-radius: 15px 15px;
+    }
+    .hour-picker-wrap{
+        background-color: #fff;
+        min-width: 200px;
+        max-width: 201px;
+        position: absolute;
+        z-index: 999;
+        left: 0px;
+        top: 25px;
+        padding: 20px 10px;
+        border-bottom-left-radius: 15px 15px;
+        border-bottom-right-radius: 15px 15px;
+    }
+    .time-picker-active{
+        background-color: #07D0B3;
+        border-color:#07D0B3;
+    }
+
+    .ngb-tp{
+        width: 80% !important;
+        margin: 0 auto !important;
+    }
+    // .ngb-timepicker{
+        .ngb-tp-input-container .form-control{
+            display: none;
+        }
+    // }
+    .main-wrapper{
+        position: relative;
+    }
+    .btn-sm{
+        padding: 0px 20px;
+        border-radius: 3px;
+        height: calc(1.5em + .75rem + 2px);
+    }
+    .btn-time{
+        width: 50%;
+        background-color: #07D0B3;
+        //border-radius: 15px;
+        border: 0 none;     
+        opacity: 0.2;   
+        // border-top-left-radius: 15px 15px;
+        // border-bottom-left-radius: 15px 15px;
+
+    }
+    .btn-active{
+       padding-left: 4px;
+       padding-right: 4px;
+        border-radius: 5px;
+        opacity: 1;
+    }
+    .btn-time.disabled {
+        opacity: 0.2;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+    .btn-type{
+        padding: 0px;
+    }
+    .btn-close{
+        border-radius: 50%;
+        border: 1px solid #ff5549;
+        background-color: #fff;
+        color:  #ff5549;
+    }
+    button:focus{
+        outline: none;
+    }
+    .timer{
+        font-size: 25px;
+        border: 0 none;
+        color: #94C4F9;
+    }
+    input:focus {
+        outline: none;
+    }
+    .breadcrumb {
+        background-color: transparent;
+        flex-direction: row-reverse;
+        padding-top: 0px;
+
+        .breadcrumb-item {
+            cursor: pointer;
+        }:hover {
+            color: #000;
+        }
+    }
+    .breadcrumb-item+.breadcrumb-item::before {
+        content: "";
+    }
+    .breadcrumb-item+.breadcrumb-item::after {
+        content: ">>";
+        margin-left: 4px;
+    }
+    .btn-group {
+        width: 54px;
+        margin-right: 12px;
+        background-color: #dcdcdc;
+        border-radius: 6px;
+        // input {
+        //     background-color: transparent;
+        // }
+    }
+    .days{
+        .btn-group {
+            background-color: transparent !important;
+            margin-right: 6px;
+            .btn{
+                padding: 5px 0px;
+                border: 0 none;
+            }
+        }
+    }
+    .to{
+        margin: 6px;
+    }
+    .working-time-input{
+        width: 80%;
+        display: inline-block;
+        //background-color: #dcdcdc;
+        input{
+           // background-color: transparent;
+            font-size: 13px;
+            /* line-height: 12px; */
+            padding: 1px 4px;
+        }
+    }
+    .slot-time {
+        .btn-group {
+            margin-right: 6px;
+            .btn{
+                padding: 5px 0px;
+                border: 0 none;
+            }
+        }
+    }
+    .solt-created {
+        background-color: #dcdcdc;
+        padding: 10px 10px;
+        border-radius: 8px;
+        text-align: center;
+    }
+}
+
+.completedBgColor {
+    background: #e2e2e2 !important;
+}
+.bgColor {
+    background: lightgoldenrodyellow !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgb(253 123 123) !important;
+}
+.ngb-tp-input{
+    border: 0 none;
+}
+
+// New slot design 
+.newSlotDesign {
+    padding: 25px 20px;
+    color: #808080;
+    background-color: #fff;
+    border-radius: 10px;
+    .custom-overflow {
+        max-height: 460px;
+        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    .workingDayDefaultBgColor {
+        color: #2f2d2d;
+        background-color: #d4d9dc;
+        //border-color: #6c757d;
+    }
+    
+    .btn-group {
+        .btn-secondary {
+            color: #fff;
+           // background-color: #6bf7e4;
+           background-color: #16e4c8;
+        }
+    }
+    .btn-add {
+        color: #fff;
+        //background-color: #6bf7e4;
+        background-color: #16e4c8;
+    }
+    .btn-selected {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .custom-control-label {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+}
+
+// New Radio Button as CheckBox
+input[type=radio] {
+    border: 1px solid rgb(20, 18, 18);
+    padding: 0.5em;
+    -webkit-appearance: none;
+  }
+
+//   input[type=radio]:checked {
+//     background-color:rgb(69, 206, 224);
+//     background-size: 9px 9px;
+//   }
+  
+  input[type=radio]:focus {
+    outline-color: transparent;
+  }
+
+  //radio button background color as per value
+
+  #yes:checked{
+    background-color:#d2fdc7;
+    background-size: 9px 9px;
+  }
+
+  #no:checked{
+    background-color:#99ccff;
+    background-size: 9px 9px;
+  }
+  
+// New slot design 

@@ -1,0 +1,9 @@
+package com.nsdl.ndhm.healthinfo.service;
+
+import com.nsdl.ndhm.healthinfo.dto.HipRequestDTO;
+import org.springframework.http.ResponseEntity;
+
+public interface HealthInfoService {
+
+    ResponseEntity<String> hipOnRequest(HipRequestDTO hipRequestDTO);
+}

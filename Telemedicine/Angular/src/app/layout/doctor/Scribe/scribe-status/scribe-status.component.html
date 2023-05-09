@@ -1,0 +1,137 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+<div class="scribe-status-wrapper container">
+    <div *ngIf="(scribeList && scribeList.data && scribeList.data.length)">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 mt-4">
+                <h2>{{'lblScribeList' | l10n}}</h2>
+            </div>
+            <!-- <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right mt-4">
+                <a href="javascript:;" (click)="openModel(defaultScribe)">Change Defalut Scribe</a>
+            </div> -->
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="example-container mat-elevation-z8" *ngIf="scribeList">
+                    <mat-table [dataSource]="scribeList">
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="profile">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="col-profile"></mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="col-profile py-2">
+                                <div class="profile-wrapper-sm">
+                                    <img [src]="element.profilePhotoPath" class="rounded-circle" alt="Scribe_Photo">
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="details">
+                            <mat-header-cell *matHeaderCellDef class="col-doc-details"> DoctorDetails </mat-header-cell>
+                            <mat-cell *matCellDef="let element"
+                                [ngClass]="{ 'defaultScribe': element.isDefaultScribe == 'Y'}"
+                                class="col-doc-details py-2">
+                                <div class="">
+                                    <h2 class="text-muted text-flow text-truncate mb-0" data-toggle="tooltip"
+                                        data-placement="top" title="{{ element.drFullName }}">
+                                        <span class="pr-2">{{element.scrbFullName}}</span>
+                                    </h2>
+                                    <p class="mb-0">
+                                        <span class="pr-1 text-flow">
+                                            <i class="fa fa-phone" aria-hidden="true"></i> -
+                                            <span>{{ element.scrbMobNo }}</span>
+                                        </span> |
+                                        <span class="text-truncate text-flow pl-1" data-toggle="tooltip"
+                                            data-placement="top" title="{{ element.drEmail }}">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i> -
+                                            <span>{{ element.scrbEmail }}</span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="col-action"></mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="col-action py-2">
+                                <div class="d-inline-block">
+                                    <a href="javascript:;" *ngIf="element.isDefaultScribe == 'Y'"
+                                        (click)="openModel(defaultScribe)">Change Defalut Scribe</a>
+                                    <button *ngIf="element.scrbisActive != 'Y' && element.isDefaultScribe != 'Y'"
+                                        type="button" class="btn btnColor btn-sm"
+                                        (click)="changeScribeStatus(element, 'Y')">Active</button>
+                                    <button *ngIf="element.scrbisActive == 'Y' && element.isDefaultScribe != 'Y'"
+                                        type="button" class="btn btnColor  btn-sm"
+                                        (click)="changeScribeStatus(element, 'N')">In-Active</button>
+                                </div>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns" class="d-none"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;">
+                        </mat-row>
+                    </mat-table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!(scribeList && scribeList.filteredData && scribeList.filteredData.length)">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+            <p class="p-5 bg-white">No Data Found!</p>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<ng-template #defaultScribe let-modal>
+    <div class="model-wrapper">
+        <!-- <form [formGroup]="reportGroup"> -->
+        <!-- <div class="modal-content"> -->
+        <div class="modal-header">
+            <h2 class="modal-title">Click on any scribe to set as default.</h2>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- [class.disabled]="user.status != 'Scheduled'" -->
+        <div class="modal-body">
+            <!-- <div class="row">
+                    <div class="col-md-12"> -->
+            <div class="list-group">
+                <div class="list-group-item py-0" *ngFor="let item of filteredScribeList">
+                    <div *ngIf="item.isDefaultScribe != 'Y' && item.scrbisActive == 'Y'" class="row"
+                        (click)="setAsDefault(item)">
+                        <div class="col-md-1 p-0 pt-2">
+                            <div class="profile-wrapper-sm">
+                                <img [src]="item.profilePhotoPath" class="rounded-circle" alt="Profile">
+                            </div>
+                        </div>
+                        <div class="scribe-details d-inline-block col-md-10">
+                            <h2 class="text-muted scribe-name-modal text-flow text-truncate mb-0" data-toggle="tooltip"
+                                data-placement="top" title="{{ item.scribeName }}">
+                                {{ item.scrbFullName }}
+                            </h2>
+                            <p>
+                                <span class="pr-1 text-flow">
+                                    <i class="fa fa-phone" aria-hidden="true"></i> -
+                                    <span>{{ item.scrbMobNo }}</span>
+                                </span> |
+                                <span class="text-truncate text-flow pl-1" data-toggle="tooltip" data-placement="top"
+                                    title="{{ item.scribeEmailId }}">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i> -
+                                    <span>{{ item.scrbEmail }}</span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div>
+                    <div> -->
+
+        </div>
+        <!-- <div class="modal-footer">
+             <button type="button" class="btn btn-primary">Save changes</button>
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           </div> -->
+        <!-- </form> -->
+    </div>
+</ng-template>

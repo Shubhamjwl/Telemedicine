@@ -1,0 +1,64 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/shared/autherization_Authentication/guards/auth.guard';
+import { MatModuleModule } from '../mat-module/mat-module.module';
+import { AppointmentHistoryComponent } from './components/appointment-history/appointment-history.component';
+import { BookAppointmentDashboardComponent } from './components/book-appointment-dashboard/book-appointment-dashboard.component';
+import { BookDoctorsAppointmentComponent } from './components/book-doctor-appointment/book-doctor-appointment.component';
+import { CompletedAppointmentsComponent } from './components/completed-appointments/completed-appointments.component';
+import { DeActivateProfileComponent } from './components/de-activate-profile/de-activate-profile.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { UploadHeaderFooterTemplateComponent } from './components/upload-header-footer-template/upload-header-footer-template.component';
+import { ViewPatientListComponent } from './components/view-patient-list/view-patient-list.component';
+
+const routes: Routes = [
+  {
+    path: 'doctor-appointments',
+    component: BookDoctorsAppointmentComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+      path: 'book-appointment-dashboard', 
+      component: BookAppointmentDashboardComponent,
+      canActivate: [AuthGuard],
+  },
+  {
+      path: 'appointments-history',
+      component: AppointmentHistoryComponent,
+      canActivate: [AuthGuard],
+  },
+  {
+      path: 'completed-appointments',
+      component: CompletedAppointmentsComponent,
+      canActivate: [AuthGuard]
+  },
+  {
+    path: 'patient-list',
+    component: ViewPatientListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+      path: 'update-profile', 
+      component: UpdateProfileComponent,
+      canActivate: [AuthGuard],
+  },
+  {
+    path: 'doctor-deregister',
+    component: DeActivateProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+      path: 'upload-header-footer-template',
+      component: UploadHeaderFooterTemplateComponent,
+      canActivate: [AuthGuard],
+  },
+  
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forChild(routes),
+  ],
+  exports: [RouterModule]
+})
+export class SharedModulesRoutingModule { }

@@ -1,0 +1,132 @@
+<div>
+  <app-tm-breadcrumb [showHomePageOptions]="true"></app-tm-breadcrumb>
+  <ngx-spinner>
+    <p class="loading">Loading...</p>
+  </ngx-spinner>
+  <!--  New patient UX start here -->
+  <div class="main-container">
+    <div class="content-area content-area2 login-form">
+      <div class="page-title">Register A Patient</div>
+
+      <div class="register-form register-form2">
+        <div class="mb-3">
+          <label class="mr-2" *ngFor="let option of radioButtonLList">
+            <input type="radio" checked [value]="option.value" [(ngModel)]="selectedRadio">
+            <span class="ml-1">{{option.name}}</span>
+          </label>
+        </div>
+        <form [formGroup]="form">
+          <ng-container *ngIf="selectedRadio === 'single'">
+            <div class="input-group half-col right">
+              <label>Patient's Full Name<sup>*</sup></label>
+              <input type="text" formControlName="patientName" autocomplete="off">
+
+              <mat-error class="ml-1"
+                *ngIf="form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)">
+                <span *ngIf="form.get('patientName').errors.required">{{'errFullNameRequired'| l10n}}</span>
+                <span *ngIf="form.get('patientName').errors.maxlength">{{'errFullNameMaxLength'| l10n}}</span>
+                <span *ngIf="form.get('patientName').errors.pattern">{{'errFullNamePattern'| l10n}}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col left">
+              <label>Mobile Number<sup>*</sup></label>
+              <input type="text" formControlName="mobileNo" length="10" numberOnly autocomplete="off">
+              <mat-error class="ml-1"
+                *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)">
+                <span *ngIf="form.get('mobileNo').errors.required">{{'errMobileRequired'| l10n}}</span>
+                <span *ngIf="form.get('mobileNo').errors.maxlength">{{'errMobileMaxLength'| l10n}}</span>
+                <span *ngIf="form.get('mobileNo').errors.pattern">{{'errMobilePattern' | l10n}}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col right">
+              <label>Email Id</label>
+              <input type="email" formControlName="email" autocomplete="off">
+              <mat-error class="ml-1"
+                *ngIf="form.get('email').errors && (form.get('email').touched || form.get('email').dirty)">
+                <span *ngIf="form.get('email').errors.required">{{'errEmailRequired'| l10n}}</span>
+                <span *ngIf="form.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+                <span
+                  *ngIf="!form.get('email').errors.email && form.get('email').errors.maxlength">{{'errEmailMaxlength'
+                  |
+                  l10n}}</span>
+              </mat-error>
+            </div>
+            <div class="input-group half-col left">
+              <label>Date of Birth</label>
+              <input type="text" class="col-10" formControlName="dob" [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>
+                  <img src="assets/img/date-of-birth-small.svg">
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </div>
+
+            <div class="input-group half-col left attach-col ">
+              <label>Upload Photo</label>
+
+              <div class="toogle-area">
+                <mat-slide-toggle [checked]='isSwitcheChecked' (change)="onClickSwitch()"> </mat-slide-toggle>
+                <div class="attach-img" *ngIf="!isSwitcheChecked">
+                  <img [src]="uploadedImage" id="ProfilePhoto">
+                </div>
+                <div *ngIf="isSwitcheChecked" class="d-flex flex-column">
+                  <webcam [height]="75" [width]="100" [trigger]="triggerObservable"
+                    (initError)="handleInitError($event)" (imageCapture)="handleImage($event)">
+                  </webcam>
+
+                  <button type="button" class="submit-main-btn btn btn-sm" (click)="triggerSnapshot()">Take
+                    Photo</button>
+                </div>
+                <div *ngIf="!isSwitcheChecked" class="row ml-1">
+                  <input type="text" placeholder="Browse Files" class="col-10 pass" formControlName="profilePhoto"
+                    disabled>
+                  <input type="file" id="browse" formControlName="profilePhoto" class="mt-1"
+                    (change)="uploadProfilePhoto($event)" hidden>
+                  <img class="col-2 upload-document" src="assets/img/attachment.svg" (click)="browse()">
+                </div>
+
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="selectedRadio === 'multiple'">
+
+            <div>
+              Click <a class="link-primary" (click)="download()"> Download
+                file </a> to download and attach patient details
+            </div>
+
+            <div class="d-flex my-3">
+              <input type="text" placeholder="Browse Files" (click)="inputFile.click()" class="col-10 browse_file"
+                [value]="selectedFileName" disabled>
+              <input #inputFile type="file" class="d-none" accept=".xlsx" multiple (change)="selectFiles($event)">
+              <img src="assets/img/attachment.svg" (click)="inputFile.click()" class="upload-sample" alt="">
+              <button type="button" class="btn btn-primary" [disabled]="!selectedFileName"
+                (click)="uploadFiles()">Upload</button>
+            </div>
+            <div class="my-3" *ngIf="uploadedFiles && uploadedFiles.length">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr *ngFor="let file of uploadedFiles; let i = index">
+                    <td>{{file.name}}</td>
+                    <td class="text-danger pointer" (click)="removeFile(i)"><b>X</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <div class="input-group full-col btn-area">
+            <span *ngIf="selectedRadio === 'multiple'" class="my-2 text-danger font-weight-bold">Note: Please download file from above link and
+              attach with updated details and file name should be sample.xlsx</span>
+            <button type="button" class="submit-main-btn submit-main-btn2 mr-2" [disabled]="selectedRadio === 'multiple' && !uploadedFiles?.length"
+              (click)="onClickSubmit()">Submit</button>
+            <button type="button" class="submit-main-btn submit-main-btn2" (click)="onClickCancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

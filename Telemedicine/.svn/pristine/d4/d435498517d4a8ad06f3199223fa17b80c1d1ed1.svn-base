@@ -1,0 +1,9 @@
+FROM nginx:1.16.1
+
+COPY nginx_vol.conf /etc/nginx/nginx.conf
+
+RUN  mkdir -p /usr/share/nginx/html/clinic/clinic
+
+#COPY dist /usr/share/nginx/html
+
+COPY clinic /usr/share/nginx/html/clinic/clinic/

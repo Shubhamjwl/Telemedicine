@@ -1,0 +1,62 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Patient Profile created, select any option to map health id</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <div class="kyc mt-4" style="background-color: #585b5c3d; color: black">
+        Health ID :
+      </div>
+
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <div class="kyc mt-4" style="background-color: #00aef8; color: black">
+          Verify with mobile OTP:
+        </div>
+        <div class="kyc mt-4" style="background-color: #0079b03d; color: black">
+          Verify with Aadhaar OTP :
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <div class="kyc mt-4" style="background-color: #0079b03d; color: black">
+          Verify with Aadhaar OTP :
+        </div>
+        <div class="kyc mt-4" style="background-color: goldenrod; color: black">
+          Verify with Aadhaar Bio Metric :
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn btn-primary mr-3"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+        >
+          Back
+        </button>
+        <button
+          class="btn btn-primary"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

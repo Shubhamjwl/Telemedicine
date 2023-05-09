@@ -1,0 +1,14 @@
+package com.nsdl.ndhm.healthinfo.dto;
+
+import com.nsdl.ndhm.transfer.dto.DateRangeDTO;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class HiRequestDTO {
+    private ConsentDTO consent;
+    private DateRangeDTO dateRange;
+    private String dataPushUrl;
+    private KeyMaterialDTO keyMaterial;
+}

@@ -1,0 +1,25 @@
+<div>
+    <!-- <button class="btn" mat-raised-button style="float: right;" [mat-dialog-close]="data" cdkFocusInitial>x</button> -->
+
+    <div mat-dialog-content class="text-center rounded mt-3 ">
+        <p *ngIf="data && data.message">{{data.message}}</p>
+        <!-- <p>We have sent you an OTP on your <br> Mobile no. +91 xxxx xx x48</p> -->
+        <p class="mt-2 mb-2">Enter OTP to proceed further</p>
+
+        <input class="form-control gray m-auto" [(ngModel)]="userEnteredOtp">
+    </div>
+
+    <div mat-dialog-actions class="ml-5 mt-3">
+        <div class="row w-100 mb-4">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary" mat-raised-button [disabled]="!userEnteredOtp"
+                    (click)="onClickSubmit(data)">Submit</button>
+                <!-- <button class="btn btn-primary" mat-raised-button (click)="onClickResend(data)">Resend</button> -->
+                <button class="btn" mat-raised-button [mat-dialog-close]="data" cdkFocusInitial>Cancel</button>
+                <br><br>
+                <a class="text-info" (click)="onClickResend(data)">Resend OTP</a>
+            </div>
+        </div>
+    </div>
+
+</div>

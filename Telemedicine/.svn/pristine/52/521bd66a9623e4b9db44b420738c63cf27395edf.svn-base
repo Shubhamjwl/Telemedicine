@@ -1,0 +1,91 @@
+<div class="login-container">
+  <form #autherForm="ngForm" novalidate>
+    <div class="login-panel">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2>Map Health ID-Mobile otp</h2>
+        </div>
+      </div>
+      <div
+        class="login-form-box"
+        style="
+          width: 700px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        "
+      >
+        <!-- <p>Create Health id using Aadhar :</p> -->
+        <div class="row mt-3">
+          <div class="col-md-3 lable">
+            <p class="mt-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Health id</p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthId"
+                name="healthidname"
+                class="form-control input"
+                placeholder="Health ID"
+                #healthidname="ngModel"
+                required
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="healthidname.valid || healthidname.untouched"
+            >
+              Enter Valid Healthid
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 84px">
+              <div class="col-md-1" style="margin-top: 5%">
+                <input type="checkbox" />
+              </div>
+              <div class="col-md-10">
+                <p
+                  style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                    width: 110%;
+                  "
+                >
+                  I hearby authorize and provide my consent to share my details
+                  with NHA(NDHM) for verfifying my Health ID
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="generateOTP()"
+            [disabled]="!autherForm.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

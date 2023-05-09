@@ -1,0 +1,19 @@
+management.endpoint.health.show-details=always
+management.endpoints.web.exposure.include=info,health,refresh,mappings
+spring.profiles.active= dev
+spring.application.name=GupShup_Mail_Send
+server.port=8082
+server.servlet.context-path=/send-mail-gupshup
+
+
+
+
+
+
+
+
+
+
+
+
+

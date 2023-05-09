@@ -1,0 +1,62 @@
+body {
+  --mat-row-odd-bg-color: #f6f6f6 !important;
+  --mat-row-even-bg-color: #e7f4f8 !important;
+  --mat-row-txt-color: #676767 !important;
+  --mat-header-row-bg-color: #e7f4f8 !important;
+  --mat-header-row-txt-color: #676767 !important;
+  --mat-row-hover-bg-color: #068bad !important;
+  --mat-row-hover-txt-color: #fff !important;
+  --table-pagination-disabled-color: #949c9e !important;
+}
+
+.mat-row {
+  &:nth-child(odd) {
+    background-color: var(--mat-row-odd-bg-color);
+  }
+  &:nth-child(even) {
+    background-color: var(--mat-row-even-bg-color);
+  }
+  &:hover {
+    background-color: var(--mat-row-hover-bg-color);
+    td {
+      color: var(--mat-row-hover-txt-color);
+    }
+  }
+}
+
+.mat-header-row {
+  color: var(--mat-header-row-txt-color) !important;
+  background-color: var(--mat-header-row-bg-color) !important;
+  height: 35px !important;
+
+  .mat-header-cell {
+    font-size: 14px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  padding-right: 15px !important;
+}
+
+table:not(.mat-calendar-table, .ngx-mat-timepicker-table) {
+  tr {
+    color: var(--mat-row-txt-color);
+    & > td {
+      flex: 1;
+    }
+    &:nth-child(odd) {
+      background-color: var(--mat-row-odd-bg-color);
+    }
+    &:nth-child(even) {
+      background-color: var(--mat-row-even-bg-color);
+    }
+    &:hover {
+      background-color: var(--mat-row-hover-bg-color);
+      color: var(--mat-row-hover-txt-color);
+    }
+  }
+}

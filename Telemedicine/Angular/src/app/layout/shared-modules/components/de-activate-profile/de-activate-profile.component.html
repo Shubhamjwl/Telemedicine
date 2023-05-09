@@ -1,0 +1,280 @@
+<app-tm-breadcrumb></app-tm-breadcrumb>
+
+<div class="container mt-4">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <h2 class="mb-1 pl-1 d-inline-block">
+                <span>
+                    <b>{{'lblDeRegister' | l10n}}</b>
+                </span>
+            </h2>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="card borderRadius10 mt-0 register-container">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <form [formGroup]="form">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                            <div class="row">
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                                        <mat-label>
+                                            <b>{{'lblFullName' | l10n}}</b>
+                                        </mat-label>
+                                        <input matInput maxlength="30" formControlName="fullName"
+                                            placeholder="Enter {{'lblFullName' | l10n}}">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="text-secondary"> <b>{{'lblMobileNumber' | l10n}}</b>
+                                        </mat-label>
+                                        <input matInput type="number" formControlName="mobileNo" maxlength="10">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="text-secondary"> <b>{{'lblEmailId' | l10n}}</b></mat-label>
+                                        <input matInput formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <!--  -->
+                            <div class="row">
+                                <!-- <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                                        <mat-label> <b>{{'lblDateOfBirth' | l10n}}</b> </mat-label>
+                                        <input matInput formControlName="dob" [matDatepicker]="picker" [max]="maxDate" [disabled]="disableDob" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div> -->
+                                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <mat-form-field class="example-full-width w-100" appearance="outline">
+                                        <mat-label> <b>{{'lblGender' | l10n}}</b> </mat-label>
+                                        <mat-select formControlName="gender">
+                                            <mat-option *ngFor="let gender of constantsService.constants.genders"
+                                                [value]="gender.key">
+                                                {{gender.key}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <!-- <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="labelSize14"><b>{{'lblBloodGroup' | l10n}}</b></mat-label>
+                                        <mat-select formControlName="bloodGroup" [disabled]="disableBloodGroup">
+                                            <mat-option *ngFor="let type of constantsService.constants.bloodGroupTypes" [value]="type.value">{{type.key}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div> -->
+                                <!-- <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="text-secondary"> <b>{{'lblHeight' | l10n}}</b> </mat-label>
+                                        <input matInput type="number" formControlName="height" [readonly]="disableHeight">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-2 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="text-secondary"> <b>{{'lblWeight' | l10n}}</b> </mat-label>
+                                        <input matInput type="number" formControlName="weight" [readonly]="disableWeight">
+                                    </mat-form-field>
+                                </div>                            -->
+
+                                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="labelSize14">
+                                            <b>{{'lblSMCNo' | l10n}}</b>
+                                        </mat-label>
+                                        <input matInput maxlength="30" formControlName="smcNo"
+                                            placeholder="Enter {{'lblSMCNo' | l10n}}">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="labelSize14">
+                                            <b>{{'lblMICNo' | l10n}}</b>
+                                        </mat-label>
+                                        <input matInput maxlength="30" formControlName="micNo"
+                                            placeholder="Enter {{'lblMICNo' | l10n}}">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Profile photo -->
+                        <div class="col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 upload-wrapper"
+                                    *ngIf="!isSwitcheChecked">
+                                    <div class="profile-wrapper">
+                                        <img [src]="form.get('profilePhoto').value ? form.get('profilePhoto').value : 'assets/images/img_avatar.png'"
+                                            id="ProfilePhoto" class="rounded-circle" alt="Avatar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Doctor fields -->
+                    <div class="row" *ngIf="authService.isUserDoctor()">
+                        <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblSMCNo' | l10n}}</b>
+                                </mat-label>
+                                  <input matInput maxlength="30" formControlName="smcNo" placeholder="Enter {{'lblSMCNo' | l10n}}">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblMICNo' | l10n}}</b>
+                                </mat-label>
+                                  <input matInput maxlength="30" formControlName="micNo" placeholder="Enter {{'lblMICNo' | l10n}}">
+                            </mat-form-field>
+                        </div> -->
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblConsultationFee' | l10n}}</b>
+                                </mat-label>
+                                <input matInput type="number" formControlName="consultationFee"
+                                    placeholder="Enter {{'lblConsultationFee' | l10n}}">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100" appearance="outline">
+                                <mat-label class="labelSize14"><b>{{'lblSpecialization' | l10n}}</b></mat-label>
+                                <mat-select formControlName="speciality">
+                                    <!-- <mat-option>{{'lblSpecialization' | l10n}}</mat-option> -->
+                                    <mat-option *ngFor="let specialization of specializationList"
+                                        [value]="specialization.masterValue">{{specialization.masterValue}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14"><b>{{'lblState' | l10n}}</b></mat-label>
+                                <mat-select formControlName="state">
+                                    <mat-option value="" selected>{{'lblSelect' | l10n}}</mat-option>
+                                    <mat-option *ngFor="let state of states" [value]="state.stateName">
+                                        {{state.stateName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14"><b>{{'lblCity' | l10n}}</b></mat-label>
+                                <mat-select formControlName="city">
+                                    <mat-option value="" selected>{{'lblSelect' | l10n}}</mat-option>
+                                    <mat-option *ngFor="let city of cities" [value]="city.cityName">{{city.cityName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="row">
+                        <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field  class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14"><b>{{'lblState' | l10n}}</b></mat-label>
+                                <mat-select formControlName="state">
+                                    <mat-option value="" selected>{{'lblSelect' | l10n}}</mat-option>
+                                    <mat-option *ngFor="let state of constantsService.constants.states" [value]="state.stateName">{{state.stateName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field  class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14"><b>{{'lblCity' | l10n}}</b></mat-label>
+                                <mat-select formControlName="city">
+                                    <mat-option value="" selected>{{'lblSelect' | l10n}}</mat-option>
+                                    <mat-option *ngFor="let city of constantsService.constants.cities" [value]="city.cityName">{{city.cityName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblAddresLine1' | l10n}}</b>
+                                </mat-label>
+                                <input matInput maxlength="30" formControlName="address1" placeholder="Enter Address1">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblAddresLine2' | l10n}}</b>
+                                </mat-label>
+                                <input matInput maxlength="30" formControlName="address2" placeholder="Enter Address2">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblAddresLine3' | l10n}}</b>
+                                </mat-label>
+                                <input matInput maxlength="30" formControlName="address3" placeholder="Enter Address3">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <!-- <div class="row">
+                        <div class="col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                <mat-label class="labelSize14">
+                                    <b>{{'lblAddresLine3' | l10n}}</b>
+                                </mat-label>
+                                  <input matInput maxlength="30" formControlName="address3" placeholder="Enter Address3">
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <div class="row mt-2">
+                        <div class="offset-5 col-3 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                            <button type="button" (click)="back()" class="btn btn-outline-secondary  mt-2 mr-2">
+                                Back
+                            </button>
+                            <button type="button" (click)="deRegisterProfile(otp)" class="btn btnColor mt-2">
+                                De-Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<ng-template #otp>
+    <div>
+        <!-- <button class="btn" mat-raised-button style="float: right;" [mat-dialog-close]="data" cdkFocusInitial>x</button> -->
+
+        <div mat-dialog-content class="row text-center rounded mt-3 justify-content-center">
+            <div class="col-12">
+                <p>We have sent you an OTP on your Registered Mobile no.</p>
+                <p class="mt-2 mb-2">Enter OTP to proceed further</p>
+            </div>
+            <div class="col-6 m-auto">
+                <input class="form-control gray m-auto" [(ngModel)]="userEnteredOtp">
+            </div>
+        </div>
+        <div mat-dialog-actions class="ml-5 mt-3">
+            <div class="row w-100 mb-4">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary mr-2" mat-raised-button [disabled]="!userEnteredOtp"
+                        (click)="submit(userEnteredOtp)">Submit</button>
+                    <!-- <button class="btn btn-primary" mat-raised-button (click)="onClickResend(data)">Resend</button> -->
+                    <button class="btn" mat-raised-button (click)="cancel()">Cancel</button>
+                    <br><br>
+                    <a class="text-info" (click)="resendOtp()">Resend OTP</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ng-template>

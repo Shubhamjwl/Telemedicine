@@ -1,0 +1,29 @@
+
+
+<h2 mat-dialog-title>Terms and Condition</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Enhanced QR Code Reader for PAN Card</h3>
+  <p>Enhanced QR Code Reader for PAN Card is an application developed under instructions of NSDL e-Governance Infrastructure Limited (NSDL eGov) for reading information on PAN Card with the new QR Code feature.</p>
+
+
+  <!-- <p>NSDL e-Gov ("us", "we", or "our") operates the website www.tin-nsdl.com and manages the Enhanced QR Code Reader for PAN Card mobile application (herein after referred to as “the application").</p>
+
+  
+  <p>These Terms and Conditions ("Terms", "Terms and Conditions") govern your relationship with the website www.tin-nsdl.com and the Enhanced QR Code Reader for PAN Card mobile application NSDL e-Gov.</p>
+
+  
+  <p>Please read these Terms and Conditions carefully before using our website www.tin-nsdl.com and Enhanced QR Code Reader for PAN Card mobile application.</p>
+
+  
+
+  <p>Your access to and use of the application is based on your acceptance of and compliance with these Terms and Conditions. These Terms apply to all visitors, users and others who access and/or use the application.</p> -->
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="closeTC()">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="acceptTC()">Accept</button>
+</mat-dialog-actions>
+
+
+    

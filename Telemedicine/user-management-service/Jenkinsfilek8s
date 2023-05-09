@@ -1,0 +1,49 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def usermanageVersion
+   stage ('create Image Version'){
+   usermanageVersion = sh (
+   script: 'echo "v1"',
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('k8s/usermanageservice', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'k8s') {
+           dockerImage.push "${usermanageVersion}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi k8s/usermanageservice"
+       sh "docker rmi 172.16.11.166:37719/k8s/usermanageservice:${usermanageVersion}"
+       }
+
+                
+       
+   }
+

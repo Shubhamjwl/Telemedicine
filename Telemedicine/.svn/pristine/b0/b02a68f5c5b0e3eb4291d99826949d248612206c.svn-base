@@ -1,0 +1,16 @@
+package com.nsdl.ndhm.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.nsdl.ndhm.entity.HealthIdCreationEntity;
+
+public interface HealthIdCreationRepo extends JpaRepository<HealthIdCreationEntity, String> {
+
+	public Optional<HealthIdCreationEntity> findByHealthIdNumber(String healthIDNumber);
+
+	public Optional<HealthIdCreationEntity> findByMobile(String mobileNo);
+
+	public Optional<HealthIdCreationEntity> findByEmail(String email);
+}

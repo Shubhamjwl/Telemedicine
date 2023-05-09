@@ -1,0 +1,250 @@
+package com.nsdl.ndhm.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.*;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.service.SearchHealthIdService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Service
+@LoggingClientInfo
+public class SearchHealthIdServiceImpl implements SearchHealthIdService {
+	private static final Logger logger = LoggerFactory.getLogger(SearchHealthIdServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${searchHealthIdByMobNo}")
+	String searchHealthIdByMobNo;
+
+	@Value("${generateRespSearchByHealthId}")
+	String generateRespSearchByHealthId;
+
+	@Value("${searchHealthIdByAadhar}")
+	String searchHealthIdByAadhar;
+
+	@Value("${existHealthId}")
+	String checkExistHealthId;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	MainResponseDTO<HealthIDResp> mainResponse = null;
+
+	/*
+	 * search by mobile number
+	 */
+	@Override
+	public MainResponseDTO<SearchByMobRespDTO> searchByMobile(Map<String, String> headers,
+			MainRequestDTO<SearchByMobDTO> searchByMobDTO) {
+		logger.info("Request Receives for Search HealthId By Mobile No ");
+		String url = searchHealthIdByMobNo;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<SearchByMobRespDTO> resp = new MainResponseDTO<>();
+		SearchByMobRespDTO respData = null;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchByMobDTO.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), SearchByMobRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException e) {
+			logger.info("Error in searchByMobile " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (HttpServerErrorException e) {
+			logger.info("Error in searchByMobile " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+
+		catch (Exception e) {
+			logger.info("Error in searchByMobile " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Search HealthId By Mobile No Ends", resp);
+		return resp;
+	}
+
+	/*
+	 * search by health id
+	 */
+	@Override
+	public MainResponseDTO<SearchByMobRespDTO> searchByHealthId(Map<String, String> headers,
+			MainRequestDTO<SearchByHealthIdDTO> searchByHealthIdDTO) {
+		logger.info("Request Receives for Search HealthId By Health id No ");
+		String url = generateRespSearchByHealthId;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<SearchByMobRespDTO> resp = new MainResponseDTO<SearchByMobRespDTO>();
+		SearchByMobRespDTO respData = null;
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchByHealthIdDTO.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), SearchByMobRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException e) {
+			logger.info("Error in searchByHealthId " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (HttpServerErrorException e) {
+			logger.info("Error in getFetchModes " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.info("Error in searchByHealthId " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Search HealthId By Mobile No Ends", resp);
+		return resp;
+	}
+
+	@Override
+	public MainResponseDTO<SearchByMobRespDTO> searchByAadhar(Map<String, String> headers,
+			MainRequestDTO<SearchByAadharDTO> searchByAadharDTO) {
+
+		logger.info("Request Receives for Search HealthId By Aadhar No ");
+		String url = searchHealthIdByAadhar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<SearchByMobRespDTO> resp = new MainResponseDTO<SearchByMobRespDTO>();
+		SearchByMobRespDTO respData = null;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchByAadharDTO.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), SearchByMobRespDTO.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException e) {
+			logger.info("Error in searchByAadhar " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (HttpServerErrorException e) {
+			logger.info("Error in searchByAadhar " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.info("Error in searchByAadhar " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Search HealthId By Aadhar No Ends", resp);
+		return resp;
+	}
+
+	@Override
+	public MainResponseDTO<SearchExistHealthIdRespDTO> checkExistsByHealthId(Map<String, String> headers,
+			MainRequestDTO<SearchByHealthIdDTO> searchByHealthIdDTO) {
+		logger.info("Request Receives for check Exists HealthId");
+		String url = checkExistHealthId;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<SearchExistHealthIdRespDTO> resp = new MainResponseDTO<>();
+		SearchExistHealthIdRespDTO respData = null;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(searchByHealthIdDTO.getRequest());
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), SearchExistHealthIdRespDTO.class); // Json to response
+																								// mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException e) {
+			logger.info("Error in checkExistsByHealthId " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (HttpServerErrorException e) {
+			logger.info("Error in checkExistsByHealthId " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.info("Error in checkExistsByHealthId " , e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Requesting for check Exists HealthId");
+		return resp;
+	}
+}

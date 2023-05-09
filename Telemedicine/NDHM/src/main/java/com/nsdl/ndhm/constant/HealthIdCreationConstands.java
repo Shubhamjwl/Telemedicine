@@ -1,0 +1,86 @@
+package com.nsdl.ndhm.constant;
+
+public enum HealthIdCreationConstands {
+	OTP_SUCCESS("OTP_SUCCESS",
+			"Otp has been sent to your Registered Mobile : @mobileNo And Email : @emailID registered with Virtual App and will be valid for 10 minutes. If you have not received the OTP,Please click on 'Regenerate OTP' button."),
+	OTP_FAILURE("OTP_FAIL", "Registration and Otp service failed due to wrong info."),
+	SEARCH_FAILURE("SEARCH_FAILURE", "Unable to Find ABHA Details"),
+	STATUS_SUCCESS("SUCCESS", "Success"), STATUS_FAIL("FAIL", "Fail"), SERVICE_SUCCESS_STATUS(true),
+	SERVICE_FAIL_STATUS(false),
+	TXNID_EXCEPTION_MSG("TXNID_EXC", "TxnId should not be null or empty"),
+	AADHAAR_EXCEPTION_MSG("AADHAAR_EXC", "Aadhaar Can't be Blank"),
+	MOBILE_EXCEPTION_MSG("MBLE_EXC", "Invalid Mobile-Number or Mobile Number is Empty"),
+	EMAIL_EXCEPTION_MSG("EMAIL_EXC", "Invalid EMail-ID"),
+	USER_FIRSTNAME_VALIDATE("FIRST_NAME", "User First name should not be blank"),
+	USER_LASTNAME_VALIDATE("LAST_NAME", "User Last name should not be blank"), 
+	USER_GENDER_VALIDATE("GENDER", "User GENDER should not be blank"),
+	USER_MOBILE_NO_VALIDATE("MOBILE_NO", "User Mobile No should not be blank"),
+	PASSWORD_EXCEPTION_MSG("PSWD", "Password is not in correct format"),
+	USERID_EXCEPTION_MSG("USRID", "Health ID is null or empty"),
+	HEALTH_ID_SAVE_FAIL("HEALTH_ID_FAIL", "HealthId details failed to store"),
+	HEALTH_ID_SENDING_FAIL("HEALTH_ID_SENDING_FAIL", "HealthId details failed to Send to Telemedicine"),
+	USER_ID_EXIST("USER_ID_EXIST", "HealthID already exist"), MOBILE_EXIST("MBL_EXIST", "Mobile is already exist"),
+	EMAILID_EXIST("EML_EXIST", "Email Id is already exist"),
+	UNAUTHORIZED("401" , "UNAUTHORIZED"),
+	INTERNAL_ERROR("501" , "Internal Server Error"),
+	FETCH_STATE_FAIL("STATE_FAIL" , "Failed To Fetch State List. Try After Some Time"),
+	FETCH_DIST_FAIL("STATE_FAIL" , "Failed To Fetch State List. Try After Some Time"),
+	TOKEN_GEN_FAIL("TOKEN_FAIL" , "Token Generation Failed . Try After Some Time"),
+	FETCH_FETCH_MODES("FETCH_FETCH_MODES" , "Something Went Wrong. Try After Some Time"), 
+	ON_FETCH_FETCH_MODES("ON_FETCH_FETCH_MODES" , "Something Went Wrong.Please Try with a Valid RequestId"),
+	FETCH_MODES_NO_CALLBACK("FETCH_MODES_NO_CALLBACK" , "Something Went Wrong.Please Try After Some Time"),
+	ON_CONFIRM_NO_CALLBACK("ON_CONFIRM_NO_CALLBACK" , "Something Went Wrong.Please Try After Some Time"),
+	ON_CONFIRM("ON_CONFIRM" , "Something Went Wrong.No Callback Received.Please Try After Some Time"),
+	FETCH_INIT_FAILS("INIT_FAILS" , "INIT fails . Something Went Wrong. Try After Some Time"),
+	FETCH_AUTH_CONFIRM("AUTH_CONFIRM" , "Auth Confirm . Something Went Wrong. Try After Some Time"),
+	USER_MANAGEMENT_FAIL("USER_MANAGEMENT_FAIL" , "User Management Call Failed"),
+	REGISTRATION_SUCCESS("REGISTRATION_SUCCESS", "User Registration Successfully"),ACCOUNT_BENEFITS_FAIL("ACCOUNT_BENEFITS_FAIL", "Fails To Fetch Account Benefits"),
+	FETCH_HEALTH_ID_CARD_FAIL("HEALTHIDCARD_FAIL" , "Failed To Health ID Card. Try After Some Time"),
+	FETCH_ACCOUNT_PROFILE_FAIL("ACCOUNT_PROFILE_FAIL" , "Failed To Get Account Details. Try After Some Time"),
+	VALIDATE_ACCOUNT_TOKEN_FAIL("ACCOUNT_TOKEN_FAIL" , "Failed To Validate Account Token. Try After Some Time"),
+	CREATED_FROM_PREVERIFIED_AADHAAR("CREATED_FROM_PREVERIFIED_AADHAAR"),
+	CREATED_FROM_MOBILE("CREATED_FROM_MOBILE"),
+	API_STATUS("STATUS"),
+	HEALTHID_VERIFICATION_DONE("Y"),
+	HEALTHID_VERIFICATION_PENDING("N")
+	
+	;
+
+	private boolean status;
+
+	private String validate;
+
+	private String code;
+
+	private String msg;
+
+	private HealthIdCreationConstands(boolean status) {
+		this.status = status;
+	}
+
+	private HealthIdCreationConstands(String validate) {
+		this.validate = validate;
+	}
+ 
+	private HealthIdCreationConstands(String code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public String getValidate() {
+		return validate;
+	}
+
+}

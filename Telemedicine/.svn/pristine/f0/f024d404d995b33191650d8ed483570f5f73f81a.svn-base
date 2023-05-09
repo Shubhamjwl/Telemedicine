@@ -1,0 +1,22 @@
+<div>
+    <div class="card mat-elevation-z4 disableCard p-0 m-0">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 materialTableCustomStyle">
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+            </ng-container>
+
+            <ng-container matColumnDef="flag">
+                <th mat-header-cell *matHeaderCellDef> Flag </th>
+            </ng-container>
+
+            <ng-container matColumnDef="link">
+                <th mat-header-cell *matHeaderCellDef> Share Link </th>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <button (click)="copyUrl()">Copy to clipboard</button>
+</div>

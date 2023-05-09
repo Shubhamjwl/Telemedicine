@@ -1,0 +1,12 @@
+<svg id="appointment-time" xmlns="http://www.w3.org/2000/svg" width="30.815" height="32" viewBox="0 0 30.815 32">
+  <path id="Path_1284" data-name="Path 1284" d="M10.231,32H32.56A4.246,4.246,0,0,0,36.8,27.757V6.613A4.246,4.246,0,0,0,32.56,2.37H30.877V1.185a1.185,1.185,0,0,0-2.37,0V2.37H14.284V1.185a1.185,1.185,0,0,0-2.37,0V2.37H10.231A4.246,4.246,0,0,0,5.988,6.613V27.757A4.246,4.246,0,0,0,10.231,32ZM8.358,6.613a1.877,1.877,0,0,1,1.873-1.873h1.683V5.926a1.185,1.185,0,1,0,2.37,0V4.741H28.506V5.926a1.185,1.185,0,0,0,2.37,0V4.741H32.56a1.877,1.877,0,0,1,1.873,1.873V27.757A1.877,1.877,0,0,1,32.56,29.63H10.231a1.877,1.877,0,0,1-1.873-1.873Z" transform="translate(-5.988 0)" fill="#e43927"/>
+  <circle id="Ellipse_100" data-name="Ellipse 100" cx="1.475" cy="1.475" r="1.475" transform="translate(7.114 10.671)" fill="#e43927"/>
+  <circle id="Ellipse_101" data-name="Ellipse 101" cx="1.475" cy="1.475" r="1.475" transform="translate(13.636 10.671)" fill="#e43927"/>
+  <circle id="Ellipse_102" data-name="Ellipse 102" cx="1.475" cy="1.475" r="1.475" transform="translate(20.157 10.671)" fill="#e43927"/>
+  <circle id="Ellipse_103" data-name="Ellipse 103" cx="1.475" cy="1.475" r="1.475" transform="translate(7.114 16.6)" fill="#e43927"/>
+  <circle id="Ellipse_104" data-name="Ellipse 104" cx="1.475" cy="1.475" r="1.475" transform="translate(13.636 16.6)" fill="#e43927"/>
+  <circle id="Ellipse_105" data-name="Ellipse 105" cx="1.475" cy="1.475" r="1.475" transform="translate(20.157 16.6)" fill="#e43927"/>
+  <circle id="Ellipse_106" data-name="Ellipse 106" cx="1.475" cy="1.475" r="1.475" transform="translate(7.114 22.528)" fill="#e43927"/>
+  <circle id="Ellipse_107" data-name="Ellipse 107" cx="1.475" cy="1.475" r="1.475" transform="translate(13.636 22.528)" fill="#e43927"/>
+  <circle id="Ellipse_108" data-name="Ellipse 108" cx="1.475" cy="1.475" r="1.475" transform="translate(20.157 22.528)" fill="#e43927"/>
+</svg>

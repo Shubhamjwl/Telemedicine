@@ -1,0 +1,108 @@
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="login-conatiner conatiner-fluid">
+    <div class="row right-nav">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <a class="nav-item nav-link active" (click)="onClickHome()">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="https://www.egov-nsdl.co.in/about_us.html" target="_blank">About Protean</a>
+                <a class="nav-item nav-link" (click)="programOverview()">Program Overview</a>
+                <a class="nav-item nav-link"(click)="reSource()">Resources</a>
+              </div>
+            </div>
+          </nav>
+    </div>
+    <div class="left-area">
+        <div class="right-logo mob-logo">
+            <img src="assets/img/logos.png" alt="">
+        </div>
+        <div class="tagline">A Revolutionary Healthcare Boost<br> For India’s OPD Clinics</div>
+        <div class="tagline2">Empowering Your Clinic With More Services And Better<br> Outcomes For Your Patients.</div>
+        <div class="left-box">
+            <ul>
+                <li>
+                    <span class="box-icon icon1"><img src="assets/img/specialist.png" alt=""></span>
+                    <span class="box-text">Specialist<br> Advice System</span>
+                </li>
+                <li>
+                    <span class="box-icon icon2"><img src="assets/img/hightech-medical-device.png" alt=""></span>
+                    <span class="box-text">High Tech Medical Devices<br> With Local Assistance</span>
+                </li>
+                <li>
+                    <span class="box-icon icon3"><img src="assets/img/diagnostic.png" alt=""></span>
+                    <span class="box-text">Specialized & <br> Diagnostic Services</span>
+                </li>
+                <li>
+                    <span class="box-icon icon4"><img src="assets/img/patient-education.png" alt=""></span>
+                    <span class="box-text">Patient Education & Early<br> Detection Tools</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="right-area">
+        <div class="right-logo desk-logo">
+            <!-- <img src="" alt=""> -->
+            <img src="assets/img/logos.png" alt="">
+        </div>
+        <div class="login-form">
+            <form [formGroup]="form" (ngSubmit)="verifyCaptcha()">
+                <div class="input-group">
+                    <label>Mobile Number / User ID</label>
+                    <input type="text" class="uname" formControlName="email" autocomplete="off" placeholder="Enter Mobile Number for Patients / User ID for Doctors">
+                    <div class="text-danger mt-1 ml-1" *ngIf="form.get('email').touched && form.get('email').invalid">
+                        <small>
+                            {{'lblMobileEmail' | l10n}} is Required
+                        </small>
+                    </div>
+                </div>
+                <div class="input-group last-col">
+                    <label>Password
+                        <i matSuffix (click)="hideReEnterPassword = !hideReEnterPassword"
+                            [ngClass]="hideReEnterPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" class="cursor eye-icon ml-2"></i>
+
+                    </label>
+                    <input [type]="hideReEnterPassword? 'password' : 'text'" class="pass" autocomplete="off" placeholder="Enter Password" formControlName="password">
+                    <div class="text-danger mt-1 ml-1"
+                        *ngIf="form.get('password').touched && form.get('password').invalid">
+                        <small>
+                            {{'lblPassword' | l10n}} is Required
+                        </small>
+                    </div>
+                </div>
+                <div class="fpass"><a routerLink="" (click)="forgetPassword()">New User / Forgot Password?</a></div>
+                <div class="input-group">
+                    <label>Enter The Captcha Below</label>
+                    <div class="captcha">
+                        <span class="captcha-icon">
+                            <img [src]="captcha" alt="">
+                            <input type="text" formControlName="captcha"  placeholder="Enter Captcha">
+                        </span>
+                        <span class="refreash-icon" (click)="refreshCpacha()"><img src="assets/img/referesh.svg"
+                                alt=""></span>
+                    </div>
+                    <div class="text-danger mt-1 ml-1" *ngIf="form.get('captcha').touched && form.get('captcha').invalid">
+                        <small>
+                            {{'lblCaptcha' | l10n}} is Required
+                        </small>
+                    </div>
+                </div>
+                <div class="input-group btn-area">
+                    <button type="submit" class="submit-main-btn">Login</button>
+                </div>
+                <div class="input-group acc-text">
+                    don't have an account? &nbsp; <a (click)="goToRegister()"> sign up</a>
+                </div>
+            </form>
+            <div class="footer py-4">
+                <a class="mr-2" target="_blank" routerLink="/privacyPolicy">Privacy Policy</a>
+                <span>| </span>
+                <a class="mr-2" target="_blank" routerLink="/termsofUse">Terms Of Use</a>
+            </div>
+        </div>
+    </div>
+</div>

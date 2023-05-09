@@ -1,0 +1,67 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/shared/autherization_Authentication/guards/auth.guard';
+import { RoutesConstant } from 'src/app/shared/commonBuildBlocks/enum/routes.enum';
+import { DoctorAppointmentsDashboardComponent } from './appointment/doctor-appointments-dashboard/doctor-appointments-dashboard.component';
+import { TmDoctorAppointmentsDashboardComponent } from './appointment/tm-doctor-appointments-dashboard/tm-doctor-appointments-dashboard.component';
+import { AssignScribeComponent } from './Scribe/assign-scribe/assign-scribe.component';
+import { ScribeStatusComponent } from './Scribe/scribe-status/scribe-status.component';
+import { CreateSlotComponent } from './slots/create-slot/create-slot.component';
+import { ModifyTimeSlotComponent } from './slots/modify-time-slot/modify-time-slot.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: DoctorAppointmentsDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'time',
+    component: CreateSlotComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'modify-time-slot',
+    component: ModifyTimeSlotComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'scribe-status',
+    component: ScribeStatusComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'assign-scribe',
+    component: AssignScribeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'register-patient',
+    loadChildren: () =>
+      import('../registrations/register-patient/register-patient.module').then(
+        (m) => m.RegisterPatientModule
+      ),
+  },
+  {
+    path: 'coming-soon',
+    loadChildren: () =>
+      import('../../comming-soon/comming-soon.module').then(
+        (m) => m.CommingSoonModule
+      ),
+  },
+  {
+    path: `${RoutesConstant.CONSULTATION}`,
+    loadChildren: () =>
+      import('./consultation/consultation.module').then(
+        (m) => m.ConsultationModule
+      ),
+    canActivate: [AuthGuard],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class DoctorRoutingModule {}

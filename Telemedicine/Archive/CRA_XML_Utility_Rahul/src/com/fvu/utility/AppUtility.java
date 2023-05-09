@@ -1,0 +1,468 @@
+package com.fvu.utility;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import com.fvu.Enumeration.ErrorConstant;
+import com.fvu.Request.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.fvu.DTO.ErrorDetails;
+import com.fvu.constant.AppConstant;
+
+public class AppUtility {
+	
+	private static final Logger logger = Logger.getLogger(AppUtility.class.getName());
+
+	public static ErrorDetails createErrorObject(String errorCode,String errorMsg,String recordType,String lineNo,String fieldName)
+	{
+		ErrorDetails errorDetails=new ErrorDetails();
+		errorDetails.setErrorDetails(errorMsg);
+		errorDetails.setErrorCode(errorCode);
+		errorDetails.setLineNumber(String.valueOf(lineNo));
+		errorDetails.setRecordType(recordType);
+		errorDetails.setFieldName(fieldName);
+		return errorDetails;
+		
+	}
+	
+	public static Object generateObjectForXML(Object object,String xmlFilepath) throws JAXBException
+	{
+		  JAXBContext jaxbContext = null;
+		  Unmarshaller jaxbUnmarshaller = null;
+		  File file = new File(xmlFilepath); 
+		  jaxbContext = JAXBContext.newInstance(object.getClass());
+		  jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		  object=  jaxbUnmarshaller.unmarshal(file);
+		  return object;
+	}
+	
+	 public static boolean isValidDateFormat(String format, String value) {
+	        Date date = null;
+	        try {
+	            SimpleDateFormat sdf = new SimpleDateFormat(format);
+	            date = sdf.parse(value);
+	            if (!value.equals(sdf.format(date))) {
+	                date = null;
+	            }
+	        } catch (ParseException ex) {
+	            ex.printStackTrace();
+	        }
+	        return date != null;
+	    }
+	 
+	 public static String isValidDateFileCreation(String fileCreationDate) 
+	 {
+		 String invalidReason=null;
+		 try
+		  {
+			  LocalDate currDate=LocalDate.now();
+			   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+			   LocalDate fileDate=LocalDate.parse(fileCreationDate, formatter);
+			   if(fileDate.getYear()<2004)
+				   invalidReason= "Invalid year";
+			   else if(fileDate.isAfter(currDate))
+				   invalidReason="Future Date";
+			
+		  }
+		  catch(Exception e)
+		  {
+			  e.printStackTrace();
+		  }
+		return invalidReason;
+		 
+		 
+	 }
+
+
+public static int calculateTotalDDO(String inputFile) throws FileNotFoundException, JAXBException
+{
+	String inputFilePath="/home/webwerks/NeoSOFT/NSDL/Code/Files/Sample Files/contri.xml";
+	String outputFilePath="/home/webwerks/NeoSOFT/NSDL/Code/Files/Output File/";
+	RequestFile request=new RequestFile();
+	ArrayList<SubscriberDdtlType> subscriberList=new ArrayList<>();
+	try {
+		request=(RequestFile)generateObjectForXML(request,inputFile);
+	} catch (JAXBException e) {
+			e.printStackTrace();
+	}
+
+	for (SubscriberDdtlType obj : request.getSubscriberDtl()) {
+		subscriberList.add(obj);
+	}
+	Collections.sort(subscriberList);
+	request.setSubscriberDtl(subscriberList);
+	JAXBContext contextObj = JAXBContext.newInstance(RequestFile.class);  
+	 Marshaller marshallerObj = contextObj.createMarshaller();  
+	 marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); 
+	
+	//String tempPath=getTempFilePath(inputFile);
+	 //marshallerObj.marshal(request, new FileOutputStream(tempPath));
+	// Now Group by DDO_REG_NO
+     Map<String, List<SubscriberDdtlType>> subscriberByDdoMap= subscriberList.stream().collect(Collectors.groupingBy(SubscriberDdtlType::getDdoRegNo,LinkedHashMap::new, Collectors.toList()));
+    logger.info("Total Subscriber Size:"+subscriberByDdoMap.size());
+	return subscriberByDdoMap.size();
+	
+}
+
+	private static Boolean checkContriType(SubscriberDdtlType obj) {
+
+		if(obj.getContrMonth().equals("") || obj.getContrYear().equals(""))
+				return false;
+		else
+			return true;
+
+	}
+	private static Boolean checkFileFlag(FileHeaderType obj) {
+		if(obj.getMonth().equals("") || obj.getYear().equals(""))
+				return false;
+		else return true;
+	}
+
+	private static Boolean checkContriFileType(BatchHeaderType obj) {
+		if(obj.getTxnId().equals(""))
+			return false;
+		else return true;
+	}
+
+
+	public static boolean isPathValid(String path) {
+    try 
+    {
+    		if(null!=path && path!=AppConstant.BLANK)
+    		{
+    			Paths.get(path);
+    		}
+    		else
+    		{
+    			logger.severe("Entered Path is invalid");
+    			return false;
+    		}
+    			
+    } 
+    catch (InvalidPathException ex) 
+    {
+        return false;
+    }
+
+    return true;
+}
+
+public static String xNull(String value) {
+	if (null == value || value.equals("null") || value.equals(" ")) {
+		value = "^";
+	}
+	return String.valueOf(value);
+}
+
+public static String nullCheck(String value) {
+	if (null == value || value.equals("null") || value.equals(" ")) {
+		value = "";
+	}
+	return String.valueOf(value);
+}
+
+
+public static ArrayList<String> readFile(String filePath)
+{
+	ArrayList<String> readAllLine=new ArrayList<String>();
+	try
+	{
+		Scanner s = new Scanner(new File(filePath));
+		while (s.hasNext()){
+			readAllLine.add(s.nextLine());
+		}
+		s.close();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	return readAllLine;
+}
+
+public static String writeFile(ArrayList<String> content,String filePath)
+{
+	FileWriter writer;
+	try {
+		writer = new FileWriter(filePath);
+		for(String str1: content) 
+		{
+			  writer.write(str1 + System.lineSeparator());
+		}
+		//logger.info("File Write Successfully at Path:"+filePath);
+		writer.close();
+	} 
+	catch (IOException e) 
+	{
+			e.printStackTrace();
+	} 
+	
+	return filePath;
+	
+}
+
+//Create DDO Header Tag
+public static DdoHeaderType createDDOHeaderTagElement(DDOTemplate ddoTemp)
+		{
+			DdoHeaderType ddoHeader=new DdoHeaderType();
+			try
+			{
+				ddoHeader.setBatchNo("1");
+				ddoHeader.setDdoSerialNo("1");
+				ddoHeader.setRecordType(AppConstant.DDO_RECORD_HEADER);
+				ddoHeader.setTotalSubscriber(ddoTemp.getTotalSubscriber());
+				ddoHeader.setControlTotalGovtContr(ddoTemp.getTotalGovtCont());
+				ddoHeader.setControlTotalSubContr(ddoTemp.getTotalSubSCont());
+				ddoHeader.setDdoRegNo(ddoTemp.getDdoRegNo());
+				
+				//Write to File
+				DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+	            Document document = documentBuilder.newDocument();
+	         // root element
+	            Element root = document.createElement("ddo-header");
+	            document.appendChild(root);
+	 
+	            // LineNo element
+	            Element lineNo = document.createElement("line-no");
+	            lineNo.appendChild(document.createTextNode("3"));
+	            root.appendChild(lineNo);
+	        
+	            Element record_type = document.createElement("record-type");
+	            record_type.appendChild(document.createTextNode("DH"));
+	            root.appendChild(record_type);
+	            
+	            Element ddo_reg_no = document.createElement("ddo-reg-no");
+	            ddo_reg_no.appendChild(document.createTextNode(ddoHeader.getDdoRegNo()));
+	            root.appendChild(ddo_reg_no);
+	            
+	            Element total_subscriber = document.createElement("total-subscriber");
+	            total_subscriber.appendChild(document.createTextNode(String.valueOf(ddoHeader.getTotalSubscriber())));
+	            root.appendChild(total_subscriber);
+	            
+	            Element control_total_govt_contr = document.createElement("control-total-govt-contr");
+	            control_total_govt_contr.appendChild(document.createTextNode(String.valueOf(ddoHeader.getControlTotalGovtContr())));
+	            root.appendChild(control_total_govt_contr);
+	            
+	            Element control_total_sub_contr = document.createElement("control-total-sub-contr");
+	            control_total_sub_contr.appendChild(document.createTextNode(String.valueOf(ddoHeader.getControlTotalSubContr())));
+	            root.appendChild(control_total_sub_contr);
+	         	
+			}
+			catch(Exception e)
+			{
+				logger.severe("Exception occurred while creating DDO Header:"+e.getMessage());
+				e.printStackTrace();
+			}
+			return ddoHeader;
+			
+		}
+
+		public static String calculateSubscriberDetails(Map<String, List<SubscriberDdtlType>> subscriberByDdoMap,String outputFilePath, String inputFilePath) throws Exception{
+			 DDOTemplate ddoTemp=null;
+	        BigDecimal govt_Cont_Amt = new BigDecimal(AppConstant.ZERO);
+	        BigDecimal sub_cont_amt = new BigDecimal(AppConstant.ZERO);
+	        List<DdoHeaderType> ddoHeaderList=new ArrayList<>();
+	        RequestFile response1=new RequestFile();
+	        BufferedWriter writer =null;
+	        FileWriter filWriter =null;
+	       
+	        SimpleDateFormat sdf = new SimpleDateFormat(AppConstant.DATE_FORMAT);
+			sdf.setLenient(false);
+			File input=new File(inputFilePath);
+			String xmlPath=input.getAbsoluteFile().getParent();
+			logger.info("File reaad From..."+xmlPath);
+			
+	        try
+	        {
+	        	//String tempPath=getTempFilePath(inputFilePath);
+	        	//response1=(RequestFile) AppUtility.generateObjectForXML(response1,tempPath);
+	        	response1=(RequestFile) AppUtility.generateObjectForXML(response1,inputFilePath);
+	        }
+	        catch (JAXBException e) {
+					e.printStackTrace();
+			}
+	       	File file = new File(outputFilePath);
+	        if(!file.exists())
+	        {
+				  file.getParentFile().mkdirs();
+	        }
+	        try
+	        {
+	        	  	filWriter=new FileWriter(outputFilePath);
+		        	 writer = new BufferedWriter(filWriter);
+		    		 writer.write(response1.getFileHeader().toString());
+		    		 writer.newLine();
+		    		 writer.write(response1.getBatchHeader().toString());
+		    		 writer.newLine();
+		    		 writer.close();	
+	        }
+	      catch(Exception e)
+	        {
+	    	  logger.severe("Exception occurred while writing on file at path :"+outputFilePath+"\n"+e);
+	        }
+	      
+	      
+	        for (Entry<String, List<SubscriberDdtlType>> entry : subscriberByDdoMap.entrySet()) {
+	        	DdoHeaderType ddoHeader=new DdoHeaderType();
+	        	govt_Cont_Amt=BigDecimal.ZERO;
+	        	sub_cont_amt=BigDecimal.ZERO;
+	       		logger.info("[DDO REG NO] : " + entry.getKey() + " [[No. OF SUBSCRIBER] : " + entry.getValue().size());
+	        	List<SubscriberDdtlType> existSubScriber=subscriberByDdoMap.get(entry.getKey());
+	        	ddoTemp=new DDOTemplate();
+	        	ddoTemp.setDdoRegNo(entry.getKey());
+	        	ddoTemp.setTotalSubscriber((entry.getValue().size()));
+	        	ddoTemp.setRecord_type(AppConstant.DDO_RECORD_HEADER);
+	        	if(existSubScriber.size()>1)
+	        	{
+	        		for (SubscriberDdtlType respSubscriberHeader : entry.getValue()) {
+	        			
+	        			govt_Cont_Amt = govt_Cont_Amt.add(respSubscriberHeader.getGovtContrAmt());
+	        			sub_cont_amt=sub_cont_amt.add(respSubscriberHeader.getSubscriberContrAmt());
+	    			}
+
+	    			ddoTemp.setTotalGovtCont((govt_Cont_Amt));
+	        		ddoTemp.setTotalSubSCont((sub_cont_amt));
+	      	   	}
+	        	else
+	        	{
+	        		ddoTemp.setTotalGovtCont(existSubScriber.get(0).getGovtContrAmt());
+	        		ddoTemp.setTotalSubSCont(existSubScriber.get(0).getSubscriberContrAmt());
+	        	}
+	        	
+	          
+	           
+					ddoHeader=createDDOHeaderTagElement(ddoTemp);
+					ddoHeaderList.add(ddoHeader);
+		    		response1.setDdoHeader(ddoHeaderList);
+		    		// JAXB.marshal(response1, System.out);
+					try
+					{
+						
+						for(int i=1;i<=ddoHeaderList.size();i++)
+						{
+							ddoHeader.setDdoSerialNo(i+AppConstant.BLANK);
+						}
+						  filWriter=new FileWriter(outputFilePath,true); 
+						  writer = new BufferedWriter(filWriter);
+						  writer.append(ddoHeader.toString());
+						  writer.newLine();
+						  int i=1;
+						  if(existSubScriber.size()>1)
+						  {
+							 for (SubscriberDdtlType respSubscriberHeader : existSubScriber) {
+								 respSubscriberHeader.setBatchNo("1");
+								 respSubscriberHeader.setSerialNo(String.valueOf(i));
+								 respSubscriberHeader.setDdoSerialNo(ddoHeader.getDdoSerialNo());
+								 respSubscriberHeader.setRemarks(respSubscriberHeader.getRemarks().toUpperCase());
+								 writer.append(respSubscriberHeader.toString());
+								 writer.newLine();
+								 i++;
+								
+							}
+						  }
+						  else
+						  {
+							  existSubScriber.get(0).setBatchNo("1");
+							  existSubScriber.get(0).setSerialNo(String.valueOf(i));
+							  existSubScriber.get(0).setDdoSerialNo(ddoHeader.getDdoSerialNo());
+							  existSubScriber.get(0).setRemarks(existSubScriber.get(0).getRemarks().toUpperCase());
+							  writer.append(existSubScriber.get(0).toString());
+							  writer.newLine();
+						  }
+						  writer.close();
+					}
+					catch(Exception e)
+					{
+						logger.severe("Exception occurred while writig Subscribers Detail:"+e.getMessage());
+						e.printStackTrace();
+					}
+	        
+					
+	        }
+	        addLineNumbersToFile(outputFilePath);
+			return outputFilePath;
+	}
+
+		public static String addLineNumbersToFile(String outputFilePath) 
+		{
+			int lineNum = 1;
+			Scanner scanner;
+			try {
+				scanner = new Scanner(new File(outputFilePath));
+				ArrayList<String> lines = new ArrayList<>();
+	             while (scanner.hasNextLine()) 
+	             {
+	               String line = scanner.nextLine();
+	               line = line.trim();
+	               lines.add(lineNum + AppConstant.SEPARATOR + line);
+	            	lineNum++;            
+	            }
+	           writeFile(lines, outputFilePath) ;    
+			} 
+			catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			return outputFilePath;
+			
+		}
+		
+		public static String getFileVersion(String inputFile)
+		{
+			String fileVersion=AppConstant.BLANK;
+			RequestFile request=new RequestFile();
+			 try
+		        {
+				 request=(RequestFile) AppUtility.generateObjectForXML(request,inputFile);
+				 fileVersion=String.valueOf(request.getFileHeader().getVersion());
+		        }
+		        catch (JAXBException e) {
+						e.printStackTrace();
+				}
+			return fileVersion;
+		}
+
+
+		 public static String getFileExtension(String fileName) {
+		        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+		        return fileName.substring(fileName.lastIndexOf(".")+1);
+		        else return "";
+		    }
+
+public static String generateValidFilePath(String outFilePath)
+{
+	if(outFilePath.endsWith("\\"))
+	{
+		return outFilePath;
+	}
+	else
+	{
+		return outFilePath+"\\";
+	}
+}
+
+
+}

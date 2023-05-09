@@ -1,0 +1,40 @@
+package com.nsdl.telemedicine.master.service;
+
+import java.util.List;
+
+import com.nsdl.telemedicine.master.dto.AssociationNameResponse;
+import com.nsdl.telemedicine.master.dto.CityDto;
+import com.nsdl.telemedicine.master.dto.CountryDto;
+import com.nsdl.telemedicine.master.dto.DocumentResponse;
+import com.nsdl.telemedicine.master.dto.FeatureCategoryResponse;
+import com.nsdl.telemedicine.master.dto.MainRequestDTO;
+import com.nsdl.telemedicine.master.dto.MainResponseDTO;
+import com.nsdl.telemedicine.master.dto.MasterDetailsDTO;
+import com.nsdl.telemedicine.master.dto.MasterRequestDto;
+import com.nsdl.telemedicine.master.dto.StateDto;
+
+public interface MasterManagementService {
+	MainResponseDTO<List<MasterDetailsDTO>> getMasterDetailsListByMasterName(MainRequestDTO<MasterRequestDto> masterRequest);
+
+	MainResponseDTO<List<MasterDetailsDTO>> getMasterList(MainRequestDTO<?> masterRequest);
+
+	MainResponseDTO<String> saveMasterDetails(MainRequestDTO<List<MasterDetailsDTO>> masterRequest);
+
+	MainResponseDTO<String> modifyMasterDetails(MainRequestDTO<List<MasterDetailsDTO>> masterRequest);
+
+	MainResponseDTO<List<StateDto>> getStateList(MainRequestDTO<CountryDto> masterRequest);
+
+	MainResponseDTO<List<CountryDto>> getCountryList(MainRequestDTO<?> masterRequest);
+
+	MainResponseDTO<List<CityDto>> getCityList(MainRequestDTO<StateDto> masterRequest);
+	
+	String getRedFlagUrl(String drID, String redflag);
+	
+	List<AssociationNameResponse> getAllAssocNameList();
+	
+	public Long getCountOfSpeciality();
+
+	List<FeatureCategoryResponse> getAllFeaturesCategoryList();
+
+	List<DocumentResponse> getAllDocumentList();
+}

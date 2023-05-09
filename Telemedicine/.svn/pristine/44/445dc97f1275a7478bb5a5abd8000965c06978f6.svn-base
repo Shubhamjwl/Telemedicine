@@ -1,0 +1,101 @@
+<app-breadcrumb></app-breadcrumb>
+<div class="dashboard-wrapper container">
+    <div class="doctor-details-wrapper mt-2">
+        <h1>{{'lblListOfDoctots' | l10n }}</h1>
+    </div>
+    <div class="detils-wrapper" *ngIf="doctorData && doctorData.filteredData && doctorData.filteredData.length">
+        <div class="count-details mb-3 clearfix">
+            <div class="count-left text-left">
+                <h2 class="doc-count mt-4">List Of Doctors - <span *ngIf="doctorData && doctorData.filteredData && doctorData.filteredData.length">{{doctorData.filteredData.length}}</span></h2>
+                <!-- <p>List Of Doctors</p> -->
+            </div>
+            <div class="count-right mt-3">
+                <mat-form-field class="full-width-mat-control mt-2">
+                    <!-- <mat-label>  </mat-label> -->
+                    <input matInput placeholder="Search" [(ngModel)]="q" id="Search"> 
+                </mat-form-field>
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 text-center pt-3 ml-4">
+                        <mat-checkbox class="example-margin"
+                        [checked]="selectAll"
+                        [disableRipple]="true"
+                        (change)="selectAllDocs()">Select All
+                        </mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="doctorData | docFilter: q">
+                
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="checkbox">
+                        <mat-header-cell *matHeaderCellDef class="col-checkbox"></mat-header-cell>
+                        <mat-cell *matCellDef="let element; let i = index;" class="col-checkbox py-3">
+                            <mat-checkbox  [checked]="element.select" (change)="checkSelectedAll(i)" class="example-margin"></mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="profile">
+                        <mat-header-cell *matHeaderCellDef  class="col-profile">Profile Photo</mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="col-profile py-3"> 
+                            <div class="p-0 profile-wrapper-sm">
+                                <img [src]="element.photopath" class="rounded-circle"  alt="Profile">
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="doctorName">
+                        <mat-header-cell *matHeaderCellDef class="col-doc-details"> DoctorDetails </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="col-doc-details py-3"> 
+                            <div class="pr-0 pl-2 col-md-9">
+                                <h2 class="text-muted text-flow text-truncate mb-0" data-toggle="tooltip" data-placement="top" title="{{ element.drFullName }}">
+                                    <span class="pr-2">DR. {{element.docName}}</span>|
+                                    <span class="pl-2 pr-1">{{element.drSpecilization}}</span>
+                                    <span class="doc-num-details">({{'lblSMCNo' | l10n}} </span><span class="pr-1 doc-num-details">{{element.smcno}}) </span>|
+                                    <span class="doc-num-details">({{'lblMICNo' | l10n}}</span><span class="pl-1 doc-num-details"> {{element.micno}})</span>
+                                </h2>
+                                <p class="mb-0" >
+                                    <span class="pr-1 text-flow">
+                                        <i class="fa fa-phone" aria-hidden="true"></i> - 
+                                        <span>{{ element.mobile }}</span>
+                                    </span> | 
+                                    <span class="text-truncate text-flow pl-1" data-toggle="tooltip" data-placement="top" title="{{ element.drEmail }}"> 
+                                        <i class="fa fa-envelope" aria-hidden="true"></i> -  
+                                        <span>{{ element.emailID }}</span>
+                                    </span>
+                                </p>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                
+                    <mat-paginator #paginator
+                                [pageSize]="5"
+                                [pageSizeOptions]="[5, 10, 20]"
+                                (page)="pageEvents($event)">
+                    </mat-paginator>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 my-2 text-center">
+                <button type="button" class="btn btn-primary" (click)="deRegister()">De-Register</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="!(doctorData && doctorData.filteredData && doctorData.filteredData.length)">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+            <p class="p-5 bg-white">No Data Found!</p>
+        </div>
+    </div>
+</div>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>

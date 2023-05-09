@@ -1,0 +1,54 @@
+#spring:
+#  datasource:
+#    url: jdbc:h2:file:D://h2-database//data//medicine-gateway
+#    driver-class-name: org.h2.Driver
+#    username: medicine
+#    password: medicine
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+hystrix.command.signin.execution.isolation.thread.timeoutInMilliseconds: 3000
+hystrix.command.survey.execution.isolation.thread.timeoutInMilliseconds: 3000
+
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 7084
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://172.30.151.100:8761/eureka
+    register-with-eureka: false
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# By Tin-core refrence
+auth:
+  jwt-properties:
+    base: Bearer
+    expiry: 3600000
+    secret: sshhhhhh!!!
+    latitude-digits: '%.1f'
+    longitude-digits: '%.1f'
+  token:
+    header: Authorization
+    custom-url: http://user-management-service/usermanagement/v1/user/login
+    role-function-url: http://user-management-service/usermanagement/v1/user/roleFunction/getAllRoleFunctionsMapping
+  encryption:
+    symmetric:
+      key: nsdlegov
+  captcha:
+    captcha-value: captchaValu
+    session-id: sessionId
+    verify-url: http://captcha-service/captcha/verifyCaptcha
+function:
+  function-uri-map:
+    name: service1
+    uri: service/get

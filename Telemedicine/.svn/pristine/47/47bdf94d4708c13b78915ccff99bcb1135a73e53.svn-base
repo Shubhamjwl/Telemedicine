@@ -1,0 +1,65 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../shared/autherization_Authentication/guards/auth.guard';
+import { DoctorModule } from './doctor/doctor.module';
+import { LayoutComponent } from './layout.component';
+import { SharedModulesModule } from './shared-modules/shared-modules.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: './sign-in',
+      },
+      {
+        path: 'sign-in',
+        pathMatch: 'full',
+        loadChildren: () => import('./sign-in/sign-in.module').then((m) => m.SignInModule),
+      },
+      {
+        path: 'register-doctor',
+        loadChildren: () =>
+          import('./registrations/register-doctor/register-doctor.module').then((m) => m.RegisterDoctorModule),
+      },
+      {
+        path: 'appointments',
+        loadChildren: () => import('./doctor/doctor.module').then((m) => m.DoctorModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'scribe',
+        loadChildren: () =>
+          import('./registrations/register-scribe/register-scribe.module').then((m) => m.RegisterScribeModule),
+      },
+      {
+        path: 'patient-dashboard',
+        loadChildren: () => import('./patient/patient.module').then((m) => m.PatientModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'checker',
+        loadChildren: () => import('./checker/checker.module').then((m) => m.CheckerModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'coming-soon',
+        loadChildren: () => import('../comming-soon/comming-soon.module').then((m) => m.CommingSoonModule),
+      },
+    ],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), SharedModulesModule, DoctorModule],
+  exports: [RouterModule],
+})
+export class LayoutRoutingModule { }

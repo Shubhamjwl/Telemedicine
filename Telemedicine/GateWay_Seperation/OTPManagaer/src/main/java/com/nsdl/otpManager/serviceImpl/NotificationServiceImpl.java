@@ -1,0 +1,403 @@
+package com.nsdl.otpManager.serviceImpl;
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.mail.MessagingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.nsdl.otpManager.Exception.OTPException;
+import com.nsdl.otpManager.Exception.ServiceErrors;
+import com.nsdl.otpManager.constant.AppConstant;
+import com.nsdl.otpManager.enumeration.ErrorConstant;
+import com.nsdl.otpManager.dto.MainRequestDTO;
+import com.nsdl.otpManager.dto.MainResponseDTO;
+import com.nsdl.otpManager.dto.OTPResponse;
+import com.nsdl.otpManager.dto.TemplateDtls;
+import com.nsdl.otpManager.entity.EmailSmsTemplateDtl;
+import com.nsdl.otpManager.enumeration.TemplateType;
+import com.nsdl.otpManager.repository.TemplateRepository;
+import com.nsdl.otpManager.service.EmailService;
+import com.nsdl.otpManager.service.NotificationService;
+import com.nsdl.otpManager.service.SmsService;
+import com.nsdl.otpManager.utility.Utility;
+
+@Service
+@Transactional
+public class NotificationServiceImpl implements NotificationService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
+	
+	@Autowired
+	TemplateRepository tempRepo;
+	
+	@Autowired
+	public EmailService emailService;
+
+	@Autowired
+	public SmsService smsService;
+	
+	
+	 @Value("${PasswordExpireTimeInMin}")
+	 private String pwdExpireTime;
+	 
+	 @Value("${sendMailByPass.flag}")
+	 private String sendMailByPassFlag;
+		
+	 @Value("${sendSmsBypass.flag}")
+	 private String sendSMSByPassFlag;
+	 
+	 
+	 
+	@SuppressWarnings("unchecked")
+	@Override
+	public MainResponseDTO<OTPResponse> sendNotification(MainRequestDTO<TemplateDtls> template) {
+		
+		MainResponseDTO<OTPResponse> response = null;
+		OTPResponse otpResponse = new OTPResponse();
+		TemplateDtls request = template.getRequest();
+		String templateName=null;
+		List<String> notification_dtls=new ArrayList<>();
+		if(Utility.stringIsNullOrEmpty(request.getTemplateType()) || (Utility.stringIsNullOrEmpty(request.getSendType())))
+		{
+			logger.info("Invalid Request .Template type and send type not found in request");
+			throw new OTPException(new ServiceErrors(ErrorConstant.BAD_PARAMETER.getCode(),ErrorConstant.BAD_PARAMETER.getMessage()));
+		}
+		if(request.getTemplateType().equalsIgnoreCase(AppConstant.FORGOT) && Utility.stringIsNullOrEmpty(request.getPassword()))
+		{
+			logger.info("Invalid Request .System generated password must be present in request body");
+			throw new OTPException(new ServiceErrors(ErrorConstant.MISSING_PASSWORD.getCode(),ErrorConstant.MISSING_PASSWORD.getMessage()));
+		}
+		if(request.getTemplateType().equalsIgnoreCase(AppConstant.REJECT) && Utility.stringIsNullOrEmpty(request.getRejectReason()))
+		{
+			logger.info("Invalid Request .Reason of rejection must be present in request body");
+			throw new OTPException(new ServiceErrors(ErrorConstant.MISSING_REJECT_REASON.getCode(),ErrorConstant.MISSING_REJECT_REASON.getMessage()));
+		}
+		String templateTypeName=Utility.getTemplateTypeName(request.getTemplateType());	
+		if(null!=templateTypeName)
+		{
+				if(request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_SUCCESS)||request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_FAIL)
+					||request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_RESCHEDULE)||request.getTemplateType().equalsIgnoreCase(AppConstant.CONSULTATION_SUCCESS))
+				{
+						sendNotificationToAllUser(request);
+				}
+				else
+				{
+					if(!request.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+					{
+						templateName=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?templateTypeName+AppConstant.EMAIL:templateTypeName+AppConstant.SMS;
+						notification_dtls=getSMSAndEmailDetails(request,templateName);
+
+						if(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+							prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.BLANK);
+						else 
+							prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.BLANK);
+					}
+					else
+					{
+						templateName=templateTypeName+AppConstant.EMAIL;
+						notification_dtls=getSMSAndEmailDetails(request,templateName);
+						prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.BLANK);
+						templateName=templateTypeName+AppConstant.SMS;
+						notification_dtls=getSMSAndEmailDetails(request,templateName);
+						prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.BLANK);
+					}
+				
+				}
+		}
+		response = (MainResponseDTO<OTPResponse>)Utility.getMainResponseDto(template);
+		otpResponse.setMessage(AppConstant.YES);
+		otpResponse.setDescription(AppConstant.MSG_SUCCESS);
+		response.setStatus(true);
+		response.setResponse(otpResponse);
+		return response;
+	}
+	
+	
+	/**
+	 *Method used to send email to the users
+	 */
+	public void prepareEmailRequestAndSendEmail(TemplateDtls request, List<String> notification_dtls,String role) {
+		request.setSubjectLine(notification_dtls.get(0));
+		request.setTemplateContent(notification_dtls.get(1));
+		if(role.equalsIgnoreCase(AppConstant.DOCTOR))
+		{
+			request.setEmailId(request.getDocEmailId());
+			request.setUserId(request.getDoctorName());
+		}
+		else if(role.equalsIgnoreCase(AppConstant.PATIENT))
+		{
+			request.setEmailId(request.getPtEmailId());
+			request.setUserId(request.getPatientName());
+		}
+		logger.info("Trying to send email to "+request.getEmailId());
+		//Email sending bypassed for performance testing : start
+		if(!sendMailByPassFlag.equals("Y")) {
+			try {
+				emailService.sendNotification(request);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		//Email sending bypassed for performance testing : end
+		logger.info("Email sent successfully :");	
+	}
+
+
+	
+	private void sendNotificationToAllUser(TemplateDtls request) {
+		List<String> notification_dtls=new ArrayList<>();
+		String doc_temp_Name=null;
+		String pt_temp_Name=null;
+		if(request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_SUCCESS))
+		{
+			
+			if(!request.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+			{
+				
+				doc_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_DTLS_DOC.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_DTLS_DOC.templateTypeName()+AppConstant.SMS;
+				pt_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_DTLS_PT.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_DTLS_PT.templateTypeName()+AppConstant.SMS;	
+			}
+			else
+			{
+				doc_temp_Name=TemplateType.APPOINTMENT_DTLS_DOC.templateTypeName()+AppConstant.EMAIL;
+				pt_temp_Name=TemplateType.APPOINTMENT_DTLS_PT.templateTypeName()+AppConstant.EMAIL;
+			}
+			if(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else if(request.getSendType().equalsIgnoreCase(AppConstant.SMS))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+				doc_temp_Name=TemplateType.APPOINTMENT_DTLS_DOC.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				pt_temp_Name=TemplateType.APPOINTMENT_DTLS_PT.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+			
+			
+		}
+		else if(request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_FAIL))
+		{
+			
+			if(!request.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+			{
+				doc_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_CANCEL_DOC.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_CANCEL_DOC.templateTypeName()+AppConstant.SMS;
+				
+				pt_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_CANCEL_PT.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_CANCEL_PT.templateTypeName()+AppConstant.SMS;	
+			}
+			else
+			{
+				doc_temp_Name=TemplateType.APPOINTMENT_CANCEL_DOC.templateTypeName()+AppConstant.EMAIL;
+				pt_temp_Name=TemplateType.APPOINTMENT_CANCEL_PT.templateTypeName()+AppConstant.EMAIL;
+			}
+			if(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else if(request.getSendType().equalsIgnoreCase(AppConstant.SMS))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+				doc_temp_Name=TemplateType.APPOINTMENT_CANCEL_DOC.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				pt_temp_Name=TemplateType.APPOINTMENT_CANCEL_PT.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+		
+		}
+		else if (request.getTemplateType().equalsIgnoreCase(AppConstant.APPOINTMENT_RESCHEDULE))
+		{
+			if(!request.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+			{
+				doc_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_RESCHEDULE_DOC.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_RESCHEDULE_DOC.templateTypeName()+AppConstant.SMS;
+				pt_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.APPOINTMENT_RESCHEDULE_PT.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.APPOINTMENT_RESCHEDULE_PT.templateTypeName()+AppConstant.SMS;	
+			}
+			else
+			{
+				doc_temp_Name=TemplateType.APPOINTMENT_RESCHEDULE_DOC.templateTypeName()+AppConstant.EMAIL;
+				pt_temp_Name=TemplateType.APPOINTMENT_RESCHEDULE_PT.templateTypeName()+AppConstant.EMAIL;
+			}
+			if(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else if(request.getSendType().equalsIgnoreCase(AppConstant.SMS))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+				doc_temp_Name=TemplateType.APPOINTMENT_RESCHEDULE_DOC.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				pt_temp_Name=TemplateType.APPOINTMENT_RESCHEDULE_PT.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+		}
+		else if(request.getTemplateType().equalsIgnoreCase(AppConstant.CONSULTATION_SUCCESS))
+		{
+			if(!request.getSendType().equalsIgnoreCase(AppConstant.BOTH))
+			{
+				doc_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.CONSULTATION_SUCCESS_DOC.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.CONSULTATION_SUCCESS_DOC.templateTypeName()+AppConstant.SMS;
+				pt_temp_Name=(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))?TemplateType.CONSULTATION_SUCCESS_PT.templateTypeName()+AppConstant.EMAIL
+						:TemplateType.CONSULTATION_SUCCESS_PT.templateTypeName()+AppConstant.SMS;	
+			}
+			else
+			{
+				doc_temp_Name=TemplateType.CONSULTATION_SUCCESS_DOC.templateTypeName()+AppConstant.EMAIL;
+				pt_temp_Name=TemplateType.CONSULTATION_SUCCESS_PT.templateTypeName()+AppConstant.EMAIL;
+			}
+			if(request.getSendType().equalsIgnoreCase(AppConstant.EMAIL))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else if(request.getSendType().equalsIgnoreCase(AppConstant.SMS))
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+			else
+			{
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.DOCTOR);
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareEmailRequestAndSendEmail(request,notification_dtls,AppConstant.PATIENT);
+				doc_temp_Name=TemplateType.CONSULTATION_SUCCESS_DOC.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,doc_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.DOCTOR);
+				pt_temp_Name=TemplateType.CONSULTATION_SUCCESS_PT.templateTypeName()+AppConstant.SMS;
+				notification_dtls=getSMSAndEmailDetails(request,pt_temp_Name);
+				prepareSMSRequestAndSendMsg(request,notification_dtls,AppConstant.PATIENT);
+			}
+
+		}
+	}
+
+	
+	/**
+	 * Method used to send SMS to the respective mobile number.
+	 */
+	public void prepareSMSRequestAndSendMsg(TemplateDtls request, List<String> notification_dtls, String role) {
+		String mobile_no=null;
+		String msg=notification_dtls.get(1);
+		if(role.equalsIgnoreCase(AppConstant.DOCTOR))
+		{
+			mobile_no=request.getDocMobileNo();
+		}
+		else if(role.equalsIgnoreCase(AppConstant.PATIENT))
+		{
+			mobile_no=request.getPtMobileNo();
+		}
+		else
+		{
+			mobile_no=request.getMobileNo();
+		}
+		//Sms sending bypassed for performance testing : start
+		if(!sendSMSByPassFlag.equals("Y")) {
+			smsService.sendGupShupSms(msg, mobile_no);
+		}
+		//Sms sending bypassed for performance testing : end
+		
+	}
+
+
+	/**Method used to get the template details from database and throws exception template not found
+	 * If the given template do not exist in the database
+	 *
+	 */
+	public List<String> getSMSAndEmailDetails(TemplateDtls templateModel, String templateName)
+	{
+		List<String> response = new ArrayList<>();
+		String msg = AppConstant.BLANK;
+		String subject = AppConstant.BLANK;
+		EmailSmsTemplateDtl emailSmsTemplateDtl=null;
+		if(templateName!=null)
+		{
+			emailSmsTemplateDtl=tempRepo.findByTemplateNameIgnoreCase(templateName.trim());
+			if(null!=emailSmsTemplateDtl)
+			{
+				msg=emailSmsTemplateDtl.getEmailSmsContent();
+				subject=emailSmsTemplateDtl.getSubject();
+			}
+			else 
+				throw new OTPException(new ServiceErrors(ErrorConstant.TEMPLATE_NOT_FOUND_IN_DB.getCode(),ErrorConstant.TEMPLATE_NOT_FOUND_IN_DB.getMessage()));
+			}
+		msg=msg.replace("@user", (null!=templateModel.getUserId()? templateModel.getUserId(): AppConstant.BLANK));
+		msg=msg.replace("@password",(null != templateModel.getPassword() ? templateModel.getPassword() : AppConstant.BLANK) );
+		msg=msg.replace("@rejectReason",(null != templateModel.getRejectReason() ? templateModel.getRejectReason() : AppConstant.BLANK) );
+		msg=msg.replace("@pwdExpireTime",(null != pwdExpireTime ? pwdExpireTime : AppConstant.BLANK) );
+		msg=msg.replace("@doctorName",(null != templateModel.getDoctorName() ? templateModel.getDoctorName() : AppConstant.BLANK) );
+		msg=msg.replace("@patientName",(null != templateModel.getPatientName() ? templateModel.getPatientName() : AppConstant.BLANK) );
+		msg=msg.replace("@appointmentDate",(null != templateModel.getAppointmentDate() ? templateModel.getAppointmentDate() : AppConstant.BLANK) );
+		msg=msg.replace("@appointmentTime",(null != templateModel.getAppointmentTime() ? templateModel.getAppointmentTime() : AppConstant.BLANK) );
+		 
+		response.add(subject);
+		response.add(msg);
+		return response;
+	}
+	
+	
+	
+}

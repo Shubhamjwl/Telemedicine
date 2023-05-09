@@ -1,0 +1,221 @@
+package com.nsdl.ndhm.transfer.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.RespDTO;
+import com.nsdl.ndhm.repository.CareContextRepository;
+import com.nsdl.ndhm.repository.HipRequestRepository;
+import com.nsdl.ndhm.transfer.dto.*;
+import com.nsdl.ndhm.transfer.entity.HipRequestEntity;
+import com.nsdl.ndhm.transfer.service.DataTranferRequestService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import com.nsdl.ndhm.utility.fhir.encrypt.Encryption;
+import com.nsdl.ndhm.utility.fhir.encrypt.EncryptionRequest;
+import com.nsdl.ndhm.utility.fhir.encrypt.EncryptionResponse;
+import com.nsdl.ndhm.utility.fhir.keys.KeyMaterial;
+import com.nsdl.ndhm.utility.fhir.keys.KeysGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static com.nsdl.ndhm.utility.FhirEncryptDecryptUtil.*;
+
+@Service
+public class DataTranferRequestServiceImpl implements DataTranferRequestService {
+
+	private static final Logger logger = LoggerFactory.getLogger(DataTranferRequestServiceImpl.class);
+
+	@Autowired
+	CareContextRepository careContextRepository;
+
+	@Autowired
+	HipRequestRepository hipRequestRepository;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Autowired
+	Encryption encryption;
+
+	@Autowired
+	KeysGenerator keysGenerator;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${ndhm.onRequest}")
+	String onRequest;
+
+	@Value("${ndhm.transfer.onNotify}")
+	String transferNotify;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	private OnRequestRespDTO prepareRequestDummyData(DataRequestDTO dataRequestDTO) {
+		SimpleDateFormat format1 = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return OnRequestRespDTO.builder().requestId(UUID.randomUUID().toString()).timestamp(format1.format(new Date()))
+				.hiRequest(HiRequestRespDTo.builder().transactionId(dataRequestDTO.getTransactionId())
+						.sessionStatus("ACKNOWLEDGED").build())
+				.resp(RespDTO.builder().requestId(dataRequestDTO.getRequestId()).build()).build();
+	}
+
+	/*
+	 * for demo request call
+	 */
+	@Override
+	public ResponseEntity<String> requestDemo(DataRequestDTO dataRequestDTO) {
+		logger.info("Request Receives for Request Starts");
+/*		logger.info("Request Receives for Request Starts {} " ,dataRequestDTO);*/
+
+		String url = onRequest;
+		ResponseEntity<String> result = null;
+		URI uri;
+
+		try {
+			uri = new URI(url);
+			String stringData = new Gson().toJson(prepareRequestDummyData(dataRequestDTO));
+			HttpEntity<String> requestEntity = new HttpEntity<>(stringData,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+/*			logger.info("requestEntity {}", requestEntity);
+			logger.info("On-request result {}", result);*/
+
+			if (result.getStatusCode().is2xxSuccessful()) {
+/*				hipRequestRepository.save(prepareHipRequestSaveData(dataRequestDTO));
+				logger.info("DataRequestDTO {}", dataRequestDTO);*/
+				uri = new URI(dataRequestDTO.getHiRequest().getDataPushUrl());
+				DataTransferDTO dataTransferDTO = prepareDataNewDTO(dataRequestDTO);
+				stringData = new Gson().toJson(dataTransferDTO);
+				logger.info("URI: {}", uri, " transactionID {}", dataTransferDTO.getTransactionId());
+				logger.info("encryptedString length: {}", stringData.length());
+				requestEntity = new HttpEntity<>(stringData, commonHeadersUtil.getHeadersWithAccessTokenFromServer());
+				result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+/*				logger.info("Data Transfer Request: {}", requestEntity);
+				logger.info("After Data Transfer result: {}", result);*/
+			}
+		} catch (Exception e) {
+			logger.info("Error in On-Request {} ", e);
+		}
+		logger.info("Request Receives for Request ends");
+		return result;
+	}
+
+	private HipRequestEntity prepareHipRequestSaveData(DataRequestDTO dataRequestDTO) {
+		HiRequestDTO hiRequestDTO = dataRequestDTO.getHiRequest();
+		DateRangeDTO dateRangeDTO = hiRequestDTO.getDateRange();
+		KeyMaterialDTO keyMaterialDTO = hiRequestDTO.getKeyMaterial();
+		DhPublicKeyDTO dhPublicKeyDTO = keyMaterialDTO.getDhPublicKey();
+		return HipRequestEntity.builder().requestId(dataRequestDTO.getRequestId())
+				.timestamp(dataRequestDTO.getTimestamp()).transactionId(dataRequestDTO.getTransactionId())
+				.consentId(hiRequestDTO.getConsent().getId()).dateRangeFrom(dateRangeDTO.getFrom())
+				.dateRangeTo(dateRangeDTO.getTo()).dataPushUrl(hiRequestDTO.getDataPushUrl())
+				.cryptoAlg(keyMaterialDTO.getCryptoAlg()).curve(keyMaterialDTO.getCurve())
+				.dhPublicKeyExpiry(dhPublicKeyDTO.getExpiry()).dhPublicKeyParameters(dhPublicKeyDTO.getParameters())
+				.keyValue(dhPublicKeyDTO.getKeyValue()).nonce(keyMaterialDTO.getNonce()).build();
+	}
+
+	private DataTransferDTO prepareDataTransferDTO(DataRequestDTO dataRequestDTO) throws Exception {
+		senderPublicPrivateKeygen();
+		String senderPublicKey = getSenderPublicKey();
+		String randomKeySender = senderNonce();
+		KeyMaterialDTO receiverKeyMaterial = dataRequestDTO.getHiRequest().getKeyMaterial();
+		/*
+		 * logger.info("senderPublicKey {}", senderPublicKey);
+		 * logger.info("randomKeySender {}", randomKeySender);
+		 * logger.info("ReceiverPublicKey {}",
+		 * receiverKeyMaterial.getDhPublicKey().getKeyValue());
+		 * logger.info("randomKeyReceiver {}", receiverKeyMaterial.getNonce());
+		 */
+		String encryptedFhir = encrypt(receiverKeyMaterial.getNonce(),
+				receiverKeyMaterial.getDhPublicKey().getKeyValue());
+
+//		logger.info("encryptedFhir {}", encryptedFhir);
+
+		EntryDTO entryDTO = EntryDTO.builder().content(encryptedFhir).media("application/fhir+json").checksum("")
+				.careContextReference("CARE_CNTX_55009").build();
+
+		// logger.info("ReceiverKeyMaterialDTO {}", receiverKeyMaterial);
+
+		KeyMaterialDTO keyMaterialDTO = KeyMaterialDTO.builder().cryptoAlg(receiverKeyMaterial.getCryptoAlg())
+				.curve(receiverKeyMaterial.getCurve())
+				.dhPublicKey(DhPublicKeyDTO.builder().expiry("2022-02-21T12:00:50.810Z")
+						.parameters(receiverKeyMaterial.getDhPublicKey().getParameters()).keyValue(senderPublicKey)
+						.build())
+				.nonce(randomKeySender).build();
+
+		return DataTransferDTO.builder().pageCount(1).pageNumber(1).transactionId(dataRequestDTO.getTransactionId())
+				.entries(Arrays.asList(entryDTO)).keyMaterial(keyMaterialDTO).build();
+	}
+
+	private DataTransferDTO prepareDataNewDTO(DataRequestDTO dataRequestDTO) throws Exception {
+		logger.info("prepareDataNewDTO starts");
+
+		String fhirOriginal = "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"prescription-bundle-01\",\n  \"meta\": {\n    \"versionId\": \"1\",\n    \"lastUpdated\": \"2020-07-09T15:32:26.605+05:30\",\n    \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/DocumentBundle\" ],\n    \"security\": [ {\n      \"system\": \"http://terminology.hl7.org/CodeSystem/v3-Confidentiality\",\n      \"code\": \"V\",\n      \"display\": \"very restricted\"\n    } ]\n  },\n  \"identifier\": {\n    \"system\": \"http://hip.in\",\n    \"value\": \"bc3c6c57-2053-4d0e-ac40-139ccccff645\"\n  },\n  \"type\": \"document\",\n  \"timestamp\": \"2020-07-09T15:32:26.605+05:30\",\n  \"entry\": [ {\n    \"fullUrl\": \"Composition/Composition-01\",\n    \"resource\": {\n      \"resourceType\": \"Composition\",\n      \"id\": \"Composition-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2020-07-09T15:32:26.605+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/PrescriptionRecord\" ]\n      },\n      \"language\": \"en-IN\",\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Prescription report</div>\"\n      },\n      \"identifier\": {\n        \"system\": \"https://ndhm.in/phr\",\n        \"value\": \"645bb0c3-ff7e-4123-bef5-3852a4784813\"\n      },\n      \"status\": \"final\",\n      \"type\": {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"440545006\",\n          \"display\": \"Prescription record\"\n        } ]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/Patient-01\"\n      },\n      \"date\": \"2017-05-27T11:46:09+05:30\",\n      \"author\": [ {\n        \"reference\": \"Practitioner/Practitioner-01\"\n      } ],\n      \"title\": \"Prescription record\",\n      \"section\": [ {\n        \"title\": \"Prescription record\",\n        \"code\": {\n          \"coding\": [ {\n            \"system\": \"http://snomed.info/sct\",\n            \"code\": \"440545006\",\n            \"display\": \"Prescription record\"\n          } ]\n        },\n        \"entry\": [ {\n          \"reference\": \"MedicationRequest/MedicationRequest-01\",\n          \"type\": \"MedicationRequest\"\n        }, {\n          \"reference\": \"MedicationRequest/MedicationRequest-02\",\n          \"type\": \"MedicationRequest\"\n        }, {\n          \"reference\": \"Binary/Binary-01\",\n          \"type\": \"Binary\"\n        } ]\n      } ]\n    }\n  }, {\n    \"fullUrl\": \"Patient/Patient-01\",\n    \"resource\": {\n      \"resourceType\": \"Patient\",\n      \"id\": \"Patient-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2020-07-09T14:58:58.181+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient\" ]\n      },\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">ABC, 41 year, Male</div>\"\n      },\n      \"identifier\": [ {\n        \"type\": {\n          \"coding\": [ {\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\n            \"code\": \"MR\",\n            \"display\": \"Medical record number\"\n          } ]\n        },\n        \"system\": \"https://ndhm.in/SwasthID\",\n        \"value\": \"1234\"\n      } ],\n      \"name\": [ {\n        \"text\": \"ABC\"\n      } ],\n      \"telecom\": [ {\n        \"system\": \"phone\",\n        \"value\": \"+919818512600\",\n        \"use\": \"home\"\n      } ],\n      \"gender\": \"male\",\n      \"birthDate\": \"1981-01-12\"\n    }\n  }, {\n    \"fullUrl\": \"Practitioner/Practitioner-01\",\n    \"resource\": {\n      \"resourceType\": \"Practitioner\",\n      \"id\": \"Practitioner-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2019-05-29T14:58:58.181+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner\" ]\n      },\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Dr. DEF, MD (Medicine)</div>\"\n      },\n      \"identifier\": [ {\n        \"type\": {\n          \"coding\": [ {\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\n            \"code\": \"MD\",\n            \"display\": \"Medical License number\"\n          } ]\n        },\n        \"system\": \"https://ndhm.in/DigiDoc\",\n        \"value\": \"7601003178999\"\n      } ],\n      \"name\": [ {\n        \"text\": \"Dr. DEF\"\n      } ]\n    }\n  }, {\n    \"fullUrl\": \"MedicationRequest/MedicationRequest-01\",\n    \"resource\": {\n      \"resourceType\": \"MedicationRequest\",\n      \"id\": \"MedicationRequest-01\",\n      \"meta\": {\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/MedicationRequest\" ]\n      },\n      \"status\": \"active\",\n      \"intent\": \"order\",\n      \"medicationCodeableConcept\": {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"324252006\",\n          \"display\": \"Azithromycin (as azithromycin dihydrate) 250 mg oral capsule\"\n        } ]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/Patient-01\",\n        \"display\": \"ABC\"\n      },\n      \"authoredOn\": \"2020-07-09\",\n      \"requester\": {\n        \"reference\": \"Practitioner/Practitioner-01\",\n        \"display\": \"Dr DEF\"\n      },\n      \"reasonCode\": [ {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"11840006\",\n          \"display\": \"Traveller\'s Diarrhea (disorder)\"\n        } ]\n      } ],\n      \"reasonReference\": [ {\n        \"reference\": \"Condition/Condition-01\"\n      } ],\n      \"dosageInstruction\": [ {\n        \"text\": \"One tablet at once\",\n        \"additionalInstruction\": [ {\n          \"coding\": [ {\n            \"system\": \"http://snomed.info/sct\",\n            \"code\": \"311504000\",\n            \"display\": \"With or after food\"\n          } ]\n        } ],\n        \"timing\": {\n          \"repeat\": {\n            \"frequency\": 1,\n            \"period\": 1,\n            \"periodUnit\": \"d\"\n          }\n        },\n        \"route\": {\n          \"coding\": [ {\n            \"system\": \"http://snomed.info/sct\",\n            \"code\": \"26643006\",\n            \"display\": \"Oral Route\"\n          } ]\n        },\n        \"method\": {\n          \"coding\": [ {\n            \"system\": \"http://snomed.info/sct\",\n            \"code\": \"421521009\",\n            \"display\": \"Swallow\"\n          } ]\n        }\n      } ]\n    }\n  }, {\n    \"fullUrl\": \"MedicationRequest/MedicationRequest-02\",\n    \"resource\": {\n      \"resourceType\": \"MedicationRequest\",\n      \"id\": \"MedicationRequest-02\",\n      \"meta\": {\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/MedicationRequest\" ]\n      },\n      \"status\": \"active\",\n      \"intent\": \"order\",\n      \"medicationCodeableConcept\": {\n        \"text\": \"Paracetemol 500mg Oral Tab\"\n      },\n      \"subject\": {\n        \"reference\": \"Patient/Patient-01\",\n        \"display\": \"ABC\"\n      },\n      \"authoredOn\": \"2020-07-09\",\n      \"requester\": {\n        \"reference\": \"Practitioner/Practitioner-01\",\n        \"display\": \"Dr DEF\"\n      },\n      \"reasonCode\": [ {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"602001\",\n          \"display\": \"Ross river fever\"\n        } ]\n      } ],\n      \"reasonReference\": [ {\n        \"reference\": \"Condition/Condition-01\"\n      } ],\n      \"dosageInstruction\": [ {\n        \"text\": \"Take two tablets orally with or after meal once a day\"\n      } ]\n    }\n  }, {\n    \"fullUrl\": \"Condition/Condition-01\",\n    \"resource\": {\n      \"resourceType\": \"Condition\",\n      \"id\": \"Condition-01\",\n      \"meta\": {\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Condition\" ]\n      },\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Abdominal pain on 09-July 2020</div>\"\n      },\n      \"code\": {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"21522001\",\n          \"display\": \"Abdominal pain\"\n        } ],\n        \"text\": \"Abdominal pain\"\n      },\n      \"subject\": {\n        \"reference\": \"Patient/Patient-01\"\n      }\n    }\n  }, {\n    \"fullUrl\": \"Binary/Binary-01\",\n    \"resource\": {\n      \"resourceType\": \"Binary\",\n      \"id\": \"Binary-01\",\n      \"meta\": {\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Binary\" ]\n      },\n      \"contentType\": \"application/pdf\",\n      \"data\": \"R0lGODlhfgCRAPcAAAAAAIAAAACAAICAAAAAgIAAoxrXyMY2uvGNcIyjHOeoxkXBh44OOZdn8Ggu+DiPjwtJ2CZyUomCTRGO\"\n    }\n  } ]\n}";
+
+		String fhirNew = "{\n  \"resourceType\": \"Bundle\",\n  \"id\": \"prescription-bundle-02\",\n  \"meta\": {\n    \"versionId\": \"1\",\n    \"lastUpdated\": \"2020-07-09T15:32:26.605+05:30\",\n    \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/DocumentBundle\" ],\n    \"security\": [ {\n      \"system\": \"http://terminology.hl7.org/CodeSystem/v3-Confidentiality\",\n      \"code\": \"V\",\n      \"display\": \"very restricted\"\n    } ]\n  },\n  \"identifier\": {\n    \"system\": \"http://hip.in\",\n    \"value\": \"bc3c6c57-2053-4d0e-ac40-139ccccff645\"\n  },\n  \"type\": \"document\",\n  \"timestamp\": \"2020-07-09T15:32:26.605+05:30\",\n  \"entry\": [ {\n    \"fullUrl\": \"Composition/Composition-01\",\n    \"resource\": {\n      \"resourceType\": \"Composition\",\n      \"id\": \"Composition-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2020-07-09T15:32:26.605+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/PrescriptionRecord\" ]\n      },\n      \"language\": \"en-IN\",\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Prescription report</div>\"\n      },\n      \"identifier\": {\n        \"system\": \"https://ndhm.in/phr\",\n        \"value\": \"645bb0c3-ff7e-4123-bef5-3852a4784813\"\n      },\n      \"status\": \"final\",\n      \"type\": {\n        \"coding\": [ {\n          \"system\": \"http://snomed.info/sct\",\n          \"code\": \"440545006\",\n          \"display\": \"Prescription record\"\n        } ]\n      },\n      \"subject\": {\n        \"reference\": \"Patient/Patient-01\"\n      },\n      \"date\": \"2017-05-27T11:46:09+05:30\",\n      \"author\": [ {\n        \"reference\": \"Practitioner/Practitioner-01\"\n      } ],\n      \"title\": \"Prescription record\",\n      \"section\": [ {\n        \"title\": \"Prescription record\",\n        \"code\": {\n          \"coding\": [ {\n            \"system\": \"http://snomed.info/sct\",\n            \"code\": \"440545006\",\n            \"display\": \"Prescription record\"\n          } ]\n        },\n        \"entry\": [ \n\t\t{\n          \"reference\": \"Binary/Binary-01\",\n          \"type\": \"Binary\"\n        } ]\n      } ]\n    }\n  }, {\n    \"fullUrl\": \"Patient/Patient-01\",\n    \"resource\": {\n      \"resourceType\": \"Patient\",\n      \"id\": \"Patient-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2020-07-09T14:58:58.181+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Patient\" ]\n      },\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">ABC, 41 year, Male</div>\"\n      },\n      \"identifier\": [ {\n        \"type\": {\n          \"coding\": [ {\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\n            \"code\": \"MR\",\n            \"display\": \"Medical record number\"\n          } ]\n        },\n        \"system\": \"https://ndhm.in/SwasthID\",\n        \"value\": \"1234\"\n      } ],\n      \"name\": [ {\n        \"text\": \"ABC\"\n      } ],\n      \"telecom\": [ {\n        \"system\": \"phone\",\n        \"value\": \"+919818512600\",\n        \"use\": \"home\"\n      } ],\n      \"gender\": \"male\",\n      \"birthDate\": \"1981-01-12\"\n    }\n  }, {\n    \"fullUrl\": \"Practitioner/Practitioner-01\",\n    \"resource\": {\n      \"resourceType\": \"Practitioner\",\n      \"id\": \"Practitioner-01\",\n      \"meta\": {\n        \"versionId\": \"1\",\n        \"lastUpdated\": \"2019-05-29T14:58:58.181+05:30\",\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Practitioner\" ]\n      },\n      \"text\": {\n        \"status\": \"generated\",\n        \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">Dr. GHI, MD (Medicine)</div>\"\n      },\n      \"identifier\": [ {\n        \"type\": {\n          \"coding\": [ {\n            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\n            \"code\": \"MD\",\n            \"display\": \"Medical License number\"\n          } ]\n        },\n        \"system\": \"https://ndhm.in/DigiDoc\",\n        \"value\": \"7601003178999\"\n      } ],\n      \"name\": [ {\n        \"text\": \"Dr. GHI\"\n      } ]\n    }\n  }, \n  {\n    \"fullUrl\": \"Binary/Binary-01\",\n    \"resource\": {\n      \"resourceType\": \"Binary\",\n      \"id\": \"Binary-01\",\n      \"meta\": {\n        \"profile\": [ \"https://nrces.in/ndhm/fhir/r4/StructureDefinition/Binary\" ]\n      },\n      \"contentType\": \"application/pdf\",\n      \"data\": \"JVBERi0xLjcKJeLjz9MKNSAwIG9iago8PC9GaWx0ZXIvRmxhdGVEZWNvZGUvTGVuZ3RoIDYwMT4+c3RyZWFtCnicpZTBc6IwGMXv/BXfkc5oJCEJ0NOyaq0ddbuF6czOeKGattlBYgPa+t9vAnZlqe1l4QST33uPl3y8ON9TZ3CFgXiQPjqEYMQjCEKMQh/SteOONILbeDaL76dwE4+u4/uL9LczTp2fzkvDEghrlIWIGpSHKAhq9Ig1FCbfJvN4OkPDH/Ougn9UoARFFALGEMa1wnw4hYWCS4hnA+LhMBlmAMl8+M/LwU2fBC1JD+x9N3EIvDo+h4BGiGHYOIxF7w+5k5zsKeD64yk1i/0A+Y35KKuEcfGivuf3iUdINzYDzC1nPbCHOLUYgVQ7HmK+uYy/e5tVUhQVLLKNVVuMruemz3Q6XqRdPX7S42F0jNHVi5+sDPHhVxcPANN3nIUtlnLOA8smh822UpsSLrtsCJi8s9QcgaaBK7EXugdJLsQWtlo95GJTdtGoZYsJ8qJzzrda7WUpVZHlMJLZU6FKeSaG2Ye/OVjEUHOORqJ42oke3Ett8AetitWzrGTZg0lWVlqZeoW2Lz7I4VM2xinCZ7PNxVquzC6p4kwg0gpEAxTUCm5cZTp7g+Zaul6/vpcX8GaeYJ0dBuXywmq58KWi76Fmyr5eZmoNG9+yes5yWcCdKLe7XPx3AmpK/iyBfyqPcnL89G558XovV+JMcbRlQjmqZ8OdyL2AbW427ADqEZTdz8d8J9cl6kEqNluhs2qnBWixUnoN9vwdoJRv8Kx2ukQfXNjRxY4u9UIUtX88n/yvzJA1885oaIfsxH3sgLd+DX7kI0rqhUs3XoyT9HqcTOOm5pr6Ayb0REEKZW5kc3RyZWFtCmVuZG9iago0IDAgb2JqCjw8L0NvbnRlbnRzIDUgMCBSL01lZGlhQm94WzAgMCA1OTUgODQyXS9QYXJlbnQgMiAwIFIvUmVzb3VyY2VzPDwvRm9udDw8L0YxIDYgMCBSL0YxMCAxNSAwIFIvRjExIDE2IDAgUi9GMTIgMTcgMCBSL0YxMyAxOCAwIFIvRjE0IDE5IDAgUi9GMTUgMjAgMCBSL0YxNiAyMSAwIFIvRjIgNyAwIFIvRjMgOCAwIFIvRjQgOSAwIFIvRjUgMTAgMCBSL0Y2IDExIDAgUi9GNyAxMiAwIFIvRjggMTMgMCBSL0Y5IDE0IDAgUj4+Pj4vVHJpbUJveFswIDAgNTk1IDg0Ml0vVHlwZS9QYWdlPj4KZW5kb2JqCjEgMCBvYmoKPDwvUGFnZXMgMiAwIFIvVHlwZS9DYXRhbG9nPj4KZW5kb2JqCjMgMCBvYmoKPDwvQ3JlYXRpb25EYXRlKEQ6MjAyMjAzMDkxNTI4NTArMDUnMzAnKS9Nb2REYXRlKEQ6MjAyMjAzMDkxNTI4NTArMDUnMzAnKS9Qcm9kdWNlcihpVGV4dK4gNy4wLjQgqTIwMDAtMjAxNyBpVGV4dCBHcm91cCBOViBcKEFHUEwtdmVyc2lvblwpKT4+CmVuZG9iagoyMSAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKMjAgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtUm9tYW4vRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nL1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250Pj4KZW5kb2JqCjE5IDAgb2JqCjw8L0Jhc2VGb250L1RpbWVzLVJvbWFuL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZy9TdWJ0eXBlL1R5cGUxL1R5cGUvRm9udD4+CmVuZG9iagoxOCAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKMTcgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtUm9tYW4vRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nL1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250Pj4KZW5kb2JqCjE2IDAgb2JqCjw8L0Jhc2VGb250L1RpbWVzLVJvbWFuL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZy9TdWJ0eXBlL1R5cGUxL1R5cGUvRm9udD4+CmVuZG9iagoxNSAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKMTQgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtUm9tYW4vRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nL1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250Pj4KZW5kb2JqCjEzIDAgb2JqCjw8L0Jhc2VGb250L1RpbWVzLVJvbWFuL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZy9TdWJ0eXBlL1R5cGUxL1R5cGUvRm9udD4+CmVuZG9iagoxMiAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKMTEgMCBvYmoKPDwvQmFzZUZvbnQvVGltZXMtUm9tYW4vRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nL1N1YnR5cGUvVHlwZTEvVHlwZS9Gb250Pj4KZW5kb2JqCjEwIDAgb2JqCjw8L0Jhc2VGb250L1RpbWVzLVJvbWFuL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZy9TdWJ0eXBlL1R5cGUxL1R5cGUvRm9udD4+CmVuZG9iago5IDAgb2JqCjw8L0Jhc2VGb250L0NvdXJpZXItQm9sZC9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKOCAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKNyAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKNiAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9FbmNvZGluZy9XaW5BbnNpRW5jb2RpbmcvU3VidHlwZS9UeXBlMS9UeXBlL0ZvbnQ+PgplbmRvYmoKMiAwIG9iago8PC9Db3VudCAxL0tpZHNbNCAwIFJdL1R5cGUvUGFnZXM+PgplbmRvYmoKeHJlZgowIDIyCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDk3MCAwMDAwMCBuIAowMDAwMDAyNjI1IDAwMDAwIG4gCjAwMDAwMDEwMTUgMDAwMDAgbiAKMDAwMDAwMDY4MyAwMDAwMCBuIAowMDAwMDAwMDE1IDAwMDAwIG4gCjAwMDAwMDI1MzUgMDAwMDAgbiAKMDAwMDAwMjQ0NSAwMDAwMCBuIAowMDAwMDAyMzU1IDAwMDAwIG4gCjAwMDAwMDIyNjQgMDAwMDAgbiAKMDAwMDAwMjE3MyAwMDAwMCBuIAowMDAwMDAyMDgyIDAwMDAwIG4gCjAwMDAwMDE5OTEgMDAwMDAgbiAKMDAwMDAwMTkwMCAwMDAwMCBuIAowMDAwMDAxODA5IDAwMDAwIG4gCjAwMDAwMDE3MTggMDAwMDAgbiAKMDAwMDAwMTYyNyAwMDAwMCBuIAowMDAwMDAxNTM2IDAwMDAwIG4gCjAwMDAwMDE0NDUgMDAwMDAgbiAKMDAwMDAwMTM1NCAwMDAwMCBuIAowMDAwMDAxMjYzIDAwMDAwIG4gCjAwMDAwMDExNzIgMDAwMDAgbiAKdHJhaWxlcgo8PC9JRCBbPDFlMTYyMDM2MGZiZTVhZTZkNmY0MjkwNmIxYTQyOTAwPjwxZTE2MjAzNjBmYmU1YWU2ZDZmNDI5MDZiMWE0MjkwMD5dL0luZm8gMyAwIFIvUm9vdCAxIDAgUi9TaXplIDIyPj4KJWlUZXh0LTcuMC40CnN0YXJ0eHJlZgoyNjc2CiUlRU9GCg==\"\n    }\n  } ]\n}";
+
+		KeyMaterialDTO receiverKeyMaterial = dataRequestDTO.getHiRequest().getKeyMaterial();
+		KeyMaterial senderKeyMaterial = keysGenerator.generate();
+		EncryptionRequest encryptionRequest = new EncryptionRequest(receiverKeyMaterial.getDhPublicKey().getKeyValue(),
+				receiverKeyMaterial.getNonce(), senderKeyMaterial.getPrivateKey(), senderKeyMaterial.getPublicKey(),
+				senderKeyMaterial.getNonce(), fhirNew);
+
+		EncryptionResponse encryptionResponse = encryption.encrypt(encryptionRequest);
+
+		EntryDTO entryDTO = EntryDTO.builder().content(encryptionResponse.getEncryptedData())
+				.media("application/fhir+json").checksum("").careContextReference("CARE_CNTX_22033").build();
+
+/*		 logger.info("ReceiverKeyMaterialDTO {}", receiverKeyMaterial);
+		 logger.info("SenderKeyMaterialDTO {}", senderKeyMaterial);
+		 logger.info("KeyToShare {}", encryptionResponse.getKeyToShare());*/
+
+		KeyMaterialDTO keyMaterialDTO = KeyMaterialDTO.builder().cryptoAlg(receiverKeyMaterial.getCryptoAlg())
+				.curve(receiverKeyMaterial.getCurve())
+				.dhPublicKey(DhPublicKeyDTO.builder().expiry("2022-03-31T12:00:50.810Z")
+						.parameters(receiverKeyMaterial.getDhPublicKey().getParameters())
+						.keyValue(encryptionResponse.getKeyToShare()).build())
+				.nonce(senderKeyMaterial.getNonce()).build();
+
+		logger.info("prepareDataNewDTO ends");
+/*		logger.info("dataRequestDTO.getTransactionId() {}", dataRequestDTO.getTransactionId());*/
+		return DataTransferDTO.builder().pageCount(1).pageNumber(1).transactionId(dataRequestDTO.getTransactionId())
+				.entries(Arrays.asList(entryDTO)).keyMaterial(keyMaterialDTO).build();
+	}
+
+	NotifyRequestDTO prepareNotifyDummy(DataRequestDTO dataRequestDTO) {
+		NotifyNotificationDTO notifyNotificationDTO = NotifyNotificationDTO.builder().build();
+		notifyNotificationDTO.setNotifier(NotifyNotifierDTO.builder().build());
+		return NotifyRequestDTO.builder().requestId(UUID.randomUUID().toString()).notification(notifyNotificationDTO)
+
+				.build();
+	}
+
+	ResponseEntity<String> callNotify(DataRequestDTO dataRequestDTO) {
+		String url = transferNotify;
+		ResponseEntity<String> result = null;
+		URI uri;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(prepareNotifyDummy(dataRequestDTO));
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+		} catch (Exception e1) {
+			logger.info("Error in on-discover health id missing  {} ", e1);
+			result = new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+		return result;
+	}
+}

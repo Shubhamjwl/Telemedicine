@@ -1,0 +1,163 @@
+
+/***********************************************************************************************************************************************************
+ * Copyright ï¿½ 2017 NSDL e-Gov. All rights reserved.
+ * This software or hardware is developed for general use in a variety of information management applications. It is not developed or intended for use in any inherently dangerous applications, including applications that may create a risk of personal injury. If you use this software or hardware in dangerous *applications, then you shall be responsible to take all appropriate failsafe, backup, redundancy, and other measures to ensure its safe use. 
+ * NSDL e-Gov and * its affiliates disclaim any liability for any damages caused by use of this software or hardware in dangerous applications.
+ * This software and related documentation are provided under a license agreement containing restrictions on use and disclosure and are protected by *intellectual property laws. 
+ * Except as expressly permitted in your license agreement or allowed by law, you may not use, copy, reproduce, translate, *broadcast, modify, license, transmit, distribute, exhibit, perform, publish or display any part, in any form, or by any means. 
+ * Reverse engineering, *disassembly, or decompilation of this software, unless required by law for interoperability, is prohibited.
+ * The information contained herein is subject to change without notice and is not warranted to be error-free. 
+ * If you find any errors, please report them to us *in writing.This software or hardware and documentation may provide access to or information on content, products and services from third parties. 
+ * NSDL e-Gov *and its affiliates are not responsible for and expressly disclaim all warranties of any kind with respect to third-party content, products, and services. 
+ * NSDL e-Gov and its affiliates will not be responsible for any loss, costs, or damages incurred due to your access to or use of 
+ * third-party content, products, or services.
+ *
+ *	Version History
+ *	---------------
+ *	Class Name				                   Date				    Modified By 				   Remarks	
+ *	---------------------------------------------------------------------------------------------------------------------------------------------------
+DoctorDeRegistrationController.java             13-11-202          SudipB                 /*Implemented class contain*/
+package com.nsdl.telemedicine.doctor.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.telemedicine.doctor.dto.DeRegisterDoctorReqDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorActiveDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorDeregistrationDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorDetailsDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorDetailsFetchRequestDTO;
+import com.nsdl.telemedicine.doctor.dto.DoctorRegDtlsDTO;
+import com.nsdl.telemedicine.doctor.dto.MainRequestDTO;
+import com.nsdl.telemedicine.doctor.dto.MainResponseDTO;
+import com.nsdl.telemedicine.doctor.dto.RegistrationResponseDTO;
+import com.nsdl.telemedicine.doctor.dto.VerifyOTPForDocToDeReg;
+import com.nsdl.telemedicine.doctor.loggers.DoctorLoggingClientInfo;
+import com.nsdl.telemedicine.doctor.service.DoctorDeRegService;
+import com.nsdl.telemedicine.doctor.utility.DateUtils;
+import com.nsdl.telemedicine.doctor.utility.DoctorAuthUtil;
+
+/**
+ * @author SudipB
+ *
+ */
+@RestController("DoctorDeRegistrationController")
+@RequestMapping("${doctor.deregistration.service-version}")
+//@CrossOrigin("*")
+@DoctorLoggingClientInfo
+public class DoctorDeRegistrationController {
+
+	@Autowired
+	private DoctorDeRegService doctorDeRegService;
+
+	private static final Logger logger = LoggerFactory.getLogger(DoctorDeRegistrationController.class);
+
+	/**
+	 * This API would be used for getting doctor entity based on doctor name </br>
+	 * 
+	 * @author SudipB
+	 * @param MainRequestDTO<DoctorDetailsFetchRequestDTO> this is request body
+	 * @return MainResponseDTO<DoctorRegDtlsDTO> this is the response
+	 */
+	@GetMapping(value = "/getDoctorByName")
+	public ResponseEntity<MainResponseDTO<DoctorRegDtlsDTO>> getDoctorByName(
+			@RequestBody @Valid MainRequestDTO<DoctorDetailsFetchRequestDTO> request) {
+		logger.info("Request for get Doctor by name is received" + request.getRequest().getDocName());
+		DoctorDetailsFetchRequestDTO doctorDetailsFetchRequestDTO = request.getRequest();
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(doctorDeRegService.getDoctorByName(doctorDetailsFetchRequestDTO.getDocName()));
+	}
+
+	/**
+	 * This API would be used for de-register doctor</br>
+	 * 
+	 * @author SudipB
+	 * @param MainRequestDTO<DeRegisterDoctorReqDTO> this is request body
+	 * @return MainResponseDTO<RegistrationResponseDTO> this is the response
+	 */
+	@PostMapping(value = "/deRegisterDoctor")
+	public ResponseEntity<MainResponseDTO<RegistrationResponseDTO>> deRegisterDoctor(
+			@RequestBody @Valid MainRequestDTO<DeRegisterDoctorReqDTO> request) {
+		logger.info("Request for deRegister Doctor is received with action:" + request.getRequest().getAction()
+				+ "for doctor:" + request.getRequest().getDocName());
+		DeRegisterDoctorReqDTO deRegisterDoctorReqDTO = request.getRequest();
+		MainResponseDTO<RegistrationResponseDTO> response = doctorDeRegService.deRegisterDoctor(deRegisterDoctorReqDTO);
+		response.setId(request.getId());
+		response.setResponsetime(DateUtils.getUTCCurrentDateTimeString());
+		response.setVersion(request.getVersion());
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	/**
+	 * This API would be used for de-register doctor after OTP is verified</br>
+	 * 
+	 * @author SudipB
+	 * @param MainRequestDTO<VerifyOTPForDocToDeReg> this is request body
+	 * @return MainResponseDTO<RegistrationResponseDTO> this is the response
+	 */
+	@PostMapping(value = "/verifiedOTPForDocDeRegister")
+	public ResponseEntity<MainResponseDTO<RegistrationResponseDTO>> verifiedOTPForDoctorToDeRegister(
+			@RequestBody @Valid MainRequestDTO<VerifyOTPForDocToDeReg> request) {
+		logger.info("Request for deRegister Doctor After OTP verification is received by:" + request.getRequest().getDocName()
+				+ "with OTP:" + request.getRequest().getOtp());
+		VerifyOTPForDocToDeReg verifyOTPForDocToDeReg = request.getRequest();
+		MainResponseDTO<RegistrationResponseDTO> response = doctorDeRegService.verifiedOTPForDoctorToDeRegister(verifyOTPForDocToDeReg);
+		response.setId(request.getId());
+		response.setResponsetime(DateUtils.getUTCCurrentDateTimeString());
+		response.setVersion(request.getVersion());
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
+	/**
+	 * This API would be used to get list of active doctor to deregister
+	 * 
+	 * @author SayaliA
+	 * @return MainResponseDTO<List<DoctorActiveDTO>> this is the response
+	 */
+	@PostMapping(value = "/getListOfDoctorTodeRegister")
+	public ResponseEntity<?> getListOfDoctorTodeRegister() {
+		try{
+			MainResponseDTO<List<DoctorActiveDTO>> responseWrapper = new MainResponseDTO<List<DoctorActiveDTO>>();
+			responseWrapper=doctorDeRegService.getListOfDoctorTodeRegister();
+			logger.info("Returning response");
+			return ResponseEntity.ok().body(responseWrapper);
+		}catch(Exception e)
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(DoctorAuthUtil.getExceptionDetails(e));
+		}
+	
+	}
+	/**
+	 * This API would be used to deregister list of Doctors
+	 * 
+	 * @author SayaliA
+	 * @return MainResponseDTO<RegistrationResponseDTO> this is the response
+	 */
+	@PostMapping(value = "/listOfDoctorTodeRegister", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MainResponseDTO<RegistrationResponseDTO>> listOfDoctorTodeRegister(@RequestBody @Valid MainRequestDTO<DoctorDeregistrationDTO<DoctorDetailsDTO>> request) {
+		MainResponseDTO<RegistrationResponseDTO> responseWrapper = new MainResponseDTO<RegistrationResponseDTO>();
+		logger.info("Request Receive for doctor registartion,Inside save doctor details method");
+		try {
+			responseWrapper = doctorDeRegService.listOfDoctorTodeRegister(request);;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(responseWrapper);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(responseWrapper);
+   }
+
+}

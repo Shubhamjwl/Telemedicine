@@ -1,0 +1,136 @@
+/* .code {
+  width: 15px;
+}
+
+.login-container {
+  border: 5px solid #00bcd49e;
+  margin: 60px auto;
+  width: 1000px;
+}
+
+.login-par {
+  background-color: #edf1f33d;
+  color: #00bcd49e;
+  border: 1px solid #00bcd49e;
+  padding: 10px;
+  width: 400px;
+  margin: 0px auto;
+}
+
+.login-par h2 {
+  font-size: 20px;
+  text-align: center;
+}
+.input {
+  width: 70%;
+  display: inline-block;
+  background-color: #dbe9f099;
+  border-color: #2196f3;
+}
+.lable {
+  background-color: #03a9f43d;
+  height: 38px;
+  border-radius: 2px;
+}
+.error {
+  color: red;
+} */
+@media only screen and (min-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+  .sample {
+    border: 1px solid black;
+    margin-left: 25%;
+    width: 50%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .form-groupBlogg {
+    width: 100%;
+    margin-top: 17%;
+  }
+  .form-group {
+    height: 80%;
+  }
+  .modal-cntr {
+    width: 75%;
+  }
+  .proceed-btn {
+    width: 43%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form-groupBlogg {
+    width: 100%;
+    margin-top: 74%;
+  }
+  .form-group {
+    height: 100%;
+  }
+  .modal-cntr {
+    width: 185%;
+  }
+  .proceed-btn {
+    width: 80%;
+  }
+}
+.container {
+  border: 1px solid black;
+  margin: 60px auto;
+  width: 950px;
+  height: 530px;
+  background-color: white;
+  margin-top: 0px;
+}
+.nav-container {
+  width: 950px;
+  height: 55px;
+  background-color: #e43927;
+  margin-left: -16px;
+}
+.nav-text {
+  color: #e43927;
+  margin-left: 20px;
+  padding-top: 16px;
+  font-size: 20px;
+}
+.main-text {
+  font-family: Poppins-Regular, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  /* text-align: center; */
+  margin-top: 25px;
+}
+.button {
+  color: #fff;
+  border-color: #e43927;
+  border-radius: 45px;
+  background-color: #e43927;
+  font-size: 23px;
+  height: 1%;
+  font-family: inherit;
+  font-weight: bold;
+  letter-spacing: 4px;
+  white-space: normal;
+}
+
+.container {
+  border: 1px solid black;
+  margin: 60px auto;
+  width: 950px;
+  height: 415px;
+  background-color: white;
+}
+.logo-img {
+  width: 190px;
+  margin-left: 17%;
+  margin-top: -6%;
+}
+.input-text {
+  font-size: 20px;
+  font-family: Poppins-Regular, sans-serif;
+  color: black;
+}

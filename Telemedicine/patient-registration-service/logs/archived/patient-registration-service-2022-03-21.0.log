@@ -1,0 +1,1052 @@
+  [2022-03-21 13:27:34,868], , [restartedMain], patient-registration-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-03-21 13:27:35,282], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bbb23398] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:27:35,615], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-03-21 13:27:37,784], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888/config. Will be trying the next url if available
+  [2022-03-21 13:27:37,786], , [restartedMain], patient-registration-service, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/config/patient-registration-service/dev/1.0.1": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-03-21 13:27:37,793], , [restartedMain], patient-registration-service, INFO  PatientRegistrationApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-03-21 13:27:40,019], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-03-21 13:27:40,334], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 303ms. Found 16 repository interfaces.
+  [2022-03-21 13:27:41,049], , [restartedMain], patient-registration-service, INFO  GenericScope setSerializationId | BeanFactory id=35dd3f51-345c-3707-b5b4-6d0baa9f284d
+  [2022-03-21 13:27:41,474], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9f98309b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:27:41,543], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bbb23398] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:27:42,613], , [restartedMain], patient-registration-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7075 (http)
+  [2022-03-21 13:27:42,636], , [restartedMain], patient-registration-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7075"]
+  [2022-03-21 13:27:42,648], , [restartedMain], patient-registration-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-03-21 13:27:42,648], , [restartedMain], patient-registration-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-03-21 13:27:42,663], , [restartedMain], patient-registration-service, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-03-21 13:27:42,851], , [restartedMain], patient-registration-service, INFO  [/patient/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-03-21 13:27:42,851], , [restartedMain], patient-registration-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 5024 ms
+  [2022-03-21 13:27:45,358], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-03-21 13:27:56,538], , [restartedMain], patient-registration-service, ERROR HikariPool throwPoolInitializationException | HikariPool-1 - Exception during pool initialization.
+org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$4d1aeaf9.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:319)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:356)
+	at org.springframework.boot.autoconfigure.orm.jpa.DatabaseLookup.getDatabase(DatabaseLookup.java:73)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.determineDatabase(JpaProperties.java:142)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.jpaVendorAdapter(JpaBaseConfiguration.java:113)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a.CGLIB$jpaVendorAdapter$4(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a$$FastClassBySpringCGLIB$$834bbe9f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:244)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:363)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a.jpaVendorAdapter(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:622)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:456)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 91 common frames omitted
+  [2022-03-21 13:27:56,553], , [restartedMain], patient-registration-service, WARN  DatabaseLookup getDatabase | Unable to determine jdbc url from datasource
+org.springframework.jdbc.support.MetaDataAccessException: Could not get Connection for extracting meta-data; nested exception is org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:328)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:356)
+	at org.springframework.boot.autoconfigure.orm.jpa.DatabaseLookup.getDatabase(DatabaseLookup.java:73)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.determineDatabase(JpaProperties.java:142)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.jpaVendorAdapter(JpaBaseConfiguration.java:113)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a.CGLIB$jpaVendorAdapter$4(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a$$FastClassBySpringCGLIB$$834bbe9f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:244)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:363)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$be6ef30a.jpaVendorAdapter(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:622)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:456)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:319)
+	... 67 common frames omitted
+Caused by: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$4d1aeaf9.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	... 68 common frames omitted
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 91 common frames omitted
+  [2022-03-21 13:27:56,736], , [restartedMain], patient-registration-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-03-21 13:27:56,885], , [restartedMain], patient-registration-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-03-21 13:27:56,888], , [restartedMain], patient-registration-service, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-03-21 13:27:57,190], , [restartedMain], patient-registration-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-03-21 13:27:57,503], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-03-21 13:28:08,519], , [restartedMain], patient-registration-service, ERROR HikariPool throwPoolInitializationException | HikariPool-1 - Exception during pool initialization.
+org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$4d1aeaf9.getConnection(<generated>)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:179)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:904)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:935)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 64 common frames omitted
+  [2022-03-21 13:28:08,530], , [restartedMain], patient-registration-service, WARN  JdbcEnvironmentInitiator initiateService | HHH000342: Could not obtain connection to query metadata : The connection attempt failed.
+  [2022-03-21 13:28:08,584], , [restartedMain], patient-registration-service, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+  [2022-03-21 13:28:08,593], , [restartedMain], patient-registration-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-03-21 13:28:08,645], , [restartedMain], patient-registration-service, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-03-21 13:28:08,650], , [restartedMain], patient-registration-service, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1762)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:179)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:904)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:935)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	... 21 common frames omitted
+Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:100)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:54)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:137)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	... 38 common frames omitted
+  [2022-03-21 13:31:42,517], , [restartedMain], patient-registration-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-03-21 13:31:43,051], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$49c1fa4f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:31:46,310], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+  [2022-03-21 13:32:07,590], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://172.30.151.100:51000/config. Will be trying the next url if available
+  [2022-03-21 13:32:07,593], , [restartedMain], patient-registration-service, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://172.30.151.100:51000/config/patient-registration-service/dev/1.0.0": Connection timed out: connect; nested exception is java.net.ConnectException: Connection timed out: connect
+  [2022-03-21 13:32:07,606], , [restartedMain], patient-registration-service, INFO  PatientRegistrationApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-03-21 13:32:09,441], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-03-21 13:32:09,620], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 169ms. Found 16 repository interfaces.
+  [2022-03-21 13:32:10,147], , [restartedMain], patient-registration-service, INFO  GenericScope setSerializationId | BeanFactory id=35dd3f51-345c-3707-b5b4-6d0baa9f284d
+  [2022-03-21 13:32:10,561], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$2da7f752] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:32:10,627], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$49c1fa4f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:32:11,829], , [restartedMain], patient-registration-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7075 (http)
+  [2022-03-21 13:32:11,852], , [restartedMain], patient-registration-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7075"]
+  [2022-03-21 13:32:11,866], , [restartedMain], patient-registration-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-03-21 13:32:11,866], , [restartedMain], patient-registration-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-03-21 13:32:11,888], , [restartedMain], patient-registration-service, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-03-21 13:32:12,068], , [restartedMain], patient-registration-service, INFO  [/patient/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-03-21 13:32:12,069], , [restartedMain], patient-registration-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4404 ms
+  [2022-03-21 13:32:14,193], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-03-21 13:32:25,331], , [restartedMain], patient-registration-service, ERROR HikariPool throwPoolInitializationException | HikariPool-1 - Exception during pool initialization.
+org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$d5cd9fd2.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:319)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:356)
+	at org.springframework.boot.autoconfigure.orm.jpa.DatabaseLookup.getDatabase(DatabaseLookup.java:73)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.determineDatabase(JpaProperties.java:142)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.jpaVendorAdapter(JpaBaseConfiguration.java:113)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1.CGLIB$jpaVendorAdapter$8(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1$$FastClassBySpringCGLIB$$70bc5bb1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:244)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:363)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1.jpaVendorAdapter(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:622)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:456)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 91 common frames omitted
+  [2022-03-21 13:32:25,348], , [restartedMain], patient-registration-service, WARN  DatabaseLookup getDatabase | Unable to determine jdbc url from datasource
+org.springframework.jdbc.support.MetaDataAccessException: Could not get Connection for extracting meta-data; nested exception is org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:328)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:356)
+	at org.springframework.boot.autoconfigure.orm.jpa.DatabaseLookup.getDatabase(DatabaseLookup.java:73)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaProperties.determineDatabase(JpaProperties.java:142)
+	at org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration.jpaVendorAdapter(JpaBaseConfiguration.java:113)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1.CGLIB$jpaVendorAdapter$8(<generated>)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1$$FastClassBySpringCGLIB$$70bc5bb1.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:244)
+	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:363)
+	at org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration$$EnhancerBySpringCGLIB$$4c7eb9c1.jpaVendorAdapter(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:622)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:456)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:277)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1247)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1167)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:857)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:760)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1305)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1144)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81)
+	at org.springframework.jdbc.support.JdbcUtils.extractDatabaseMetaData(JdbcUtils.java:319)
+	... 67 common frames omitted
+Caused by: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$d5cd9fd2.getConnection(<generated>)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	... 68 common frames omitted
+Caused by: java.net.SocketTimeoutException: Connect timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:546)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 91 common frames omitted
+  [2022-03-21 13:32:25,546], , [restartedMain], patient-registration-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-03-21 13:32:25,752], , [restartedMain], patient-registration-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-03-21 13:32:25,756], , [restartedMain], patient-registration-service, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-03-21 13:32:26,124], , [restartedMain], patient-registration-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-03-21 13:32:26,445], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-03-21 13:32:36,301], , [restartedMain], patient-registration-service, ERROR HikariPool throwPoolInitializationException | HikariPool-1 - Exception during pool initialization.
+org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:292)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:195)
+	at org.postgresql.Driver.makeConnection(Driver.java:454)
+	at org.postgresql.Driver.connect(Driver.java:256)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at com.zaxxer.hikari.HikariDataSource$$FastClassBySpringCGLIB$$eeb1ae86.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.doProceed(DelegatingIntroductionInterceptor.java:136)
+	at org.springframework.aop.support.DelegatingIntroductionInterceptor.invoke(DelegatingIntroductionInterceptor.java:124)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.zaxxer.hikari.HikariDataSource$$EnhancerBySpringCGLIB$$d5cd9fd2.getConnection(<generated>)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:180)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:68)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:179)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:904)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:935)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.net.SocketException: Software caused connection abort: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:660)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:549)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:333)
+	at java.base/java.net.Socket.connect(Socket.java:648)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:70)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:91)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:192)
+	... 64 common frames omitted
+  [2022-03-21 13:32:36,309], , [restartedMain], patient-registration-service, WARN  JdbcEnvironmentInitiator initiateService | HHH000342: Could not obtain connection to query metadata : The connection attempt failed.
+  [2022-03-21 13:32:36,332], , [restartedMain], patient-registration-service, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+  [2022-03-21 13:32:36,367], , [restartedMain], patient-registration-service, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-03-21 13:32:36,467], , [restartedMain], patient-registration-service, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-03-21 13:32:36,485], , [restartedMain], patient-registration-service, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1762)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:593)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:515)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:320)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:318)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1105)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:549)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at com.nsdl.telemedicine.PatientRegistrationApplication.main(PatientRegistrationApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:179)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:904)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:935)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:57)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:377)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1821)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1758)
+	... 21 common frames omitted
+Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:100)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:54)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:137)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:35)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:94)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	... 38 common frames omitted
+  [2022-03-21 13:33:37,713], , [restartedMain], patient-registration-service, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-03-21 13:33:38,057], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bb2e3499] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:33:38,438], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://172.30.151.100:51000/config
+  [2022-03-21 13:33:39,941], , [restartedMain], patient-registration-service, INFO  ConfigServicePropertySourceLocator log | Located environment: name=patient-registration-service, profiles=[dev], label=1.0.0, version=202, state=null
+  [2022-03-21 13:33:39,943], , [restartedMain], patient-registration-service, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='configClient'}, MapPropertySource {name='http://172.16.11.166/telemed-ivv/branches/1.0.0/application-dev.properties'}]}
+  [2022-03-21 13:33:40,041], , [restartedMain], patient-registration-service, INFO  PatientRegistrationApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-03-21 13:33:41,809], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-03-21 13:33:41,967], , [restartedMain], patient-registration-service, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 149ms. Found 16 repository interfaces.
+  [2022-03-21 13:33:42,477], , [restartedMain], patient-registration-service, INFO  GenericScope setSerializationId | BeanFactory id=35dd3f51-345c-3707-b5b4-6d0baa9f284d
+  [2022-03-21 13:33:42,838], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$9f14319c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:33:42,908], , [restartedMain], patient-registration-service, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$bb2e3499] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-03-21 13:33:44,062], , [restartedMain], patient-registration-service, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7075 (http)
+  [2022-03-21 13:33:44,089], , [restartedMain], patient-registration-service, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7075"]
+  [2022-03-21 13:33:44,101], , [restartedMain], patient-registration-service, INFO  StandardService log | Starting service [Tomcat]
+  [2022-03-21 13:33:44,101], , [restartedMain], patient-registration-service, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-03-21 13:33:44,118], , [restartedMain], patient-registration-service, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-03-21 13:33:44,384], , [restartedMain], patient-registration-service, INFO  [/patient/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-03-21 13:33:44,384], , [restartedMain], patient-registration-service, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 4323 ms
+  [2022-03-21 13:33:46,116], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-03-21 13:33:47,805], , [restartedMain], patient-registration-service, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-03-21 13:33:47,919], , [restartedMain], patient-registration-service, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-03-21 13:33:48,082], , [restartedMain], patient-registration-service, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-03-21 13:33:48,086], , [restartedMain], patient-registration-service, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-03-21 13:33:48,649], , [restartedMain], patient-registration-service, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-03-21 13:33:48,938], , [restartedMain], patient-registration-service, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-03-21 13:33:48,966], , [restartedMain], patient-registration-service, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-03-21 13:33:48,976], , [restartedMain], patient-registration-service, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@27337181
+  [2022-03-21 13:34:05,940], , [restartedMain], patient-registration-service, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-03-21 13:34:06,519], , [restartedMain], patient-registration-service, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-03-21 13:34:07,264], , [restartedMain], patient-registration-service, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-03-21 13:34:08,527], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-03-21 13:34:08,537], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-03-21 13:34:08,537], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 11 ms
+  [2022-03-21 13:34:09,671], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-03-21 13:34:09,676], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-03-21 13:34:09,676], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 5 ms
+  [2022-03-21 13:34:10,482], , [restartedMain], patient-registration-service, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-03-21 13:34:10,744], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-03-21 13:34:10,746], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-03-21 13:34:10,747], , [restartedMain], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 3 ms
+  [2022-03-21 13:34:10,756], , [restartedMain], patient-registration-service, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-03-21 13:34:12,167], , [restartedMain], patient-registration-service, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-03-21 13:34:12,344], , [restartedMain], patient-registration-service, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7075"]
+  [2022-03-21 13:34:12,404], , [restartedMain], patient-registration-service, INFO  TomcatWebServer start | Tomcat started on port(s): 7075 (http) with context path '/patient/v1'
+  [2022-03-21 13:34:12,411], , [restartedMain], patient-registration-service, INFO  PatientRegistrationApplication logStarted | Started PatientRegistrationApplication in 35.447 seconds (JVM running for 38.282)
+  [2022-03-21 13:36:08,943], , [http-nio-7075-exec-1], patient-registration-service, INFO  [/patient/v1] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-03-21 13:36:08,997], , [http-nio-7075-exec-1], patient-registration-service, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-03-21 13:36:09,618], , [http-nio-7075-exec-1], patient-registration-service, INFO  DispatcherServlet initServletBean | Completed initialization in 619 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:09,794], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:09,828], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,856], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,857], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 1029 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,860], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,864], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,864], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 4 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,977], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,988], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,989], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 12 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,991], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,991], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,992], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,992], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:10,994], , [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 1205 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:11,207], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationController.saveRegistrationDetails
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:11,242], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationController saveRegistrationDetails | Registration of Patient Request by Doctor or Scribe Received
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:15,803], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationServiceImpl.saveRegistrationDetails
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:32,057], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientPersonalDetailsRepository.existsByPatientMobNo
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:36,627], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientPersonalDetailsRepository.existsByPatientMobNo
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:36,751], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientPersonalDetailsRepository.existsByPatientMobNo :: 4694 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:36:47,226], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | new random passwordCm2-Ul4)Km
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:17,308], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of AuthUtil.savePatientProfilePhoto
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:18,744], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  AuthUtil savePatientProfilePhoto | Loading the patient profile photo to file system
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:18,762], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of AuthUtil.savePatientProfilePhoto
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:18,782], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of AuthUtil.savePatientProfilePhoto :: 1475 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:29,097], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:29,173], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:29,244], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 145 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:32,065], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CrudRepository.save
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:36,137], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CrudRepository.save
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:36,217], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CrudRepository.save :: 4148 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:38,332], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Saved user Data to Patient registration
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:39,085], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:40,764], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of JpaRepository.saveAndFlush
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:45,158], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of JpaRepository.saveAndFlush
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:45,199], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of JpaRepository.saveAndFlush :: 4435 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:45,241], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:45,287], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail :: 6203 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:37:52,107], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Inside for saving to user dtls table if data insertion successfull in pt_reg_dtls table
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:01,540], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Called
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:11,308], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Called with userID P9879687583And UserName GFFDVF
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:17,506], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Status : true
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:25,452], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Inside for saving to map dtls  table if data insertion successfull in usr_dtls table
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:25,874], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Saved user Data to Patient registration
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:32,597], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:32,672], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:32,748], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 150 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:47,546], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:47,583], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:47,613], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 67 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:52,048], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:52,088], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:52,132], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 85 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:53,721], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:53,808], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getUserName
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:38:53,859], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 139 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:05,686], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CrudRepository.save
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:06,204], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CrudRepository.save
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:06,302], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CrudRepository.save :: 614 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:10,084], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | API success, insertion in all tables successfull
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:12,888], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Request Created for calling Email and SMS notification for sending Random Password
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:13,868], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl sendRandomPassByEmail | Request received Inside SMS Email Notification send
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:16,078], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Random Password Email sent successfully
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,083], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationServiceImpl.saveRegistrationDetails
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,089], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationServiceImpl.saveRegistrationDetails :: 185286 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,418], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationController.saveRegistrationDetails
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,420], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationController.saveRegistrationDetails :: 190213 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,631], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,633], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,634], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 3 ms
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,651], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,652], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+3cb8aa6d787c7b3b 3cb8aa6d787c7b3b [2022-03-21 13:39:21,654], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 3 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,219], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,221], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,240], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,240], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 19 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,241], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,243], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,244], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 3 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,288], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setRole
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,370], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setRole
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,372], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 84 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,372], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setUserName
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,374], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setUserName
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,374], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 2 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,374], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,375], , [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 156 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,389], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationController.saveRegistrationDetails
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:31,389], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientRegistrationController saveRegistrationDetails | Registration of Patient Request by Doctor or Scribe Received
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:35,851], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationServiceImpl.saveRegistrationDetails
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:40,953], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientPersonalDetailsRepository.existsByPatientMobNo
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:41,777], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientPersonalDetailsRepository.existsByPatientMobNo
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:41,796], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientPersonalDetailsRepository.existsByPatientMobNo :: 844 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:53,752], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:54,875], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:39:54,997], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus :: 1244 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:11,434], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Patient alreday register with same doctor
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:14,577], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | API success, insertion in all tables successfull
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:45,959], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationServiceImpl.saveRegistrationDetails
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:45,960], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationServiceImpl.saveRegistrationDetails :: 70109 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,101], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationController.saveRegistrationDetails
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,104], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationController.saveRegistrationDetails :: 74714 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,118], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,122], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,123], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 5 ms
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,127], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,130], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+176eccb7fb25c9a6 176eccb7fb25c9a6 [2022-03-21 13:40:46,132], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-3], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 5 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,529], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,539], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,550], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,551], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 12 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,551], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,554], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,555], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 4 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,577], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,583], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,584], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 7 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,584], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,585], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,585], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,585], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,586], , [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 57 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,590], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationController.saveRegistrationDetails
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:22,591], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationController saveRegistrationDetails | Registration of Patient Request by Doctor or Scribe Received
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,803], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@2393c664 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,819], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@50a3ff9 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,824], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@389769da (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,827], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@16e970fc (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,829], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@335d4225 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,832], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@677c4640 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,835], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@64a63acc (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,839], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@3995d834 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,841], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@6000e949 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:28,842], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, WARN  PoolBase isConnectionAlive | HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@654bed4f (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:29,870], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationServiceImpl.saveRegistrationDetails
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:29,892], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientPersonalDetailsRepository.existsByPatientMobNo
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,032], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientPersonalDetailsRepository.existsByPatientMobNo
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,033], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientPersonalDetailsRepository.existsByPatientMobNo :: 141 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,034], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | new random passwordOd4_Oe9-Hx
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,037], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of AuthUtil.savePatientProfilePhoto
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,040], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  AuthUtil savePatientProfilePhoto | Loading the patient profile photo to file system
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,043], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of AuthUtil.savePatientProfilePhoto
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,046], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of AuthUtil.savePatientProfilePhoto :: 9 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,049], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,051], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,054], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 4 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,056], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CrudRepository.save
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,192], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CrudRepository.save
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,195], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CrudRepository.save :: 139 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,197], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Saved user Data to Patient registration
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,200], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,206], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of JpaRepository.saveAndFlush
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,843], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of JpaRepository.saveAndFlush
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,845], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of JpaRepository.saveAndFlush :: 640 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,847], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,848], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of AuditPatientServiceImpl.auditRegistrationServicePersonalDetail :: 649 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,849], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Inside for saving to user dtls table if data insertion successfull in pt_reg_dtls table
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,850], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Called
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:30,852], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Called with userID P9879687582And UserName PATSHUBHAM
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,163], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl createUserForPatientByScribe | USER MANAGEMENT API Status : true
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,165], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Inside for saving to map dtls  table if data insertion successfull in usr_dtls table
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,168], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Saved user Data to Patient registration
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,171], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,175], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,176], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 5 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,178], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,180], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,182], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 4 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,185], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,187], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getRole
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,191], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getRole :: 7 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,194], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.getUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,196], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.getUserName
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,199], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.getUserName :: 6 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,200], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CrudRepository.save
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,339], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CrudRepository.save
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,341], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CrudRepository.save :: 141 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,344], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | API success, insertion in all tables successfull
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,346], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Request Created for calling Email and SMS notification for sending Random Password
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,348], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl sendRandomPassByEmail | Request received Inside SMS Email Notification send
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,610], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Random Password Email sent successfully
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,613], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationServiceImpl.saveRegistrationDetails
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:31,615], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationServiceImpl.saveRegistrationDetails :: 1745 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,015], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationController.saveRegistrationDetails
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,018], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationController.saveRegistrationDetails :: 9428 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,027], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,029], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,031], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 3 ms
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,034], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,036], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+d673f8fbd66c60ea d673f8fbd66c60ea [2022-03-21 13:48:32,037], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-6], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 3 ms
+  [2022-03-21 14:21:07,118], , [HikariPool-1 housekeeper], patient-registration-service, WARN  HikariPool run | HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=26m18s883ms762µs301ns).
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:33,838], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:33,905], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,014], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,016], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 111 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,020], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,025], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,026], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 6 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,349], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setRole
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,384], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setRole
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,387], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 38 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,388], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setUserName
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,396], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setUserName
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,397], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 9 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,398], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,399], , [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 583 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,555], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationController.saveRegistrationDetails
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,558], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientRegistrationController saveRegistrationDetails | Registration of Patient Request by Doctor or Scribe Received
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,699], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationServiceImpl.saveRegistrationDetails
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,711], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientPersonalDetailsRepository.existsByPatientMobNo
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,905], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientPersonalDetailsRepository.existsByPatientMobNo
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,907], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientPersonalDetailsRepository.existsByPatientMobNo :: 196 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:34,909], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,158], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,160], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus :: 251 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,162], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Patient alreday register with same doctor
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,165], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | API success, insertion in all tables successfull
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,167], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationServiceImpl.saveRegistrationDetails
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,168], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationServiceImpl.saveRegistrationDetails :: 469 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,355], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationController.saveRegistrationDetails
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,358], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationController.saveRegistrationDetails :: 803 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,377], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.postHandle
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,379], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.postHandle
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,380], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.postHandle :: 3 ms
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,386], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.afterCompletion
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,388], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.afterCompletion
+71372b32a13910b4 71372b32a13910b4 [2022-03-21 14:27:35,389], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-8], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.afterCompletion :: 2 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,207], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of CustomInterceptor.preHandle
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,210], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getUsernameFromToken
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,292], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getUsernameFromToken
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,294], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getUsernameFromToken :: 84 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,303], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of TokenValidator.getRoleFromToken
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,315], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of TokenValidator.getRoleFromToken
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,317], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of TokenValidator.getRoleFromToken :: 14 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,462], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setRole
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,497], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setRole
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,498], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setRole :: 36 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,499], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of UserDTO.setUserName
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,500], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of UserDTO.setUserName
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,500], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of UserDTO.setUserName :: 1 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,500], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of CustomInterceptor.preHandle
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,501], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of CustomInterceptor.preHandle :: 294 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,504], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationController.saveRegistrationDetails
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:42,504], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationController saveRegistrationDetails | Registration of Patient Request by Doctor or Scribe Received
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:46,525], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationServiceImpl.saveRegistrationDetails
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:53,355], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientPersonalDetailsRepository.existsByPatientMobNo
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:53,747], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientPersonalDetailsRepository.existsByPatientMobNo
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:28:53,805], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientPersonalDetailsRepository.existsByPatientMobNo :: 457 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:29:13,551], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Start of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:29:13,914], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | END of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:29:13,971], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientLoggingAspect profileAllMethods | Execution time of PatientRegistrationByScribeRepository.findByDpmdDrUserIdFkAndDpmdPtUserIdFkAndDpmdStatus :: 422 ms
+9ccdf812f2ef9e3a 9ccdf812f2ef9e3a [2022-03-21 14:29:35,879], 0:0:0:0:0:0:0:1, [http-nio-7075-exec-1], patient-registration-service, INFO  PatientRegistrationServiceImpl saveRegistrationDetails | Patient alreday register with same doctor

@@ -1,0 +1,43 @@
+<div class="modal-header py-2">
+    <h2 class="modal-title mb-0">Delete Appointment</h2>
+    <button type="button" class="close" aria-label="Close" (click)="onClickClose()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!-- <form [formGroup]="form">  *ngFor="let slots of filteredSlotsMulti | async" -->
+    <div>
+        <mat-form-field class="example-full-width mr-1" appearance="fill">
+            <mat-label>Select Appointment Date</mat-label>
+            <input matInput [matDatepicker]="picker" [min]="startDate" (dateChange)="changeDate($event)" readonly
+                required>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 overFlow" style="display: flex;">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput [placeholder]="'Search slots'" formControlName="slotName">
+            <mat-autocomplete [displayWith]="displayFn">
+                <mat-option >
+                    <div (click)="slotOptionClicked()">
+                        <!-- <mat-checkbox [checked]="symptom.selected" (change)="symptomToggleSelection()"
+                            (click)="$event.stopPropagation()">
+                        </mat-checkbox> -->
+                    </div>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+<!-- #auto="matAutocomplete"  [matAutocomplete]="auto"  -->
+        <button class="add-button" (click)="saveDetails()" matSuffix>
+            <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+        </button>
+        <div class="valueTags">
+            <span>
+                <span class="position-relative btn btn-info btn-sm mt-2 mr-3">exampleTag<button type="button"
+                        (click)="symptomToggleSelection()"
+                        class="btn badge badge-pill translate-middle border border-dark bg-light badge-position">x</button></span>
+            </span>
+        </div>
+    </div>
+<!-- </form> -->

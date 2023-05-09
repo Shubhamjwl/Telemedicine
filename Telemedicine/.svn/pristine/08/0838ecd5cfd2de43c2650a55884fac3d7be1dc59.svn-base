@@ -1,0 +1,803 @@
+package com.nsdl.payment.service.impl;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.StringJoiner;
+import java.util.TimeZone;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.nsdl.payment.constant.AppConstant;
+import com.nsdl.payment.dto.AppointmentTransIDDTO;
+import com.nsdl.payment.dto.CommonResponseDTO;
+import com.nsdl.payment.dto.InvoiceDetail;
+import com.nsdl.payment.dto.MainResponseDTO;
+import com.nsdl.payment.dto.PayLinkDTO;
+import com.nsdl.payment.dto.PaymentRequest;
+import com.nsdl.payment.dto.PaymentResponse;
+import com.nsdl.payment.dto.RazorPay;
+import com.nsdl.payment.dto.RazorPayResponse;
+import com.nsdl.payment.dto.UpdateRequestDto;
+import com.nsdl.payment.dto.UserDTO;
+import com.nsdl.payment.exception.DateParsingException;
+import com.nsdl.payment.exception.ErrorConstants;
+import com.nsdl.payment.exception.ServiceError;
+import com.nsdl.payment.logger.LoggingClientInfo;
+import com.nsdl.payment.service.PaymentService;
+import com.nsdl.payment.util.RestCallUtil;
+import com.nsdl.payment.util.Utils;
+import com.razorpay.Invoice;
+import com.razorpay.Order;
+import com.razorpay.Payment;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
+
+@LoggingClientInfo
+@Service
+public class PaymentServiceImpl implements PaymentService {
+
+	private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
+	private static Gson gson = new Gson();
+
+	@Value("${razorpay.key.id}")
+	private String razorPayKeyId;
+
+	@Value("${razorpay.key.secret}")
+	private String razorPayKeySecret;
+
+	// @Autowired
+	// PaymentRepository paymentRepo;
+
+	@Value("${UPDATE_PAYMENT_URL}")
+	private String updatePaymentUrl;
+
+	@Value("${razorpay.merchant}")
+	private String merchant;
+
+	@Value("${gst.consultation.charges.percent}")
+	private String gstConsultionCharges;
+
+	@Value("${payment.gateway.charges.percent}")
+	private String paymentGatewayCharges;
+
+	@Value("${gst.payment.gateway.charges.percent}")
+	private String gstPaymnetGatewayCharges;
+
+	@Value("${nsdlegov.charges.rs}")
+	private String nsdlegovCharges;
+
+	@Value("${gst.nsdlegov.charges.percent}")
+	private String gstNsdlegovCharges;
+
+	@Value("${payment.callback.url}")
+	private String callbackUrl;
+
+	@Value("${payment.link.expiry}")
+	private long paymentLinkExpiryTime;
+
+	@Value("${payment.description}")
+	private String paymentDescription;
+
+	@Autowired
+	private UserDTO userDto;
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> updatePaymentResponse(RazorPayResponse attributes) {
+		CommonResponseDTO commonResponse = new CommonResponseDTO();
+		MainResponseDTO<CommonResponseDTO> response = new MainResponseDTO<>();
+		try {
+
+			String loggedInUser = userDto.getUserName().trim();
+			logger.info("Loggedin user:" + loggedInUser);
+			if (loggedInUser == null) {
+				logger.info("Logged in user not found, so terminating payment process....");
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+			logger.info("Request received for order id...." + attributes.getOrderId() + " and payment id "
+					+ attributes.getPaymentId());
+			// 1 Verify Signature
+			logger.info("Signature verification started....");
+			checkIfSignatureValid(attributes);
+			logger.info("Signature verified Successfully....");
+
+			// 2 After verifying the signature, fetch the order in your system that
+			// corresponds to the razorpay_order_id
+			// in database.
+			// Mark it as successful and process the order.
+			// call db service
+
+			// 3. Razorpay Payment service call for fetching the other payment details
+			RazorpayClient razorPayclient = new RazorpayClient(razorPayKeyId, razorPayKeySecret);
+			logger.info("Trying to connect with razorpay to fetch Payment details against paymentId:"
+					+ attributes.getPaymentId());
+			Payment payment = razorPayclient.Payments.fetch(attributes.getPaymentId());
+
+			if (null != payment) {
+				logger.info("Payment details fetched successfully from razorpay!! " + payment);
+				attributes.setPaymentStatus((JSONObject.NULL != payment.get(AppConstant.PAYMENT_STATUS))
+						? payment.get(AppConstant.PAYMENT_STATUS)
+						: AppConstant.BLANK);
+				attributes.setPaymentMethod((JSONObject.NULL != payment.get(AppConstant.PAYMENT_METHOD))
+						? payment.get(AppConstant.PAYMENT_METHOD)
+						: AppConstant.BLANK);
+				attributes.setBankName((JSONObject.NULL != payment.get(AppConstant.PAYMENT_BANK))
+						? payment.get(AppConstant.PAYMENT_BANK)
+						: AppConstant.BLANK);
+				attributes.setLoggedinUser(loggedInUser);
+				MainResponseDTO<CommonResponseDTO> updateResponse = updateResponse(attributes);
+				if (updateResponse.isStatus()) {
+					logger.info("Record updated successsfully with Success status");
+					commonResponse.setMessage("Payment Success!!");
+					response.setStatus(true);
+					response.setResponse(commonResponse);
+					return response;
+				}
+
+			} else {
+				logger.error("Unable to fetch payment details against payment id :" + attributes.getPaymentId());
+				logger.error("Failed to update record");
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+
+		} catch (Exception e) {
+			logger.error("Exception occurred while record updation :" + e.getMessage());
+			throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+					ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+
+		}
+		logger.info("Returning response of update Payment details");
+		commonResponse.setMessage("Payment Failed!!");
+		response.setStatus(false);
+		response.setResponse(commonResponse);
+		return response;
+
+	}
+
+	private void checkIfSignatureValid(RazorPayResponse attributes) {
+		try {
+			if (!Utils.verifyPaymentSignature(attributes, razorPayKeySecret)) {
+				logger.error("Signature verification failed!!");
+				// call db service
+				MainResponseDTO<CommonResponseDTO> updateResponse = updateResponse(attributes);
+				if (updateResponse.isStatus()) {
+					logger.info("Record updated successsfully with fail status");
+				}
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+		} catch (Exception e) {
+			logger.error("Exception occurred while Signture verification" + e.getMessage());
+
+		}
+
+	}
+
+	@Override
+	public MainResponseDTO<PaymentResponse> createOrder(PaymentRequest paymentRequest) {
+		MainResponseDTO<PaymentResponse> response = new MainResponseDTO<>();
+		PaymentResponse payResponse = new PaymentResponse();
+		RazorPay razorPay = new RazorPay();
+		String loggedInUser = userDto.getUserName().trim();
+		logger.info("Loggedin user:" + loggedInUser);
+		logger.info("Inside createOrder Method..");
+		logger.info("Final total charges calculation added for patient........");
+		int totalCharges = calculateTotalChargesForpatient(paymentRequest.getAmount());
+		try {
+			RazorpayClient razorPayclient = new RazorpayClient(razorPayKeyId, razorPayKeySecret);
+			logger.info("Razorpay Client created Successfully with KeyID.." + razorPayKeyId + "..and Key Secret.."
+					+ razorPayKeySecret);
+			JSONObject options = new JSONObject();
+			options.put("amount", convertRupeeToPaise(String.valueOf(totalCharges)));
+			options.put("currency", AppConstant.PAYMENT_CURRENCY);
+			options.put("receipt", paymentRequest.getTransId());
+			options.put("payment_capture", 1); // You can enable this if you want to do Auto Capture.
+
+			logger.info("Trying to connect with razorpay....");
+			logger.info("Requested payload for order creation:" + options);
+			Order order = razorPayclient.Orders.create(options);
+			logger.info("Connected Successsfully!!");
+			logger.info("Order Created Successsfully!!");
+			razorPay = getRazorPay((String) order.get("id"), paymentRequest);
+			logger.info("Requested order :" + gson.toJson(getResponse(razorPay, 200)));
+			// Save record to database against given transactionID
+
+			UpdateRequestDto updateDto = new UpdateRequestDto();
+			updateDto.setAmount(paymentRequest.getAmount());
+			updateDto.setConvenienceCharge(paymentRequest.getConvenienceCharge());
+			updateDto.setOrderId(order.get("id"));
+			// updateDto.setOrderId("order_H7qAm8mkcgatRc");
+			updateDto.setTransId(paymentRequest.getTransId());
+			updateDto.setReceiptId(order.get("receipt"));
+			// updateDto.setReceiptId("02997956-3d10-4d6d-8782-c4aa26e1aef6");
+			updateDto.setLoggedinUser(loggedInUser);
+			try {
+				MainResponseDTO<CommonResponseDTO> updateResponse = updateRecord(updateDto);
+				if (updateResponse.isStatus()) {
+					payResponse.setStatusCode(200);
+					logger.info("Requested order before checkout :" + razorPay);
+					payResponse.setRazorPay(razorPay);
+					response.setStatus(true);
+					response.setResponse(payResponse);
+					return response;
+				}
+			} catch (Exception e) {
+				logger.error("Exception while calling update payment service");
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			logger.info("Exception occurred while processing:");
+			e.printStackTrace();
+		}
+		payResponse.setStatusCode(500);
+		response.setStatus(false);
+		payResponse.setRazorPay(razorPay);
+		response.setResponse(payResponse);
+		return response;
+
+	}
+
+	/*
+	 * Added by sayali, payment calculation value taken from application property(in
+	 * RS or percent) Currently it is taken in percent except nsdlegov charges.
+	 * Below code Consider both scenarios 1 and 2 shared by system team.
+	 */
+	private int calculateTotalChargesForpatient(int amount) {
+		// TODO Auto-generated method stub
+		logger.info("Final total charges calculation added for patient......");
+		int paymentgatewayCharge = (Integer.parseInt(paymentGatewayCharges) * amount / 100);
+		int gstcharges = (Integer.parseInt(gstPaymnetGatewayCharges) * paymentgatewayCharge / 100);
+		int gstnsdlegov = (Integer.parseInt(gstNsdlegovCharges) * Integer.parseInt(nsdlegovCharges) / 100);
+		int totalCharge = amount + paymentgatewayCharge + gstcharges + Integer.parseInt(nsdlegovCharges) + gstnsdlegov;
+		return totalCharge;
+	}
+
+	private MainResponseDTO<CommonResponseDTO> updateRecord(UpdateRequestDto updateDto) throws Exception {
+		logger.info("Calling update payment service");
+		String url = updatePaymentUrl + AppConstant.UPDATE_PAYMENT_ORDER;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<MainResponseDTO<CommonResponseDTO>> response = (ResponseEntity<MainResponseDTO<CommonResponseDTO>>) RestCallUtil
+				.postApiRequest(url, updateDto, MainResponseDTO.class);
+		logger.info("Called update payment service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+
+	}
+
+	private MainResponseDTO<CommonResponseDTO> updateResponse(RazorPayResponse updateDto) throws Exception {
+		logger.info("Calling update payment service");
+		String url = updatePaymentUrl + AppConstant.UPDATE_PAYMENT_RESPONSE;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<MainResponseDTO<CommonResponseDTO>> response = (ResponseEntity<MainResponseDTO<CommonResponseDTO>>) RestCallUtil
+				.postApiRequest(url, updateDto, MainResponseDTO.class);
+		logger.info("Called update payment service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+
+	}
+
+	public PaymentResponse getResponse(RazorPay razorPay, int statusCode) {
+		PaymentResponse response = new PaymentResponse();
+		response.setStatusCode(statusCode);
+		response.setRazorPay(razorPay);
+		return response;
+	}
+
+	public String convertRupeeToPaise(String paise) {
+		BigDecimal b = new BigDecimal(paise);
+		BigDecimal value = b.multiply(new BigDecimal("100"));
+		return value.setScale(0, RoundingMode.UP).toString();
+
+	}
+
+	public RazorPay getRazorPay(String orderId, PaymentRequest paymentRequest) {
+		RazorPay razorPay = new RazorPay();
+		razorPay.setApplicationFee(convertRupeeToPaise(String.valueOf(paymentRequest.getAmount())));
+		// razorPay.setCustomerName(customer.getCustomerName());
+		// razorPay.setCustomerEmail(customer.getEmail());
+		razorPay.setMerchantName(merchant);
+		razorPay.setPurchaseDescription(paymentDescription);
+		razorPay.setRazorpayOrderId(orderId);
+		razorPay.setSecretKey(razorPayKeyId);
+		return razorPay;
+	}
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> createPaymentLink(PayLinkDTO payLinkDTO) {
+		//loggedInUser may be Doctor/Scribe/Callcentre/Receptionist
+		//String loggedInUser="JITENDRAP123";
+		String loggedInUser=userDto.getUserName().trim();
+		//String role=userDto.getRole().trim();
+		//DoctorMstrDtlsEntity doctorMstrDtlsEntity=new DoctorMstrDtlsEntity();
+		/*if(role.equalsIgnoreCase("receptionist") || role.equalsIgnoreCase("callcentre"))
+		{
+			doctorMstrDtlsEntity=doctorMstrRepo.findByDmdUserId(payLinkDTO.getDoctorId());
+		}*/
+		logger.info("Loggedin user:"+loggedInUser);
+		logger.info("Inside createPaymentLink Method..");
+		CommonResponseDTO commonResponse = new CommonResponseDTO();
+		MainResponseDTO<CommonResponseDTO> response = new MainResponseDTO<>();	
+		//check if valid request
+		/*if(role.equalsIgnoreCase("receptionist") || role.equalsIgnoreCase("callcentre"))
+		{
+			//validateRequest(doctorMstrDtlsEntity.getDmdConsulFee());
+		}else*/
+		{
+			validateRequest(payLinkDTO);
+		}
+		logger.info("Trying to connect with razorpay client...");
+		RazorpayClient razorPayclient = null;
+		try {
+			razorPayclient = new RazorpayClient(razorPayKeyId,razorPayKeySecret);
+		} catch (RazorpayException e1) {
+			logger.info("Exception occurred while connecting with razorpay...");
+			e1.printStackTrace();
+		}
+		//long currentTimeInEpoch = ((System.currentTimeMillis()) / 1000L);
+		long linkValidTime=getepochtime();
+		
+		//change by sayali set time for 2 hours
+		// linkValidTime=paymentLinkExpiryTime;
+		logger.info("Razorpay Client created Successfully with KeyID.."+razorPayKeyId+"..and Key Secret.."+razorPayKeySecret);
+		JSONObject mainRequest = new JSONObject();
+		try {
+			/*if(role.equalsIgnoreCase("receptionist") || role.equalsIgnoreCase("callcentre"))
+			{
+				if(null!=doctorMstrDtlsEntity)
+				{
+					logger.info("Inside receptionist setting consult fee for receptionist"+doctorMstrDtlsEntity.getDmdConsulFee());
+					mainRequest.put(AppConstant.AMOUNT, Integer.valueOf(convertRupeeToPaise(String.valueOf(doctorMstrDtlsEntity.getDmdConsulFee()))));
+				}
+			}else*/
+			{
+				mainRequest.put(AppConstant.AMOUNT, Integer.valueOf(convertRupeeToPaise(String.valueOf(payLinkDTO.getAmount()))));
+			}
+		} catch (NumberFormatException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} catch (JSONException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} // Note: The amount should be in paise.
+		try {
+			mainRequest.put("currency",  AppConstant.PAYMENT_CURRENCY);
+		} catch (JSONException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			mainRequest.put("type", AppConstant.LINK);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put("receipt", payLinkDTO.getTransId());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put("description", paymentDescription);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//Creating customer object
+		JSONObject customer=new JSONObject();
+		try {
+			customer.put(AppConstant.CONTACT, payLinkDTO.getCustMobile());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			customer.put(AppConstant.NAME, payLinkDTO.getCustName());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(payLinkDTO.getCustEmail()!=null && payLinkDTO.getCustEmail()!=AppConstant.BLANK)
+		{
+			try {
+				customer.put(AppConstant.EMAIL,payLinkDTO.getCustEmail());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			mainRequest.put(AppConstant.CUSTOMER, customer);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
+		try {
+			mainRequest.put(AppConstant.SMS_NOTIFY, 1);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put(AppConstant.EMAIL_NOTIFY, 1);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put(AppConstant.REMINDER_ENABLE, true);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put("callback_url", callbackUrl);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put("callback_method",AppConstant.CALLBACK_METHOD);
+		} catch (JSONException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			mainRequest.put("expire_by",linkValidTime);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			mainRequest.put("receipt", payLinkDTO.getTransId());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		logger.info("Requested payload for payment link creation : "+mainRequest);
+		try {
+			//Entity payLinkEntity = razorPayclient.Payments.post(AppConstant.PAYMENT_LINK, mainRequest);
+			Invoice payLinkEntity=razorPayclient.Invoices.create(mainRequest);
+			logger.info("Response from razorpay after link creation.."+payLinkEntity);
+			if(payLinkEntity!=JSONObject.NULL && (payLinkEntity.get(AppConstant.STATUS)!=JSONObject.NULL)&& payLinkEntity.get(AppConstant.STATUS).equals(AppConstant.ISSUED))
+			{
+				logger.info("Payment Link created sucessfully");
+				//Store details to DB
+				logger.info("Inside setting invoice");
+				InvoiceDetail invoiceDetailDto =new InvoiceDetail();
+				invoiceDetailDto.setAmount_due(payLinkEntity.get("amount_due"));
+				invoiceDetailDto.setConvenienceCharge(payLinkDTO.getConvenienceCharge());
+				invoiceDetailDto.setDiscount(payLinkDTO.getDiscount());
+				invoiceDetailDto.setOrderId(payLinkEntity.get("order_id"));
+				invoiceDetailDto.setTransId(payLinkEntity.get("receipt"));
+				invoiceDetailDto.setPaymentLinkId(payLinkEntity.get("short_url"));;
+				invoiceDetailDto.setLoggedinUser(loggedInUser);
+				invoiceDetailDto.setInvoiceId(payLinkEntity.get("id"));
+				invoiceDetailDto.setInvoiceStatus(payLinkEntity.get("status"));
+				try {
+					MainResponseDTO<CommonResponseDTO> updateResponse = updatePayLinkRecord(invoiceDetailDto);
+					if(updateResponse.isStatus())
+					{
+						//Save appointment details here
+						logger.info("save data to apppontment table");
+						AppointmentTransIDDTO appointmentDTO=new AppointmentTransIDDTO();
+						appointmentDTO.setTransID(payLinkDTO.getTransId());
+						//appointmentDTO.setConsultType(payLinkDTO.getConsultType());
+						MainResponseDTO<CommonResponseDTO> saveResponse=saveAppointmentDetails(appointmentDTO);
+						if(saveResponse.isStatus())
+						{
+							commonResponse.setMessage(AppConstant.PAY_LINK_SUCCES_MSG);
+							response.setStatus(true); 
+							response.setResponse(commonResponse); 
+							return response;
+						}
+						
+					}
+				}catch(Exception e) {
+					logger.error("Exception occurred while calling update payment service..updatePayLinkRecord()");
+					e.printStackTrace();
+				}
+			}
+		} catch (RazorpayException e) {
+			logger.info("Exception occurred while link creation");
+			e.printStackTrace();
+			commonResponse.setMessage(AppConstant.PAY_LINK_FAIL_MSG);
+			response.setStatus(false); 
+			response.setResponse(commonResponse); 
+			return response;
+		}
+		logger.info("Link creation Failed");
+		commonResponse.setMessage(AppConstant.PAY_LINK_FAIL_MSG);
+		response.setStatus(false); 
+		response.setResponse(commonResponse); 
+		return response;
+	}
+	
+	private long getepochtime() {
+		// TODO Auto-generated method stub
+		logger.info("Inside epoch time converter method++++++...");
+		TimeZone tz = TimeZone.getTimeZone("GMT+05:30");
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 22);
+		c.setTimeZone(tz);
+		Date dte = c.getTime();
+		long epoch = (dte.getTime() / 1000);
+		logger.info("epoch time++++++..." + epoch);
+		return epoch;
+	}
+
+	private MainResponseDTO<CommonResponseDTO> updatePayLinkRecord(InvoiceDetail invoiceDetailDto) throws Exception {
+		logger.info("Calling update payment service to store payment link details..." + invoiceDetailDto);
+		String url = updatePaymentUrl + AppConstant.CREATE_PAYMENT_LINK;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<MainResponseDTO<CommonResponseDTO>> response = (ResponseEntity<MainResponseDTO<CommonResponseDTO>>) RestCallUtil
+				.postApiRequest(url, invoiceDetailDto, MainResponseDTO.class);
+		logger.info("Called update payment service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+	}
+
+	private void validateRequest(PayLinkDTO payLinkDTO) {
+		if (payLinkDTO.getAmount() == null || payLinkDTO.getAmount() == 0) {
+			logger.info("Invalid request..Amount not found in the request");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_AMOUNT.getCode(),
+					ErrorConstants.INVALID_AMOUNT.getMessage()));
+		} else if (payLinkDTO.getCustMobile() == null || payLinkDTO.getCustMobile() == AppConstant.BLANK) {
+			logger.info("Invalid request..Customer Mobile number not found in the request");
+			throw new DateParsingException(new ServiceError(ErrorConstants.INVALID_MOBILE.getCode(),
+					ErrorConstants.INVALID_MOBILE.getMessage()));
+		}
+
+	}
+	
+	private MainResponseDTO<CommonResponseDTO> saveAppointmentDetails(AppointmentTransIDDTO appointmentDTO) throws Exception {
+		logger.info("Calling update payment service to store payment link details..." + appointmentDTO);
+		String url = updatePaymentUrl + AppConstant.SAVE_APPOINTMENT;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<MainResponseDTO<CommonResponseDTO>> response = (ResponseEntity<MainResponseDTO<CommonResponseDTO>>) RestCallUtil
+				.postApiRequest(url, appointmentDTO, MainResponseDTO.class);
+		logger.info("Called update payment service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+	}
+
+
+	@Override
+	public String updatePaymentLinkResponse(Map<String, String> allParams) {
+		CommonResponseDTO commonResponse = new CommonResponseDTO();
+		MainResponseDTO<CommonResponseDTO> response = new MainResponseDTO<>();
+		MainResponseDTO<CommonResponseDTO> updatedResp = null;
+		String expected_signature = null;
+		try {
+			logger.info("Inside updatePaymentLinkResponse()...");
+			/*
+			 * String loggedInUser=userDto.getUserName().trim();
+			 * logger.info("Loggedin user:"+loggedInUser);
+			 * 
+			 * if(loggedInUser==null) {
+			 * logger.info("Logged in user not found, so terminating payment process....");
+			 * throw new DateParsingException(new
+			 * ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+			 * ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage())); }
+			 */
+			for (Entry<String, String> iterable_element : allParams.entrySet()) {
+				logger.info("Parameters obtained in response  " + iterable_element);
+			}
+			String razorpay_payment_id = allParams.get("razorpay_payment_id");
+			String razorpay_invoice_id = allParams.get("razorpay_invoice_id");
+			String razorpay_invoice_status = allParams.get("razorpay_invoice_status");
+			String razorpay_invoice_receipt = allParams.get("razorpay_invoice_receipt");
+			String razorpay_signature = allParams.get("razorpay_signature");
+			logger.info("Request received for payment id...." + razorpay_payment_id + " and invoice id "
+					+ razorpay_invoice_id + " and transaction id " + razorpay_invoice_receipt);
+			// 1 Verify Signature
+			logger.info("Signature verification started....");
+			StringJoiner signature_payload = new StringJoiner("|");
+			signature_payload.add(razorpay_invoice_id);
+			signature_payload.add(razorpay_invoice_receipt);
+			signature_payload.add(razorpay_invoice_status);
+			signature_payload.add(razorpay_payment_id);
+			logger.info("Signature Payload for Payment Link Verification:" + signature_payload);
+			expected_signature = Utils.getHash(signature_payload.toString(), razorPayKeySecret);
+			if (expected_signature.equals(razorpay_signature)) {
+				logger.info("Signature verified Successfully....");
+				// Calling DB service to update record
+				RazorPayResponse responseDto = new RazorPayResponse();
+				// responseDto.setLoggedinUser(loggedInUser);
+				responseDto.setSignature(razorpay_signature);
+				responseDto.setPaymentId(razorpay_payment_id);
+				responseDto.setPaymentStatus(razorpay_invoice_status);
+				responseDto.setTransId(razorpay_invoice_receipt);
+				responseDto.setInvoiceId(razorpay_invoice_id);
+				try {
+					updatedResp = updatePayLaterResponse(responseDto);
+				} catch (Exception e) {
+					logger.error("Exception occurred while  calling updateResponse method from UpdatePayment service");
+					e.printStackTrace();
+				}
+				if (updatedResp.isStatus()) {
+					logger.info("Record updated successsfully with Success status");
+					commonResponse.setMessage("Payment Success!!");
+					response.setStatus(true);
+					response.setResponse(commonResponse);
+					return AppConstant.PAY_SUCCES_MSG_S2S;
+				}
+			} else {
+				logger.info("Signature Verification Failed..");
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+
+		} catch (Exception e) {
+			logger.error("Exception occurred while consuming payment link response");
+			e.printStackTrace();
+		}
+		commonResponse.setMessage("Payment Failed!!");
+		response.setStatus(false);
+		response.setResponse(commonResponse);
+		return AppConstant.PAY_FAIL_MSG_S2S;
+	}
+
+	private MainResponseDTO<CommonResponseDTO> updatePayLaterResponse(RazorPayResponse updateDto) throws Exception {
+		logger.info("Calling update payment service");
+		String url = updatePaymentUrl + AppConstant.UPDATE_PAYMENT_LINK;
+		@SuppressWarnings("unchecked")
+		ResponseEntity<MainResponseDTO<CommonResponseDTO>> response = (ResponseEntity<MainResponseDTO<CommonResponseDTO>>) RestCallUtil
+				.postApiRequest(url, updateDto, MainResponseDTO.class);
+		logger.info("Called update payment service, status is : " + response.getBody().isStatus());
+		return response.getBody();
+
+	}
+
+	@Override
+	public MainResponseDTO<PaymentResponse> createOrderForLink(PaymentRequest paymentRequest) {
+		// TODO Auto-generated method stub
+		MainResponseDTO<PaymentResponse> response = new MainResponseDTO<>();
+		PaymentResponse payResponse = new PaymentResponse();
+		RazorPay razorPay = new RazorPay();
+		String loggedInUser = paymentRequest.getPtUserID().trim();
+		logger.info("Inside createOrder Method..");
+		logger.info("Final total charges calculation added for patient........");
+		int totalCharges = calculateTotalChargesForpatient(paymentRequest.getAmount());
+		try {
+			RazorpayClient razorPayclient = new RazorpayClient(razorPayKeyId, razorPayKeySecret);
+			logger.info("Razorpay Client created Successfully with KeyID.." + razorPayKeyId + "..and Key Secret.."
+					+ razorPayKeySecret);
+			JSONObject options = new JSONObject();
+			options.put("amount", convertRupeeToPaise(String.valueOf(totalCharges)));
+			options.put("currency", AppConstant.PAYMENT_CURRENCY);
+			options.put("receipt", paymentRequest.getTransId());
+			options.put("payment_capture", 1); // You can enable this if you want to do Auto Capture.
+
+			logger.info("Trying to connect with razorpay....");
+			logger.info("Requested payload for order creation:" + options);
+			Order order = razorPayclient.Orders.create(options);
+			logger.info("Connected Successsfully!!");
+			logger.info("Order Created Successsfully!!");
+			razorPay = getRazorPay((String) order.get("id"), paymentRequest);
+			logger.info("Requested order :" + gson.toJson(getResponse(razorPay, 200)));
+			// Save record to database against given transactionID
+
+			UpdateRequestDto updateDto = new UpdateRequestDto();
+			updateDto.setAmount(paymentRequest.getAmount());
+			updateDto.setConvenienceCharge(paymentRequest.getConvenienceCharge());
+			updateDto.setOrderId(order.get("id"));
+			// updateDto.setOrderId("order_H7qAm8mkcgatRc");
+			updateDto.setTransId(paymentRequest.getTransId());
+			updateDto.setReceiptId(order.get("receipt"));
+			// updateDto.setReceiptId("02997956-3d10-4d6d-8782-c4aa26e1aef6");
+			updateDto.setLoggedinUser(loggedInUser);
+			//updateDto.setPtUserID(loggedInUser);
+			try {
+				MainResponseDTO<CommonResponseDTO> updateResponse = updateRecord(updateDto);
+				if (updateResponse.isStatus()) {
+					payResponse.setStatusCode(200);
+					logger.info("Requested order before checkout :" + razorPay);
+					payResponse.setRazorPay(razorPay);
+					response.setStatus(true);
+					response.setResponse(payResponse);
+					return response;
+				}
+			} catch (Exception e) {
+				logger.error("Exception while calling update payment service");
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			logger.info("Exception occurred while processing:");
+			e.printStackTrace();
+		}
+		payResponse.setStatusCode(500);
+		response.setStatus(false);
+		payResponse.setRazorPay(razorPay);
+		response.setResponse(payResponse);
+		return response;
+
+	}
+
+	@Override
+	public MainResponseDTO<CommonResponseDTO> updatePaymentDetails(RazorPayResponse attributes) {
+		// TODO Auto-generated method stub
+		CommonResponseDTO commonResponse = new CommonResponseDTO();
+		MainResponseDTO<CommonResponseDTO> response = new MainResponseDTO<>();
+		try {
+
+			String loggedInUser = attributes.getPtUserID().trim();
+			logger.info("Loggedin user:" + loggedInUser);
+			if (loggedInUser == null) {
+				logger.info("Logged in user not found, so terminating payment process....");
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+			logger.info("Request received for order id...." + attributes.getOrderId() + " and payment id "
+					+ attributes.getPaymentId());
+			// 1 Verify Signature
+			logger.info("Signature verification started....");
+			checkIfSignatureValid(attributes);
+			logger.info("Signature verified Successfully....");
+
+			// 2 After verifying the signature, fetch the order in your system that
+			// corresponds to the razorpay_order_id
+			// in database.
+			// Mark it as successful and process the order.
+			// call db service
+
+			// 3. Razorpay Payment service call for fetching the other payment details
+			RazorpayClient razorPayclient = new RazorpayClient(razorPayKeyId, razorPayKeySecret);
+			logger.info("Trying to connect with razorpay to fetch Payment details against paymentId:"
+					+ attributes.getPaymentId());
+			Payment payment = razorPayclient.Payments.fetch(attributes.getPaymentId());
+
+			if (null != payment) {
+				logger.info("Payment details fetched successfully from razorpay!! " + payment);
+				attributes.setPaymentStatus((JSONObject.NULL != payment.get(AppConstant.PAYMENT_STATUS))
+						? payment.get(AppConstant.PAYMENT_STATUS)
+						: AppConstant.BLANK);
+				attributes.setPaymentMethod((JSONObject.NULL != payment.get(AppConstant.PAYMENT_METHOD))
+						? payment.get(AppConstant.PAYMENT_METHOD)
+						: AppConstant.BLANK);
+				attributes.setBankName((JSONObject.NULL != payment.get(AppConstant.PAYMENT_BANK))
+						? payment.get(AppConstant.PAYMENT_BANK)
+						: AppConstant.BLANK);
+				attributes.setLoggedinUser(loggedInUser);
+				attributes.setPtUserID(loggedInUser);
+				MainResponseDTO<CommonResponseDTO> updateResponse = updateResponse(attributes);
+				if (updateResponse.isStatus()) {
+					logger.info("Record updated successsfully with Success status");
+					commonResponse.setMessage("Payment Success!!");
+					response.setStatus(true);
+					response.setResponse(commonResponse);
+					return response;
+				}
+
+			} else {
+				logger.error("Unable to fetch payment details against payment id :" + attributes.getPaymentId());
+				logger.error("Failed to update record");
+				throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+						ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+			}
+
+		} catch (Exception e) {
+			logger.error("Exception occurred while record updation :" + e.getMessage());
+			throw new DateParsingException(new ServiceError(ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getCode(),
+					ErrorConstants.UNABLE_TO_COMPLETE_PAYMENT.getMessage()));
+
+		}
+		logger.info("Returning response of update Payment details");
+		commonResponse.setMessage("Payment Failed!!");
+		response.setStatus(false);
+		response.setResponse(commonResponse);
+		return response;
+
+	}
+}

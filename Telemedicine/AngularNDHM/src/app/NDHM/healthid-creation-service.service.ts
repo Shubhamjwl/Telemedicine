@@ -1,0 +1,686 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ALL_CONSTANTS } from 'src/config/constant';
+import { GenerateOtpResp } from '../models/healthidMobile/GenerateOtpResp';
+import { MainResponseDTO } from '../models/common/MainResponseDTO';
+import { GenerateOtpDTO } from '../models/healthidMobile/GenerateOtpDTO';
+import { ResendOtpDTO } from '../models/healthidMobile/ResendOtpDTO';
+import { ConfirmOtpDTO } from '../models/healthidMobile/ConfirmOtpDTO';
+import { GenerateSessionRespDTO } from '../models/common/GenerateSessionRespDTO';
+import { ResendOtpResp } from '../models/healthidMobile/ResendOtpResp';
+import { ConfirmOtpResp } from '../models/healthidMobile/ConfirmOtpResp';
+import { HealthIDResp } from '../models/healthidMobile/HealthIDResp';
+import { HealthIDDTO } from '../models/healthidMobile/HealthIDDTO';
+import { MainRequestDTO } from '../models/common/MainRequestDTO';
+import { StateDtlsDTO } from '../models/common/StateDtlsDTO';
+import { HealthCardDTO } from '../models/healthidMobile/HealthCardDTO';
+import { GenerateOtpAadhaarDTO } from '../models/healthidAadhaar/GenerateOtpAadhaarDTO';
+import { ConfirmOtpAadhaarDTO } from '../models/healthidAadhaar/ConfirmOtpAadhaarDTO';
+import { ConfirmOtpRespAadhaar } from '../models/healthidAadhaar/ConfirmOtpRespAadhaar';
+import { HealthIDAadhaarDTO } from '../models/healthidAadhaar/HealthIDAadhaarDTO';
+import { UserAuthRespDTO } from '../models/common/UserAuthRespDTO';
+import { UserAuthRequestDTO } from '../models/common/UserAuthRequestDTO';
+import { SearchByMobDTO } from '../models/common/SearchByMobDTO';
+import { SearchByMobRespDTO } from '../models/common/SearchByMobRespDTO';
+import { AadharOtpResendRespDTO } from '../models/healthidAadhaar/AadharOtpResendRespDTO';
+import { VerifyBioReqDTO } from '../models/healthidAadhaar/VerifyBioReqDTO';
+import { AuthFetchModesReqDTO } from '../models/verifyHealthid/AuthFetchModesReqDTO';
+import { SearchExistHealthIdRespDTO } from '../models/common/SearchExistHealthIdRespDTO';
+import { SearchByHealthIdDTO } from '../models/common/SearchByHealthIdDTO';
+import { CreateHealthIdPreverifiedRespDTO } from '../models/healthidAadhaar/CreateHealthIdPreverifiedRespDTO';
+import { CreateHealthIdPreverifiedRequestDTO } from '../models/healthidAadhaar/CreateHealthIdPreverifiedRequestDTO';
+import { GenerateMobileOTP } from '../models/common/GenerateMobileOTP';
+import { VerifyHealthIdQueryDTO } from '../models/verifyHealthid/VerifyHealthIdQueryDTO';
+import { OnFetchModesRequestDTO } from '../models/verifyHealthid/OnFetchModesRequestDTO';
+import { AuthInitReqDTO } from '../models/verifyHealthid/AuthInitReqDTO';
+import { OnConfirmRequestDTO } from '../models/verifyHealthid/OnConfirmRequestDTO';
+import { GetOnFetchModesReqDTO } from '../models/verifyHealthid/GetOnFetchModesReqDTO';
+import { AuthConfirmReqDTO } from '../models/verifyHealthid/AuthConfirmReqDTO';
+import { CredentialDTO } from '../models/verifyHealthid/CredentialDTO';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class HealthidCreationServiceService {
+  generateToken_url = 'generateToken';
+  states_url = 'states';
+  districts_url = 'districts';
+  generateOTPForMobile_url = 'generateOTPForMobile';
+  resendOTPForMobile_url = 'resendOTPForMobile';
+  verifyOTPForMobile_url = 'verifyOTPForMobile';
+  helathidCreationForMobile_url = 'helathIDcreationForMobile';
+  generateOTPForAadhaar_url = 'generateOTPForAadhaar';
+  resendOTPForAadhaar_url = 'resendOTPForAadhaar';
+  verifyOTPForAadhaar_url = 'verifyOTPForAadhaar';
+  generateMobileOTP_url = 'generateMobileOTP';
+  verifyMobileOTP_url = 'verifyMobileOTP';
+  helathidCreationForAadhaar_url = 'helathIDcreationForAadhaar';
+  helathIDcreationForPreVerified_url = 'helathIDcreationForPreVerified';
+  userAuthWithPassword_URL = 'userAuthWithPassword';
+  getCardInPdf_url = 'getHealthCardInPdf';
+  getCardInPng_url = 'getHealthCardInPng';
+  searchExistsByHealthId_url = 'searchExistsByHealthId';
+  searchHealthIdByMobile_url = 'searchByMobile';
+  searchHealthIdByAadhaar_url = 'searchByAadhar';
+  searchByHealthId_url = 'searchByHealthId';
+  verifyBioForAadhaar_url = 'verifyBioForAadhaar';
+  fetch_modes_url = 'fetch_modes';
+  init_url = 'init';
+  auth_confirm_url = 'auth_confirm';
+  notify_url = 'notify';
+  get_on_fetch_modes_url = 'get-on-fetch-modes';
+  get_on_init_url = 'get-on-init';
+  get_on_confirm_url = 'get-on-confirm';
+  delete_account_url = 'account/deleteAccount';
+  searchPatientByHealthId = 'verify/searchPatientByHealthId';
+  generateOtpDTO = new GenerateOtpDTO();
+  generateOtpAadhaarDTO = new GenerateOtpAadhaarDTO();
+  resendOtpDTO = new ResendOtpDTO();
+  confirmOtpDTO = new ConfirmOtpDTO();
+  confirmOtpAadhaarDTO = new ConfirmOtpAadhaarDTO();
+  generateMobileOTP = new GenerateMobileOTP();
+  healthIDDTO = new HealthIDDTO();
+  mainResponseDTO = new MainResponseDTO<HealthIDDTO>();
+  mainRequestDTO = new MainRequestDTO<HealthIDDTO>();
+  mainRequestAadhaarDTO = new MainRequestDTO<HealthIDAadhaarDTO>();
+  userAuthRequestDTO = new UserAuthRequestDTO();
+  mainRequestSearchByHealthIdDTO = new MainRequestDTO<SearchByHealthIdDTO>();
+  mainRequestSearchDTO = new MainRequestDTO<SearchByMobDTO>();
+  verifyBioReqDTO = new VerifyBioReqDTO();
+  authFetchModesReqDTO = new AuthFetchModesReqDTO();
+  authConfirmReqDTO = new AuthConfirmReqDTO();
+  getOnFetchModesReqDTO = new GetOnFetchModesReqDTO();
+  createHealthIdPreverifiedRequestDTO =
+    new CreateHealthIdPreverifiedRequestDTO();
+  constructor(private httpClient: HttpClient) {}
+
+  generateToken(): Observable<MainResponseDTO<GenerateSessionRespDTO>> {
+    let headers_new = {
+      'Content-Type': 'application/json',
+    };
+    return this.httpClient.post<MainResponseDTO<GenerateSessionRespDTO>>(
+      this.generateToken_url,
+      { headers: headers_new }
+    );
+  }
+
+  generateOTPForMobile(
+    mobileNo,
+    accessToken
+  ): Observable<MainResponseDTO<GenerateOtpResp>> {
+    console.log('generateOTPForMobile_accessToken::' + mobileNo + accessToken);
+    this.generateOtpDTO = new GenerateOtpDTO();
+    this.generateOtpDTO.mobile = mobileNo;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    console.log('generateOTPForMobile headers_new', headers_new);
+    return this.httpClient.post<MainResponseDTO<GenerateOtpResp>>(
+      this.generateOTPForMobile_url,
+      this.generateOtpDTO,
+      { headers: headers_new }
+    );
+  }
+  resendOTPForMobile(
+    txnId,
+    accessToken
+  ): Observable<MainResponseDTO<ResendOtpResp>> {
+    this.resendOtpDTO = new ResendOtpDTO();
+    this.resendOtpDTO.authMethod = 'MOBILE_OTP';
+    this.resendOtpDTO.txnId = txnId;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('resendOTPForMobile', txnId);
+    return this.httpClient.post<MainResponseDTO<ResendOtpResp>>(
+      this.resendOTPForMobile_url,
+      this.resendOtpDTO,
+      { headers: headers_new }
+    );
+  }
+  verifyOTPForMobile(
+    otp,
+    txnid,
+    accessToken
+  ): Observable<MainResponseDTO<ConfirmOtpResp>> {
+    this.confirmOtpDTO = new ConfirmOtpDTO();
+    this.confirmOtpDTO.otp = otp;
+    this.confirmOtpDTO.txnId = txnid;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('verifyOTPForMobile', otp);
+    return this.httpClient.post<MainResponseDTO<ConfirmOtpResp>>(
+      this.verifyOTPForMobile_url,
+      this.confirmOtpDTO,
+      { headers: headers_new }
+    );
+  }
+  getStates(accessToken): Observable<MainResponseDTO<StateDtlsDTO[]>> {
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+
+    //console.log('generateToken');
+    return this.httpClient.get<MainResponseDTO<StateDtlsDTO[]>>(
+      this.states_url,
+      { headers: headers_new }
+    );
+  }
+
+  helathidCreationForMobile(
+    accessToken,
+    healthIDDTO
+  ): Observable<MainResponseDTO<HealthIDResp>> {
+    this.mainRequestDTO = new MainRequestDTO<HealthIDDTO>();
+    this.mainRequestDTO.request = healthIDDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    return this.httpClient.post<MainResponseDTO<HealthIDResp>>(
+      this.helathidCreationForMobile_url,
+      this.mainRequestDTO,
+      { headers: headers_new }
+    );
+  }
+
+  getCardInPdf(accessToken, userAuthToken): Observable<any> {
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-Token': userAuthToken,
+    };
+    return this.httpClient.get<any>(this.getCardInPdf_url, {
+      headers: headers_new,
+      responseType: 'blob' as 'json',
+    });
+  }
+  getCardInPng(accessToken, userAuthToken): Observable<any> {
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-Token': userAuthToken,
+    };
+    return this.httpClient.get<any>(this.getCardInPng_url, {
+      headers: headers_new,
+      responseType: 'blob' as 'json',
+    });
+  }
+  generateOTPForAadhaar(
+    mobile,
+    aadhaar,
+    accessToken
+  ): Observable<MainResponseDTO<GenerateOtpResp>> {
+    ////console.log('refreshToken::'+refreshToken);
+    this.generateOtpAadhaarDTO = new GenerateOtpAadhaarDTO();
+    this.generateOtpAadhaarDTO.aadhaar = aadhaar;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('generateOTPForAadhaar', aadhaar);
+    return this.httpClient.post<MainResponseDTO<GenerateOtpResp>>(
+      this.generateOTPForAadhaar_url,
+      this.generateOtpAadhaarDTO,
+      { headers: headers_new }
+    );
+  }
+  resendOTPForAadhaar(
+    txnId,
+    accessToken
+  ): Observable<MainResponseDTO<ResendOtpResp>> {
+    console.log('123_IN_SERVICE', accessToken);
+    // console.log('123_IN_SERVICE_refreshToken');
+    this.resendOtpDTO = new ResendOtpDTO();
+    this.resendOtpDTO.authMethod = 'AADHAAR_OTP';
+    this.resendOtpDTO.txnId = txnId;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('resendOTPForAadhaar', txnId);
+    return this.httpClient.post<MainResponseDTO<ResendOtpResp>>(
+      this.resendOTPForAadhaar_url,
+      this.resendOtpDTO,
+      { headers: headers_new }
+    );
+  }
+  verifyOTPForAadhaar(
+    otp,
+    txnid,
+    accessToken
+  ): Observable<MainResponseDTO<ConfirmOtpRespAadhaar>> {
+    this.confirmOtpAadhaarDTO = new ConfirmOtpAadhaarDTO();
+    this.confirmOtpAadhaarDTO.otp = otp;
+    this.confirmOtpAadhaarDTO.txnId = txnid;
+    this.confirmOtpAadhaarDTO.restrictions = '';
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('verifyOTPForAadhaar', otp);
+    return this.httpClient.post<MainResponseDTO<ConfirmOtpRespAadhaar>>(
+      this.verifyOTPForAadhaar_url,
+      this.confirmOtpAadhaarDTO,
+      { headers: headers_new }
+    );
+  }
+  generateAaadhaarMobileOTP(
+    mobile,
+    txnId,
+    accessToken
+  ): Observable<MainResponseDTO<GenerateOtpResp>> {
+    ////console.log('refreshToken::'+refreshToken);
+    this.generateMobileOTP = new GenerateMobileOTP();
+    this.generateMobileOTP.mobile = mobile;
+    this.generateMobileOTP.txnId = txnId;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('generateAaadhaarMobileOTP', txnId);
+    return this.httpClient.post<MainResponseDTO<GenerateOtpResp>>(
+      this.generateMobileOTP_url,
+      this.generateMobileOTP,
+      { headers: headers_new }
+    );
+  }
+  verifyAaadhaarMobileOTP(
+    otp,
+    txnid,
+    accessToken
+  ): Observable<MainResponseDTO<ConfirmOtpRespAadhaar>> {
+    this.confirmOtpDTO = new ConfirmOtpDTO();
+    this.confirmOtpDTO.otp = otp;
+    this.confirmOtpDTO.txnId = txnid;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('verifyAaadhaarMobileOTP', otp);
+    return this.httpClient.post<MainResponseDTO<ConfirmOtpRespAadhaar>>(
+      this.verifyMobileOTP_url,
+      this.confirmOtpDTO,
+      { headers: headers_new }
+    );
+  }
+  helathidCreationForAadhaar(
+    accessToken,
+    healthIDDTO
+  ): Observable<MainResponseDTO<HealthIDResp>> {
+    this.mainRequestAadhaarDTO = new MainRequestDTO<HealthIDAadhaarDTO>();
+    this.mainRequestAadhaarDTO.request = healthIDDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    return this.httpClient.post<MainResponseDTO<HealthIDResp>>(
+      this.helathidCreationForAadhaar_url,
+      this.mainRequestDTO,
+      { headers: headers_new }
+    );
+  }
+
+  userAuthWithPassword(
+    healthId,
+    password,
+    accessToken
+  ): Observable<MainResponseDTO<UserAuthRespDTO>> {
+    this.userAuthRequestDTO = new UserAuthRequestDTO();
+    this.userAuthRequestDTO.healthId = healthId;
+    this.userAuthRequestDTO.password = password;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('userAuthWithPassword', healthId);
+    //console.log('userAuthWithPassword', password);
+    return this.httpClient.post<MainResponseDTO<UserAuthRespDTO>>(
+      this.userAuthWithPassword_URL,
+      this.userAuthRequestDTO,
+      { headers: headers_new }
+    );
+  }
+  searchExistsByHealthId(
+    accessToken,
+    searchByHealthIdDTO
+  ): Observable<MainResponseDTO<SearchExistHealthIdRespDTO>> {
+    this.mainRequestSearchByHealthIdDTO =
+      new MainRequestDTO<SearchByHealthIdDTO>();
+    this.mainRequestSearchByHealthIdDTO.request = searchByHealthIdDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    return this.httpClient.post<MainResponseDTO<SearchExistHealthIdRespDTO>>(
+      this.searchExistsByHealthId_url,
+      this.mainRequestSearchByHealthIdDTO,
+      { headers: headers_new }
+    );
+  }
+  searchHealthIdByMobile(
+    refreshToken,
+    searchByMobDTO
+  ): Observable<MainResponseDTO<SearchByMobRespDTO>> {
+    this.mainRequestSearchDTO = new MainRequestDTO<SearchByMobDTO>();
+    this.mainRequestSearchDTO.request = searchByMobDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      Authorization: refreshToken,
+      ndhmToken: refreshToken,
+    };
+    return this.httpClient.post<MainResponseDTO<SearchByMobRespDTO>>(
+      this.searchHealthIdByMobile_url,
+      this.mainRequestSearchDTO,
+      { headers: headers_new }
+    );
+  }
+  searchHealthIdByAadhaar(
+    refreshToken,
+    searchByMobDTO
+  ): Observable<MainResponseDTO<SearchByMobRespDTO>> {
+    this.mainRequestSearchDTO = new MainRequestDTO<SearchByMobDTO>();
+    this.mainRequestSearchDTO.request = searchByMobDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      Authorization: refreshToken,
+      ndhmToken: refreshToken,
+    };
+    return this.httpClient.post<MainResponseDTO<SearchByMobRespDTO>>(
+      this.searchHealthIdByAadhaar_url,
+      this.mainRequestSearchDTO,
+      { headers: headers_new }
+    );
+  }
+  searchByHealthId(
+    accessToken,
+    searchByHealthIdDTO
+  ): Observable<MainResponseDTO<SearchByMobRespDTO>> {
+    this.mainRequestSearchByHealthIdDTO =
+      new MainRequestDTO<SearchByHealthIdDTO>();
+    this.mainRequestSearchByHealthIdDTO.request = searchByHealthIdDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    return this.httpClient.post<MainResponseDTO<SearchByMobRespDTO>>(
+      this.searchByHealthId_url,
+      this.mainRequestSearchByHealthIdDTO,
+      { headers: headers_new }
+    );
+  }
+  verifyBioForAadhaar(
+    aadhaar,
+    bioType,
+    pid,
+    accessToken
+  ): Observable<MainResponseDTO<AadharOtpResendRespDTO>> {
+    this.verifyBioReqDTO = new VerifyBioReqDTO();
+    this.verifyBioReqDTO.aadhaar = aadhaar;
+    this.verifyBioReqDTO.bioType = bioType;
+    this.verifyBioReqDTO.pid = pid;
+    this.verifyBioReqDTO.restrictions = '';
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    //console.log('verifyBioForAadhaar aadhaar::', aadhaar);
+    //console.log('verifyBioForAadhaar bioType::', bioType);
+    //console.log('verifyBioForAadhaar pid::', pid);
+    return this.httpClient.post<MainResponseDTO<AadharOtpResendRespDTO>>(
+      this.verifyBioForAadhaar_url,
+      this.verifyBioReqDTO,
+      { headers: headers_new }
+    );
+  }
+  helathIDcreationForPreVerified(
+    accessToken,
+    createHealthIdPreverifiedRequestDTO: CreateHealthIdPreverifiedRequestDTO
+  ): Observable<MainResponseDTO<CreateHealthIdPreverifiedRespDTO>> {
+    this.createHealthIdPreverifiedRequestDTO =
+      new CreateHealthIdPreverifiedRequestDTO();
+    this.createHealthIdPreverifiedRequestDTO =
+      createHealthIdPreverifiedRequestDTO;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+    };
+    return this.httpClient.post<
+      MainResponseDTO<CreateHealthIdPreverifiedRespDTO>
+    >(
+      this.helathIDcreationForPreVerified_url,
+      this.createHealthIdPreverifiedRequestDTO,
+      { headers: headers_new }
+    );
+  }
+  getFetchModes(
+    requestId: any,
+    timestamp: any,
+    query: VerifyHealthIdQueryDTO,
+    accessToken: any
+  ): Observable<any> {
+    this.authFetchModesReqDTO = new AuthFetchModesReqDTO();
+    this.authFetchModesReqDTO.requestId = requestId;
+    this.authFetchModesReqDTO.timestamp = timestamp;
+    this.authFetchModesReqDTO.query = query;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('getFetchModes::', requestId);
+    //console.log('getFetchModes::', timestamp);
+    //console.log('getFetchModes::', query);
+    return this.httpClient.post<any>(
+      this.fetch_modes_url,
+      this.authFetchModesReqDTO,
+      { headers: headers_new }
+    );
+  }
+  init(
+    requestId: any,
+    timestamp: any,
+    query: VerifyHealthIdQueryDTO,
+    accessToken: any
+  ): Observable<any> {
+    this.authFetchModesReqDTO = new AuthFetchModesReqDTO();
+    this.authFetchModesReqDTO.requestId = requestId;
+    this.authFetchModesReqDTO.timestamp = timestamp;
+    this.authFetchModesReqDTO.query = query;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('init requestId::', requestId);
+    //console.log('init timestamp::', timestamp);
+    //console.log('init query::', query);
+    return this.httpClient.post<any>(this.init_url, this.authFetchModesReqDTO, {
+      headers: headers_new,
+    });
+  }
+  authConfirm(
+    requestId: any,
+    timestamp: any,
+    transactionId: any,
+    credential: CredentialDTO,
+    accessToken: any
+  ): Observable<any> {
+    this.authConfirmReqDTO = new AuthConfirmReqDTO();
+    this.authConfirmReqDTO.requestId = requestId;
+    this.authConfirmReqDTO.timestamp = timestamp;
+    this.authConfirmReqDTO.transactionId = transactionId;
+    this.authConfirmReqDTO.credential = credential;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('authConfirm requestId::', requestId);
+    //console.log('authConfirm timestamp::', timestamp);
+    //console.log('authConfirm transactionId::', transactionId);
+    //console.log('authConfirm credential::', credential);
+    return this.httpClient.post<any>(
+      this.auth_confirm_url,
+      this.authConfirmReqDTO,
+      { headers: headers_new }
+    );
+  }
+  notify(
+    requestId: any,
+    timestamp: any,
+    query: VerifyHealthIdQueryDTO,
+    accessToken: any
+  ): Observable<MainResponseDTO<any>> {
+    this.authFetchModesReqDTO = new AuthFetchModesReqDTO();
+    this.authFetchModesReqDTO.requestId = requestId;
+    this.authFetchModesReqDTO.timestamp = timestamp;
+    this.authFetchModesReqDTO.query = query;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('notify requestId::', requestId);
+    //console.log('notify timestamp::', timestamp);
+    //console.log('notify query::', query);
+    return this.httpClient.post<MainResponseDTO<any>>(
+      this.notify_url,
+      this.authFetchModesReqDTO,
+      { headers: headers_new }
+    );
+  }
+
+  getOnFetchModes(
+    requestId: any,
+    timestamp: any,
+    accessToken: any
+  ): Observable<MainResponseDTO<OnFetchModesRequestDTO>> {
+    this.getOnFetchModesReqDTO = new GetOnFetchModesReqDTO();
+    this.getOnFetchModesReqDTO.requestId = requestId;
+    this.getOnFetchModesReqDTO.timeStamp = timestamp;
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('getOnFetchModes requestId::', requestId);
+    //console.log('getOnFetchModes timestamp::', timestamp);
+    return this.httpClient.post<MainResponseDTO<OnFetchModesRequestDTO>>(
+      this.get_on_fetch_modes_url,
+      this.getOnFetchModesReqDTO,
+      { headers: headers_new }
+    );
+  }
+  getOnInit(
+    requestId: any,
+    timestamp: any,
+    accessToken: any
+  ): Observable<MainResponseDTO<AuthInitReqDTO>> {
+    this.getOnFetchModesReqDTO = new GetOnFetchModesReqDTO();
+    this.getOnFetchModesReqDTO.requestId = requestId;
+    this.getOnFetchModesReqDTO.timeStamp = timestamp;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('getOnInit requestId::', requestId);
+    //console.log('getOnInit timestamp::', timestamp);
+    return this.httpClient.post<MainResponseDTO<AuthInitReqDTO>>(
+      this.get_on_init_url,
+      this.getOnFetchModesReqDTO,
+      { headers: headers_new }
+    );
+  }
+  getOnConfirm(
+    requestId: any,
+    timestamp: any,
+    accessToken: any
+  ): Observable<MainResponseDTO<OnConfirmRequestDTO>> {
+    this.getOnFetchModesReqDTO = new GetOnFetchModesReqDTO();
+    this.getOnFetchModesReqDTO.requestId = requestId;
+    this.getOnFetchModesReqDTO.timeStamp = timestamp;
+
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-CM-ID': 'sbx',
+    };
+    //console.log('getOnConfirm requestId::', requestId);
+    //console.log('getOnConfirm timestamp::', timestamp);
+    return this.httpClient.post<MainResponseDTO<OnConfirmRequestDTO>>(
+      this.get_on_confirm_url,
+      this.getOnFetchModesReqDTO,
+      { headers: headers_new }
+    );
+  }
+
+  deleteHealthId(accessToken, userAuthToken): Observable<any> {
+    let headers_new = {
+      'Content-Type': 'application/json',
+      //Authorization: accessToken,
+      ndhmToken: accessToken,
+      'X-Token': userAuthToken,
+    };
+    console.log('deleteHealthId userAuthToken::', userAuthToken);
+    return this.httpClient.delete<any>(this.delete_account_url, {
+      headers: headers_new,
+    });
+  }
+
+  validateHealthId(id:string, mobileNo:string): Observable<MainResponseDTO<any>> {
+    const headers_new = {
+      'Content-Type': 'application/json',
+      ndhmToken: 'accessToken',
+      'X-CM-ID': 'sbx',
+    };
+    const payload = {
+      request: {
+          healthId: id,
+          mobileNo,
+      }
+    }
+    return this.httpClient.post<MainResponseDTO<any>>(this.searchPatientByHealthId,
+      payload,
+      { headers: headers_new });
+  }
+  
+}

@@ -1,0 +1,68 @@
+<div class="login-container">
+  <div class="login-panel">
+    <div class="login-form-box" style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      ">
+      <form #OTPForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-5">
+            <p>Create Health id using Aadhar:</p>
+          </div>
+
+          <!-- <div class="col-md-2">
+            <input type="checkbox" />
+          </div> -->
+        </div>
+        <div style="background-color: rgb(195, 211, 245); padding: 10px">
+          <div class="row mt-4">
+            <div class="col-md-2" style="height: 38px">
+              <p class="mt-1">Enter OTP<span class="error">*</span></p>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <input type="text" [(ngModel)]="otp" class="form-control input" name="otpe" #otpe="ngModel"
+                  pattern="{{ PATTERN.OTP }}" maxlength="6" required />
+              </div>
+              <div class="error" [hidden]="otpe.valid || otpe.untouched">
+                {{ ERR.OTP }}
+              </div>
+              <div style="margin-left: 35%">
+                <label style="
+                    background-color: lightcyan;
+                    width: 50%;
+                    text-align: center;
+                    border-radius: 5%;
+                  ">00:{{ timeLeft }}</label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <button style="background-color: goldenrod" (click)="resendOTPAadhaar()" [disabled]="timeLeft > 0">
+                Resend OTP
+              </button>
+            </div>
+          </div>
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button class="btn btn-primary mr-3" style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              " (click)="back()">
+              Back
+            </button>
+            <button class="btn btn-primary" style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              " [disabled]="!OTPForm.valid" (click)="submit()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

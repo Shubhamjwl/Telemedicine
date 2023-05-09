@@ -1,0 +1,24 @@
+.completed-appointments{
+    margin-top: 100px;
+    table {
+        width: 100%;
+    }
+    .appointmentId {
+        width: 40%;
+    }
+    .date {
+        width: 40%;
+    }
+    .time {
+        width: 10%;
+    }
+    .row {
+        margin-top: 20px;
+    }
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+        background-color : transparent !important;
+    }
+    .cursor-details{
+        cursor: pointer;
+    }
+}

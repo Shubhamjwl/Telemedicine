@@ -1,0 +1,119 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { ScribeService } from 'src/app/shared/commonBuildBlocks/services/scribeServices/scribe.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+@Component({
+  selector: 'app-scribe-status',
+  templateUrl: './scribe-status.component.html',
+  styleUrls: ['./scribe-status.component.scss']
+})
+export class ScribeStatusComponent implements OnInit {
+  modelRef: any;
+  displayedColumns = ['profile','details', 'action'];
+  scribeList = new MatTableDataSource<any>();
+  filteredScribeList: any;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  constructor(public consultationService: ConsultationService,
+			  public authService: AuthService,
+			  public toastrMessage: ToastMessageService,
+			  public modalService: NgbModal,
+			  public spinner: NgxSpinnerService,
+			  public scribeService: ScribeService) { }
+
+  ngOnInit(): void {
+	  this.getScribeList()
+  }
+  ngAfterViewInit() {
+	this.scribeList.paginator = this.paginator;
+  }
+  getScribeList(){
+
+	this.spinner.show();
+    let data = {
+         api : "get all active deactive scribes" ,
+         request :
+          {
+             scrbdrUserIDfk : this.authService.getUserId(),
+          },
+        }
+    this.scribeService.getScribeList(data).subscribe(result => {
+		this.spinner.hide();
+      if(result.response && result.response.length){
+		 	  result.response.forEach(element => {
+				  element.profilePhotoPath = element.profilePhotoPath ? element.profilePhotoPath.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 'assets/images/img_avatar.png';
+      	});
+        this.filteredScribeList = result.response.filter((scribe) =>  scribe.isDefaultScribe != 'Y' && scribe.scrbisActive == 'Y');
+
+        this.scribeList = new MatTableDataSource(result.response);
+
+        setTimeout(()=> {
+          this.scribeList.paginator = this.paginator;
+        }, 500)
+		
+      }else if(result.errors) {
+        console.log('Error:', result.errors.message);
+      }
+		}, error =>{
+		console.log('Error:', error);
+    this.spinner.hide();
+		})
+  }
+  changeScribeStatus(item, status){
+
+		let data = {
+			api: "active deactive scribe",
+			request: {
+			  scrbUserID: item.scrbUserID,
+			  scrbdrUserIDfk: this.authService.getUserId(),
+			  scrbisActive: status
+			}
+		}
+		this.scribeService.changeScribeStatus(data).subscribe(result => {
+			if(result.response){
+				this.toastrMessage.showSuccessMsg(result.response, "Congratulation");
+				this.scribeList = new MatTableDataSource([]);
+				this.getScribeList();
+			} else if (result.errors) {
+			  this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+			}
+		  }, error =>{
+        console.log('Error:', error);
+		  })
+  }
+  openModel(content){
+    
+    if(!(this.filteredScribeList && this.filteredScribeList.length)){
+      this.toastrMessage.showInfoMsg('Active scribe is not available, Please register one', 'Info');
+      return;
+    }
+    this.modelRef = this.modalService.open(content);
+  }
+  setAsDefault(scribe){
+      let data = {
+          request:{
+              scrbUserID: scribe.scrbUserID
+          }
+      }
+      this.scribeService.setAsDefaultScribe(data).subscribe(result => {
+        if(result.response){
+          this.toastrMessage.showSuccessMsg(result.response, "Congratulation");
+          this.scribeList = new MatTableDataSource([]);
+          this.getScribeList();
+          this.modelRef.close();
+        } else if (result.errors) {
+          this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+          this.modelRef.close();
+        }
+        }, error =>{
+        console.log('Error:', error);
+      })
+  }
+}

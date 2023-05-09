@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 15.0.1
+Implementation-Title: PatientReport
+Implementation-Version: 1.0
+Implementation-Vendor-Id: com.nsdl
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/PatientReport
+Created-By: Maven Integration for Eclipse
+

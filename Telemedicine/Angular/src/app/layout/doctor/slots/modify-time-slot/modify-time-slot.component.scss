@@ -1,0 +1,22 @@
+.modify-time-slot-wrapper {
+    margin-top: 100px;
+    .cal-month-view .bg-pink {
+        background-color: rgb(255, 128,128);
+    }
+}
+.selectedUnselectedHolidays {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    margin-top: 2.8%;
+}
+.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+@media(max-width: 480px) {
+    .modify-time-slot-wrapper {
+        margin-top: 150px;
+    }
+}

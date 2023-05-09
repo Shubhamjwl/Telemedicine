@@ -1,0 +1,151 @@
+
+<div class="book-appointmnet-wrapper">
+    <div class="container">
+        <div class="appointment-wrapper mt-4">
+            <form [formGroup]="appointmentFormGroup"> 
+                <div class="row m-2">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 clearfix" *ngFor="let doctorDetails of doctorListBySpeciality">
+                       <div class="float-left mr-4">
+                            <div class="profile-wrapper">
+                                <img [src]= "doctorDetails.drProfilePhoto" alt="doctor-profle" class="rounded-circle">
+                                <!---doctorDetails && doctorDetails.drProfilePhoto ? doctorDetails.drProfilePhoto : 'assets/images/img_avatar.png'"-->
+                            </div>
+                       </div>
+                      
+                        <div class="doc-info"> 
+                            <h2 class="text-danger" *ngIf="doctorDetails.doctorName">Dr. {{doctorDetails.doctorName}}</h2>
+                            <h2 class="text-danger" *ngIf="!doctorDetails.doctorName">-</h2>
+    
+                            <h5 class="text-secondary" *ngIf="doctorDetails.speciality"><b>{{doctorDetails.speciality}}</b></h5>
+                            <h5 class="text-secondary" *ngIf="!doctorDetails.speciality"><b>-</b></h5>
+                            <p>Consultation Fees: 
+                                <span class="mr-2" *ngIf="doctorDetails.consultFee">{{doctorDetails.consultFee}}</span>
+                                <span class="mr-2" *ngIf="!doctorDetails.consultFee">-</span>
+                                Rupees
+                            </p>
+                        </div>
+                    </div>
+                </div>
+              
+            </form>
+            <div class="row m-2">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 bg-light bgShadowStyle pb-4">
+                    <!--************************ Today***************** -->
+                    <div class="col-12">
+                        <form class="mt-4 mb-3" [formGroup]="form" (ngSubmit)="verifyCaptcha()">
+                            <div class="row"  *ngIf="showMsg">
+                                <div class="col-xs-12">
+                                   <p class="alert alert-success">
+                                    <span class="closebtn"  onclick="this.parentElement.style.display='none';">&times;</span> 
+                                       <strong>You have been successfully registered on Dr. {{doctorDetails.doctorName}} portal and appointment system.</strong> 
+                                       To fix appointments with Dr. {{doctorDetails.doctorName}} get self assessment forms, 
+                                       health education videos and more from Dr. {{doctorDetails.doctorName}} , please visit the doctor’s website.
+                                   </p>
+                                </div>
+                              </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="example-full-width w-100 "
+                                    appearance="outline">
+                                    <mat-label class="text-secondary"> <b>{{'lblPatientFullName'
+                                            | l10n}}</b> </mat-label>
+                                    <input type="text" maxlength="150" matInput formControlName="patientName"
+                                        autocomplete="off" required>
+                                    <mat-error
+                                        *ngIf="form.get('patientName').errors && (form.get('patientName').touched || form.get('patientName').dirty)">
+                                        <span
+                                            *ngIf="form.get('patientName').errors.required">{{'errFullNameRequired'
+                                            | l10n}}</span>
+                                        <span
+                                            *ngIf="form.get('patientName').errors.maxlength">{{'errUserPtNameMaxLength'
+                                            | l10n}}
+                                            </span>
+                                        <span
+                                            *ngIf="form.get('patientName').errors.pattern">{{'errFullNamePattern'
+                                            | l10n}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5">
+                                <mat-form-field class="example-full-width w-100 "
+                                    appearance="outline">
+                                    <mat-label class="text-secondary"> <b>{{'lblMobileNumber' |
+                                            l10n}}</b> </mat-label>
+                                    <input matInput type="number" numberOnly length="10"
+                                        formControlName="mobileNo" autocomplete="off" required>
+                                    <mat-error
+                                        *ngIf="form.get('mobileNo').errors && (form.get('mobileNo').touched || form.get('mobileNo').dirty)">
+                                        <span
+                                            *ngIf="form.get('mobileNo').errors.required">{{'errMobileRequired'
+                                            | l10n}}</span>
+                                        <span
+                                            *ngIf="form.get('mobileNo').errors.maxlength">{{'errMobileMaxLength'
+                                            | l10n}}</span>
+                                        <span
+                                            *ngIf="form.get('mobileNo').errors.pattern">{{'errMobilePattern'
+                                            | l10n}}</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="row  mt-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <div class="row">
+                                        <div class="col-8 mt-3">
+                                            <img src="{{captcha}}" alt="Cpacha_Image" width="100%">
+                                        </div>
+                                        <div class="col-2 mt-3">
+                                            <button type="button" (click)="refreshCpacha()" data-toggle="tooltip" title="Refresh" class="btn p-0">
+                                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <mat-form-field class="example-full-width w-100 " appearance="outline">
+                                        <mat-label class="labelSize14">
+                                            <b>{{'lblEnterCpacha' | l10n}}</b>
+                                        </mat-label>
+                                          <input matInput formControlName="captcha" autocomplete="off" placeholder="Enter {{'lblEnterCpacha' | l10n}}" required>
+                                          <mat-error *ngIf="form.get('captcha').errors && (form.get('captcha').touched || form.get('captcha').dirty)">
+                                            <span *ngIf="form.get('captcha').errors.required">{{'errCaptchaRequired' | l10n}}</span>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                               
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-4 text-center">
+                                    <button [disabled]="loader || forgotLoader" class="btn textColor btnColor" data-target="#exampleModalCenter" data-toggle="modal" [disabled]="form.invalid" mat-raised-button type="submit" (click)="onClickSubmit()" >Register</button>
+                                    <div  *ngIf="loader" class="spinner-border text-primary align-middle d-inline-block ml-2" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---model-->
+                            <!-- <div class="modal fade"  id="exampleModalCenter"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">
+                                          <strong>You have been successfully registered on Dr. {{doctorDetails.doctorName}} portal and appointment system.</strong></h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                         
+                                        To fix appointments with Dr. {{doctorDetails.doctorName}} get self assessment forms, 
+                                        health education videos and more from Dr. {{doctorDetails.doctorName}}, please visit the doctor’s website.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

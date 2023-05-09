@@ -1,0 +1,14 @@
+package com.nsdl.ndhm.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class OnConfirmValidityDTO {
+
+	public String purpose;
+	public VerifyHealthIdRequesterDTO requester;
+	public String expiry;
+	public String limit;
+}

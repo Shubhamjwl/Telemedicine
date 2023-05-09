@@ -1,0 +1,82 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+
+@Component({
+  selector: 'app-payment-option-modal',
+  templateUrl: './payment-option-modal.component.html',
+  styleUrls: ['./payment-option-modal.component.scss']
+})
+export class PaymentOptionModalComponent implements OnInit {
+
+  selectedPayOption: string = "Pay Later";
+  paymentOptions = [
+    // {name: "Continue to payment"},
+    {name: "Pay Later"},
+  ];
+  isOnlinePayment = false;
+  constructor(
+    public dialogRef: MatDialogRef<PaymentOptionModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dataPassingService: DataPassingService,
+    private consultationService : ConsultationService,
+    private toastrMessage : ToastMessageService,
+    private spinner: NgxSpinnerService,
+  ) {
+    this.dataPassingService.paymentOptionData.subscribe(result => {
+      this.data = result
+    })
+  }
+
+  ngOnInit(): void {
+    this.onClickConfirmPayment();
+  }
+
+  onClickConfirmPayment() {
+    if(this.selectedPayOption === "Continue to payment") {
+      this.isOnlinePayment = true;
+      this.dataPassingService.paymentDetails.next(this.data);
+      this.dialogRef.close({data : false});
+    }else if(this.selectedPayOption === "Pay Later") {
+      this.onConfirmPayLater();
+    }
+  }
+
+  onConfirmPayLater() {
+    this.spinner.show();
+    let payload = {
+      transId: this.data.bookApptPayload ? this.data.bookApptPayload.transactionID ? this.data.bookApptPayload.transactionID : null : null,  
+      amount: this.data ? this.data.fees ? this.data.fees: 0 : 0 ,
+      convenienceCharge: this.data ? this.data.charge ? this.data.charge : 0 : 0,
+      discount :this.data ? this.data.discount ? this.data.discount : 0 : 0,
+      custName: this.data.bookApptPayload ? this.data.bookApptPayload.patientName ? this.data.bookApptPayload.patientName : null : null,  
+      custMobile: this.data.bookApptPayload ? this.data.bookApptPayload.patientMNO ? this.data.bookApptPayload.patientMNO : null : null,
+      // custMobile: 8446744479, //9604377498
+      custEmail: this.data.bookApptPayload ? this.data.bookApptPayload.patientEmail ? this.data.bookApptPayload.patientEmail : null : null, 
+      doctorId: this.data.bookApptPayload ? this.data.bookApptPayload.drRegID ? this.data.bookApptPayload.drRegID : null : null, 
+    }
+    this.consultationService.payLater(payload).subscribe(result => {
+      if(result.status) {
+        this.isOnlinePayment = false;
+        this.spinner.hide();
+        this.dialogRef.close({data : true});
+        this.toastrMessage.showSuccessMsg( result.response.message, 'Success');
+      } else {
+        this.spinner.hide();
+        this.dialogRef.close({data : true});
+        if(result.errors){
+          this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+        } else {
+          this.toastrMessage.showErrorMsg( result.response.message, 'Error');
+        }
+      }
+    },error => {
+      this.spinner.hide();
+      this.dialogRef.close({data : true});
+      this.toastrMessage.showErrorMsg( error.errors[0].message, 'Error');
+    });
+  }
+}

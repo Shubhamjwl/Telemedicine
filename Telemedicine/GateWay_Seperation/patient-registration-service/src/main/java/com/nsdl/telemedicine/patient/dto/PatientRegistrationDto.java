@@ -1,0 +1,73 @@
+package com.nsdl.telemedicine.patient.dto;
+import java.util.Date;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.UniqueElements;
+
+import lombok.Data;
+
+@Data
+public class PatientRegistrationDto {
+	
+	
+	@NotBlank(message = "Enter valid Full Name")
+	@Size(min = 1,max = 99 , message = "Full Name must be an alphabetic value between 1 and 99 characters and cannot be empty")
+	@Pattern(regexp = "^[A-Za-z]([\\']?[A-Za-z]+)*( [A-Za-z]([\\']?[A-Za-z]+)*)*$" , message = "Full Name must be an alphabetic value")
+	private String ptFullName;
+	
+	@NotNull(message = "User Mobile Number cannot be empty and must be a 10 digit valid numeric value")
+	@UniqueElements(message = "Can not be Duplicate")
+	private Long ptMobNo;
+	
+	@NotBlank(message = "Enter valid Email Id")
+	@UniqueElements(message = "Can not be Duplicate")
+	private String ptEmail;
+	
+	@NotBlank(message = "Enter valid Login Id")
+	@Size(min = 8, max = 25, message = "User Id must be a alphanumeric value between 8 and 25 characters")
+	@Pattern(regexp ="^[A-Za-z]([ ]?[A-Za-z0-9]+)*$", message = "User Id must be a alphanumeric value and cannot start with number")
+	private String ptUserID;
+	
+	@NotBlank(message = "Enter valid Password")
+	private String ptPassword;
+	
+	private String ptProfilePhoto;
+	
+	@NotBlank(message = "captchaCode is mandatory")
+	private String captchaCode;
+	
+	private String gender;
+	
+	private Date dob;
+	
+	private String bloodGroup;
+	
+	private Double height;
+	
+	private Double weight;
+	
+	private String emergContanctNo;
+	
+	private String address1;
+	
+	private String address2;
+	
+	private String address3;
+	
+	private String ptCity;
+	
+	private String ptState;
+	
+	private String ptCountry;
+	
+	private Long pincode;
+	
+	@NotBlank(message = "sessionId is mandatory")
+	private String sessionId;
+	
+		
+}

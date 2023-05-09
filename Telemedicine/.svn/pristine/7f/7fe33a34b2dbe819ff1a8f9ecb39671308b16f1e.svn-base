@@ -1,0 +1,48 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+
+import { ChangePasswordRoutingModule } from './change-password-routing.module';
+import { ResetChangePasswordComponent } from './reset-change-password/reset-change-password.component';
+import { LangModule } from 'src/app/lang/lang.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbModule } from 'src/app/shared/modules/breadcrumb/breadcrumb.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+@NgModule({
+  declarations: [ResetChangePasswordComponent],
+  imports: [ 
+    CommonModule,
+    ChangePasswordRoutingModule,
+    LangModule,
+    NgxSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BreadcrumbModule,
+
+    // Mat
+    MatTabsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+
+    //other
+    NgbModule,
+  ],
+  providers: [DatePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class ChangePasswordModule { }

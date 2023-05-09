@@ -1,0 +1,16 @@
+body {
+  --checkbox-primary-bg-color: #e43927 !important;
+}
+
+// overwrite the checkbox background
+.mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: var(--checkbox-primary-bg-color) !important;
+}
+
+// overwrite the ripple overlay on hover and click
+.mat-checkbox:not(.mat-checkbox-disabled)
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  background-color: var(--checkbox-primary-bg-color) !important;
+}

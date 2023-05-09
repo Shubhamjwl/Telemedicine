@@ -1,0 +1,462 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.net.URI;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.AddContextRequestDTO;
+import com.nsdl.ndhm.dto.AuthConfirmReqDTO;
+import com.nsdl.ndhm.dto.AuthFetchModesReqDTO;
+import com.nsdl.ndhm.dto.AuthInitReqDTO;
+import com.nsdl.ndhm.dto.CareContextDTO;
+import com.nsdl.ndhm.dto.ExceptionJSONInfoDTO;
+import com.nsdl.ndhm.dto.GetOnFetchModesReqDTO;
+import com.nsdl.ndhm.dto.HealthIdDetailsToTelemedicineReqDTO;
+import com.nsdl.ndhm.dto.IdentifierDTO;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.OnConfirmRequestDTO;
+import com.nsdl.ndhm.dto.OnFetchModesRequestDTO;
+import com.nsdl.ndhm.dto.Request;
+import com.nsdl.ndhm.entity.AddContextEntity;
+import com.nsdl.ndhm.entity.AuthConfirmEntity;
+import com.nsdl.ndhm.entity.AuthInitEntity;
+import com.nsdl.ndhm.entity.CareContextEntity;
+import com.nsdl.ndhm.entity.FetchModesEntity;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.repository.AddContextRepository;
+import com.nsdl.ndhm.repository.AuthConfirmRepository;
+import com.nsdl.ndhm.repository.AuthInitRepository;
+import com.nsdl.ndhm.repository.CareContextRepository;
+import com.nsdl.ndhm.repository.FetchModesRepository;
+import com.nsdl.ndhm.service.HealthIdVerificationService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+
+@Service
+@LoggingClientInfo
+public class HealthIdVerificationServiceImpl implements HealthIdVerificationService {
+	private static final Logger logger = LoggerFactory.getLogger(HealthIdVerificationServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${authFetchModes}")
+	String authFetchModes;
+
+	@Value("${authInit}")
+	String authInit;
+
+	@Value("${authConfirm}")
+	String authConfirm;
+
+	@Value("${addContext}")
+	String addContext;
+
+	@Value("${sendHealthIdDtlsToTelemedicine}")
+	String sendHealthIdDtlsToTelemedicine;
+
+	@Autowired
+	FetchModesRepository fetchModesRepository;
+
+	@Autowired
+	AuthInitRepository authInitRepository;
+
+	@Autowired
+	AuthConfirmRepository authConfirmRepository;
+
+	@Autowired
+	AddContextRepository addContextRepository;
+
+	@Autowired
+	CareContextRepository contextRepository;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+
+	/*
+	 * get fetch modes
+	 */
+	@Override
+	public Map<String, String> getFetchModes(Map<String, String> headers, AuthFetchModesReqDTO authFetchModesReqDTO) {
+
+		logger.info("Request Receives for Fetch Modes");
+		String url = authFetchModes;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authFetchModesReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmId(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful()) {
+				FetchModesEntity fetchModesEntity = FetchModesEntity.builder()
+						.requestId(authFetchModesReqDTO.getRequestId()).timestamp(authFetchModesReqDTO.getTimestamp())
+						.status(false).build();
+
+				fetchModesRepository.save(fetchModesEntity);
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+
+			} else {
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getStatusCode().name());
+			logger.info("Error in getFetchModes {} ", e);
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.EXPECTATION_FAILED.toString());
+			logger.info("Error in getFetchModes {} ", e);
+		}
+		logger.info("Request Receives for Fetch Modes Ends ");
+		return map;
+	}
+
+	/*
+	 * auth init
+	 */
+	@Override
+	public Map<String, String> init(Map<String, String> headers, AuthFetchModesReqDTO authFetchModesReqDTO) {
+		logger.info("Request Receives for init");
+		String url = authInit;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authFetchModesReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmId(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful()) {
+
+				AuthInitEntity authInitEntity = AuthInitEntity.builder().requestId(authFetchModesReqDTO.getRequestId())
+						.timestamp(authFetchModesReqDTO.getTimestamp()).status(false).build();
+
+				authInitRepository.save(authInitEntity);
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+
+			} else {
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getStatusCode().name());
+			logger.info("Error in init {} ", e);
+
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.EXPECTATION_FAILED.toString());
+			logger.info("Error in init {} ", e);
+		}
+		logger.info("Request Receives for init Ends ");
+		return map;
+	}
+
+	/* auth confirms */
+	@Override
+	public Map<String, String> authConfirm(Map<String, String> headers, AuthConfirmReqDTO authConfirmReqDTO) {
+
+		logger.info("Request Receives for Auth Confirm");
+		String url = authConfirm;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(authConfirmReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmId(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			if (result.getStatusCode().is2xxSuccessful()) {
+				AuthConfirmEntity authConfirmEntity = AuthConfirmEntity.builder()
+						.requestId(authConfirmReqDTO.getRequestId()).timestamp(authConfirmReqDTO.getTimestamp())
+						.transactionId(authConfirmReqDTO.getTransactionId()).status(false).build();
+
+				authConfirmRepository.save(authConfirmEntity);
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+
+			} else {
+				map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+			}
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getStatusCode().name());
+			logger.info("Error in authConfirm {} ", e);
+
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.EXPECTATION_FAILED.toString());
+			logger.info("Error in authConfirm {} ", e);
+		}
+		logger.info("Request Receives for Auth Confirm Ends ");
+		return map;
+	}
+
+	/* get fetch modes from the db */
+	@Override
+	public MainResponseDTO<OnFetchModesRequestDTO> getOnFetchModes(GetOnFetchModesReqDTO getOnFetchModesReqDTO) {
+		logger.info("Request Receives for get data On Fetch Modes");
+		MainResponseDTO<OnFetchModesRequestDTO> resp = new MainResponseDTO<>();
+		OnFetchModesRequestDTO respData = null;
+		FetchModesEntity fetchModesEntity = null;
+		try {
+			fetchModesEntity = fetchModesRepository.getById(getOnFetchModesReqDTO.getRequestId());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			logger.info("Error in getOnFetchModes {} ", e);
+		}
+		if (fetchModesEntity != null) {
+			if (fetchModesEntity.isStatus()) {
+				respData = new Gson().fromJson(fetchModesEntity.getResponse(), OnFetchModesRequestDTO.class);
+				resp.setResponse(respData);
+				resp.setId(getOnFetchModesReqDTO.getRequestId());
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+				return resp;
+			} else {
+				listOfExceptions = new ArrayList<>();
+				listOfExceptions
+						.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.FETCH_MODES_NO_CALLBACK.getCode(),
+								HealthIdCreationConstands.FETCH_MODES_NO_CALLBACK.getMsg()));
+				resp.setErrors(listOfExceptions);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+				return resp;
+			}
+
+		} else {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ON_FETCH_FETCH_MODES.getCode(),
+					HealthIdCreationConstands.ON_FETCH_FETCH_MODES.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+
+	}
+
+	/* get data for on init from db */
+	@Override
+	public MainResponseDTO<AuthInitReqDTO> getOnInit(GetOnFetchModesReqDTO getOnFetchModesReqDTO) {
+		logger.info("Request Received for get On Init Data");
+		MainResponseDTO<AuthInitReqDTO> resp = new MainResponseDTO<>();
+		AuthInitReqDTO respData = null;
+		AuthInitEntity authInitEntity = null;
+		try {
+			authInitEntity = authInitRepository.getById(getOnFetchModesReqDTO.getRequestId());
+		} catch (Exception e) {
+			logger.error("Error In Init {} ", e);
+		}
+		if (authInitEntity != null) {
+			if (authInitEntity.isStatus()) {
+				respData = new Gson().fromJson(authInitEntity.getResponse(), AuthInitReqDTO.class);
+				resp.setResponse(respData);
+				resp.setId(getOnFetchModesReqDTO.getRequestId());
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+				return resp;
+			} else {
+				listOfExceptions = new ArrayList<>();
+				listOfExceptions
+						.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.FETCH_MODES_NO_CALLBACK.getCode(),
+								HealthIdCreationConstands.FETCH_MODES_NO_CALLBACK.getMsg()));
+				resp.setErrors(listOfExceptions);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+				return resp;
+			}
+
+		} else {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ON_FETCH_FETCH_MODES.getCode(),
+					HealthIdCreationConstands.ON_FETCH_FETCH_MODES.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+
+	}
+
+	/* get on confirm data */
+	@Override
+	public MainResponseDTO<OnConfirmRequestDTO> getOnConfirm(GetOnFetchModesReqDTO getOnFetchModesReqDTO) {
+		logger.info("Request Receives for get data On Fetch Modes");
+		MainResponseDTO<OnConfirmRequestDTO> resp = new MainResponseDTO<>();
+		OnConfirmRequestDTO respData = null;
+		AuthConfirmEntity authConfirmEntity = null;
+		String txnId = "";
+		try {
+			authConfirmEntity = authConfirmRepository.getById(getOnFetchModesReqDTO.getRequestId());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		if (authConfirmEntity != null) {
+			if (authConfirmEntity.isStatus()) {
+				respData = new Gson().fromJson(authConfirmEntity.getResponse(), OnConfirmRequestDTO.class);
+				if (null != respData) {
+					if (authConfirmEntity.getTransactionId() != null) {
+						txnId = authConfirmEntity.getTransactionId();
+					}
+					sendHealthIdDetailsToTelemedicine(respData, txnId);
+				}
+				resp.setResponse(respData);
+				resp.setId(getOnFetchModesReqDTO.getRequestId());
+				resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+				return resp;
+			} else {
+				listOfExceptions = new ArrayList<>();
+				listOfExceptions
+						.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ON_CONFIRM_NO_CALLBACK.getCode(),
+								HealthIdCreationConstands.ON_CONFIRM_NO_CALLBACK.getMsg()));
+				resp.setErrors(listOfExceptions);
+				resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+				return resp;
+			}
+
+		} else {
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.ON_CONFIRM.getCode(),
+					HealthIdCreationConstands.ON_CONFIRM.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+	}
+
+	/* to send healthid details to telemedicine */
+	private ResponseEntity<?> sendHealthIdDetailsToTelemedicine(OnConfirmRequestDTO onConfirmRequestDTO, String txnId) {
+
+		logger.info("Sending healthID Details to telemedicine starts");
+		String url = sendHealthIdDtlsToTelemedicine;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/json");
+		String healthId = "";
+		String healthIdNumber = "";
+		String mobile = "";
+		String ndhmToken = "";
+		try {
+			if (null != onConfirmRequestDTO.getAuth().getPatient()) {
+				healthId = onConfirmRequestDTO.getAuth().getPatient().getId();
+				ndhmToken = onConfirmRequestDTO.getAuth().getAccessToken();
+				if (null != onConfirmRequestDTO.getAuth().getPatient().identifiers
+						&& !onConfirmRequestDTO.getAuth().getPatient().identifiers.isEmpty()) {
+					for (int i = 0; i < onConfirmRequestDTO.getAuth().getPatient().identifiers.size(); i++) {
+						IdentifierDTO identifierDTO = onConfirmRequestDTO.getAuth().getPatient().identifiers.get(i);
+						if (identifierDTO.getType().equalsIgnoreCase("MOBILE")) {
+							mobile = identifierDTO.getValue();
+						} else if (identifierDTO.getType().equalsIgnoreCase("HEALTH_NUMBER")) {
+							healthIdNumber = identifierDTO.getValue();
+						}
+					}
+				}
+			}
+			Request healthIdDetails = Request.builder().healthId(healthId).healthNumber(healthIdNumber).mobileNo(mobile)
+					.txnId(txnId).ndhmToken(ndhmToken)
+					.healthIdVerificationStatus(HealthIdCreationConstands.HEALTHID_VERIFICATION_DONE.getValidate())
+					.build();
+			HealthIdDetailsToTelemedicineReqDTO request = HealthIdDetailsToTelemedicineReqDTO.builder()
+					.request(healthIdDetails).aPI("NDHM integration").method("POST").mimeType("multipart/form-data")
+					.requestTime("").version("1.0").build();
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(request);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, headers);
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+		} catch (Exception e) {
+			logger.error("Errror in sendHealthIdDetailsToTelemedicine {} ", e);
+			result = new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+		logger.info("Sending healthID Details to telemedicine ends");
+		return result;
+	}
+
+	/* to add care context */
+	@Override
+	public Map<String, String> addContext(Map<String, String> headers, AddContextRequestDTO addContextRequestDTO) {
+		logger.info("Request Receives for Add context Confirm");
+		String url = addContext;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HashMap<String, String> map = new HashMap<>();
+		CareContextEntity careContextEntity = null;
+		try {
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			careContextEntity = CareContextEntity.builder().displayName(timestamp + " Visit")
+					.patientId(addContextRequestDTO.getLink().getPatient().getReferenceNumber())
+					.patientName(addContextRequestDTO.getLink().getPatient().getDisplay())
+					.aadhaarNo(null != addContextRequestDTO.getLink().getPatient().getAadhaarNo()
+							? addContextRequestDTO.getLink().getPatient().getAadhaarNo()
+							: "")
+					.mobileNo(null != addContextRequestDTO.getLink().getPatient().getMobileNo()
+							? addContextRequestDTO.getLink().getPatient().getMobileNo()
+							: "")
+					.healthId(null != addContextRequestDTO.getLink().getPatient().getHealthId()
+							? addContextRequestDTO.getLink().getPatient().getHealthId()
+							: "")
+					.healthNo(null != addContextRequestDTO.getLink().getPatient().getHealthNo()
+							? addContextRequestDTO.getLink().getPatient().getHealthNo()
+							: "")
+					.build();
+			careContextEntity = contextRepository.save(careContextEntity);
+			CareContextDTO careContextDTO = CareContextDTO.builder()
+					.referenceNumber(careContextEntity.getCareContextId()).display(careContextEntity.getDisplayName())
+					.build();
+			addContextRequestDTO.getLink().getPatient().getCareContexts().add(careContextDTO);
+		} catch (Exception e) {
+			addContextRequestDTO.getLink().getPatient().setCareContexts(new ArrayList<>());
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.EXPECTATION_FAILED.toString());
+			logger.error("Error while Generating Care Contex Number {} ", e);
+		}
+		try {
+			if (null != addContextRequestDTO.getLink().getPatient().getCareContexts()) {
+				uri = new URI(url);
+				String encryptedString = new Gson().toJson(addContextRequestDTO);
+				HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+						commonHeadersUtil.getHeadersWithXCmId(headers));
+				result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+				if (result.getStatusCode().is2xxSuccessful()) {
+					AddContextEntity authConfirmEntity = AddContextEntity.builder()
+							.requestId(addContextRequestDTO.getRequestId())
+							.timestamp(addContextRequestDTO.getTimestamp()).status(false).build();
+					addContextRepository.save(authConfirmEntity);
+					map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+
+				} else {
+					map.put(HealthIdCreationConstands.API_STATUS.getValidate(), result.getStatusCode().toString());
+				}
+			}
+
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), e.getStatusCode().name());
+			logger.info("Error in adding care contexts {} ", e);
+
+		} catch (Exception e) {
+			map.put(HealthIdCreationConstands.API_STATUS.getValidate(), HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			logger.info("Error in adding care contexts {} ", e);
+		}
+		logger.info("Request Receives for Auth Context Ends ");
+		return map;
+	}
+
+}

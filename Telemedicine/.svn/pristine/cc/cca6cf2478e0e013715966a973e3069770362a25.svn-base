@@ -1,0 +1,116 @@
+package com.nsdl.notification.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.nsdl.notification.constant.NotificationConstant;
+import com.nsdl.notification.dto.NotificationDTO;
+import com.nsdl.notification.dto.PushNotificationRequest;
+import com.nsdl.notification.dto.UserDTO;
+import com.nsdl.notification.entity.NotificationEntity;
+import com.nsdl.notification.entity.NotificationUserTokenEntity;
+import com.nsdl.notification.exception.NotificationErrorConstant;
+import com.nsdl.notification.exception.NotificationException;
+import com.nsdl.notification.exception.ServiceError;
+import com.nsdl.notification.logger.LoggingClientInfo;
+import com.nsdl.notification.repository.NotificationRepo;
+import com.nsdl.notification.repository.NotificationUserTokenRepo;
+import com.nsdl.notification.service.NotificationService;
+
+@Service
+@LoggingClientInfo
+public class NotificationServiceImpl implements NotificationService {
+
+	private Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
+
+	@Autowired
+	private NotificationRepo notificationRepo;
+
+	@Autowired
+	private NotificationUserTokenRepo notificationUserTokenRepo;
+
+	@Autowired
+	private FCMServiceImpl fcmServiceImpl;
+
+	@Autowired
+	private UserDTO userDto;
+
+	@Override
+	public List<NotificationDTO> getAllNotifications() {
+
+		List<NotificationDTO> response = new ArrayList<NotificationDTO>();
+		// Pageable page = PageRequest.of(pageNo, 5);
+		List<NotificationEntity> entities = notificationRepo.findNotificationsByUserIdAndUserType(userDto.getUserName(),
+				userDto.getRole());
+
+		if (entities != null && !entities.isEmpty()) {
+			for (NotificationEntity entity : entities) {
+				NotificationDTO notification = NotificationDTO.builder().notificationId(entity.getNdId())
+						.notificationType(entity.getNdNotificationType()).notification(entity.getNdNotification())
+						.createdTmstp(entity.getNdCreatedOn()).unReadFlag(entity.getNdUnreadFlag()).build();
+				response.add(notification);
+			}
+		} else {
+			throw new NotificationException(
+					new ServiceError(NotificationErrorConstant.NOTIFICATION_EMPTY.getErrorCode(),
+							NotificationErrorConstant.NOTIFICATION_EMPTY.getErrorMessage()));
+		}
+		return response;
+	}
+
+	@Override
+	public String updateNotificationReadFlag(int notificationId) {
+
+		int count = notificationRepo.updateNotificationFlag(false, notificationId, userDto.getUserName());
+
+		if (count == 1) {
+			return NotificationConstant.NOTIFICATION_READ_FLAG_UPDATED;
+		} else {
+			throw new NotificationException(
+					new ServiceError(NotificationErrorConstant.NOTIFICATION_ID_NOT_FOUND.getErrorCode(),
+							NotificationErrorConstant.NOTIFICATION_ID_NOT_FOUND.getErrorMessage()));
+		}
+	}
+
+	@Override
+	public String updateRegistrationTokenForUser(String token) {
+
+		if (token == null || token.isEmpty()) {
+			throw new NotificationException(
+					new ServiceError(NotificationErrorConstant.TOKEN_SHOULD_NOT_BE_EMPTY_OR_NULL.getErrorCode(),
+							NotificationErrorConstant.TOKEN_SHOULD_NOT_BE_EMPTY_OR_NULL.getErrorMessage()));
+		}
+
+		NotificationUserTokenEntity entity = notificationUserTokenRepo.findByUserIdAndUserType(userDto.getUserName(),
+				userDto.getRole());
+
+		if (entity == null) {
+			NotificationUserTokenEntity userEntity = new NotificationUserTokenEntity();
+			userEntity.setNutUserId(userDto.getUserName());
+			userEntity.setNutUserType(userDto.getRole());
+			userEntity.setNutUserToken(token);
+			notificationUserTokenRepo.save(userEntity);
+		} else {
+			entity.setNutUserToken(token);
+			notificationUserTokenRepo.save(entity);
+		}
+		return NotificationConstant.TOKEN_UPDATED_FOR_USER;
+	}
+
+	@Override
+	public void sendPushNotification(Map<String, String> data, PushNotificationRequest request) {
+		try {
+			fcmServiceImpl.sendMessageToToken(data, request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
+	}
+
+}

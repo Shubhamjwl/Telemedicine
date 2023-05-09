@@ -1,0 +1,1202 @@
+<ngx-spinner>
+  <p class="loading">Loading...</p>
+</ngx-spinner>
+<!-- <div class="login-container">
+  <form #QRForm="ngForm" novalidate autocomplete="off">
+    <div class="login-panel" *ngIf="!showData">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px">
+          <h2>
+            Patient Profile Created, select any option to verify ABHA ID
+          </h2>
+        </div>
+      </div>
+      <div class="login-form-box" style="
+          width: 950px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        ">
+        <div class="row mt-4">
+          <div class="col-md-1" style="padding-top: 8px">
+            <input type="radio" id="verifay_Health_id" value="verifay_Health_id" [(ngModel)]="selectanyoption"
+              name=" selectanyoptions" #selectanyoptions="ngModel" required />
+          </div>
+          <div class="col-md-3 lable">
+            <label for="verifay_Health_id">Verify ABHA ID <span class="error">*</span></label>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"
+                class="form-control input" [(ngModel)]="healthIdOne" name="healthidnameOne" class="form-control input"
+                placeholder="Enter ABHA ID / ABHA Number" #healthidnameOne="ngModel" style="height: 50%"
+                required />
+            </div>
+            <div class="error" [hidden]="healthidnameOne.valid || healthidnameOne.untouched">
+              Enter Valid ABHA ID / ABHA Number
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="hideData">
+          <div class="col-md-1 align-self-center d-flex">
+            <input type="radio" id="scan_Qr_code" value="scan_Qr_code" [(ngModel)]="selectanyoption"
+              name=" selectanyoptions" #selectanyoptions="ngModel" required />
+          </div>
+          <div class="col-md-3 align-self-center d-flex lable">
+            <label for="scan_Qr_code">Scan QR code for ABHA ID</label>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-3 align-self-center d-flex">
+                <img src="assets/Qrcode.png" height="100" />
+              </div>
+              <div class="col-md-3">
+                <p class="mt-1 lable">
+                  Enter ABHA ID<span class="error">*</span>
+                </p>
+                <p class="mt-1 lable">Name<span class="error">*</span></p>
+                <p class="mt-1 lable">
+                  Date of Birth<span class="error">*</span>
+                </p>
+                <p class="mt-1 lable">Gender<span class="error">*</span></p>
+                <p class="mt-1 lable">Address<span class="error">*</span></p>
+                <p class="mt-1 lable">Mobile No<span class="error">*</span></p>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="healthId" name="healthidname" class="form-control input"
+                    placeholder="Health ID" #healthidname="ngModel" style="height: 50%" required />
+                </div>
+                <div class="error" [hidden]="healthidname.valid || healthidname.untouched">
+                  Enter Valid ABHA ID
+                </div>
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="namesel" name="name" #name="ngModel" [readonly]="isNameDisabled"
+                    required class="form-control input" placeholder="Name" style="height: 50%" />
+                </div>
+                <div class="error" [hidden]="name.valid || name.untouched">
+                  Enter Valid Name
+                </div>
+                <div class="form-group">
+                  <input type="date" [(ngModel)]="dateOfBirth" name="dob" #dob="ngModel" required
+                    class="form-control input" placeholder="DD/MM/YYYY" style="height: 25%" />
+                </div>
+                <div class="error" [hidden]="dob.valid || dob.untouched">
+                  Enter Valid DOB
+                </div>
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="gender" name="genders" #genders="ngModel" required
+                    class="form-control input" placeholder="M/F" style="height: 50%" />
+                </div>
+                <div class="error" [hidden]="genders.valid || genders.untouched">
+                  Enter Valid Gender
+                </div>
+
+                <div class="form-group">
+                  <input type="text" disabled class="form-control input mr-2" placeholder="91"
+                    style="height: 50%; width: 15%; float: left" />
+                </div>
+                <div class="form-group">
+                  <input type="tel" name="mobileNo" #mobileNo="ngModel" [(ngModel)]="mobileNoSel" maxlength="10"
+                    [readonly]="isMobileNoDisabled" pattern="{{ PATTERN.MOBILE_NUMBER }}" required
+                    class="form-control input" placeholder="Mobile Number"
+                    style="height: 50%; width: 53%; float: left" />
+                </div>
+                <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+                  Enter Valid Mobile no
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="hideData">
+          <div class="col-md-1">
+            <input type="radio" id="verifay_demographic_data" value="verifay_demographic_data"
+              [(ngModel)]="selectanyoption" name=" selectanyoptions" #selectanyoptions="ngModel" required />
+          </div>
+          <div class="col-md-4 lable">
+            <label for="verifay_demographic_data">verifay with Demographic Data</label>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button class="btn btn-primary mr-3" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " (click)="back()">
+            Back
+          </button>
+          <button class="btn btn-primary" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " [disabled]="!QRForm.valid" (click)="proceed()">
+            Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="login-panel" *ngIf="showData">
+      <div class="login-header">
+        <div class="login-par mt-4" style="border-radius: 10px;text-align: ceter;">
+          <h2 style="color: #0d0d0e;">ABHA ID details</h2>
+        </div>
+      </div>
+      <div class="login-form-box" style="
+          width: 950px;
+          margin: 20px auto;
+          border: 5px solid #00bcd49e;
+          border-radius: 20px;
+          padding: 20px;
+        ">
+
+        <div class="row">
+          <div class="col-md-8" style="margin-left: 200px">
+            <div class="row">
+              <div class="col-md-5">
+                <p class="mt-1 lable">Enter ABHA ID</p>
+                <p class="mt-1 lable">Name</p>
+                <p class="mt-1 lable">Date of Birth</p>
+                <p class="mt-1 lable">Gender</p>
+                <p class="mt-1 lable">Mobile No</p>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="healthId" name="healthidname" class="form-control input" [readonly]="healthIdReadOnly"
+                    placeholder="ABHA ID/ABHA Number" #healthidname="ngModel" style="height: 50%" required />
+                </div>
+                <div class="error" [hidden]="healthidname.valid || healthidname.untouched">
+                  Enter Valid ABHA ID
+                </div>
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="namesel" name="name" #name="ngModel"  [readonly]="nameReadOnly" required
+                     class="form-control input" placeholder="Name" style="height: 50%" />
+                </div>
+                <div class="error" [hidden]="name.valid || name.untouched">
+                  Enter Valid Name
+                </div>
+                <div class="form-group">
+                  <input type="date" [(ngModel)]="dateOfBirth" name="dob" #dob="ngModel"  [readonly]="dobReadOnly" required
+                    class="form-control input" placeholder="DD/MM/YYYY" style="height: 25%" />
+                </div>
+                <div class="error" [hidden]="dob.valid || dob.untouched">
+                  Enter Valid DOB
+                </div>
+
+                <div class="col-md-5 align-self-center d-flex">
+                  <div class="form-group" style="margin-left: 10px">
+                    <input type="radio" id="M" value="M" [(ngModel)]="gender" name=" genders" #genders="ngModel" [readonly]="genderReadOnly"
+                      required />
+                  </div>
+                  <div style="margin-left: 10px">
+                    <label for="M">Male</label>
+                  </div>
+                  <div class="form-group" style="margin-left: 10px">
+                    <input type="radio" id="F" value="F" [(ngModel)]="gender" name=" genders" #genders="ngModel" [readonly]="genderReadOnly"
+                      required />
+                  </div>
+                  <div style="margin-left: 10px">
+                    <label for="F">Female</label>
+                  </div>
+                  <div class="form-group" style="margin-left: 10px">
+                    <input type="radio" id="T" value="T" [(ngModel)]="gender" name=" genders" #genders="ngModel" [readonly]="genderReadOnly"
+                      required />
+                  </div>
+                  <div style="margin-left: 10px">
+                    <label for="T">Transgender</label>
+                  </div>
+                  <div class="error" [hidden]="genders.valid || genders.untouched">
+                    Select Gender
+                  </div>
+                </div>
+                <div class="error" [hidden]="genders.valid || genders.untouched">
+                  Enter Valid Gender
+                </div>
+
+                <div class="form-group">
+                  <input type="text" disabled class="form-control input mr-2" placeholder="91"
+                    [readonly]="isMobileNoDisabled" style="
+                      height: 50%;
+                      width: 15%;
+                      float: left;
+                      margin-top: 15px;
+                    " />
+                </div>
+                <div class="form-group">
+                  <input type="tel" name="mobileNo" #mobileNo="ngModel" [(ngModel)]="mobileNoSel" maxlength="10" [readonly]="mobileReadOnly"
+                     pattern="{{ PATTERN.MOBILE_NUMBER }}" required
+                    class="form-control input" placeholder="Mobile Number"
+                    style="height: 50%; width: 53%; float: left" />
+                </div>
+                <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+                  Enter Valid Mobile no
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="hideData">
+          <div class="col-md-1">
+            <input type="radio" id="verifay_demographic_data" value="verifay_demographic_data"
+              [(ngModel)]="selectanyoption" name=" selectanyoptions" #selectanyoptions="ngModel" required />
+          </div>
+          <div class="col-md-4 lable">
+            <label for="verifay_demographic_data">verifay with Demographic Data</label>
+          </div>
+        </div>
+
+        <div class="row" style="margin: 35px 84px">
+          <div class="col-md-1" style="margin-top: 5%">
+            <input type="checkbox" [(ngModel)]="isConsentChecked" name="consentName" required />
+          </div>
+          <div class="col-md-10">
+            <p style="
+                  background-color: lightcyan;
+                  border: 2px solid #000;
+                  padding: 10px;
+                  width: 110%;
+                ">
+              I hearby authorize and provide my consent to share my details
+              with NHA(ABDM) for verfifying my ABHA ID
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button class="btn btn-primary mr-3" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " (click)="back()">
+            Back
+          </button>
+          <button class="btn btn-primary" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " [disabled]="!QRForm.valid" (click)="otp()">
+            Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> -->
+
+<!-- <div class="container">
+  <div class="nav-container">
+    <p class="nav-text">ABHA ID Details</p>
+  </div>
+  <div>
+    <form #QRForm="ngForm" novalidate autocomplete="off">
+      <div class="login-panel" *ngIf="!showData">
+        <div class="login-header">
+          <div class="login-par mt-4" style="border-radius: 10px">
+            <h2>
+              Patient Profile Created, select any option to verify ABHA ID
+            </h2>
+          </div>
+        </div>
+        <div
+          class="login-form-box"
+          style="width: 950px; margin: 20px auto; padding: 20px"
+        >
+          <div class="row mt-4">
+            <div class="col-md-1" style="padding-top: 8px">
+              <input
+                type="radio"
+                id="verifay_Health_id"
+                value="verifay_Health_id"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-3 lable">
+              <label for="verifay_Health_id"
+                >Verify ABHA ID <span class="error">*</span></label
+              >
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  class="form-control input"
+                  [(ngModel)]="healthIdOne"
+                  name="healthidnameOne"
+                  class="form-control input"
+                  placeholder="Enter ABHA ID / ABHA Number"
+                  #healthidnameOne="ngModel"
+                  style="height: 50%"
+                  required
+                />
+              </div>
+              <div
+                class="error"
+                [hidden]="healthidnameOne.valid || healthidnameOne.untouched"
+              >
+                Enter Valid ABHA ID / ABHA Number
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="hideData">
+            <div class="col-md-1 align-self-center d-flex">
+              <input
+                type="radio"
+                id="scan_Qr_code"
+                value="scan_Qr_code"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-3 align-self-center d-flex lable">
+              <label for="scan_Qr_code">Scan QR code for ABHA ID</label>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3 align-self-center d-flex">
+                  <img src="assets/Qrcode.png" height="100" />
+                </div>
+                <div class="col-md-3">
+                  <p class="mt-1 lable">
+                    Enter ABHA ID<span class="error">*</span>
+                  </p>
+                  <p class="mt-1 lable">Name<span class="error">*</span></p>
+                  <p class="mt-1 lable">
+                    Date of Birth<span class="error">*</span>
+                  </p>
+                  <p class="mt-1 lable">Gender<span class="error">*</span></p>
+                  <p class="mt-1 lable">Address<span class="error">*</span></p>
+                  <p class="mt-1 lable">
+                    Mobile No<span class="error">*</span>
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="healthId"
+                      name="healthidname"
+                      class="form-control input"
+                      placeholder="Health ID"
+                      #healthidname="ngModel"
+                      style="height: 50%"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="healthidname.valid || healthidname.untouched"
+                  >
+                    Enter Valid ABHA ID
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="namesel"
+                      name="name"
+                      #name="ngModel"
+                      [readonly]="isNameDisabled"
+                      required
+                      class="form-control input"
+                      placeholder="Name"
+                      style="height: 50%"
+                    />
+                  </div>
+                  <div class="error" [hidden]="name.valid || name.untouched">
+                    Enter Valid Name
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="date"
+                      [(ngModel)]="dateOfBirth"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                      class="form-control input"
+                      placeholder="DD/MM/YYYY"
+                      style="height: 25%"
+                    />
+                  </div>
+                  <div class="error" [hidden]="dob.valid || dob.untouched">
+                    Enter Valid DOB
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="gender"
+                      name="genders"
+                      #genders="ngModel"
+                      required
+                      class="form-control input"
+                      placeholder="M/F"
+                      style="height: 50%"
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="genders.valid || genders.untouched"
+                  >
+                    Enter Valid Gender
+                  </div>
+
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      disabled
+                      class="form-control input mr-2"
+                      placeholder="91"
+                      style="height: 50%; width: 15%; float: left"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="tel"
+                      name="mobileNo"
+                      #mobileNo="ngModel"
+                      [(ngModel)]="mobileNoSel"
+                      maxlength="10"
+                      [readonly]="isMobileNoDisabled"
+                      pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                      required
+                      class="form-control input"
+                      placeholder="Mobile Number"
+                      style="height: 50%; width: 53%; float: left"
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="mobileNo.valid || mobileNo.untouched"
+                  >
+                    Enter Valid Mobile no
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="hideData">
+            <div class="col-md-1">
+              <input
+                type="radio"
+                id="verifay_demographic_data"
+                value="verifay_demographic_data"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-4 lable">
+              <label for="verifay_demographic_data"
+                >verifay with Demographic Data</label
+              >
+            </div>
+          </div>
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button
+              class="btn button mr-3"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              (click)="back()"
+            >
+              BACK
+            </button>
+            <button
+              class="btn button"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              [disabled]="!QRForm.valid"
+              (click)="proceed()"
+            >
+              PROCEED
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-panel" *ngIf="showData">
+
+        <div class="login-form-box">
+          <div class="row" style="padding-top: 40px">
+            <div class="col-md-8" style="margin-left: 75px">
+              <div class="row">
+                <div class="col-md-5">
+                  <p
+                    class="input-text"
+                    style="
+                      margin-top: 10px !important;
+                      margin-bottom: 0px !important;
+                    "
+                  >
+                    Enter ABHA ID
+                  </p>
+                  <p class="input-text" style="margin-top: 30px !important">
+                    Name
+                  </p>
+                  <p
+                    class="input-text"
+                    style="margin-top: 30px !important; margin-bottom: 0px"
+                  >
+                    Date of Birth
+                  </p>
+                  <p
+                    class="input-text"
+                    style="margin-top: 34px !important; margin-bottom: 0px"
+                  >
+                    Gender
+                  </p>
+                  <p
+                    class="input-text"
+                    style="margin-top: 34px !important; margin-bottom: 0px"
+                  >
+                    Mobile No
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="healthId"
+                      name="healthidname"
+                      class="input-border"
+                      [readonly]="healthIdReadOnly"
+                      placeholder="ABHA ID/ABHA Number"
+                      #healthidname="ngModel"
+                      style="height: 50%; border-bottom: 1px solid #e43927 !important"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="healthidname.valid || healthidname.untouched"
+                  >
+                    Enter Valid ABHA ID
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="namesel"
+                      name="name"
+                      #name="ngModel"
+                      [readonly]="nameReadOnly"
+                      required
+                      class="input-border input"
+                      placeholder="Name"
+                      style="height: 50%; border-bottom: 1px solid #e43927 !important"
+                    />
+                  </div>
+                  <div class="error" [hidden]="name.valid || name.untouched">
+                    Enter Valid Name
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="date"
+                      [(ngModel)]="dateOfBirth"
+                      name="dob"
+                      #dob="ngModel"
+                      [readonly]="dobReadOnly"
+                      required
+                      class="input-border input"
+                      placeholder="DD/MM/YYYY"
+                      style="height: 25%; border-bottom: 1px solid #e43927 !important"
+                    />
+                  </div>
+                  <div class="error" [hidden]="dob.valid || dob.untouched">
+                    Enter Valid DOB
+                  </div>
+
+                  <div class="form-group">
+
+                    <select
+                    [(ngModel)]="selectedOption"
+                    name="gender" class="input-border"
+                    style="
+                      width: 100%;
+                      display: inline-block;
+                      background-color: white;
+                      height: 31px; border-bottom: 1px solid #e43927 !important
+                    "
+                  >
+                    <option value="A">All</option>
+                    <br />
+                    <option *ngFor="let option of selectOptions" [value]="option">
+                      {{ option }}
+                    </option>
+                  </select>
+                  </div>
+
+                  <div class="mt-1 form-group">
+                    <input
+                      type="text"
+                      disabled
+                      class="input-border input mr-2"
+                      placeholder="+91"
+                      [readonly]="isMobileNoDisabled"
+                      style="height: 50%; width: 16%; float: left; border-bottom: 1px solid #e43927 !important"
+                    />
+                  </div>
+                  <div class="mt-1 form-group">
+                    <input
+                      type="tel"
+                      name="mobileNo"
+                      #mobileNo="ngModel"
+                      [(ngModel)]="mobileNoSel"
+                      maxlength="10"
+                      [readonly]="mobileReadOnly"
+                      pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                      required
+                      class="input-border input"
+                      placeholder="Mobile Number"
+                      style="height: 50%; width: 81%; float: left; border-bottom: 1px solid #e43927 !important"
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="mobileNo.valid || mobileNo.untouched"
+                  >
+                    Enter Valid Mobile no
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="hideData">
+            <div class="col-md-1">
+              <input
+                type="radio"
+                id="verifay_demographic_data"
+                value="verifay_demographic_data"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-4 lable">
+              <label for="verifay_demographic_data"
+                >verifay with Demographic Data</label
+              >
+            </div>
+          </div>
+
+          <div class="row" style="margin: 35px 84px">
+            <div class="col-md-1" style="margin-left: 192px; margin-top: 14px">
+              <input
+                type="checkbox"
+                [(ngModel)]="isConsentChecked"
+                name="consentName"
+                required
+              />
+            </div>
+            <div class="col-md-7">
+              <p style="background-color: white; padding: 10px; width: 110%">
+                I hearby authorize and provide my consent to share my details
+                with NHA(ABDM) for verfifying my ABHA ID
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button class="btn button mr-3" style="width: 16%" (click)="back()">
+              BACK
+            </button>
+            <button
+              class="btn button"
+              style="width: 16%"
+              [disabled]="!QRForm.valid"
+              (click)="otp()"
+            >
+              CONFIRM
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div style="padding-left: 342px; padding-top: 115px">
+    <p
+      tyle="margin-top: 33px; font-size: 7px; font-family: Poppins-Regular, sans-serif;
+    color: black;"
+    >
+      Powered BY
+    </p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div>
+</div> -->
+
+<div
+  class="sample form-group"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -7%">
+    <p class="nav-text">ABHA ID Details</p>
+  </nav>
+  <div>
+    <form #QRForm="ngForm" novalidate autocomplete="off">
+      <div *ngIf="!showData">
+        <div class="login-header">
+          <div class="login-par mt-4" style="border-radius: 10px">
+            <h2>
+              Patient Profile Created, select any option to verify ABHA ID
+            </h2>
+          </div>
+        </div>
+        <div
+          class="login-form-box"
+          style="width: 950px; margin: 20px auto; padding: 20px"
+        >
+          <div class="row mt-4">
+            <div class="col-md-1" style="padding-top: 8px">
+              <input
+                type="radio"
+                id="verifay_Health_id"
+                value="verifay_Health_id"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-3 lable">
+              <label for="verifay_Health_id"
+                >Verify ABHA ID <span class="error">*</span></label
+              >
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                  type="text"
+                  class="form-control input"
+                  [(ngModel)]="healthIdOne"
+                  name="healthidnameOne"
+                  class="form-control input"
+                  placeholder="Enter ABHA ID / ABHA Number"
+                  #healthidnameOne="ngModel"
+                  style="height: 50%"
+                  required
+                />
+              </div>
+              <div
+                class="error"
+                [hidden]="healthidnameOne.valid || healthidnameOne.untouched"
+              >
+                Enter Valid ABHA ID / ABHA Number
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="hideData">
+            <div class="col-md-1 align-self-center d-flex">
+              <input
+                type="radio"
+                id="scan_Qr_code"
+                value="scan_Qr_code"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-3 align-self-center d-flex lable">
+              <label for="scan_Qr_code">Scan QR code for ABHA ID</label>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3 align-self-center d-flex">
+                  <img src="assets/Qrcode.png" height="100" />
+                </div>
+                <div class="col-md-3">
+                  <p class="mt-1 lable">
+                    Enter ABHA ID<span class="error">*</span>
+                  </p>
+                  <p class="mt-1 lable">Name<span class="error">*</span></p>
+                  <p class="mt-1 lable">
+                    Date of Birth<span class="error">*</span>
+                  </p>
+                  <p class="mt-1 lable">Gender<span class="error">*</span></p>
+                  <p class="mt-1 lable">Address<span class="error">*</span></p>
+                  <p class="mt-1 lable">
+                    Mobile No<span class="error">*</span>
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="healthId"
+                      name="healthidname"
+                      class="form-control input"
+                      placeholder="Health ID"
+                      #healthidname="ngModel"
+                      style="height: 50%"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="healthidname.valid || healthidname.untouched"
+                  >
+                    Enter Valid ABHA ID
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="namesel"
+                      name="name"
+                      #name="ngModel"
+                      [readonly]="isNameDisabled"
+                      required
+                      class="form-control input"
+                      placeholder="Name"
+                      style="height: 50%"
+                    />
+                  </div>
+                  <div class="error" [hidden]="name.valid || name.untouched">
+                    Enter Valid Name
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="date"
+                      [(ngModel)]="dateOfBirth"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                      class="form-control input"
+                      placeholder="DD/MM/YYYY"
+                      style="height: 25%"
+                    />
+                  </div>
+                  <div class="error" [hidden]="dob.valid || dob.untouched">
+                    Enter Valid DOB
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="gender"
+                      name="genders"
+                      #genders="ngModel"
+                      required
+                      class="form-control input"
+                      placeholder="M/F"
+                      style="height: 50%"
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="genders.valid || genders.untouched"
+                  >
+                    Enter Valid Gender
+                  </div>
+
+                  <div class="form-group">
+                   
+                    <input
+                      type="text"
+                      name="staticCountryCode"
+                      class="form-control input mr-2"
+                      [(ngModel)]="staticCountryCode"
+                      [readonly]="mobileReadOnly"
+                      style="height: 50%; width: 15%; float: left"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <input
+                      type="tel"
+                      name="mobileNo"
+                      #mobileNo="ngModel"
+                      [(ngModel)]="mobileNoSel"
+                      maxlength="10"
+                      [readonly]="isMobileNoDisabled"
+                      pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                      required
+                      class="form-control input"
+                      placeholder="Mobile Number"
+                      style="height: 50%; width: 53%; float: left"
+                    />
+                  </div>
+                  <div
+                    class="error"
+                    [hidden]="mobileNo.valid || mobileNo.untouched"
+                  >
+                    Enter Valid Mobile no
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="hideData">
+            <div class="col-md-1">
+              <input
+                type="radio"
+                id="verifay_demographic_data"
+                value="verifay_demographic_data"
+                [(ngModel)]="selectanyoption"
+                name=" selectanyoptions"
+                #selectanyoptions="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-4 lable">
+              <label for="verifay_demographic_data"
+                >verifay with Demographic Data</label
+              >
+            </div>
+          </div>
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <button
+              class="btn button mr-3"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              (click)="back()"
+            >
+              BACK
+            </button>
+            <button
+              class="btn button"
+              style="
+                background-color: #63a4ec;
+                border-color: darkslategrey;
+                width: 16%;
+              "
+              [disabled]="!QRForm.valid"
+              (click)="proceed()"
+            >
+              PROCEED
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showData"></div>
+      <div class="row">
+        <div class="col-4 col-lg-4">
+          <p class="input-text">Enter ABHA ID</p>
+        </div>
+        <div class="col-8 col-lg-8" style="padding-right: 6%">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthId"
+              name="healthidname"
+              class="input-border input-line"
+              [readonly]="healthIdReadOnly"
+              placeholder="ABHA ID/ABHA Number"
+              #healthidname="ngModel"
+              (ngModelChange)="onHealthIdChange($event)"
+              style="border-bottom: 1px solid #e43927 !important"
+              required
+            />
+            <div
+              class="error"
+              [hidden]="healthidname.valid || healthidname.untouched"
+            >
+              Enter Valid ABHA ID
+            </div>
+            <div class="error" *ngIf="healthIdError">
+              {{healthIdError}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4 col-lg-4" style="margin-top: 3%">
+          <p class="input-text">Name</p>
+        </div>
+        <div class="col-8 col-lg-8" style="padding-right: 6%">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="namesel"
+              name="name"
+              #name="ngModel"
+              [readonly]="nameReadOnly"
+              required
+              class="input-border input input-line"
+              placeholder="Name"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+            <div class="error" [hidden]="name.valid || name.untouched">
+              Enter Valid Name
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4 col-lg-4" style="margin-top: 4%">
+          <p class="input-text">Date of Birth</p>
+        </div>
+        <div class="col-8 col-lg-8" style="padding-right: 6%">
+          <div class="form-group">
+            <input
+              type="date"
+              [(ngModel)]="dateOfBirth"
+              name="dob"
+              #dob="ngModel"
+              [readonly]="dobReadOnly"
+              required
+              class="input-border input input-line"
+              placeholder="DD/MM/YYYY"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+            <div class="error" [hidden]="dob.valid || dob.untouched">
+              Enter Valid DOB
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4 col-lg-4" style="margin-top: 4%">
+          <p class="input-text">Gender</p>
+        </div>
+        <div class="col-8 col-lg-8" style="padding-right: 6%">
+          <div class="form-group">
+            <select
+              [(ngModel)]="selectedOption"
+              name="gender"
+              class="input-border input-line gender-box"
+              style="
+                display: inline-block;
+                background-color: white;
+                border-bottom: 1px solid #e43927 !important;
+              "
+            >
+              <option value=""></option>
+              <br />
+              <option *ngFor="let option of selectOptions" [value]="option">
+                {{ option }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4 col-lg-4" style="margin-top: 4%">
+          <p class="input-text">Mobile No</p>
+        </div>
+        <div class="col-8 col-lg-8" style="padding-right: 6%">
+          <div class="mt-1 form-group">
+            <input
+              type="text"
+              name="staticCountryCode"
+              class="input-border input input-line mobile-pre"
+              [(ngModel)]="staticCountryCode"
+              [readonly]="mobileReadOnly"
+              style="
+                float: left;
+                margin-right: 6%;
+                border-bottom: 1px solid #e43927 !important;
+                padding: 6px;
+              "
+            />
+            <input
+              type="tel"
+              name="mobileNo"
+              #mobileNo="ngModel"
+              [(ngModel)]="mobileNoSel"
+              maxlength="10"
+              [readonly]="mobileReadOnly"
+              pattern="{{ PATTERN.MOBILE_NUMBER }}"
+              required
+              class="input-border input input-line mobile-input mobile-post"
+              placeholder="Mobile Number"
+              style="border-bottom: 1px solid #e43927 !important"
+            />
+            <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+              Enter Valid Mobile no
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="hideData">
+        <div class="col-md-1">
+          <input
+            type="radio"
+            id="verifay_demographic_data"
+            value="verifay_demographic_data"
+            [(ngModel)]="selectanyoption"
+            name=" selectanyoptions"
+            #selectanyoptions="ngModel"
+            required
+          />
+        </div>
+        <div class="col-md-4 lable">
+          <label for="verifay_demographic_data"
+            >verifay with Demographic Data</label
+          >
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10%">
+        <div class="col-1 col-lg-1" style="margin-top: 14px">
+          <input
+            type="checkbox"
+            [(ngModel)]="isConsentChecked"
+            name="consentName"
+            required
+          />
+        </div>
+        <div class="col-10 col-lg-10">
+          <p class="">
+            I hearby authorize and provide my consent to share my details with
+            NHA(ABDM) for verfifying my ABHA ID
+          </p>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 5%">
+        <div class="col-2 col-lg-2"></div>
+        <div class="col-3 col-lg-3">
+          <button class="btn button mr-3" (click)="back()">BACK</button>
+        </div>
+        <div class="col-3 col-lg-3" style="margin-left: 17%">
+          <button class="btn button" [disabled]="!QRForm.valid || healthIdError" (click)="otp()">
+            CONFIRM
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row form-groupBlogg">
+    <div class="col-2 col-lg-3"></div>
+    <div class="col-4 col-lg-3">
+      <p
+        style="
+          font-family: Poppins-Regular, sans-serif;
+          color: black;
+          margin-bottom: 0px;
+        "
+      >
+        Powered BY
+      </p>
+    </div>
+    <div class="col-4 col-lg-4" style="margin-top: -1%">
+      <img src="assets/logo/logos.png" />
+    </div>
+  </div>
+</div>

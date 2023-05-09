@@ -1,0 +1,22 @@
+package com.nsdl.payment.service;
+
+import java.util.Map;
+
+import com.nsdl.payment.dto.CommonResponseDTO;
+import com.nsdl.payment.dto.MainResponseDTO;
+import com.nsdl.payment.dto.PayLinkDTO;
+import com.nsdl.payment.dto.PayRequest;
+import com.nsdl.payment.dto.PaymentRequest;
+import com.nsdl.payment.dto.PaymentResponse;
+import com.nsdl.payment.dto.RazorPayResponse;
+
+public interface PaymentService {
+	
+	MainResponseDTO<CommonResponseDTO> updatePaymentResponse(RazorPayResponse request);
+	public MainResponseDTO<PaymentResponse> createOrder(PayRequest paymentRequest);
+	MainResponseDTO<CommonResponseDTO> createPaymentLink(PayLinkDTO payLinkDTO);
+	String  updatePaymentLinkResponse(Map<String, String> allParams);
+	public MainResponseDTO<PaymentResponse> createOrderForLink(PaymentRequest paymentRequest);
+	MainResponseDTO<CommonResponseDTO> updatePaymentDetails(RazorPayResponse request);
+
+}

@@ -1,0 +1,26 @@
+<ngx-spinner>
+    <p *ngIf="isOpenPayment" class="loading">Loading page link...</p>
+</ngx-spinner>
+<!-- <app-layout></app-layout>
+
+
+
+<form [formGroup] = "paymentForm">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11 mt-5">
+            <mat-form-field class="example-form-field w-25"  appearance="outline">
+            <mat-label>Enter consultation fess Amount</mat-label>
+                <input matInput  type="number" numberOnly formControlName = "fees">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <button  type="button" class="btn btnColor" (click)="confirmPayment()">Pay</button>
+            <button  type="button" class="btn btnColor ml-2" (click)="cancelPayment()">Cancel</button>
+        </div>
+    </div>
+</form> -->
+<!-- <h1>Payment</h1> -->

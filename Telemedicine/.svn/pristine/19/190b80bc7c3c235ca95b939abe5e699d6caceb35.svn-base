@@ -1,0 +1,37 @@
+body {
+  // status filter button on MCI
+  --status-filter-toutes-txt-color: #fff !important;
+  --status-filter-toutes-bg-color: #555fa8 !important;
+  --status-filter-nonDemarees-txt-color: #fff !important;
+  --status-filter-nonDemarees-bg-color: #00983a !important;
+  --status-filter-enCours-txt-color: #0f607c !important;
+  --status-filter-enCours-bg-color: #ffde00 !important;
+  --filter-bloc-selected-bg-color: #90a4ae !important;
+}
+
+.mat-chip.mat-standard-chip {
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer !important;
+  &:hover {
+    box-shadow: var(--box-shadow-interaction);
+  }
+  // Specific code to situations.
+  &.toutes {
+    background-color: var(--status-filter-toutes-bg-color);
+    color: var(--status-filter-toutes-txt-color);
+  }
+  &.nonDemarees {
+    background-color: var(--status-filter-nonDemarees-bg-color);
+    color: var(--status-filter-nonDemarees-txt-color);
+  }
+  &.enCours {
+    background-color: var(--status-filter-enCours-bg-color);
+    color: var(--status-filter-enCours-txt-color);
+  }
+  &.selected {
+    color: #fff !important;
+    background-color: var(--filter-bloc-selected-bg-color);
+    box-shadow: var(--box-shadow-interaction);
+  }
+}

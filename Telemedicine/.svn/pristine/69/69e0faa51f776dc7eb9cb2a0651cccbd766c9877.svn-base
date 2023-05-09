@@ -1,0 +1,75 @@
+package com.nsdl.ndhm.utility;
+
+import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CommonHeadersUtil {
+
+	/* for extracting simple headers with authorization */
+	public HttpHeaders getHeaderAll(Map<String, String> reqeaders) {
+		HttpHeaders headers = new HttpHeaders();
+		reqeaders.values().removeIf(Objects::isNull);
+		reqeaders.forEach((key, value) -> {
+			headers.set(key, value);
+		});
+		return headers;
+	}
+
+	/* for extracting simple headers with authorization */
+	public HttpHeaders getHeaders(Map<String, String> reqeaders) {
+		
+		String header = "Bearer " + reqeaders.get("ndhmtoken");
+		System.out.println("after adding Bearer:" + header);
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", reqeaders.get("content-type"));
+		headers.set("Authorization", header);
+		return headers;
+	}
+
+	/* for extracting headers with x-cm-id */
+	public HttpHeaders getHeadersWithXCmId(Map<String, String> reqeaders) {
+		System.out.println("before adding Bearer" + reqeaders.get("ndhmtoken"));
+		String header = "Bearer " + reqeaders.get("ndhmtoken");
+		System.out.println("after adding Bearer" + header);
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", reqeaders.get("content-type"));
+		headers.set("Authorization", header);
+		headers.set("X-CM-ID", reqeaders.get("x-cm-id"));
+		return headers;
+	}
+
+	/* for extracting headers with x-token */
+	public HttpHeaders getHeadersWithXtoken(Map<String, String> reqeaders) {
+		System.out.println("before adding Bearer" + reqeaders.get("ndhmtoken"));
+		String header = "Bearer " + reqeaders.get("ndhmtoken");
+		System.out.println("after adding Bearer" + header);
+		String xToken = "Bearer " + reqeaders.get("x-token");
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", reqeaders.get("content-type"));
+		headers.set("Authorization", header);
+		headers.set("X-Token", xToken);
+		return headers;
+	}
+
+	/* for extracting headers only with content type */
+	public HttpHeaders getHeadersContentType(Map<String, String> reqeaders) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("accept", "application/json");
+		headers.set("Content-Type", reqeaders.get("content-type"));
+		return headers;
+	}
+
+	/* for extracting headers only with content type Only */
+	public HttpHeaders getHeadersContentTypeOnly(Map<String, String> reqeaders) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", reqeaders.get("content-type"));
+		return headers;
+	}
+}

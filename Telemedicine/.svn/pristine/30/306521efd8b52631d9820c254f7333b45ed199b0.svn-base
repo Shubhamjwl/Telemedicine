@@ -1,0 +1,233 @@
+package com.nsdl.ndhm.service.impl;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.*;
+import com.nsdl.ndhm.entity.CareContextEntity;
+import com.nsdl.ndhm.repository.CareContextRepository;
+import com.nsdl.ndhm.repository.PatientDiscoveryRepository;
+import com.nsdl.ndhm.service.DiscoverCareContextService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+@Service
+public class DiscoverCareContextServiceImpl implements DiscoverCareContextService {
+	private static final Logger logger = LoggerFactory.getLogger(DiscoverCareContextServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	PatientDiscoveryRepository patientDiscoveryRepository;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${ndhm.onDiscover}")
+	String onDiscover;
+
+	@Autowired
+	CareContextRepository careContextRepository;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+
+	public OnDiscoverPatientDTO getCareContextFromDB(DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Fetch care contexts from DB starts");
+		List<CareContextEntity> careContextEntityList = new ArrayList<>();
+		List<CareContextDTO> careContextDTOList = new ArrayList<>();
+		String matchedBy = "";
+
+		if (null != discoverRequestDTO.getPatient().getVerifiedIdentifiers()) {
+			for (VerifiedIdentifierDTO a : discoverRequestDTO.getPatient().getVerifiedIdentifiers()) {
+
+				if (a.getType() != null && a.getType().contentEquals("MOBILE")) {
+					careContextEntityList = careContextRepository.getCareContextsByMobileNo(a.getValue());
+					if (!careContextEntityList.isEmpty()) {
+						matchedBy = a.getType();
+						for (CareContextEntity b : careContextEntityList) {
+							careContextDTOList.add(CareContextDTO.builder().referenceNumber(b.getCareContextId())
+									.display(b.getDisplayName()).build());
+						}
+					}
+					break;
+				}
+
+				if (a.getType() != null && a.getType().contentEquals("NDHM_HEALTH_NUMBER")) {
+					careContextEntityList = careContextRepository.getCareContextsByPatientId(a.getValue());
+					if (!careContextEntityList.isEmpty()) {
+						matchedBy = a.getType();
+						for (CareContextEntity b : careContextEntityList) {
+							careContextDTOList.add(CareContextDTO.builder().referenceNumber(b.getCareContextId())
+									.display(b.getDisplayName()).build());
+						}
+					}
+					break;
+				}
+				if (a.getType() != null && a.getType().contentEquals("HEALTH_ID")) {
+					careContextEntityList = careContextRepository.getCareContextsByHealthId(a.getValue());
+					if (!careContextEntityList.isEmpty()) {
+						matchedBy = a.getType();
+						for (CareContextEntity b : careContextEntityList) {
+							careContextDTOList.add(CareContextDTO.builder().referenceNumber(b.getCareContextId())
+									.display(b.getDisplayName()).build());
+						}
+					}
+					break;
+				}
+			}
+		}
+		if (careContextEntityList.isEmpty() && null != discoverRequestDTO.getPatient().getUnverifiedIdentifiers()) {
+
+			for (VerifiedIdentifierDTO a : discoverRequestDTO.getPatient().getVerifiedIdentifiers()) {
+				if (a.getType() != null && a.getType().contentEquals("HEALTH_ID")) {
+					careContextEntityList = careContextRepository.getCareContextsByHealthId(a.getValue());
+					if (!careContextEntityList.isEmpty()) {
+						matchedBy = a.getType();
+						for (CareContextEntity b : careContextEntityList) {
+							careContextDTOList.add(CareContextDTO.builder().referenceNumber(b.getCareContextId())
+									.display(b.getDisplayName()).build());
+						}
+					}
+					break;
+				}
+			}
+
+		}
+		logger.info("Fetch care contexts from DB ends");
+		if (!careContextEntityList.isEmpty()) {
+			return OnDiscoverPatientDTO.builder().referenceNumber(careContextEntityList.get(0).getPatientId())
+					.display(careContextEntityList.get(0).getPatientName()).matchedBy(Arrays.asList(matchedBy))
+					.careContexts(careContextDTOList).build();
+		} else {
+			return null;
+		}
+
+	}
+
+	public OnDiscoverPatientDTO getCareContextFromDbByHealthId(String healthId) {
+		logger.info("Fetch care contexts from DB By HealthId starts {}", healthId);
+		List<CareContextEntity> careContextEntityList = null;
+		List<CareContextDTO> careContextDTOList = new ArrayList<>();
+		careContextEntityList = careContextRepository.getCareContextsByHealthId(healthId);
+		if (null != careContextEntityList && !careContextEntityList.isEmpty()) {
+			for (CareContextEntity b : careContextEntityList) {
+				careContextDTOList.add(CareContextDTO.builder().referenceNumber(b.getCareContextId())
+						.display(b.getDisplayName()).build());
+			}
+		}
+		logger.info("Fetch care contexts from DB By HealthId Ends");
+		if (null != careContextEntityList && !careContextEntityList.isEmpty()) {
+			return OnDiscoverPatientDTO.builder().referenceNumber(UUID.randomUUID().toString())
+					.display(careContextEntityList.get(0).getPatientName()).matchedBy(Arrays.asList("HEALTH_ID"))
+					.careContexts(careContextDTOList).build();
+		} else {
+			return null;
+		}
+
+	}
+
+	/*
+	 * call discovery method
+	 */
+	// @Async
+	public ResponseEntity<String> discover(DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Receives for Discover Starts");
+		String url = onDiscover;
+		ResponseEntity<String> result = null;
+		URI uri;
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+		OnDiscoverPatientDTO onRecoveryPatientDTO = getCareContextFromDB(discoverRequestDTO);
+		OnDiscoverDTO onDiscoverDTO = OnDiscoverDTO.builder().requestId(UUID.randomUUID().toString())
+				.timestamp(format1.format(new Date())).transactionId(discoverRequestDTO.getTransactionId())
+				.resp(RespDTO.builder().requestId(discoverRequestDTO.getRequestId()).build()).build();
+		if (onRecoveryPatientDTO != null) {
+			onDiscoverDTO.setPatient(onRecoveryPatientDTO);
+			try {
+
+				uri = new URI(url);
+				String encryptedString = new Gson().toJson(onDiscoverDTO);
+
+				HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+						commonHeadersUtil.getHeadersWithXCmIdFromServer());
+				result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+				logger.info("requestEntity : {}", requestEntity);
+				logger.info("result : {}", result);
+
+			} catch (Exception e) {
+				logger.info("Error in On-discover {} ", e);
+				result = new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+			}
+
+		} else {
+			onDiscoverDTO.setError(ErrorDTO.builder().code("1000").message("Please Provide Helath Id").build());
+			try {
+				uri = new URI(url);
+				String encryptedString = new Gson().toJson(onDiscoverDTO);
+				HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+						commonHeadersUtil.getHeadersWithXCmIdFromServer());
+				result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			} catch (Exception e1) {
+				logger.info("Error in on-discover health id missing  {} ", e1);
+				result = new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+			}
+		}
+		logger.info("Request Receives for Discover ends");
+
+		return result;
+
+	}
+
+	private OnDiscoverDTO prepareDummyData(DiscoverRequestDTO discoverRequestDTO) {
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+		List<CareContextDTO> careContextDTOList = new ArrayList<>();
+		careContextDTOList
+				.add(CareContextDTO.builder().display("09-02-2022 Visit").referenceNumber("CARE_CNTX_55009").build());
+		return OnDiscoverDTO.builder().requestId(UUID.randomUUID().toString()).timestamp(format1.format(new Date()))
+				.resp(RespDTO.builder().requestId(discoverRequestDTO.getRequestId()).build())
+				.transactionId(discoverRequestDTO.getTransactionId())
+				.patient(OnDiscoverPatientDTO.builder().referenceNumber("PAT_50_501").display("Rahul SalaMpure")
+						.matchedBy(Arrays.asList("MOBILE")).careContexts(careContextDTOList).build())
+				.build();
+	}
+
+	/*
+	 * demo method
+	 */
+	public ResponseEntity<String> discoverDemo(DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Receives for Discover starts ");
+		String url = onDiscover;
+		ResponseEntity<String> result = null;
+		URI uri;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(prepareDummyData(discoverRequestDTO));
+
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			logger.info("discover Response with header {}", requestEntity);
+			logger.info("result {}", result);
+		} catch (Exception e) {
+			logger.info("Error in On-discover {} ", e);
+		}
+		logger.info("Request Receives for Discover ends ");
+		return result;
+	}
+}

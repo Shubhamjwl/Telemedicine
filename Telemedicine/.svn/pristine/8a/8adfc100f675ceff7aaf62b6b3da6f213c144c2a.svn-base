@@ -1,0 +1,40 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { RegisterDoctorRoutingModule } from './register-doctor-routing.module';
+import { TmRegisterDoctorComponent } from './tm-register-doctor/tm-register-doctor.component';
+import { WebcamModule } from 'ngx-webcam';
+import { LangModule } from 'src/app/lang/lang.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbModule } from 'src/app/shared/modules/breadcrumb/breadcrumb.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarModule } from 'angular-calendar';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RegisterDoctorComponent } from './register-doctor/register-doctor.component';
+import { MatModuleModule } from '../../mat-module/mat-module.module';
+
+
+
+@NgModule({
+  declarations: [RegisterDoctorComponent, TmRegisterDoctorComponent],
+
+  imports: [
+    CommonModule,
+    RegisterDoctorRoutingModule,
+    LangModule, WebcamModule,
+    NgxSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BreadcrumbModule,
+    SharedModule,
+    //other
+    NgbModule,
+    CalendarModule,
+    MatModuleModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [RegisterDoctorComponent, TmRegisterDoctorComponent]
+
+})
+export class RegisterDoctorModule { }

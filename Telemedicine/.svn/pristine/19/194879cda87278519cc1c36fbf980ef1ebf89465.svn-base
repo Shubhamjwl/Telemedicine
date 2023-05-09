@@ -1,0 +1,8 @@
+server.port=7071
+server.servlet.context-path=/scribe-service/v1
+spring.application.name=scribe-registration-service
+spring.profiles.active=dev
+spring.cloud.config.uri= http://localhost:8888
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+

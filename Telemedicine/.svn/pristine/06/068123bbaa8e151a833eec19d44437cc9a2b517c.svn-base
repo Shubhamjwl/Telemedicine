@@ -1,0 +1,14 @@
+spring.datasource.driverClassName=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine?characterEncoding=utf8
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+
+server.port=7073
+
+CREATE_USER_URL = http://172.30.151.100:7072/usermanagement/v1/user/login/createuser
+OTP_GENERATE_URL = http://172.30.151.100:7076/OTPManager/generateOtp
+OTP_VERIFY_URL = http://172.30.151.100:7076/OTPManager/verifyOTP
+CAPTCHA_VERIFY_URL=http://172.30.151.100:8073/captcha/verifyCaptcha
+Update_user_details_URL=http://172.30.151.100:7072/usermanagement/v1/user/login/updateUserDetails
+
+eureka.client.service-url.defaultZone=http://172.30.151.100:8761/eureka

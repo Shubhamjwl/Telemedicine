@@ -1,0 +1,220 @@
+<!-- Theme Design -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand logo-wrapper" >
+      <img src="assets/images/ProteanClinic logo.png" alt="logo" style="margin: 0 0 -7px 0;">
+      <!-- <img src="assets/images/Protean_Clinic_7.png" alt="logo"> -->
+    </span>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="col-5 navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link cursor" (click)="navigateToPage('home')">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('aboutUs')">About Us</a>
+            </li> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link cursor" (click)="navigateToPage('contactUs')">Contact Us</a>
+            </li> -->
+        </ul>
+        
+        <!-- <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 user">
+            <a class="cursor float-right mt-2 nav-link" target="_blank" [href]="getLink()" download>Download APK</a>
+        </div>
+   -->
+        <!-- <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center">
+            <button type="button" (click)="onClickContactUs()" class="btn btn-outline-info">
+                Contact Us
+            </button>
+        </div> -->
+  
+    </div>
+  </nav>
+  <div class="sidebar bg-info">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+      <!-- Header options -->
+      <div class="row headerItems">
+          <!-- Logo -->
+          <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 logo">
+              <!-- <h2 style="margin-top: 5%;">Logo</h2> -->
+              <!-- <img src="assets/images/logo.png" class="rounded mx-auto d-block" alt="Logo"> -->
+          </div>
+          <!-- Options -->
+          <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8 text-center options">
+              <!-- <div>Home</div>
+              <div>About Us</div>
+              <div>Programs</div> -->
+          </div>
+  
+      </div>
+      <!-- Welcome details -->
+      <div class="row">
+        <div class="col-12">
+          <div class="welcomeDetails">
+            <div class="row">
+              <span class="heading">
+                <!-- <u> -->
+                  Say Hello Doctor.
+                <!-- </u> -->
+              </span>
+            </div>
+            <!-- <div class="row">
+              <span class="description">
+                Connect online with a 24x7 specialist by Video Consultations, Book Appointments, etc. & Our Doctors Are Available For You
+                 Leasd ssdsd fgdd awdcvfs hsijk kjhkhkui lkj lkjlkjlkjkdsjsd xscdf lkdjf okeif kjdk ojls lsdk jsdj alkd jsls kjh tfc defdcf gtretf jkuytfjhkjoi oilknko fdsryrt eat, naksdl. Aiodk linsod. 
+              </span>
+            </div> -->
+            <!-- <div class="row">
+              <button type="button" class="btn btn-default knowMoreBtn">Know More</button>
+            </div> -->
+              <div class="row">
+                  <div class="col-4 pl-0">
+                      <div class="details-wrap consulation-wrap clearfix">
+                          <!-- <div class="d-inline-block">
+                              <i class="fa fa-comments-o pt-0" aria-hidden="true"></i>
+                          </div>  -->
+                          <!-- <div class="info-wrap"> 
+                              <h3>{{consulationsCount}}</h3>
+                              <p>Consultations</p>
+                          </div> -->
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="details-wrap slilled-wrap">
+                          <!-- <div class="d-inline-block">
+                              <i class="fa fas fa-user-md"></i>
+                          </div>  -->
+                          <!-- <div class="info-wrap"> 
+                              <h3>{{doctorsCount}}</h3>
+                              <p>Skilled Doctors</p>
+                          </div> -->
+                      </div>
+                  </div>
+                  <div class="col-4">
+                      <div class="details-wrap specialist-wrap">
+                          <!-- <div class="d-inline-block">
+                              <i class="fa fa-medkit" aria-hidden="true"></i>
+                          </div> 
+                          <div class="info-wrap"> 
+                              <h3>{{specialistCount}}</h3>
+                              <p>Specialities</p>
+                          </div> -->
+                      </div>
+                  </div>
+              </div>
+            <div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Theme Design -->
+  <div>
+    <div>
+      <div class="col-12">
+        <div>
+          <div class="card bgShadowStyle card-wrapper p-0">
+            <div class="card-body p-0">
+  
+              <!-- <div class="container"> -->
+                <ul class="nav nav-tabs borderBottomNone text-center px-4 py-3">
+                  <li [ngClass]="{'activeTab': selectedTab==1, 'nonActiveTab': selectedTab!=1}" class="active pl-5 pr-5 pt-2 pb-2" (click)="activatedTab(1)">
+                    <a data-toggle="tab">
+                      Sign In
+                    </a>
+                  </li>
+                  <li [ngClass]="{'activeTab': selectedTab==2, 'nonActiveTab': selectedTab!=2}" class="pt-2 pr-5 pb-2" (click)="activatedTab(2)">
+                    <a data-toggle="tab">
+                      Doctor Registration
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content customTabContent">
+                  <!-- Tab 1 Content -->
+                  <div [ngClass]="{'active': selectedTab==1, 'fade': selectedTab!=1}" class="tab-pane p-3">
+                    <app-login></app-login>
+                  </div>
+                  <!-- Tab 2 Content -->
+                  <div [ngClass]="{'active': selectedTab==2, 'fade': selectedTab!=2}" class="tab-pane p-4">
+                    <div hidden>
+                        <h1 class="text-center">
+                          Register as
+                        </h1>
+                        <!-- <p class="text-muted text-center">
+                          Please select your login option
+                        </p> -->
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-8 ml-5 text-center">
+                                <div [ngClass]="{'registrationOptionActive': isLoginOptionSelected==1, 'registrationOptionNonActive': isLoginOptionSelected!=1}" class="card cursor" (click)="registerLoginOption(1)">
+                                  <div class="card-body pt-2 pb-2">
+                                    <!-- <img src="assets/images/doctor1.jpg" width="60%" alt="Doctor_Image"> -->
+                                    <i class="fa fa-user-md registerIconSize" aria-hidden="true"></i>
+                                    <br/>
+                                    <b> Doctor </b>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-6 text-center">
+                              <div [hidden] = "true" [ngClass]="{'registrationOptionActive': isLoginOptionSelected==1, 'registrationOptionNonActive': isLoginOptionSelected!=1}" class="card cursor" (click)="registerLoginOption(1)">
+                                <div class="card-body pt-2 pb-2">
+                                  <!-- <img src="assets/images/doctor1.jpg" width="60%" alt="Doctor_Image"> -->
+                                  <i class="fa fa-user-md registerIconSize" aria-hidden="true"></i>
+                                  <br/>
+                                  <b> Doctor </b>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6 text-center">
+                              <div [hidden] = "true" [ngClass]="{'registrationOptionActive': isLoginOptionSelected==2, 'registrationOptionNonActive': isLoginOptionSelected!=2}" class="card cursor" (click)="registerLoginOption(2)">
+                                <div class="card-body pt-2 pb-2">
+                                  <i class="fa fa-user registerIconSize" aria-hidden="true"></i>
+                                  <br/>
+                                  <b> Patient </b>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="col-12 text-center">
+                          <button type="button" class="btn btnColor mt-2" [disabled] = "isLoginOptionSelected === 0" (click)="confirmRegisterOption()">
+                            Confirm
+                          </button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              <!-- </div> -->
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+ 
+  </div>
+  
+
+  <div class="footer">
+    <footer class="text-center text-lg-start">
+      <!-- Copyright -->
+      <div class="row col-md-12 p-3">
+        <div class="col-md-2" style="padding-left: 50px; color: blue; font-size: 15px " (click)="privacyPolicy()">
+          <a>Privacy Policy</a>
+        </div> |
+        <div class="col-md-2" style="padding-right: 80px; color: blue; font-size: 15px ">
+          <a (click)="termsOfUse()">Terms Of Use</a>
+        </div>
+      </div>
+      <!-- Copyright -->
+    </footer>
+</div>
+
+
+  

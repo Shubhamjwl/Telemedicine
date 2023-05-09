@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+
+@Injectable({
+    providedIn: 'root',
+})
+export class PrescriptionDataSharingService {
+
+    symptomDetailsChanged: Subject<boolean> = new Subject<boolean>();
+    diagnosisDetailsChanged: Subject<boolean> = new Subject<boolean>();
+    medicineDetailsChanged: Subject<boolean> = new Subject<boolean>();
+    adviceDetailsChanged: Subject<boolean> = new Subject<boolean>();
+
+    constructor() {
+
+    }
+    symptomDetailsChangedEvent(data: any) {
+        this.symptomDetailsChanged.next(data);
+    }
+    diagnosisDetailsChangedEvent(data: any) {
+        this.diagnosisDetailsChanged.next(data);
+    }
+    medicineDetailsChangedEvent(data: any) {
+        this.medicineDetailsChanged.next(data);
+    }
+    adviceDetailsChangedEvent(data: any) {
+        this.adviceDetailsChanged.next(data);
+    }
+
+}

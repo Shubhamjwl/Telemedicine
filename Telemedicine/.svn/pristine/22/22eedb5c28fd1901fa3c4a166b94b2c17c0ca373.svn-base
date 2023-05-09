@@ -1,0 +1,9 @@
+spring.profiles.active=dev
+server.port=7077
+Spring.application.name=slot-management
+mstrmgmt.api.version=v1
+server.servlet.context-path=/slotManagement/${mstrmgmt.api.version}
+spring.cloud.config.uri= http://localhost:8888/config
+spring.cloud.config.label=1.0.1
+
+  

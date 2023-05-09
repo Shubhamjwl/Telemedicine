@@ -1,0 +1,1073 @@
+<div class="login-container">
+  <div class="login-panel" *ngIf="isShownRegistration">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Create NDHM issued Health ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 900px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 80px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id using Aadhaar:</p>
+      <form #regestrationForm="ngForm" novalidate>
+        <div class="row mt-4">
+          <div class="col-md-3 lable">
+            <p class="mt-1">Enter Mobile Number</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                name="mobilePrifix"
+                disabled
+                class="form-control mr-2"
+                placeholder="+91"
+                style="width: 15%; display: inline-block"
+              />
+              <input
+                type="text"
+                name="mobileNo"
+                #mobileNo="ngModel"
+                [(ngModel)]="mobileNoSel"
+                maxlength="10"
+                pattern="{{ PATTERN.MOBILE_NUMBER }}"
+                class="form-control input"
+                placeholder="Mobile Number"
+                required
+              />
+            </div>
+            <div class="error" [hidden]="mobileNo.valid || mobileNo.untouched">
+              Enter Valid Mobile No
+            </div>
+          </div>
+
+          <div class="col-md-3 lable">
+            <p class="mt-1">Enter Name</p>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="firstName"
+                name="fname"
+                #fname="ngModel"
+                class="form-control mr-1 input"
+                placeholder="First Name"
+                required
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="middleName"
+                name="mname"
+                class="form-control mr-1 input"
+                placeholder="Middle Name"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="lastName"
+                class="form-control input"
+                name="lname"
+                placeholder="Last Name"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+            </div>
+            <div class="error" [hidden]="fname.valid || fname.untouched">
+              Enter Valid Name
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Date of Birth</p>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="dateOfBirth"
+                (change)="dateOfBirthSplit()"
+                name="dob"
+                #dob="ngModel"
+                required
+                class="form-control input"
+                placeholder="DD/MM/YYY"
+                style="width: 100% !important"
+              />
+            </div>
+            <div class="error" [hidden]="dob.valid || dob.untouched">
+              Enter Date of Birth
+            </div>
+          </div>
+          <div class="col-md-2 lable">
+            <p class="mt">Gender</p>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="gender"
+                name="genders"
+                #genders="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="M/F/T"
+                style="width: 50% !important"
+              />
+            </div>
+            <div class="error" [hidden]="genders.valid || genders.untouched">
+              Select Gender
+            </div>
+          </div>
+
+          <div class="col-md-3 lable">
+            <p class="mt-1">Email Address</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="email"
+                [(ngModel)]="email"
+                name="emailaddres"
+                #emailaddres="ngModel"
+                pattern="{{ PATTERN.EMAIL }}"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Email"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="emailaddres.valid || emailaddres.untouched"
+            >
+              Enter Email id
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Address</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="address"
+                name="addresssel"
+                #addresssel="ngModel"
+                pattern="{{ PATTERN.ADDRESS }}"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Address"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="addresssel.valid || addresssel.untouched"
+            >
+              Enter Valid address
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Enter Pin Code</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="pinCode"
+                name="pincorder"
+                #pincorder="ngModel"
+                pattern="{{ PATTERN.PINCODE }}"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Pin Code"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="pincorder.valid || pincorder.untouched"
+            >
+              Enter Valid pin code
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">State</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <select
+                name="state"
+                [(ngModel)]="stateCode"
+                name="slectstae"
+                #slectstae="ngModel"
+                required
+                style="
+                  width: 33%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+                (ngModelChange)="getDistricts()"
+              >
+                <option value="" selected>Select</option>
+                <option *ngFor="let state of states" [value]="state.code">
+                  {{ state.name }}
+                </option>
+              </select>
+            </div>
+            <div
+              class="error"
+              [hidden]="slectstae.valid || slectstae.untouched"
+            >
+              select State
+            </div>
+          </div>
+
+          <div class="col-md-3 lable">
+            <p class="mt-1">District</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <select
+                name="dist"
+                [(ngModel)]="districtCode"
+                name="slectdist"
+                #slectdist="ngModel"
+                required
+                style="
+                  width: 33%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              >
+                <option value="" selected>Select</option>
+                <option
+                  *ngFor="let district of districts"
+                  [value]="district.code"
+                >
+                  {{ district.name }}
+                </option>
+              </select>
+            </div>
+            <div
+              class="error"
+              [hidden]="slectdist.valid || slectdist.untouched"
+            >
+              select District
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Sub District</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="subDistrict"
+                name="slectsubdist"
+                #slectsubdist="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Sub District"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="slectsubdist.valid || slectsubdist.untouched"
+            >
+              Enter Sub District
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Town</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="town"
+                name="townsel"
+                #townsel="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Town"
+              />
+            </div>
+            <div class="error" [hidden]="townsel.valid || townsel.untouched">
+              Enter Town
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Ward</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="ward"
+                name="wardsel"
+                #wardsel="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Ward"
+              />
+            </div>
+            <div class="error" [hidden]="wardsel.valid || wardsel.untouched">
+              Enter Ward
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Village</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="village"
+                name="villagesel"
+                #villagesel="ngModel"
+                required
+                class="form-control mr-2 input"
+                placeholder="Enter Village"
+              />
+            </div>
+            <div
+              class="error"
+              [hidden]="villagesel.valid || villagesel.untouched"
+            >
+              Enter Village
+            </div>
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Photo</p>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input
+                #file
+                name="fiilePhoto"
+                type="file"
+                [(ngModel)]="photoFile"
+                accept="image/*"
+                (change)="preview(file.files)"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <img [src]="imgURL" height="200" *ngIf="imgURL" />
+          </div>
+          <div class="col-md-3 lable">
+            <p class="mt-1">Health ID</p>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthId"
+                name="healthidname"
+                (change)="checkHealthId()"
+                class="form-control mr-1 input"
+                placeholder="Health ID"
+                style="
+                  width: 26%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="healthId1"
+                name="hea"
+                class="form-control mr-1 input"
+                placeholder="@"
+                style="
+                  width: 8%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+              <input
+                type="text"
+                [(ngModel)]="healthId2"
+                name="hedo"
+                class="form-control input"
+                placeholder="sbx"
+                style="
+                  width: 10%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+              />
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+            <p class="mt-1">Password</p>
+          </div>
+          <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="password"
+                name="pass"
+                class="form-control mr-2 input"
+                placeholder="Enter Password"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="!isShownAfterRegistration">
+            <p class="mt-1">Confirm Password</p>
+          </div>
+          <div class="col-md-8" *ngIf="!isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="confirmPassword"
+                name="pass2"
+                class="form-control mr-2 input"
+                placeholder="Confirm Password"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 lable" *ngIf="isShownAfterRegistration">
+            <p class="mt-1">Health ID Number</p>
+          </div>
+          <div class="col-md-8" *ngIf="isShownAfterRegistration">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="healthIdNumber"
+                class="form-control mr-2 input"
+                placeholder="Health ID Number"
+              />
+            </div>
+          </div>
+          <div
+            class="col-md-12 justify-content-center align-items-center"
+            *ngIf="isShownAfterRegistration"
+          >
+            <div class="row" style="margin: 35px 93px; margin-left: 15%">
+              <div class="col-md-6">
+                <button
+                  class="btn btn-primary mr-3"
+                  style="
+                    background-color: #63a4ec;
+                    border-color: darkslategrey;
+                    width: 70%;
+                  "
+                  (click)="downloadHealthIdCard()"
+                >
+                  Download Health Id
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button
+                  class="btn btn-primary mr-3"
+                  style="
+                    background-color: #63a4ec;
+                    border-color: darkslategrey;
+                    width: 70%;
+                  "
+                  (click)="downloadHealthIdCardQR()"
+                >
+                  Download Health Id QR
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 93px">
+              <div class="col-md-1">
+                <input type="checkbox" [(ngModel)]="isChecked" name="check" />
+              </div>
+              <div class="col-md-10">
+                <p
+                  style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                  "
+                >
+                  All the Information are verified
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="back()"
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            [disabled]="!regestrationForm.valid"
+            (click)="next()"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="login-panel" *ngIf="isShowPopup">
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id :</p>
+      <div style="background-color: rgb(195, 211, 245); padding: 10px">
+        <div class="row mt-4">
+          <div class="col-md-2" style="height: 38px">
+            <p class="mt-1">Enter OTP</p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="otp" class="form-control input" name='otpName' />
+            </div>
+            <div style="margin-left: 35%">
+              <label
+                style="
+                  background-color: lightcyan;
+                  width: 50%;
+                  text-align: center;
+                  border-radius: 5%;
+                "
+                >00:{{ timeLeft }}</label
+              >
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button
+              style="background-color: goldenrod"
+              (click)="resendOTP()"
+              [disabled]="timeLeft > 0"
+            >
+              Resend OTP
+            </button>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button
+            class="btn btn-primary mr-3"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="backPopup()"
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-primary"
+            style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            "
+            (click)="submit()"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="login-panel" *ngIf="isShownAfterRegistration">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Create NDHM issued Health ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 900px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 80px;
+        padding: 20px;
+      "
+    >
+      <p>Create Health id using mobile:</p>
+      <div class="row mt-4">
+        <div class="col-md-3 lable">
+          <p class="mt-1">Enter Mobile Number</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control mr-2"
+              placeholder="+91"
+              style="width: 15%; display: inline-block"
+            />
+            <input
+              type="text"
+              [(ngModel)]="mobileNoSel"
+              class="form-control input"
+              placeholder="Mobile Number"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3 lable">
+          <p class="mt-1">Enter Name</p>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="firstName"
+              class="form-control mr-1 input"
+              placeholder="First Name"
+              style="
+                width: 26%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="middleName"
+              class="form-control mr-1 input"
+              placeholder="Middle Name"
+              style="
+                width: 26%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="lastName"
+              class="form-control input"
+              placeholder="Last Name"
+              style="
+                width: 26%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Date of Birth</p>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="dateOfBirth"
+              class="form-control input"
+              placeholder="DD/MM/YYY"
+              style="width: 100% !important"
+            />
+          </div>
+        </div>
+        <div class="col-md-2 lable">
+          <p class="mt">Gender</p>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="gender"
+              class="form-control mr-2 input"
+              placeholder="M/F/T"
+              style="width: 50% !important"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3 lable">
+          <p class="mt-1">Email Address</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="email"
+              [(ngModel)]="email"
+              class="form-control mr-2 input"
+              placeholder="Enter Email"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Address</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="address"
+              class="form-control mr-2 input"
+              placeholder="Enter Address"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Enter Pin Code</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="pinCode"
+              class="form-control mr-2 input"
+              placeholder="Enter Pin Code"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">State</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <select
+              name="state"
+              [(ngModel)]="stateCode"
+              style="
+                width: 33%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+              (ngModelChange)="getDistricts()"
+            >
+              <option value="" selected>Select</option>
+              <option *ngFor="let state of states" [value]="state.code">
+                {{ state.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3 lable">
+          <p class="mt-1">District</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <select
+              name="dist"
+              [(ngModel)]="districtCode"
+              style="
+                width: 33%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            >
+              <option value="" selected>Select</option>
+              <option
+                *ngFor="let district of districts"
+                [value]="district.code"
+              >
+                {{ district.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Sub District</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="subDistrict"
+              class="form-control mr-2 input"
+              placeholder="Enter Sub District"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Town</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="town"
+              class="form-control mr-2 input"
+              placeholder="Enter Town"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Ward</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="ward"
+              class="form-control mr-2 input"
+              placeholder="Enter Ward"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Village</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="village"
+              class="form-control mr-2 input"
+              placeholder="Enter Village"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Photo</p>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <input
+              #file
+              type="file"
+              [(ngModel)]="photoFile"
+              accept="image/*"
+              (change)="preview(file.files)"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img [src]="imgURL" height="200" *ngIf="imgURL" />
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Health ID</p>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthId"
+              class="form-control mr-1 input"
+              placeholder="Health ID"
+              style="
+                width: 26%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId1"
+              class="form-control mr-1 input"
+              placeholder="@"
+              style="
+                width: 8%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+            <input
+              type="text"
+              [(ngModel)]="healthId2"
+              class="form-control input"
+              placeholder="sbx"
+              style="
+                width: 10%;
+                display: inline-block;
+                background-color: #dbe9f099;
+                border-color: #2196f3;
+              "
+            />
+          </div>
+        </div>
+        <div class="col-md-3 lable">
+          <p class="mt-1">Health ID Number</p>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              type="text"
+              [(ngModel)]="healthIdNumber"
+              class="form-control mr-2 input"
+              placeholder="Health ID Number"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-12 justify-content-center align-items-center">
+          <div class="row" style="margin: 35px 93px; margin-left: 15%">
+            <div class="col-md-6">
+              <button
+                class="btn btn-primary mr-3"
+                style="
+                  background-color: #63a4ec;
+                  border-color: darkslategrey;
+                  width: 70%;
+                "
+                (click)="downloadHealthIdCard()"
+              >
+                Download Health Id
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="btn btn-primary mr-3"
+                style="
+                  background-color: #63a4ec;
+                  border-color: darkslategrey;
+                  width: 70%;
+                "
+                (click)="downloadHealthIdCardQR()"
+              >
+                Download Health Id QR
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row" style="margin: 35px 93px">
+            <div class="col-md-1">
+              <input type="checkbox" [(ngModel)]="isChecked" />
+            </div>
+            <div class="col-md-10">
+              <p
+                style="
+                  background-color: lightcyan;
+                  border: 2px solid #000;
+                  padding: 10px;
+                "
+              >
+                All the Information are verified
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn btn-primary mr-3"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+          (click)="back()"
+        >
+          Back
+        </button>
+        <button
+          class="btn btn-primary"
+          style="
+            background-color: #63a4ec;
+            border-color: darkslategrey;
+            width: 16%;
+          "
+          (click)="nextPopup()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div> -->
+  <div class="login-panel" *ngIf="isShowPopup2">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2>Create NDHM issued Health ID</h2>
+      </div>
+    </div>
+    <div
+      class="login-form-box"
+      style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      "
+    >
+      <div style="padding: 10px">
+        <div class="col-md-12">
+          <div class="row" style="margin: 35px 93px">
+            <div class="col-md-2 lable">
+              <p class="mt-1">Yes</p>
+            </div>
+            <div class="col-md-9">
+              <!-- <p
+                style="
+                  background-color: lightcyan;
+                  border: 2px solid #000;
+                  padding: 10px;
+                "
+              >
+                All the Information are verified
+              </p> -->
+              <textarea type="text" class="form-control mr-2 input" name="textName1"></textarea>
+            </div>
+          </div>
+          <div class="row" style="margin: 35px 93px">
+            <div class="col-md-2 lable">
+              <p class="mt-1">No</p>
+            </div>
+            <div class="col-md-9">
+              <!-- <p
+                style="
+                  background-color: lightcyan;
+                  border: 2px solid #000;
+                  padding: 10px;
+                "
+              >
+                All the Information are verified
+              </p> -->
+              <textarea type="text" class="form-control mr-2 input" name="textName2"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

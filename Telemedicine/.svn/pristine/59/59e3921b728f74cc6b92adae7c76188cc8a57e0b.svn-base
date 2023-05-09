@@ -1,0 +1,567 @@
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="header">
+    <div class="logo-area2"><img src="assets/img/logos2.png" alt=""></div>
+</div>
+<div class="registration-conatiner conatiner-fluid">
+    <div class="bottom-bg"></div>
+    <div class="register-left">
+        <mat-horizontal-stepper linear #stepper>
+
+            <mat-step>
+                <form [formGroup]="firstForm">
+                    <ng-template matStepLabel>
+                        <div class="d-flex stepper-header">
+                            <span class="tab-icon"><img src="assets/img/clinic-details.svg" alt=""></span>
+                            <span class="tab-title">Clinic/Doctor<br> detail</span>
+                        </div>
+                    </ng-template>
+                    <div class="register-form" style="padding-top: 20px;">
+                        <div class="input-group half-col">
+                            <label>Full Name<sup>*</sup></label>
+                            <input type="text" class="uname" maxlength="30" formControlName="doctorName">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('doctorName').errors && (firstForm.get('doctorName').touched || firstForm.get('doctorName').dirty)">
+                                <span *ngIf="firstForm.get('doctorName').errors.required">{{'errFullNameRequired' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('doctorName').errors.pattern">{{'errFullNamePattern' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('doctorName').errors.maxlength">{{'errFullNameMaxLength' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>SMC No.<sup>*</sup></label>
+                            <input type="text" class="pass" formControlName="smcNo">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('smcNo').errors && (firstForm.get('smcNo').touched || firstForm.get('smcNo').dirty)">
+                                <span *ngIf="firstForm.get('smcNo').errors.required">{{'errSMCrequired' | l10n}}</span>
+                                <span *ngIf="firstForm.get('smcNo').errors.minlength">{{'errMCIMinLength' | l10n}}</span>
+                                <span *ngIf="firstForm.get('smcNo').errors.maxlength">{{'errSMCMaxLength' | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>MIC No.<sup>*</sup></label>
+                            <input id="MicNo" type="text" class="pass" formControlName="micNo">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('micNo').errors && (firstForm.get('micNo').touched || firstForm.get('micNo').dirty)">
+                                <span *ngIf="firstForm.get('micNo').errors.required">{{'errMCIRequired' | l10n}}</span>
+                                <span *ngIf="firstForm.get('micNo').errors.minlength">{{'errMCIMinLength' | l10n}}</span>
+                                <span *ngIf="firstForm.get('micNo').errors.maxlength">{{'errMCIMaxLength' | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>Select Specialization<sup>*</sup></label>
+                            <select id="specialization" class="select-area" formControlName="specialization">
+                                <option *ngFor="let specialization of specializationList"
+                                    [value]="specialization.masterValue">
+                                    {{specialization.masterValue}}
+                                </option>
+                            </select>
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('specialization').errors && (firstForm.get('specialization').touched || firstForm.get('specialization').dirty)">
+                                <span *ngIf="firstForm.get('specialization').errors.required">{{'errSpecilasationRequired'
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col ruppee-icon">
+                            <label>Consultation Fees<sup>*</sup></label>
+
+                            <input formControlName="consultationFee" type="text" class="select-area pass">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('consultationFee').errors && (firstForm.get('consultationFee').touched || firstForm.get('consultationFee').dirty)">
+                                <span *ngIf="firstForm.get('consultationFee').errors.required">{{'errConsultantRequired'
+                                    | l10n}}</span>
+                                <span *ngIf="firstForm.get('consultationFee').errors.maxlength">{{'errConsultantMaxLength'
+                                    | l10n}}</span>
+                                <span *ngIf="firstForm.get('consultationFee').errors.pattern">{{'errConsultantPattern' |
+                                    l10n}}</span>
+                            </mat-error>
+
+                        </div>
+                        <div class="input-group half-col">
+                            <label>Mobile Number <sup>*</sup></label>
+                            <input formControlName="mobileNo" numberOnly length="10" type="text" class="pass">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('mobileNo').errors && (firstForm.get('mobileNo').touched || firstForm.get('mobileNo').dirty)">
+                                <span *ngIf="firstForm.get('mobileNo').errors.required">{{'errMobileRequired' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('mobileNo').errors.maxlength">{{'errMobileMaxLength' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('mobileNo').errors.pattern">{{'errMobilePattern' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>Gender <sup>*</sup></label>
+                            <select id="gender" class="select-area" formControlName="gender">
+                                <option *ngFor="let gender of genderList" [value]="gender.masterValue">
+                                    {{gender.masterValue}}</option>
+                            </select>
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('gender').errors && (firstForm.get('gender').touched || firstForm.get('gender').dirty)">
+                                <span *ngIf="firstForm.get('gender').errors.required">{{'errGenderRequired' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>State<sup>*</sup></label>
+                            <select id="country-state" class="select-area" formControlName="state"
+                                (change)="onSelectState($event.target.value)">
+                                <option>{{'lblState' | l10n}}</option>
+                                <option *ngFor="let state of states" [value]="state.stateName">{{state.stateName}}
+                                </option>
+                            </select>
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('state').errors && (firstForm.get('state').touched || firstForm.get('state').dirty)">
+                                <span *ngIf="firstForm.get('state').errors.required">{{'errStateRequired' | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>City<sup>*</sup></label>
+                            <select class="select-area" formControlName="city">
+                                <option>{{'lblCity' | l10n}}</option>
+                                <option *ngFor="let city of cities" [value]="city.cityName">{{city.cityName}}</option>
+                            </select>
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('city').errors && (firstForm.get('city').touched || firstForm.get('city').dirty)">
+                                <span *ngIf="firstForm.get('city').errors.required">{{'errCityRequired' | l10n}}</span>
+                            </mat-error>
+                        </div>
+
+                        <div class="input-group half-col locality">
+                            <label>Locality</label>
+                            <input type="text" class="pass" formControlName="locality">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('locality').errors && (firstForm.get('locality').touched || firstForm.get('locality').dirty)">
+                                <span *ngIf="firstForm.get('email').errors.required">{{'errEmailRequired' | l10n}}</span>
+                                <span *ngIf="firstForm.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+                                <span
+                                    *ngIf="!firstForm.get('email').errors.email && firstForm.get('email').errors.maxlength">{{'errEmailMaxlength'
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group full-col ">
+                            <label>Address 1<sup>*</sup></label>
+                            <input type="text" formControlName="address1" class="pass">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('address1').errors && (firstForm.get('address1').touched || firstForm.get('address1').dirty)">
+                                <span *ngIf="firstForm.get('address1').errors.required">{{'errAddressRequired' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('address1').errors.maxlength">{{'errAddressMaxLength' |
+                                    l10n}}</span>
+                                <span *ngIf="firstForm.get('address1').errors.pattern">{{'errAddressPattern' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col left">
+                            <label>Address 2</label>
+                            <input type="text" class="pass" formControlName="address2">
+                        </div>
+                        <div class="input-group half-col right">
+                            <label>Address 3</label>
+                            <input type="text" class="pass" formControlName="address3">
+                        </div>
+                        <div class="input-group half-col left">
+                            <label>Association Name </label>
+                            <select id="assname" class="select-area" formControlName="associationName">
+                                <option *ngFor="let association of associationList"
+                                    [value]="association.associationName">{{association.associationName}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="input-group half-col right">
+                            <label>Association Number </label>
+                            <input class="pass" type="text" maxlength="30" formControlName="associationNumber">
+                            <mat-error class="ml-1"
+                                *ngIf="firstForm.get('associationNumber').errors && (firstForm.get('associationNumber').touched || firstForm.get('associationNumber').dirty)">
+                                <span *ngIf="firstForm.get('associationNumber').errors.required">{{"errAssociationNoRequired"
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group full-col">
+                            <label>Association Address <sup>*</sup></label>
+                            <input type="text" class="pass">
+                        </div>
+                    </div>
+                    <div class="input-group btn-area">
+                        <button  mat-button  type="button" [disabled]="!firstForm.valid" (click)="stepperNext(stepper)" class="submit-main-btn">Next</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <form [formGroup]="secondForm">
+                    <ng-template matStepLabel>
+                        <div class="d-flex stepper-header">
+                            <span class="tab-icon"><img src="assets/img/document.svg" alt=""></span>
+                            <span class="tab-title">upload<br> documents</span>
+                        </div>
+                    </ng-template>
+                    <div class="register-form">
+                        <div class="input-group full-col">
+                            <label>Pre-Assessment Link</label>
+                            <input type="text" class="pass" maxlength="100" formControlName="pre_assessment_link">
+                        </div>
+                        <div class="input-group half-col left">
+                            <label>Document Type<sup>*</sup></label>
+                            <select id="type" class="select-area" formControlName="documentType">
+                                <option>Degree Certificate</option>
+                                <option>Aadhar Card</option>
+                            </select>
+                            <mat-error class="ml-1"
+                                *ngIf="secondForm.get('documentType').errors && (secondForm.get('documentType').touched || secondForm.get('documentType').dirty)">
+                                <span *ngIf="secondForm.get('documentType').errors.required">{{'errdocRequired' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col right upload-area">
+                            <label>Upload Document<sup>*</sup></label>
+                            <input type="file" class="pass" formControlName="filesToUpload"
+                                (change)="showSelectedFiles($event)" multiple>
+
+                        </div>
+                        <div class="input-group half-col left attach-col upload-area">
+                            <div class="attach-img"><img src="assets/img/photo.png" alt=""></div>
+                            <label>Upload Photo<sup>*</sup></label>
+                            <input type="file" class="pass" formControlName="profilePhoto"
+                                (change)="uploadProfilePhoto($event)">
+                        </div>
+                    </div>
+                    <div class="input-group btn-area">
+                        <button mat-button (click)="stepperPrevious(stepper)" type="button"
+                            class="submit-main-btn mr-1">Back</button>
+                        <button mat-button type="button" [disabled]="!secondForm.valid" (click)="stepperNext(stepper)"
+                            class="submit-main-btn">Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step>
+                <form [formGroup]="thirdForm">
+                    <ng-template matStepLabel>
+                        <div class="d-flex stepper-header">
+                            <span class="tab-icon"><img src="assets/img/create-account.svg" alt=""></span><span
+                                class="tab-title">create<br> account</span>
+                        </div>
+                    </ng-template>
+                    <div class="register-form">
+                        <div class="input-group">
+                            <label>Email ID<sup>*</sup></label>
+                            <input type="email" class="pass" formControlName="email">
+                            <mat-error class="ml-1"
+                                *ngIf="thirdForm.get('email').errors && (thirdForm.get('email').touched || thirdForm.get('email').dirty)">
+                                <span *ngIf="thirdForm.get('email').errors.required">{{'errEmailRequired' | l10n}}</span>
+                                <span *ngIf="thirdForm.get('email').errors.email">{{'errEmailPattern' | l10n}}</span>
+                                <span
+                                    *ngIf="!thirdForm.get('email').errors.email && thirdForm.get('email').errors.maxlength">{{'errEmailMaxlength'
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col">
+                            <label>Username<sup>*</sup></label>
+                            <input type="text" class="pass" formControlName="userName" autocomplete="off" minlength="8"
+                                maxlength="25">
+                            <mat-error class="ml-1"
+                                *ngIf="thirdForm.get('userName').errors && (thirdForm.get('userName').touched || thirdForm.get('userName').dirty)">
+                                <span *ngIf="thirdForm.get('userName').errors.required">{{'errUserNameRequired' |
+                                    l10n}}</span>
+                                <span *ngIf="thirdForm.get('userName').errors.maxlength">{{'errUserNameMaxLength' |
+                                    l10n}}</span>
+                                <span *ngIf="thirdForm.get('userName').errors.minlength">{{'errUserNameMinLength' |
+                                    l10n}}</span>
+                                <span *ngIf="thirdForm.get('userName').errors.pattern">{{'errUserNamePattern' |
+                                    l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col pass2">
+                            <label>Password<sup>*</sup>
+                                <i matSuffix *ngIf="!hidePassword" (click)="hidePassword = !hidePassword"
+                                    class="fa fa-eye eye-icon"></i>
+                                <i matSuffix *ngIf="hidePassword" (click)="hidePassword = !hidePassword"
+                                    class="fa fa-eye-slash eye-icon"></i>
+                            </label>
+                            <input [type]="hidePassword? 'password' : 'text'" class="pass" autocomplete="off"
+                                formControlName="password" (input)="onPasswordInput()">
+
+                            <mat-error class="ml-1"
+                                *ngIf="thirdForm.get('password').errors && (thirdForm.get('password').touched || thirdForm.get('password').dirty)">
+                                <span *ngIf="thirdForm.get('password').errors.required">{{'errpasswordRequired' |
+                                    l10n}}</span>&nbsp;
+                                <span *ngIf="thirdForm.get('password').errors.maxlength">{{'lblPasswordCondition2' |
+                                    l10n}}</span>&nbsp;
+                                <span *ngIf="thirdForm.get('password').errors.minlength">{{'errPasswordMinLength' |
+                                    l10n}}</span>&nbsp;
+                                <span
+                                    *ngIf="thirdForm.get('password').value && thirdForm.get('password').invalid">{{'lblPasswordMatch'
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group half-col pass2">
+                            <label>Re-enter Password<sup>*</sup>
+                                <i matSuffix *ngIf="!hideReEnterPassword"
+                                    (click)="hideReEnterPassword = !hideReEnterPassword" class="fa fa-eye eye-icon"></i>
+                                <i matSuffix *ngIf="hideReEnterPassword"
+                                    (click)="hideReEnterPassword = !hideReEnterPassword"
+                                    class="fa fa-eye-slash eye-icon"></i>
+                            </label>
+                            <input class="pass" [type]="hideReEnterPassword? 'password' : 'text'" autocomplete="off"
+                                formControlName="reEnterPassword" (input)="onPasswordInput()">
+                            <mat-error class="ml-1"
+                                *ngIf="thirdForm.get('reEnterPassword').errors && (thirdForm.get('reEnterPassword').touched || thirdForm.get('reEnterPassword').dirty)">
+                                <span *ngIf="thirdForm.get('reEnterPassword').errors.required">{{'errpasswordRequired' |
+                                    l10n}}</span>&nbsp;
+                                <span *ngIf="thirdForm.get('reEnterPassword').errors.maxlength">{{'lblPasswordCondition2' |
+                                    l10n}}</span>&nbsp;
+                                <span *ngIf="thirdForm.get('reEnterPassword').errors.minlength">{{'errPasswordMinLength' |
+                                    l10n}}</span>&nbsp;
+                                <span
+                                    *ngIf="thirdForm.get('reEnterPassword').invalid && !thirdForm.get('reEnterPassword').hasError('required')">{{'lblEnterCorrectPass'
+                                    | l10n}}</span>
+                            </mat-error>
+                        </div>
+                        <div class="input-group full-col">
+                            <label>Resolve The Captcha Below1</label>
+                            <div class="captcha">
+                                <span class="captcha-icon mr-2"><img [src]="captcha" alt="Cpacha_Image"></span>
+                                <input type="text" class="w-25 mr-2" formControlName="captcha">
+                                <span class="refreash-icon"><img (click)="reset()" src="assets/img/referesh.svg"
+                                        alt=""></span>
+                                <mat-error class="pl-2 pt-2 d-flex"
+                                    *ngIf="thirdForm.get('captcha').errors && (thirdForm.get('captcha').touched || thirdForm.get('captcha').dirty)">
+                                    <span *ngIf="thirdForm.get('captcha').errors.required">{{'errCaptchaRequired' |
+                                        l10n}}</span>
+                                </mat-error>
+                            </div>
+                        </div>
+
+                        <div class="input-group half-col repeat-area left terms">
+                            <input id="weekday-3" type="checkbox" formControlName="terms" required>
+                            <label for="weekday-3">I agree to the <a (click)="openDialogTC(content)">Terms and
+                                    Conditions</a></label>
+                        </div>
+                        
+                    </div>
+                    <div class="input-group btn-area">
+                        <button mat-button (click)="stepperPrevious(stepper)" type="button"
+                            class="submit-main-btn mr-1">Back</button>
+                        <button mat-button type="button" [disabled]="!thirdForm.valid" class="submit-main-btn"
+                            (click)="stepperNext(stepper)">Submit</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>
+                    <div class="d-flex stepper-header">
+                        <span class="tab-icon"><img src="assets/img/finish.svg" alt=""></span><span
+                            class="tab-title tab-title2">Finish</span>
+                    </div>
+                </ng-template>
+                <div class="form-content-area">
+                    <div class="form-title">Congratulations</div>
+                    <div class="congo-left"><img src="assets/img/congratulations.svg" alt=""></div>
+                    <div class="congo-right">Thank You for registering into Protean Clinic. Your application is
+                        pending for verification, you will be able to login once the verification process is
+                        completed. You will receive a notification of the same on your registered Email ID / Mobile
+                        no</div>
+                </div>
+
+                <div>
+                    <button mat-button type="button" class="submit-main-btn"
+                        (click)="stepperNext(stepper)">Next</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <form [formGroup]="slotBookForm">
+                    <ng-template matStepLabel>
+                        <div class="d-flex stepper-header">
+                            <span class="tab-icon"><img src="assets/img/create-slots.svg" alt=""></span><span
+                                class="tab-title">Create<br> Slots</span>
+                        </div>
+                    </ng-template>
+                    <div class="register-form">
+                        <div class="input-group full-col no-border slot-area" *ngIf="slotBookForm">
+                            <label>Create Slot For Months<sup>*</sup></label>
+
+                            <div class="moth-slot">
+                                <ul>
+                                    <li *ngFor="let slot of slotMonths"><a
+                                            [class.selected]="slotBookForm.get('selectedRepeatMonths').value==slot"
+                                            (click)="repeatForMonths(slot)">{{slot}}</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="input-group half-col no-border repeat-area left">
+                            <label>Auto Repeat<sup>*</sup></label>
+
+                            <div class="repeat-inside">
+
+                                <input id="radio-1" [value]="true" class="radio-custom" type="radio"
+                                    formControlName="autRepeat">
+                                <label for="radio-1" class="radio-custom-label">Yes</label>
+
+                                <input id="radio-2" [value]="false" class="radio-custom" type="radio"
+                                    formControlName="autRepeat">
+                                <label for="radio-2" class="radio-custom-label">No</label>
+
+                            </div>
+
+                        </div>
+                        <div class="input-group half-col repeat-area right">
+                            <label>Create Slots For <sup>*</sup></label>
+
+
+                            <div class="repeat-inside">
+
+                                <input type="checkbox" id="weekday-1"
+                                    [checked]="slotBookForm.get('slotType').value=='Teleconsultation'"
+                                    (change)="selectedSlotType('Teleconsultation')">
+                                <label for="weekday-1">Tele Consultation</label>
+
+                                <input type="checkbox" id="weekday-2"
+                                    [checked]="slotBookForm.get('slotType').value=='In-Clinic'"
+                                    (change)="selectedSlotType('In-Clinic')">
+                                <label for="weekday-2">In-Clinic</label>
+
+                            </div>
+
+
+                        </div>
+                        <div class="input-group full-col no-border slot-area">
+                            <label>Set Working Days<sup>*</sup></label>
+                            <div class="days-area">
+                                <ul>
+                                    <li *ngFor="let day of slotWorkingDayList"><a
+                                            [class.selected]="slotBookForm.get('slotWorkingDays')?.value?.includes(day.property)"
+                                            (click)="selectSlotWorkingDays(day.property)">{{day.label}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-col no-border slot-area repeat-area"
+                            formArrayName="workingTimeArray">
+                            <label>Set Working time (24-hr)<sup>*</sup></label>
+                            <label class="time-col col-5">Start Time<sup>*</sup></label>
+                            <label class="End Time col-5">End Time<sup>*</sup></label>
+                            <ng-container
+                                *ngFor="let item of slotBookForm.get('workingTimeArray')['controls']; let i = index"
+                                [formGroupName]="i">
+                                <div class="time-col">
+                                    <input type="time" formControlName="startTime" (change)="startTimeValidation(i)"
+                                        class="form-control">
+                                </div>
+                                <div class="End Time">
+                                    <input type="time" formControlName="endTime" (change)="startTimeValidation(i)"
+                                        class="form-control">
+                                </div>
+                                <div *ngIf="i == slotBookForm.get('workingTimeArray').length - 1" class="add"><img
+                                        role="button" (click)="addWorkingTime()" src="assets/img/add.svg" />
+                                </div>
+                                <div *ngIf="i < slotBookForm.get('workingTimeArray').length - 1" class="cancel"><img
+                                        role="button" (click)="removeWorkingTime(i)" src="assets/img/remove.svg" />
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="input-group full-col no-border slot-area left">
+                            <label>Slot Duration ( in minutes): <sup>*</sup></label>
+                            <div class="moth-slot">
+                                <ul>
+                                    <li *ngFor="let slot of slotDurations"><a
+                                            [class.selected]="slotBookForm.get('selectedTimeSlotDuration').value==slot"
+                                            (click)="selectedSlotDuration(slot)">{{slot}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group btn-area">
+                        <button type="button" class="submit-main-btn" (click)="saveTimeSlot()">Submit</button>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+    <div class="copyright">
+        © Copyright 2022, Protean Clinic.
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="model-wrapper" style="overflow: auto;">
+        <div class="modal-header py-2">
+            <h2 class="modal-title mb-0">Terms of service</h2>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="text-dark" style="padding: 18px 0 18px 35px;">
+            <div class="container">
+                <p> By proceeding further, I hereby agree and give my consent to the following:
+                    <span class="btindent mt-2 mb-2">
+                        <ul>
+                            <li>I request qualified doctors (“RMP”) registered with Protean Clinic, an online Platform
+                                managed by Protean e-Gov Technologies Limited (Protean), to participate in my medical
+                                care via use of Protean Clinic.</li><br>
+                            <li>RMP (i) may practice in a different location than where I am present for medical care,
+                                (ii) may not have the opportunity to perform an in-person physical examination, and
+                                (iii) will solely rely on information provided by me.</li><br>
+                            <li> I acknowledge that RMP’s advice, recommendations, and/or decision may be based on
+                                factors not within their control, such as incomplete or inaccurate data provided by me
+                                or distorted / illegible diagnostic images / reports that may result from electronic
+                                transmissions.</li><br>
+                            <li>I acknowledge that it is my responsibility to provide information about my medical
+                                history, condition and care that is complete and accurate to the best of my ability.
+                            </li><br>
+                            <li> no warranties or guarantees are made to me as to result or cure.</li>
+                        </ul>
+                    </span>
+                    <span class="indent mt-2 mb-2">
+                        <p>  Protean and their associates are mere facilitator of my interaction with my doctor and
+                            they have no liability or responsibility towards diagnosis, prescription, effectiveness of
+                            the advice of the RMP.
+                            I further agree and understand that </p>
+                        <p>  Based on RMP’s assessment, I may require an in-person medical evaluation and/or additional
+                            diagnostic check/tests which I undertake to carry out as per RMP’s recommendation.
+                        </p>
+                        <p>  In the event any service delivery on Protean Clinic is interrupted due to a technological
+                            problem or equipment failure, alternative means of service delivery may be implemented by
+                            RMP.
+                        </p>
+                        <p>  Protean Clinic is not suitable for any urgent matter or in the case of emergencies in
+                            which in-person consultation is necessary. I agree to go to the nearest doctor, hospital
+                            emergency department in such cases.
+                        </p>
+                        <p>  I understand that the disclosure of my medical information to RMP, including the audio
+                            and/or video, will be by electronic transmission including any recording/photograph taken
+                            during the telemedicine session. Although precautions are taken to protect the
+                            confidentiality of this information by preventing unauthorized access and use, I understand
+                            that confidentiality may be compromised by failures of security safeguards or illegal and
+                            improper tampering during electronic transmission of data, video images, and audio.
+                        </p>
+                        <p>  I have read it or have had it read to me, and that I understand and agree to the Terms of
+                            Use and Privacy Policy for the Protean Clinic and its contents.
+                        </p>
+                        <p>  I am above 18 years of age and legally competent to avail these services as a Patient or
+                            as a guardian for my ward who is a minor/ disabled, the above consent also applies to such
+                            medical care provided to my ward.
+                        </p>
+                        <p>  I shall not hold Protean liable for any action or omission of a third party that results
+                            in unauthorized access or processing of my personal data, and resultant harm or
+                            consequences.
+                        </p>
+                        <p>  I hereby agree that I am availing Services on Protean Clinic with my free will, without
+                            any inducement or influence form Protean and I am fully aware of the limitations around the
+                            services provided.
+                        </p>
+                        <p>  I confirm that I am physically present in India while availing the services.</p>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btnColor btn-secondary" data-dismiss="modal"
+                (click)="modal.dismiss()">Close</button>
+        </div>
+    </div>
+</ng-template>

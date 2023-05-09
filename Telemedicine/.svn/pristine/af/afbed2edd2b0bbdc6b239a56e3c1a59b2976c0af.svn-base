@@ -1,0 +1,266 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light headerNavbar headerBackgroundColor">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand logo-wrapper">
+        <img src="assets/images/ProteanClinic8.png" alt="logo" style="margin: 0 0 -7px 0;">
+        <!-- <img src="assets/images/Protean_Clinic_7.png" alt="logo"> -->
+    </span>
+    <!-- <img src="assets/images/aarogyaSa.png" style="width: 10%;" alt="logo"> -->
+
+    <!-- <span style="border-right: 1px solid brown;height: 41px;"></span>
+    <img src="assets/images/AaroS.png" class = "mr-2 ml-3" style="width: 2%;" alt="logo"> -->
+    <!-- <ng-container>
+        <span class="mr-1" style = "font-size: 18px; color: #f8d83d;">Aarogya</span>
+        <span style = "font-size: 18px; color: brown;"> Saarthi</span>
+    </ng-container> -->
+
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="col-5 navbar-nav mr-auto">
+            <!-- <li class="nav-item active">
+                <a *ngIf="showHomePageOptions==true" class="nav-link" (click)="navigateToPage('home')">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a *ngIf="showHomePageOptions==true" class="nav-link" (click)="navigateToPage('aboutUs')">About Us</a>
+            </li>
+            <li class="nav-item">
+                <a *ngIf="showHomePageOptions==true" class="nav-link" (click)="navigateToPage('programs')">Programs</a>
+            </li> -->
+        </ul>
+        <div class="col-sm-5 col-md-5 col-lg-5 col-xl-5 user">
+            <div [ngbPopover]="login" placement="bottom">
+
+                <div *ngIf="userLoggedIn==true" class="float-right mt-1 userImage profile-wrapper-sm">
+                    <img src="assets/images/changePass.PNG" alt="User-Photo" ngbTooltip="Change Password"
+                        (click)="onClickChangePass()">
+                </div>
+                <ng-container *ngIf="userRole === 'DOCTOR' || userRole=='SCRIBE'">
+                    <div *ngIf="userLoggedIn==true" class="float-right mt-1 userImage profile-wrapper-sm"
+                        ngbTooltip="Register Patient" (click)="ptregister()">
+                        <img src="assets/images/editP.PNG" alt="User-Photo">
+                    </div>
+                </ng-container>
+                <div *ngIf="userLoggedIn==true" class="text-truncate float-right userName">
+                    <span *ngIf="authService.isUserDoctor()">DR. </span>{{ checker }}
+                </div>
+                <div *ngIf="userLoggedIn==true" class="float-right userImage profile-wrapper-sm">
+                    <img src="{{profile}}" alt="User-Photo" class="rounded-circle">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col- md-2 col-lg-2 col-xl-2 logoutOption">
+            <button *ngIf="userLoggedIn==true" type="button" class="btn logoutBtn" (click)="onClickLogout()">
+                Logout
+            </button>
+            <button *ngIf="userLoggedIn==false && changePwdScreen==false" type="button"
+                class="btn btn-primary btn-sm ml-xl-n5 mr-1" (click)="onClickSignIn()">
+                Sign In
+            </button>
+            <button *ngIf="userLoggedIn==false && changePwdScreen==false" type="button"
+                class="btn btn-outline-info btn-sm" (click)="onClickContactUs()">
+               Home
+            </button>
+        </div>
+
+    </div>
+</nav>
+
+<ng-template #login>
+    <div class="custom-popover">
+        <div class="popover-wrap">
+            <div>
+                <ng-container *ngIf="userRole === 'DOCTOR'">
+                    <div class="logoutOption disableC">
+                        <!-- General Physician, MBBS | Family Specialist -->
+                        <span *ngIf="userLoggedIn==true">{{profileDetails?.specialization ?
+                            profileDetails.specialization : '-'}}</span>
+                    </div>
+                    <hr class="hrAlign">
+                </ng-container>
+                <div class="logoutOption disableC">
+                    <!-- +91 8332999907 -->
+                    <span *ngIf="userLoggedIn==true">Mobile No : {{profileDetails?.mobileNo ? profileDetails.mobileNo :
+                        '-'}}</span>
+                </div>
+                <hr class="hrAlign">
+                <div class="logoutOption disableC">
+                    <!-- abc@gmail.com -->
+                    <span *ngIf="userLoggedIn==true">Email Id : {{profileDetails?.emailId ? profileDetails.emailId :
+                        '-'}}</span>
+                </div>
+                <!-- <ng-container *ngIf="userRole === 'PATIENT'">
+                    <div class="logoutOption disableC">
+                       Health Id Number
+                        <span *ngIf="userLoggedIn==true">Health Id Number : {{profileDetails?.healthNumber ? profileDetails.healthNumber :
+                            '-'}}</span>
+                    </div> 
+                </ng-container> -->
+                <ng-container *ngIf="userRole === 'DOCTOR'">
+                    <hr class="hrAlign">
+                    <div class="logoutOption disableC">
+                        <!-- SMC123 |MCI123 -->
+                        <span class="d-block" *ngIf="userLoggedIn==true">SMC Number : {{profileDetails?.smcNo ?
+                            profileDetails.smcNo : '-'}} </span>
+                        <span class="d-block" *ngIf="userLoggedIn==true"> MCI Number : {{profileDetails.mciNo ?
+                            profileDetails.mciNo : '-'}}</span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <ng-container>
+                <div class="mt-3 clearfix">
+                    <button type="button" *ngIf="userRole === 'DOCTOR'"
+                        class="btn docDetailsbtn editBtn float-left mr-2" (click)="editProfile()"> Edit Profile
+                    </button>
+                    <button type="button" *ngIf="userRole === 'DOCTOR'" class="btn docDetailsbtn presBtn float-right"
+                        (click)="onClickPrescription()"> Prescription Templates </button>
+                    <button type="button" *ngIf="userRole === 'PATIENT' || userRole === 'SCRIBE'"
+                        class="btn docDetailsbtn editBtn float-left mr-2  w-100" (click)="editProfile()"> Edit Profile
+                    </button>
+                    <button type="button"
+                        *ngIf="userRole === 'SYSTEMUSER' || userRole === 'RECEPTIONIST' || userRole === 'CALLCENTRE'"
+                        class="btn docDetailsbtn editBtn float-left mr-2 w-100" (click)="editProfile()"> View Profile
+                    </button>
+                </div>
+                <div *ngIf="userRole === 'DOCTOR'">
+                    <div class="textClr mt-2">
+                        <span>Scribe</span>
+                        <span class="float-right" (click)="onClickAddScribe()">+ Add New</span>
+                    </div>
+                    <hr class="hrAlign">
+                    <div class="textClr mt-2">
+                        <ng-container *ngIf="scribeList && scribeList.length">
+                            <div class="mb-1" *ngFor="let scribe of scribeList">
+                                <!-- Rahul Verma 9021733444 -->
+                                <span>{{scribe.scrbFullName ? scribe.scrbFullName : '-'}} | Mob No:
+                                    {{scribe.scrbMobileNo ? scribe.scrbMobileNo : '-'}}</span>
+                                <span class="float-right">
+                                    <i *ngIf="scribe.isDefaultScribe == 'N'" class="fa fa-trash float-right"
+                                        aria-hidden="true" (click)="changeStatus($event,scribe, 'N')"></i>
+                                </span>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="scribeList && !scribeList.length">
+                            <div class="mb-1">
+                                <span>No Scribe Found</span>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+<!-- <ng-template #login>
+    <div class="text-center logoutOption">
+        <a *ngIf="userLoggedIn==true" href="javascript:;" (click) = "onClickLogout()">
+            Logout
+        </a>
+    </div>
+    <div class="text-center logoutOption"> 
+        <a *ngIf="userLoggedIn==true" href="javascript:;" class="mt-2" (click) = "editProfile()">
+            Update Profile
+        </a>
+    </div>
+</ng-template> -->
+<!-- <div class="header">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row headerItems">
+            
+            <div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 logo">
+                
+                <img src="assets/images/medicine.jpeg" class="rounded mx-auto d-block" alt="Logo">
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 text-center options">
+                <div>Home</div>
+                <div>About Us</div>
+                <div>Programs</div>
+            </div>
+
+            <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 user">
+                <div *ngIf="enableChecker=='Yes'" class="text-truncate float-right userName">
+                    {{ checker }}
+                </div>
+                <div *ngIf="enableChecker=='Yes'" class="float-right userImage">
+                    <img src="assets/images/img_avatar.png" alt="User-Photo" height="55px" width="55px" class="rounded-circle">
+                </div>
+            </div>
+            
+            <div class="col-sm-3 col-md-3 col-lg-3 col-xl-3 text-center btnsDeRegisterContactUs">
+                <button *ngIf="enableChecker=='Yes'" type="button" class="btn btn-outline-default DeRegisterBtn">
+                    De-Register
+                </button>
+                <button type="button" class="btn btn-success ContactUsBtn">
+                    Contact Us
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+<div class="sidebar sidebarBackgroundColor">
+    <div id="sidebar-container"
+        [ngClass]="{'sidebar-collapsed': sidebarToggle==true, 'sidebar-expanded': sidebarToggle==false}"
+        class="d-none d-md-block">
+
+        <ul class="list-group" *ngIf="userLoggedIn==true">
+            <li>
+                <a data-toggle="sidebar-colapse"
+                    class="list-group-item list-group-item-action d-flex align-items-center mainMenu mt-4"
+                    (click)="menuVisibility()" style="cursor: pointer;">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                        <span id="collapse-icon" class="fa fa-bars fa-fw mr-3" aria-hidden="true"></span>
+                        <span id="collapse-text"
+                            [ngClass]="{'d-none':toggleMenu==false, 'menu-collapsed':toggleMenu==true}">Tele-Medicine</span>
+                    </div>
+                </a>
+            </li>
+            <!-- ####################### NEW DYNAMIC MENU ######################################################################## -->
+            <ng-container *ngIf="menus && menus.length">
+                <li *ngFor="let menu of menus">
+                    <a class="list-group-item list-group-item-action flex-column align-items-start mainMenu"
+                        href="#{{menu.id}}" data-toggle="collapse"   data-target="#{{menu.id}}" aria-expanded="false">
+                        <i class="{{menu.icon}}"   (click)="menuVisibility()"></i>
+                        <span class="w-100"  (click)="onClickRoute(menu.route)" [ngClass]="{'d-none':toggleMenu==false, 'menu-collapsed':toggleMenu==true}"
+                            >{{menu.mainMenu}}</span>
+                        <span *ngIf="menu.subMenu && menu.subMenu.length"
+                            [ngClass]="{'submenu-icon': submenuIconToggle==true, 'd-none': submenuIconToggle==false}"
+                            class="ml-auto"></span>
+                    </a>
+                    <div class="collapse" id="{{menu.id}}"
+                        [ngClass]="{'sidebar-submenu': sidebarSubmenuToggle==true, 'd-none': sidebarSubmenuToggle==false}"
+                        *ngIf="menu.subMenu && menu.subMenu.length">
+                        <ul class="flex-column nav pl-3">
+                            <li *ngFor="let subMenu of menu.subMenu">
+                                <a class="list-group-item list-group-item-action text-white"
+                                    (click)="onClickRoute(subMenu.route)">
+                                    {{subMenu.subMenuName}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ng-container>
+            <!-- <ng-container *ngIf="toggleMenu">
+                <li *ngFor ="let menu of menus">
+                    <ul class="nav flex-column">
+                        <li class="nav-item dropdown" [ngClass]="{'custom-menu': menu.functions && menu.functions.length}">
+                            <a class="nav-link dropdown-toggle" [ngClass]="{'custom-sub-menu': menu.functions && menu.functions.length}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" (click)="onClickRoute(menu.route ? menu.route : null)">
+                                <i class="fa fa-bars fa-fw mr-3"></i>
+                                {{menu.mainMenuName}}
+                            </a>
+                            <div class="dropdown-menu" *ngIf ="menu.functions && menu.functions.length">
+                                <a *ngFor="let subMenu of menu.functions" class="dropdown-item" data-toggle="dropdown"  href="#" (click)="onClickRoute(subMenu.route ? subMenu.route : null)"> {{subMenu.functionName}} </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ng-container> -->
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+.scribe-status-wrapper{
+    margin-top: 100px;
+    .scribe-name{
+        width: 200px;
+        display: inline-block;
+    }
+    .text-flow{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .image-wrap{
+        display: inline-block;
+        width: 5%;
+        img{
+            height: 40px;
+            width: 40px;
+        }
+    }
+    .scribe-details{
+        width: 75%;
+        h2, p {
+           // font-size: 16px;
+            line-height: 20px;
+            display: inline-block;
+            margin-bottom: 0px !important;
+        }
+        h2 {
+            font-size: 20px;
+        }
+        p{
+            font-size: 16px;
+        }
+    }
+    .btn-sm{
+        min-width: 80px;
+    }
+    .bg-white{
+        text-align: center;
+    }
+    .col-profile{
+        max-width: 10%;
+    }
+    .col-doc-details {
+        max-width: 65%;
+    }
+    .col-action {
+        max-width: 25%;
+    }
+}
+.scribe-name-modal{
+    font-size: 16px;
+    margin-bottom: 0px !important;
+}
+.list-group-item+.list-group-item:hover{
+    background: #80806b1a;
+}
+
+@media (max-width: 480px) {
+    .scribe-status-wrapper {
+        margin-top: 130px;
+    }
+}

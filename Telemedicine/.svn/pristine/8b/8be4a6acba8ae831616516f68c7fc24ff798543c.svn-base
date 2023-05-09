@@ -1,0 +1,7 @@
+<footer class="footer">
+    <img class="footer-left" src="assets/img/bottom-left-bg.png" alt="" srcset="">
+    <div class="copyright">
+        © Copyright 2022, Protean Clinic
+    </div>
+   <!--  <img class="footer-right" src="assets/img/bottom-right-bg.png" alt="" srcset=""> -->
+</footer>

@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  height: 100%;
+  background-color: white;
+}
+
+.content-area {
+  margin-left: 90px;
+  margin-top: 120px;
+
+  .breadcrumb-area {
+    padding-bottom: 6px;
+    a {
+      font-size: 13px;
+      color: #000;
+      text-decoration: none;
+    }
+  }
+
+  .page-title {
+    font-size: 22px;
+    color: #e43927;
+  }
+}

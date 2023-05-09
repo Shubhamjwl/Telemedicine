@@ -1,0 +1,312 @@
+import { Component, OnInit } from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import {debounceTime} from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from 'src/environments/environment';
+import { DdateAdapter, MY_FORMATS } from 'src/app/shared/commonBuildBlocks/derectives/formatDatepickers';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { DataPassingService } from 'src/app/shared/commonBuildBlocks/services/dataPassingServices/dataPassing.service';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { MasterTypes } from 'src/app/shared/commonBuildBlocks/enum/master-type.enum';
+import { AuthService } from 'src/app/shared/commonBuildBlocks/services/authSercies/auth.service';
+
+@Component({
+  selector: 'app-book-appointment-dashboard',
+  templateUrl: './book-appointment-dashboard.component.html',
+  styleUrls: ['./book-appointment-dashboard.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: DdateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ],
+})
+export class BookAppointmentDashboardComponent implements OnInit {
+
+
+  specialityDetails = [
+    {
+      imgUrl : 'assets/images/Group 2309.png',
+      specialityName: 'Rheumatologist',
+      isSelectProblem: false
+    },
+    {
+      imgUrl : 'assets/images/Group 2308.png',
+      specialityName: 'Dermatologist',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 2311.png',
+      specialityName: 'General Physician',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 2310.png',
+      specialityName: 'Skin & Hair',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11023.png',
+      specialityName: 'Child Specialist',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11024.png',
+      specialityName: 'Dental Care',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11025.png',
+      specialityName: 'Ear Nose Throat',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11026.png',
+      specialityName: 'Eye Specialist',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11028.png',
+      specialityName: 'Homeotherapist',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11029.png',
+      specialityName: 'Ayurveda',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11031.png',
+      specialityName: 'Cancer',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11032.png',
+      specialityName: 'Mental Wellness',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11034.png',
+      specialityName: 'Physiotherapist',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11035.png',
+      specialityName: 'Heart',
+      isSelectProblem: false
+    }, 
+    {
+      imgUrl : 'assets/images/Group 11036.png',
+      specialityName: 'General Surgery',
+      isSelectProblem: false
+    },
+  ]
+
+  /**
+   * Used for problem selection
+   */
+  selectedProblemName: string;
+  isSelectProblem : boolean = false;
+  doctorListBySpeciality: any;
+  profilePhoto: string = 'assets/images/img_avatar.png';
+  closeDrGrp;
+  isRoleCallCenter = false;
+  form: FormGroup;
+  startDate: Date = new Date();
+  genderList = [];
+  userID: string;
+  doctorDetails: any;
+  drID: string;
+  constructor(
+    private fb : FormBuilder,
+    private toastrMessage: ToastMessageService,
+    private patientService: PatientService,
+    private router: Router,
+    private datapassingService: DataPassingService,
+    private dataPassingService: DataPassingService,
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService,
+    private consultationService: ConsultationService,
+    public authService: AuthService,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.closeDrGrp = sessionStorage.getItem('CLOSE_DR_GRP') == "true" ? true : false;
+    this.isRoleCallCenter = sessionStorage.getItem('ROLE') == "CALLCENTRE" ? true : false;
+    // this.userID = authService.getUserId() ? authService.getUserId() : null;
+    // this.drID = authService.getDrId() ? authService.getDrId() : null;
+    // //authService.getDrId() ? authService.getDrId() : null; getDrId
+    // this.doctorDetails = this.dataPassingService.getDoctorDetails();
+   }
+
+  ngOnInit(): void {
+    // this.dataPassingService.setRouteDetails(this.activatedRoute.snapshot.queryParams);
+    this.form = this.fb.group({
+      doctorName:  [''],
+      specialityName : [''],
+      date: [''],
+      fees: [''],
+      gender: [''],
+      charge: ['']
+    })
+
+    if(this.closeDrGrp == true) {
+      this.getListOfDoctorBySearch(null);
+    }
+
+    // this.doctorDetails = {
+		// 	doctorId: '',
+		// 	doctorName: '',
+		// 	speciality: '',
+		// 	consultFee: '',
+		// 	drProfilePhoto: ''
+		// }
+
+    this.form.valueChanges
+    .pipe(debounceTime(1000)
+    // ,
+    //   switchMap(v =>
+    //     catchError(error => {
+    //       return EMPTY;
+    //     })
+    // )
+    ).subscribe(result => {
+      let {startdate, enddate, doctorName,fees,charge, gender, specialityName} = this.form.value;
+        if(startdate || enddate || doctorName || fees || charge || gender || specialityName) {
+          this.getListOfDoctorBySearch(null,result);
+        }else {
+          this.isSelectProblem = false;
+          this.form.reset();
+        }
+    })
+    this.getGenderList();
+  }
+
+  /**
+   * Used to scroll left & right to see all problems
+   */
+  previousClick() {
+    document.getElementById('dataContaint').scrollLeft -= 800;
+  }
+
+  nextClick() {
+    document.getElementById('dataContaint').scrollLeft += 800;
+  }
+
+  getGenderList() {
+    this.consultationService.getMasterDetailsListByMasterName(MasterTypes.GENDER).subscribe(result => {
+      if(result.status && result.response){
+        this.genderList = result.response
+      }else if(result.errors) {
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      // console.log(error["errors"]);
+      this.toastrMessage.showErrorMsg(error['errors'][0].message, 'Error');
+    })
+  }
+  selectedProblem(value, indexNumber) {
+    this.selectedProblemName = value;
+    this.isSelectProblem = true;
+    this.specialityDetails.forEach((element, index) => {
+      if(index === indexNumber){
+        element.isSelectProblem = !element.isSelectProblem
+          if(element.isSelectProblem === true) {
+            this.selectedProblemName = value;
+            this.isSelectProblem = true;
+            let specialityValue = {
+              specialityName : value
+            }
+            this.getListOfDoctorBySearch(specialityValue);
+          }else {
+            this.selectedProblemName = undefined;
+            this.isSelectProblem = false;
+            this.form.reset();
+          }
+      }else {
+        element.isSelectProblem = false
+      }
+    })
+
+  }
+
+  getListOfDoctorBySearch(speciality, result?) {
+    this.spinner.show();
+    let resstartDate = result ? result.startdate : null;
+    let resendDate = result ? result.enddate : null;
+    let {doctorName, specialityName, startdate, enddate, fees, gender} = this.form.value;
+    if(resstartDate || resendDate){
+      startdate = this.datePipe.transform(resstartDate,"yyyy-MM-dd")
+      enddate = this.datePipe.transform(resendDate,"yyyy-MM-dd")
+    }
+    //console.log(this.doctorDetails.doctorId,"docoruserID");
+    let request =  {
+      doctorName: doctorName ? doctorName :null,
+      slotDate: null,//this.form.get('startdate').setValue(''),
+      speciality: this.selectedProblemName ? this.selectedProblemName.toUpperCase() : result && result.specialityName ? result.specialityName : null,
+      gender: result && result.gender ? result.gender : null,
+      availabilityStartDate: startdate ? startdate : null,
+      availabilityEndDate: enddate ? enddate : null,
+      closeDrGrp : this.closeDrGrp ? this.closeDrGrp : false
+      // doctorUserId: this.drID,//this.userID,//this.activatedRoute.snapshot.queryParamMap.get('ptRegID'),//this.activatedRoute.snapshot.queryParamMap.get('drRegID'),
+      // slotDate:this.startDate,
+      
+    }
+   
+    this.patientService.getListOfDoctorBySearch(request).subscribe(result => {
+      this.spinner.hide();
+      if(result.status && result.response) {
+        result.response.forEach(element => {
+          if(element) {
+            let updatedProfileURL;
+            if (element.drProfilePhoto) {
+              
+              updatedProfileURL = element.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`)
+            } else {
+              updatedProfileURL = 'assets/images/img_avatar.png';
+            }
+            console.log(updatedProfileURL,"photo");
+            // .split('\\')
+            //     .filter(x=> x)
+            //     .join('/')
+            element.drProfilePhoto = updatedProfileURL;
+            // element.drProfilePhoto = 
+            
+            // element.drProfilePhoto =  element.drProfilePhoto ? element.drProfilePhoto.replace('\\', '/') : 'assets/images/img_avatar.png';
+            // element.drProfilePhoto =  element.drProfilePhoto ? element.drProfilePhoto.replace('/var/telemedicine/', `${environment["baseUrl"]}`) : 
+            // 
+          }
+        });
+        this.doctorListBySpeciality = result.response; 
+        this.isSelectProblem = true;
+      }else if(!result.status || result.errors) {
+        this.isSelectProblem = false;
+        this.form.reset(null,{emitEvent:false});
+        this.toastrMessage.showErrorMsg( result.errors[0].message, 'Error');
+      }
+    },error => {
+      this.spinner.hide();
+      // console.log('error:', error);
+      this.isSelectProblem = false;
+      this.form.reset(null,{emitEvent:false});
+      this.toastrMessage.showErrorMsg( error.errors[0].message, 'Error');
+    })
+  }
+  
+  onClickBookAppointment(data) {
+    this.datapassingService.setDoctorDetails(data);
+    this.router.navigate(['doctor-appointments'])
+  }
+
+  resetFilter() {
+    this.form.reset();
+  }
+
+  resetForm() {
+    this.form.get('startdate').setValue('');
+    this.form.get('enddate').setValue('');
+    this.form.get('fees').setValue('');
+    this.form.get('gender').setValue('');
+  }
+}

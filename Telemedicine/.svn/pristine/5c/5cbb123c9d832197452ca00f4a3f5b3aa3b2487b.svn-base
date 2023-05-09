@@ -1,0 +1,22 @@
+<div>
+    <!-- <button class="btn" mat-raised-button style="float: right;" [mat-dialog-close]="data" cdkFocusInitial>x</button> -->
+
+    <div mat-dialog-content class="text-center rounded mt-3 ">
+        <!-- <p>We have sent you an OTP on your <br> Mobile no. +91 xxxx xx x48</p> -->
+        <p class="mt-2 mb-2">You have encountered an issue. Please click on Yes to restart.</p>
+    </div>
+
+    <div mat-dialog-actions class="ml-5 mt-3">
+        <div class="row w-100 mb-4">
+            <div class="col-12 text-center">
+                <!-- [disabled] = "!userEnteredOtp" (click)="onClickSubmit(data)" -->
+                <button class="btn btn-primary" mat-raised-button (click) = "onClickYesOrNo('yes')">Yes</button>
+                <!-- <button class="btn btn-primary" mat-raised-button (click)="onClickResend(data)">Resend</button> -->
+                <button class="btn btn-primary" mat-raised-button cdkFocusInitial [mat-dialog-close]="data" (click) = "onClickYesOrNo('no')">No</button>
+                <!-- [mat-dialog-close]="data"  -->
+            </div>
+        </div>
+    </div>
+
+</div>
+  

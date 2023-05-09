@@ -1,0 +1,47 @@
+<app-breadcrumb></app-breadcrumb>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="dashboard-wrapper container">
+<div class="doctor-details-wrapper mt-2">
+    <h1>Verify Doctor Check List</h1>
+    <p>Please verify  doctors from check list</p>
+</div>
+<div class="detils-wrapper" *ngIf="doctorData && doctorData.length">
+    <div class="count-details mb-3 clearfix">
+        <div class="count-left text-left">
+            <h2 class="doc-count mt-4">List Of Doctors </h2>
+            
+        </div>
+        <div class="count-right mt-3">
+            <mat-form-field class="full-width-mat-control mt-2">
+                <input matInput placeholder="Search" [(ngModel)]="q" id="Search">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="count-details mb-3 clearfix" *ngIf="arrayLength >0">
+        <button type="button" class="btn btnColor btn-right btn-sm" (click)="verifyCheckList()">Allow</button>
+    </div>
+    <mat-card class="example-headers-align pl-2 pr-2 mt-3" *ngFor="let data of doctorData | docFilter: q; let i=index">
+        <div class="row mat-expansion-panel-header" *ngIf="data.drFullName" >
+            <div class="col-lg-9 col-md-9 col-sm-9">
+                <span class="pr-2">{{data.drFullName}}</span>
+                <span class="pr-2">Mobile Number: {{data.drMobNo}}</span>|
+                <span class="pr-2">Email Id: {{data.drEmail}}</span>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <input type="checkbox" class="float-right" (click)="isChecked(data)">
+            </div>
+        </div>
+       
+    </mat-card>
+ 
+</div>
+    
+<div class="row" *ngIf="!(doctorData && doctorData.length)">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5">
+        <p class="p-5 bg-white text-center">No Data Found!</p>
+    </div>
+</div>
+
+</div>

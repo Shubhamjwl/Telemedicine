@@ -1,0 +1,50 @@
+package com.nsdl.notification.entity;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "notification_dtls", schema = "usrmgmt")
+public class NotificationEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_generator")
+	@SequenceGenerator(name = "notification_generator", sequenceName = "usrmgmt.notification_dtls_nd_id_seq", allocationSize = 1)
+	@Column(name = "nd_id")
+	private Integer ndId;
+
+	@Column(name = "nd_notification_type", nullable = false)
+	private String ndNotificationType;
+
+	@Column(name = "nd_notification", nullable = false)
+	private String ndNotification;
+
+	@Column(name = "nd_created_on", nullable = false)
+	private LocalDateTime ndCreatedOn;
+
+	@Column(name = "nd_user_id", nullable = false)
+	private String ndUserId;
+
+	@Column(name = "nd_user_type", nullable = false)
+	private String ndUserType;
+
+	@Column(name = "nd_unread_flag", nullable = false)
+	private Boolean ndUnreadFlag;
+	
+	@Column(name = "nd_template_path")
+	private String ndTemplatePath;
+	
+	@Column(name = "nd_attachment_path")
+	private String ndAttachmentPath;
+
+}

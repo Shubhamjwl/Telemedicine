@@ -1,0 +1,234 @@
+<div class="resp-tabs-container hor_1">
+  <div class="first resp-tab-content hor_1 resp-tab-content-active" aria-labelledby="hor_1_tab_item-0"
+    style="display: block">
+    <div class="register-form tab-form">
+      <form [formGroup]="form">
+        <div class="form-col">
+          <div class="form-icon">
+            <img src="assets/img/symptoms.svg" alt="" />
+          </div>
+
+          <mat-form-field class="input-group">
+            <mat-label class="input-label">Search Symptoms</mat-label>
+            <input matInput type="text" placeholder="Search Symptoms Here" [matAutocomplete]="auto"
+              formControlName="symptomName" />
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let symptom of filteredSymptomsMulti | async">
+                <div (click)="symptomOptionClicked($event, symptom)">
+                  <mat-checkbox [checked]="symptom.selected" (change)="symptomToggleSelection(symptom)"
+                    (click)="$event.stopPropagation()">
+                    {{ symptom.name }}
+                  </mat-checkbox>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button (click)="saveDetails(this.form.controls.symptomName, symptomDetails)" class="add2"></button>
+          </mat-form-field>
+
+          <div class="add2-details">
+            <ng-container *ngFor="let symptom of symptomDetails.value">
+              <div class="add-col">
+                {{ symptom.name }}
+                <button (click)="symptomToggleSelection(symptom)" class="remove">
+                  <img src="assets/img/remove2.svg" alt="" />
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="form-col">
+          <div class="form-icon">
+            <img src="assets/img/diagnosis.svg" alt="" />
+          </div>
+          <mat-form-field class="input-group">
+            <mat-label class="input-label">Search Diagnosis</mat-label>
+            <input matInput placeholder="Search Diagnosis Here" [matAutocomplete]="auto1"
+              formControlName="diagnosisName" />
+            <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn2">
+              <mat-option [ngClass]="{ ruleEngineBackground: diagnosis.ruleEngineData }"
+                *ngFor="let diagnosis of filteredDiagnosisMulti | async">
+                <div (click)="diagnosisOptionClicked($event, diagnosis)">
+                  <mat-checkbox [checked]="diagnosis.selected" (change)="diagnosisToggleSelection(diagnosis)"
+                    (click)="$event.stopPropagation()">
+                    {{ diagnosis.name }}
+                  </mat-checkbox>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button (click)="saveDetails(this.form.controls.diagnosisName, diagnosisDetails)" class="add2"></button>
+          </mat-form-field>
+          <div class="add2-details">
+            <ng-container *ngFor="let diagnosis of diagnosisDetails.value">
+              <div class="add-col">
+                {{ diagnosis.name }}
+                <button (click)="diagnosisToggleSelection(diagnosis)" class="remove">
+                  <img src="assets/img/remove2.svg" alt="" />
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="form-col-inside">
+            <div class="form-icon">
+              <img src="assets/img/medicine.svg" alt="" />
+            </div>
+            <mat-form-field class="input-group">
+              <mat-label class="input-label">Search Medicine</mat-label>
+              <input matInput placeholder="Search Medicine Here" [matAutocomplete]="auto2"
+                formControlName="medicineName" />
+              <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn3">
+                <mat-option [ngClass]="{ ruleEngineBackground: medicine.ruleEngineData }"
+                  *ngFor="let medicine of filteredMedicineMulti | async">
+                  <div (click)="medicineOptionClicked($event, medicine)">
+                    <mat-checkbox [checked]="medicine.selected" (change)="medicineToggleSelection(medicine)"
+                      (click)="$event.stopPropagation()">
+                      {{ medicine.name }}
+                    </mat-checkbox>
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+              <button (click)="saveMedicine()" class="add2"></button>
+            </mat-form-field>
+            <div class="medicin-detail accordion_container">
+              <mat-accordion>
+                <ng-container>
+                  <mat-expansion-panel *ngFor="let medicine of medicineDetails.value">
+                    <mat-expansion-panel-header>
+                      <div class="accordion_head">
+                        {{ medicine.name }}
+                        <button class="delete-icon" (click)="medicineToggleSelection(medicine)">
+                          <img src="assets/img/acc-delete-icon.svg" alt="" />
+                        </button>
+                        <span class="plusminus MINUS"></span>
+                      </div>
+                    </mat-expansion-panel-header>
+                    <div class="accordion_body">
+                      <div class="days-area type-area">
+                        <div class="type-title">Type</div>
+                        <ul>
+                          <li *ngFor="let type of medicineTypes">
+                            <a role="button" [class.act]="medicine.type === type"
+                              (click)="typeValChange(medicine, type)">{{ type }}</a>
+                          </li>
+                        </ul>
+                      </div>
+  
+                      <div class="days-area dose-area">
+                        <div class="type-title">Dose</div>
+                        <ul>
+                          <li *ngFor="let dose of medicineDoses">
+                            <a role="button" [class.act]="medicine.units === dose"
+                              (click)="onDoseToggleValChange(medicine, dose)">{{ dose }}</a>
+                          </li>
+                          <mat-form-field appearance="standard" class="doses"><input matInput
+                              [placeholder]="'Enter Value'" [value]="medicine.units"
+                              (input)="medicine.units = $event.target.value" autocomplete="off"
+                              (keypress)="numberOnly($event)" (change)="changeEvent()" /><span
+                              *ngIf="medicine.type === 'Syp.' || medicine.type === 'Inj.' || medicine.type === 'Resp.'"
+                              matSuffix>ml</span></mat-form-field>
+                        </ul>
+                      </div>
+  
+                      <div class="days-area frq-area">
+                        <div class="type-title">Frequency</div>
+                        <ul>
+                          <li *ngFor="let frequency of medicineFrequency">
+                            <a role="button" [class.act]="medicine.frequency?.includes(frequency)"
+                              (click)="frequencyValChange(medicine, frequency)">{{ frequency }}</a>
+                          </li>
+                        </ul>
+                      </div>
+  
+                      <div class="days-area meal-area">
+                        <div class="type-title">Meal</div>
+                        <ul>
+                          <li *ngFor="let meal of medicineMeal">
+                            <a role="button" [class.act]="medicine.meal === meal"
+                              (click)="mealValChange(medicine, meal)">{{ meal }}</a>
+                          </li>
+                        </ul>
+                      </div>
+  
+                      <div class="days-area dose-area">
+                        <div class="type-title">Duration</div>
+                        <ul>
+                          <li *ngFor="let duration of medicineDuration">
+                            <a role="button" [class.act]="medicine.period === duration"
+                              (click)="onDurationToggleValChange(medicine, duration)">{{ duration }}</a>
+                          </li>
+                          <mat-form-field appearance="standard" class="durations">
+                            <input matInput [placeholder]="'Enter Value'" [value]="medicine.period"
+                              (input)="medicine.period = $event.target.value" autocomplete="off"
+                              (keypress)="numberOnly($event)" (change)="changeEvent()" />
+                            <span matSuffix>day/s</span>
+                          </mat-form-field>
+                        </ul>
+                      </div>
+  
+                      <div class="days-area frq-area">
+                        <div class="type-title">Instruction</div>
+                        <mat-form-field appearance="standard">
+                          <textarea matInput [placeholder]="'Enter Text'" [value]="medicine.instruction"
+                            (change)="changeEvent()" (input)="medicine.instruction = $event.target.value"></textarea>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </ng-container>
+              </mat-accordion>
+            </div>
+          </div>
+        </div>
+       
+        <div class="form-col last-col">
+          <div class="form-icon">
+            <img src="assets/img/advice.svg" alt="" />
+          </div>
+          <mat-form-field class="input-group">
+            <mat-label class="input-label">Search Advice</mat-label>
+            <input matInput placeholder="Search Advice Here" [matAutocomplete]="auto3" formControlName="adviceName" />
+            <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayFn4">
+              <mat-option [ngClass]="{ ruleEngineBackground: advice.ruleEngineData }"
+                *ngFor="let advice of filteredAdviceMulti | async">
+                <div (click)="adviceOptionClicked($event, advice)">
+                  <mat-checkbox [checked]="advice.selected" (change)="adviceToggleSelection(advice)"
+                    (click)="$event.stopPropagation()">
+                    {{ advice.name }}
+                  </mat-checkbox>
+                </div>
+              </mat-option>
+            </mat-autocomplete>
+            <button (click)="saveDetails(this.form.controls.adviceName, adviceDetails)" class="add2"></button>
+          </mat-form-field>
+          <div class="add2-details">
+            <ng-container *ngFor="let advice of adviceDetails.value">
+              <div class="add-col add-col3">
+                {{ advice.name }}
+                <button (click)="adviceToggleSelection(advice)" class="remove">
+                  <img src="assets/img/remove2.svg" alt="" />
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="input-group btn-area form-col">
+          <input type="file" id="browseFile" formControlName="handwirttenPrescription"
+            (change)="uploadProfilePhoto($event)" multiple hidden />
+          <button type="submit" class="submit-main-btn" (click)="browse()"
+           [disabled]="
+            symptomDetails.value?.length ||
+            diagnosisDetails.value?.length ||
+            medicineDetails.value?.length ||
+            adviceDetails.value?.length ||
+            profilePhotoBase64 !== undefined"
+            >
+            Upload Prescription
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

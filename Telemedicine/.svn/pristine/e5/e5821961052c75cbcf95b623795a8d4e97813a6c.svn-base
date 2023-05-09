@@ -1,0 +1,10 @@
+dist
+coverage
+bin
+api-simulator
+docker
+node_modules
+results
+.vscode
+.angular
+.husky

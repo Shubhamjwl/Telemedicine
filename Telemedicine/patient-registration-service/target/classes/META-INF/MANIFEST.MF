@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 15.0.1
+Implementation-Title: patient-registration-service
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.nsdl.telemedicine.patient
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/patient-registration-service
+Main-Class: com.nsdl.telemedicine.patient.PatientRegistrationApplication
+Created-By: Maven Integration for Eclipse
+

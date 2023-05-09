@@ -1,0 +1,140 @@
+<app-breadcrumb></app-breadcrumb>
+<div>
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-sm-1 col-md-1 p-0">
+            </div>
+            <div class="col-sm-11 col-md-11 pr-5">
+                <div class="appt-history-wrapper">
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <h1>Historical completed appointment</h1>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb pr-1">
+                                    <li class="breadcrumb-item"></li>
+                                    <li class="breadcrumb-item active" aria-current="page" (click)="gotoDashboard()">Go to Dashboard</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row bgShadowStyle appt-history">
+                        <div class="col-md-2">
+                            <div class="slide-show-wrapp">
+                                <div class="text-center mb-2">
+                                    <button class="btn btn-acc btn-prev" (click)="prev()">^</button>
+                                </div>
+                                <div class="month-list" id="month-container">
+                                    <p class="month" [ngClass]= "{ 'active': index == i}" *ngFor="let item of monthList; let i=index;" (click)="goto(item, i)">{{ item.key}}</p>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button  class="btn btn-acc btn-next" (click)="next()">^</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 calender-wrapper">
+                            <mwl-calendar-month-view 
+                            [viewDate]= "viewDate"
+                            [cellTemplate]="customCellTemplate"
+                            [events]="events"
+                            (beforeViewRender)="beforeMonthViewRender($event)">
+                            </mwl-calendar-month-view>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="month-details">
+                                <div class="main-heading">
+                                    <h3 class="pb-0 mb-0">Previous Month</h3>
+                                    <!-- <span class="sub-details sub-heading">as on  {{previousMonth.previousDate}} </span> -->
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Completed</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{ previousMonth.completed}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>No Show</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{ previousMonth.noShow}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Cancelled</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{ previousMonth.cancel}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Average Time Duration (in min)</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span class="time-span"  placement="top" ngbTooltip="{{previousMonth.avgTime}} min">{{ previousMonth.avgTime}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="month-details mt-3">
+                                <div class="main-heading">
+                                    <h3 class="pb-0 mb-0">Current Month</h3>
+                                    <span class="sub-details sub-heading">as on {{currentMonth.currentDate}}</span>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Completed</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{currentMonth.completed}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>No Show</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{currentMonth.noShow}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Cancelled</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span>{{currentMonth.cancel}}</span>
+                                    </div>
+                                </div>
+                                <div class="sub-details"> 
+                                    <div class="col-heading">
+                                        <span>Average Time Duration (in min)</span>
+                                    </div>
+                                    <div class="col-details">
+                                        <span class="time-span" placement="top" ngbTooltip="{{currentMonth.avgTime}} min">{{currentMonth.avgTime}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top">
+        <span class="cal-day-number">
+            {{ day.date | calendarDate:'monthViewDayNumber':locale }}
+        </span>
+    </div>
+    <p class="mx-1 event-details">
+        {{ day?.events[0]?.title }}
+    </p>
+</ng-template>
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>

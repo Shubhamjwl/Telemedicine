@@ -1,0 +1,43 @@
+import { NotificationComponent } from './notification/notification.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Notification } from '../../../commonBuildBlocks/model/notification.model';
+import { NotificationService } from '../../../commonBuildBlocks/services/notification/notification.service';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-notification-list',
+  templateUrl: './notification-list.component.html',
+  styleUrls: ['./notification-list.component.scss'],
+})
+export class NotificationListComponent implements OnInit {
+  notificationColor = {
+    PasswordExpiry10Days: '#92d050',
+    PasswordExpiry1Day: '#92d050',
+    missedAppoint: '#0070c0',
+    tbd: '#ffc000'
+  };
+
+  notifications: Notification[];
+
+  constructor(private notificationService: NotificationService, private dialogRef: MatDialog) { }
+
+  readNotification(data: Notification) {
+    this.notificationService.readNotification(data.notificationId);
+    this.dialogRef.open(NotificationComponent, {
+      width: '500px',
+      height: '200px',
+      panelClass: 'clinic-dialog-style',
+      data
+    });
+  }
+
+  ngOnInit(): void {
+    // this.notificationService.getAllNotifications(); // uncomment if issue on refreshing
+    this.notificationService.notifications$.subscribe({
+      next: (res) => {
+        this.notifications = res;
+      },
+      error: (err) => console.log(err),
+    });
+  }
+}

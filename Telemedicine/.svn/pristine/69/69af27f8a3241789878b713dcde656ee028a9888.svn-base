@@ -1,0 +1,21 @@
+<table class="table" style="height: 300px" >
+    <thead>
+      
+      <tr class="scrollbar">
+        <th scope="col" style="padding-left: 16px;">Date</th>
+        <th scope="col">Red Flag</th>
+        <th scope="col">Link</th>
+      </tr>
+    
+    </thead>
+    <tbody *ngFor="let key of keys;let i=index">
+      
+      <tr *ngFor="let dataSource of sections[key]" [class.background-grey]="i%2!=0">
+        <td style="padding-left: 16px;">{{dataSource.date_added}}</td>
+        <td>{{dataSource.red_flag}}</td>
+        <td><a style="color: blue;text-decoration: underline;" (click)="copyUrl(dataSource.red_flag)">Share Link </a></td>
+      </tr>
+    
+   
+    </tbody>
+  </table>

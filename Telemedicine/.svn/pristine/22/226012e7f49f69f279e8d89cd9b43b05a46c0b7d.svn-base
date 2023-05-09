@@ -1,0 +1,10 @@
+spring.profiles.active=dev
+server.port=8086
+server.servlet.context-path=/ipan/v1
+#Centralized config file for dev environment, added by SayaliA
+#commom propert regarding database
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine?autoReconnect=true
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.cloud.config.enabled=false

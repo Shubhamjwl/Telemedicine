@@ -1,0 +1,24 @@
+
+.asign-scribe-wrapper{
+    .defaultScribe{
+        cursor:  default;
+        pointer-events: none;
+        background-color: #80808042;
+        opacity: 0.8;
+    }
+    .image-wrap{
+        img{
+            height: 40px !important;
+            width: 40px !important;
+        }
+    }
+    .col-profile{
+        max-width: 12%;
+    }
+    .col-doc-details {
+        max-width: 88%;
+    }
+}
+mat-cell {
+    min-height: 60px;
+}

@@ -1,0 +1,10 @@
+spring.application.name=patient-registration-service
+spring.profiles.active=dev
+server.port=7075
+patient.registration.api.version=v1
+server.servlet.context-path=/patient/${patient.registration.api.version}
+spring.cloud.config.uri= http://localhost:8888
+spring.cloud.config.username=root
+spring.cloud.config.password=nsdl123
+
+

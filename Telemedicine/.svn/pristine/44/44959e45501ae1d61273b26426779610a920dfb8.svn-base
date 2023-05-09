@@ -1,0 +1,31 @@
+package com.nsdl.auth.dto;
+
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+
+import lombok.Data;
+
+@Data
+public class AdminConfigRequest {
+	
+	@NotBlank(message = "Please select city")
+	private String city;
+	
+	@NotBlank(message = "Please select specialization")
+	private String specialization;
+	
+	@NotBlank(message = "Please select associationName")
+	private String associationName;
+	
+	@NotBlank(message = "Please select criteria type")
+	private String criteriaType;
+
+	@NotBlank(message = "Please select start date")
+	private String fromDate;
+	
+	@NotBlank(message = "Please select end date")
+	private String toDate;
+	
+	private List<String> categoryType;
+}

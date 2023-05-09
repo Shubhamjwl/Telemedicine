@@ -1,0 +1,92 @@
+package com.nsdl.telemedicine.patient.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.telemedicine.patient.dto.PatientDetailsWithHealthIdDTO;
+import com.nsdl.telemedicine.patient.dto.PatientResponseDto;
+import com.nsdl.telemedicine.patient.dto.PersonalDetailDto;
+import com.nsdl.telemedicine.patient.dto.RequestWrapper;
+import com.nsdl.telemedicine.patient.dto.ResponseWrapper;
+import com.nsdl.telemedicine.patient.dto.SearchPatientRequestDTO;
+import com.nsdl.telemedicine.patient.dto.SearchPatientResponseDTO;
+import com.nsdl.telemedicine.patient.dto.UpdateAbhaDetailsDTO;
+import com.nsdl.telemedicine.patient.loggers.PatientLoggingClientInfo;
+import com.nsdl.telemedicine.patient.service.PatientVerificationService;
+
+@RestController
+@RequestMapping("/patientVerification")
+@PatientLoggingClientInfo
+public class PatientVerificationController {
+	private static final Logger logger = LoggerFactory.getLogger(PatientVerificationController.class);
+
+	@Autowired
+	PatientVerificationService patientVerificationService;
+
+	/**
+	 * added by jinesh to get patientDetails by Healthid
+	 */
+	@PostMapping(path = "/searchPatientByHealthId", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapper<SearchPatientResponseDTO>> searchPatientByHealthId(
+			@Valid @RequestBody RequestWrapper<SearchPatientRequestDTO> searchPatientRequestDTO) {
+		logger.info("Request Receive to serach Patient on EMR");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(patientVerificationService.searchPatientByHealthId(searchPatientRequestDTO));
+	}
+
+	/**
+	 * added by RahulS to get patientDetails by Healthid without token
+	 */
+	@PostMapping(path = "/searchPatientByHealthIdWot", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapper<SearchPatientResponseDTO>> searchPatientByHealthIdWithoutToken(
+			@Valid @RequestBody RequestWrapper<SearchPatientRequestDTO> searchPatientRequestDTO) {
+		logger.info("Request Receive to search Patient on EMR");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(patientVerificationService.searchPatientByHealthId(searchPatientRequestDTO));
+	}
+
+	/**
+	 *
+	 * @param patientDetailsDTO
+	 * @return added by jinesh to register patient with healthId details by Doctor
+	 *         or Scribe
+	 */
+	@PostMapping(path = "/patientRegistartionByScribeOrDoctorWithHealthId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapper<PatientResponseDto>> saveRegistrationDetailsWithHealthId(
+			@Valid @RequestBody RequestWrapper<PatientDetailsWithHealthIdDTO> patientDetailsDTO) {
+		logger.info("Registration of Patient with HealthId Request by Doctor or Scribe Received");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(patientVerificationService.saveRegistrationDetailsWithHealthId(patientDetailsDTO));
+	}
+
+	/**
+	 * Added by jinesh for Update ABHA Details
+	 */
+	@PostMapping(path = "/updateAbhaDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapper<PatientResponseDto>> updateHealthIDDetails(
+			@Valid @RequestBody RequestWrapper<UpdateAbhaDetailsDTO> updateAbhaDetailsDTO) {
+		logger.info("Update ABHA Details");
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(patientVerificationService.updateAbhaDetails(updateAbhaDetailsDTO));
+	}	
+	
+	@PostMapping(path = "/getPatientDetailsByMobNo", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseWrapper<List<PersonalDetailDto>>> getPatientDetailsByMobNo(@Valid @RequestBody RequestWrapper<PersonalDetailDto> 
+	req,HttpServletRequest request) {
+		logger.info("Get Patient Details By Mobile Number Request Received");
+		return ResponseEntity.status(HttpStatus.OK).body(patientVerificationService.getPatientDetails(req));
+	}
+}

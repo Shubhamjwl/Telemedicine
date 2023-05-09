@@ -1,0 +1,56 @@
+package com.nsdl.telemedicine.master.entity;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "dr_redflg_url_mstr", schema = "master")
+public class DoctorRedFlagUrlMstrEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "drum_id_pk", nullable = false, unique = true)
+	private Long drumIdPk;
+
+	@Column(name = "drum_dr_userid")
+	private String drumDrUserid;
+	
+	@Column(name = "drum_dr_emailid")
+	private String drumDrEmailid;
+
+	@Column(name = "drum_redflag", nullable = false)
+	private String drumRedflag;
+
+	@Column(name = "drum_url", nullable = false)
+	private String drumUrl;
+	
+	@Column(name = "drum_form_name", nullable = false)
+	private String drumFormName;
+
+	@Column(name = "drum_isactive", nullable = false, columnDefinition = "char default 'Y'")
+	private String drumIsActive;
+
+	@Column(name = "drum_created_by")
+	private String drumCreatedBy;
+
+	@Column(name = "drum_created_tmstmp")
+	private LocalDateTime drumCreatedTmstmp;
+
+	@Version
+	@Column(name = "drum_opti_version")
+	private Integer drumOptiVersion;
+
+}

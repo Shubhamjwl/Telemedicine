@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core';
+import { ConsultationService } from 'src/app/shared/commonBuildBlocks/services/ConsultationServices/consultation.service';
+import { Clipboard } from "@angular/cdk/clipboard";
+
+@Component({
+    selector: 'app-patient-submitted-form',
+    templateUrl: './patient-submitted-form.component.html',
+    styleUrls: ['./patient-submitted-form.component.scss']
+})
+export class PatientSubmittedFormComponent implements OnInit {
+
+    displayedColumns: string[] = ['date', 'flag', 'link'];
+    dataSource;
+    url;
+    constructor(private consultationService: ConsultationService,
+        private clipboard: Clipboard
+    ) { }
+
+    ngOnInit(): void {
+    }
+
+    copyUrl() {
+        this.consultationService.getDrRedflagMapURL("red").subscribe(result => {
+            {
+                this.url = result.response;
+                this.clipboard.copy(this.url);
+            }
+        })
+    }
+}

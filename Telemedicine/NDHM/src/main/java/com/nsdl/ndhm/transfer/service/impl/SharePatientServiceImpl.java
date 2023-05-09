@@ -1,0 +1,152 @@
+package com.nsdl.ndhm.transfer.service.impl;
+
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.dto.RespDTO;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.repository.HealthIdCreationRepo;
+import com.nsdl.ndhm.transfer.dto.ShareAcknowledgementDTO;
+import com.nsdl.ndhm.transfer.dto.SharePatientDTO;
+import com.nsdl.ndhm.transfer.dto.SharePatientReqDTO;
+import com.nsdl.ndhm.transfer.dto.SharePatientRespDTO;
+import com.nsdl.ndhm.transfer.dto.SmsHipDTO;
+import com.nsdl.ndhm.transfer.dto.SmsNotificationDTO;
+import com.nsdl.ndhm.transfer.dto.SmsNotifyReqDTO;
+import com.nsdl.ndhm.transfer.dto.SmsNotifyResponseDTO;
+import com.nsdl.ndhm.transfer.entity.ShareProfileEntity;
+import com.nsdl.ndhm.transfer.repository.ShareProfileRepository;
+import com.nsdl.ndhm.transfer.service.SharePatientService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+
+@Service
+@LoggingClientInfo
+public class SharePatientServiceImpl implements SharePatientService {
+	private static final Logger logger = LoggerFactory.getLogger(SharePatientServiceImpl.class);
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Autowired
+	RestTemplate restTemplate;
+
+	@Autowired
+	ShareProfileRepository shareProfileRepository;
+
+	@Value("${ndhm.onshare}")
+	String onshare;
+
+	@Value("${ndhm.sms-notify}")
+	String smsNotify;
+
+	@Autowired
+	HealthIdCreationRepo healthIdCreationRepo;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	/*
+	 * this api method to be called when cm called share 
+	 */
+	@Override
+	public ResponseEntity<String> sharePatient(SharePatientReqDTO sharePatientReqDTO) {
+		logger.info("Request Receive for Share Patient Starts ");
+		String url = onshare;
+		ResponseEntity<String> result = null;
+		URI uri;
+		SimpleDateFormat format1 = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+		SharePatientRespDTO sharePatientRespDTO = SharePatientRespDTO.builder().requestId(UUID.randomUUID().toString())
+				.timestamp(format1.format(new Date()))
+				.resp(RespDTO.builder().requestId(sharePatientReqDTO.getRequestId()).build())
+				.acknowledgement(ShareAcknowledgementDTO.builder().status("SUCCESS")
+						.healthId(sharePatientReqDTO.getProfile().getPatient().getHealthId()).build())
+				.build();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(sharePatientRespDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful()) {
+				callSmsNotify(sharePatientReqDTO);
+			}
+		} catch (Exception e) {
+			logger.error("Error is in Share Patient {}", e.getMessage());
+		}
+		logger.info("Request Receive for Share Patient ends");
+		return result;
+	}
+
+	/*
+	 * this method id called inside share method for sending sms to patient
+	 */
+	private void callSmsNotify(SharePatientReqDTO sharePatientReqDTO) {
+		logger.info("Request Receive for callSmsNotify ends");
+		SharePatientDTO patientDetails = sharePatientReqDTO.getProfile().getPatient();
+		String mobileNo = healthIdCreationRepo.getMobileNoByHealthId(patientDetails.getHealthId());
+		String url = smsNotify;
+		ResponseEntity<String> result = null;
+		URI uri;
+		SimpleDateFormat format1 = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+		format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		SmsNotifyReqDTO smsNotifyReqDTO = SmsNotifyReqDTO.builder().requestId(UUID.randomUUID().toString())
+				.timestamp(format1.format(new Date()))
+				.notification(SmsNotificationDTO.builder().phoneNo(mobileNo)
+						.hip(SmsHipDTO.builder().name("").id(sharePatientReqDTO.getProfile().getHipCode()).build())
+						.build())
+				.build();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(smsNotifyReqDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeadersWithXCmIdFromServer());
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			if (result.getStatusCode().is2xxSuccessful()) {
+				ShareProfileEntity shareProfileEntity = ShareProfileEntity.builder()
+						.requestId(smsNotifyReqDTO.getRequestId()).timeStamp(smsNotifyReqDTO.getTimestamp())
+						.healthId(patientDetails.getHealthId()).healthIdNumber(patientDetails.getHealthIdNumber())
+						.name(patientDetails.getName()).dayOfBirth(patientDetails.getDayOfBirth())
+						.monthOfBirth(patientDetails.getMonthOfBirth()).yearOfBirth(patientDetails.getYearOfBirth())
+						.hipCode(sharePatientReqDTO.getProfile().getHipCode()).acknowledgementStatus("Pending")
+						.callbackStatus(false).build();
+				shareProfileRepository.save(shareProfileEntity);
+
+			}
+
+		} catch (Exception e) {
+			logger.error("Error is in Share Patient {}", e.getMessage());
+		}
+	}
+
+	@Override
+	public void onSmsNotify(SmsNotifyResponseDTO smsNotifyResponseDTO) {
+		logger.info("Request Receive for onSmsNotify Starts");
+		try {
+			ShareProfileEntity shareProfileEntity = ShareProfileEntity.builder()
+					.requestId(smsNotifyResponseDTO.getRequestId()).timeStamp(smsNotifyResponseDTO.getTimestamp())
+					.acknowledgementStatus(smsNotifyResponseDTO.getStatus()).callbackStatus(true).build();
+			shareProfileRepository.save(shareProfileEntity);
+		} catch (Exception e) {
+
+		}
+
+	}
+
+}

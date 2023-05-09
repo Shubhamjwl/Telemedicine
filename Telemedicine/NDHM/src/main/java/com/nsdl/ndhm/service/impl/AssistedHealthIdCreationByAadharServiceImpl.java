@@ -1,0 +1,677 @@
+package com.nsdl.ndhm.service.impl;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.gson.Gson;
+import com.nsdl.ndhm.constant.HealthIdCreationConstands;
+import com.nsdl.ndhm.dto.AadharOtpResendRespDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpAadhaarDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpDTO;
+import com.nsdl.ndhm.dto.ConfirmOtpRespAadhaar;
+import com.nsdl.ndhm.dto.CreateHealthIdPreverifiedRequestDTO;
+import com.nsdl.ndhm.dto.CreateHealthIdPreverifiedRespDTO;
+import com.nsdl.ndhm.dto.ExceptionJSONInfoDTO;
+import com.nsdl.ndhm.dto.GenerateMobileOTP;
+import com.nsdl.ndhm.dto.GenerateOtpAadhaarDTO;
+import com.nsdl.ndhm.dto.GenerateOtpResp;
+import com.nsdl.ndhm.dto.HealthIDAadhaarDTO;
+import com.nsdl.ndhm.dto.HealthIDResp;
+import com.nsdl.ndhm.dto.MainResponseDTO;
+import com.nsdl.ndhm.dto.ResendOtpDTO;
+import com.nsdl.ndhm.entity.HealthIdCreationEntity;
+import com.nsdl.ndhm.logger.LoggingClientInfo;
+import com.nsdl.ndhm.repository.HealthIdCreationRepo;
+import com.nsdl.ndhm.service.AssistedHealthIdCreationByAadhraService;
+import com.nsdl.ndhm.utility.CommonHeadersUtil;
+import com.nsdl.ndhm.utility.CommonValidationUtil;
+
+@Service
+@LoggingClientInfo
+public class AssistedHealthIdCreationByAadharServiceImpl implements AssistedHealthIdCreationByAadhraService {
+	private static final Logger logger = LoggerFactory.getLogger(AssistedHealthIdCreationByAadharServiceImpl.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	CommonHeadersUtil commonHeadersUtil;
+
+	@Value("${ndhm.generateOTPForAadhaar}")
+	String generateOTPForAadhaar;
+
+	@Value("${ndhm.verifyOTPForAadhaar}")
+	String verifyOTPForAadhaar;
+
+	@Value("${ndhm.resendOTPforAadhaar}")
+	String resendOTPforAadhaar;
+
+	@Value("${ndhm.helathIDcreationForAadhaar}")
+	String helathIDcreationForAadhaar;
+
+	@Value("${ndhm.generateOTPForAadhaarwithMob}")
+	String generateOTPForAadhaarwithMob;
+
+	@Value("${ndhm.verifyOTPForAadhaarwithMob}")
+	String verifyOTPForAadhaarwithMob;
+
+	@Value("${ndhm.generateHealthIDwithPreverifiedAadhaar}")
+	String generateHealthIDwithPreverifiedAadhaar;
+
+	@Value("${ndhm.verifyBioForAadhaar}")
+	String verifyBioForAadhaar;
+
+	@Autowired
+	@Qualifier("healthIdCommonValidation")
+	private CommonValidationUtil validate;
+
+	@Autowired
+	HealthIdCreationRepo healthIdCreationRepo;
+
+	List<ExceptionJSONInfoDTO> listOfExceptions = null;
+	ExceptionJSONInfoDTO exceptionJSONInfoDTO = null;
+	MainResponseDTO<HealthIDResp> mainResponse = null;
+	MainResponseDTO<CreateHealthIdPreverifiedRespDTO> mainResponsepreverified = null;
+
+	/* generate otp for aadhar */
+	@Override
+	public MainResponseDTO<GenerateOtpResp> generateOTPForAadharAssisted(Map<String, String> headers,
+			GenerateOtpAadhaarDTO generateOtpAadhaarDTO) {
+		logger.info("Request Receives for generate OTP");
+		String url = generateOTPForAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<GenerateOtpResp> resp = new MainResponseDTO<>();
+		GenerateOtpResp respData = null;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(generateOtpAadhaarDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), GenerateOtpResp.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In generateOTPForAadharAssisteds {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.error("Error In generateOTPForAadharAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Generated OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * resend opt by aadhar number
+	 */
+	@Override
+	public MainResponseDTO<AadharOtpResendRespDTO> resendOTPForAadharAssited(Map<String, String> headers,
+			ResendOtpDTO resendOTPDTO) {
+		logger.info("Request Receives for Resend OTP");
+		String url = resendOTPforAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<AadharOtpResendRespDTO> resp = new MainResponseDTO<>();
+		AadharOtpResendRespDTO respData = null;
+
+		try {
+			respData = AadharOtpResendRespDTO.builder().txnId(resendOTPDTO.getTxnId()).build();
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(respData);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), AadharOtpResendRespDTO.class); // Json to response mapping
+
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In resendOTPForAadharAssited {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.error("Error In resendOTPForAadharAssited {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Resend OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * confirm aadhar otp
+	 */
+	@Override
+	public MainResponseDTO<ConfirmOtpRespAadhaar> verifyOTPForAadhaarAssisted(Map<String, String> headers,
+			ConfirmOtpAadhaarDTO confirmOtpAadhaarDTO) {
+		logger.info("Request Receives for confirm OTP");
+		String url = verifyOTPForAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<ConfirmOtpRespAadhaar> resp = new MainResponseDTO<>();
+		ConfirmOtpRespAadhaar respData = null;
+
+		try {
+
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(confirmOtpAadhaarDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), ConfirmOtpRespAadhaar.class); // Json to response mapping
+			respData.setTxnId(confirmOtpAadhaarDTO.getTxnId());
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In verifyOTPForAadhaarAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			logger.error("Error In verifyOTPForAadhaarAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Confirm OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * healthid creation by assisted aadhar
+	 */
+	@Override
+	public MainResponseDTO<HealthIDResp> helathIDcreationForAadhaarAssisted(Map<String, String> headers,
+			@Valid HealthIDAadhaarDTO healthIDDTO) {
+		logger.info("saving the healthId user details");
+		MainResponseDTO<HealthIDResp> mainResponse;
+		mainResponse = validateRequestFields(healthIDDTO);
+		if (mainResponse != null && !mainResponse.getErrors().isEmpty()) {
+
+			logger.error("Request body data is invalid");
+			return mainResponse;
+
+		}
+		mainResponse = new MainResponseDTO<>();
+		MainResponseDTO<HealthIDResp> responseUsrCreate = null;
+
+		responseUsrCreate = createHealthId(headers, healthIDDTO);
+
+		if (responseUsrCreate.isStatus()) {
+			mainResponse.setResponse(responseUsrCreate.getResponse());
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+
+		} else {
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(responseUsrCreate.getErrors());
+		}
+		logger.info("User details saved successfully");
+		return mainResponse;
+	}
+
+	/*
+	 * for validate require feilds
+	 */
+	private MainResponseDTO<HealthIDResp> validateRequestFields(HealthIDAadhaarDTO healthIDDTO) {
+
+		logger.info("Validating the request body fields");
+
+		if (healthIDDTO.getFirstName() != null && healthIDDTO.getFirstName().isEmpty()
+				|| healthIDDTO.getFirstName().length() < 1 || healthIDDTO.getFirstName().length() > 99) {
+			logger.error("User first name is empty");
+			return throwExceptionForHealthIdFirstName();
+		}
+		if (healthIDDTO.getLastName() != null && healthIDDTO.getLastName().isEmpty()
+				|| healthIDDTO.getLastName().length() < 1 || healthIDDTO.getLastName().length() > 99) {
+			logger.error("User Last name is empty");
+			return throwExceptionForHealthIdLastName();
+		} else if ((!healthIDDTO.getEmail().isEmpty() || healthIDDTO.getEmail() != null)
+				&& !validate.validateEmail(healthIDDTO.getEmail())) {
+			logger.error("User emailID pattern or is empty. Please check");
+			return throwExceptionForHealthIdEmail();
+		} else if (healthIDDTO.getPassword() != null && !validate.validatePassword(healthIDDTO.getPassword())) {
+			logger.error("User password is empty. Please check");
+			return throwExceptionForHealthIdPassword();
+		} else if (healthIDDTO.getMobile() != null && !validate.validateMobileNo(healthIDDTO.getMobile())) {
+			logger.error("User Mobile Number is empty. Please check");
+			return throwExceptionForHealthIdMobileNo();
+		}
+
+		return null;
+
+	}
+
+	/*
+	 * exception for first name
+	 */
+	private MainResponseDTO<HealthIDResp> throwExceptionForHealthIdFirstName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	/*
+	 * exception for last name
+	 */
+	private MainResponseDTO<HealthIDResp> throwExceptionForHealthIdLastName() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+	}
+
+	/*
+	 * exception for email id
+	 */
+	private MainResponseDTO<HealthIDResp> throwExceptionForHealthIdEmail() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	/*
+	 * exception for password
+	 */
+	private MainResponseDTO<HealthIDResp> throwExceptionForHealthIdPassword() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	/*
+	 * exception for mobile No
+	 */
+	private MainResponseDTO<HealthIDResp> throwExceptionForHealthIdMobileNo() {
+		mainResponse = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_MOBILE_NO_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_MOBILE_NO_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponse.setErrors(listOfExceptions);
+		return mainResponse;
+
+	}
+
+	/*
+	 * create health id by calling NDHM APIs
+	 */
+	private MainResponseDTO<HealthIDResp> createHealthId(Map<String, String> reqeaders,
+			HealthIDAadhaarDTO persistEntity) {
+
+		logger.info("Creating the healthID for new  user");
+		String url = helathIDcreationForAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		HealthIDResp resp = null;
+		MainResponseDTO<HealthIDResp> response = new MainResponseDTO<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(persistEntity);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeaders(reqeaders));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			resp = new Gson().fromJson(result.getBody(), HealthIDResp.class);
+			response.setResponse(resp);
+			response.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In createHealthId {} ", e);
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+		} catch (Exception e) {
+			logger.error("Error In createHealthId {} ", e);
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getCode(),
+					HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getMsg()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+
+		}
+
+		logger.info("Created HealthID for new  user successfully");
+		return response;
+
+	}
+
+	/*
+	 * for generate mobile otp
+	 */
+	@Override
+	public MainResponseDTO<GenerateOtpResp> generateMobileOTPAssisted(Map<String, String> headers,
+			GenerateMobileOTP generateMobileOTP) {
+		logger.info("Request Receives for generate Mobile OTP");
+		String url = generateOTPForAadhaarwithMob;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<GenerateOtpResp> resp = new MainResponseDTO<>();
+		GenerateOtpResp respData = null;
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(generateMobileOTP);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), GenerateOtpResp.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In generateMobileOTPAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		} catch (Exception e) {
+			logger.error("Error In generateMobileOTPAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		}
+		logger.info("Generated OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * verify mobile otp
+	 */
+	@Override
+	public MainResponseDTO<ConfirmOtpRespAadhaar> verifyMobileOTPAssisted(Map<String, String> headers,
+			ConfirmOtpDTO confirmOtpDTO) {
+		logger.info("Request Receives for Mobile OTP confirm");
+		String url = verifyOTPForAadhaarwithMob;
+		URI uri;
+		ResponseEntity<String> result = null;
+		MainResponseDTO<ConfirmOtpRespAadhaar> resp = new MainResponseDTO<>();
+		ConfirmOtpRespAadhaar respData = null;
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(confirmOtpDTO);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString, commonHeadersUtil.getHeaders(headers));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+			respData = new Gson().fromJson(result.getBody(), ConfirmOtpRespAadhaar.class); // Json to response mapping
+			resp.setResponse(respData);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In verifyMobileOTPAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+
+		} catch (Exception e) {
+			logger.error("Error In verifyMobileOTPAssisted {} ", e);
+			listOfExceptions = new ArrayList<>();
+			listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.OTP_FAILURE.getCode(),
+					HealthIdCreationConstands.OTP_FAILURE.getMsg()));
+			resp.setErrors(listOfExceptions);
+			resp.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return resp;
+		}
+		logger.info("Confirm OTP Request Ends ");
+		return resp;
+	}
+
+	/*
+	 * creation of healthid with preverified mobile no and aadhar no
+	 */
+	@Override
+	public MainResponseDTO<CreateHealthIdPreverifiedRespDTO> helathIDcreationForAadhaarAssisted(
+			Map<String, String> headers,
+			@Valid CreateHealthIdPreverifiedRequestDTO createHealthIdPreverifiedRequestDTO) {
+		logger.info("saving the healthId user details");
+		MainResponseDTO<CreateHealthIdPreverifiedRespDTO> mainResponse;
+		HealthIdCreationEntity healthIdCreateEntity = new HealthIdCreationEntity();
+		mainResponse = validatePreVerifiedRequestFields(createHealthIdPreverifiedRequestDTO);
+		if (mainResponse != null && !mainResponse.getErrors().isEmpty()) {
+
+			logger.error("Request body data is invalid");
+			return mainResponse;
+
+		}
+		MainResponseDTO<CreateHealthIdPreverifiedRespDTO> responseUsrCreate = null;
+
+		responseUsrCreate = createHealthIdPreVerified(headers, createHealthIdPreverifiedRequestDTO);
+		mainResponse = new MainResponseDTO<>();
+		if (responseUsrCreate.isStatus()) {
+			mainResponse.setResponse(responseUsrCreate.getResponse());
+
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+			BeanUtils.copyProperties(responseUsrCreate.getResponse(), healthIdCreateEntity);
+			healthIdCreateEntity
+					.setCreatedFrom(HealthIdCreationConstands.CREATED_FROM_PREVERIFIED_AADHAAR.getValidate());
+
+			try {
+				healthIdCreationRepo.save(healthIdCreateEntity);
+			} catch (Exception e) {
+				logger.error("Error In helathIDcreationForAadhaarAssisted {} ", e);
+				listOfExceptions = new ArrayList<>();
+				listOfExceptions.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.HEALTH_ID_SAVE_FAIL.getCode(),
+						HealthIdCreationConstands.HEALTH_ID_SAVE_FAIL.getMsg()));
+				mainResponse.setErrors(listOfExceptions);
+				mainResponse.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+				return mainResponse;
+			}
+
+		} else {
+			mainResponse.setResponse(responseUsrCreate.getResponse());
+			mainResponse.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			mainResponse.setErrors(responseUsrCreate.getErrors());
+		}
+
+		logger.info("User details saved successfully");
+		return mainResponse;
+	}
+
+	/*
+	 * validate preverified request
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> validatePreVerifiedRequestFields(
+			CreateHealthIdPreverifiedRequestDTO healthIDDTO) {
+
+		logger.info("Validating the request body fields");
+
+		if (healthIDDTO.getFirstName() != null && healthIDDTO.getFirstName().isEmpty()
+				|| healthIDDTO.getFirstName().length() < 1 || healthIDDTO.getFirstName().length() > 99) {
+			logger.error("User first name is empty");
+			return throwExceptionForHealthIdFirstNamePreVerified();
+		}
+		if (healthIDDTO.getLastName() != null && healthIDDTO.getLastName().isEmpty()
+				|| healthIDDTO.getLastName().length() < 1 || healthIDDTO.getLastName().length() > 99) {
+			logger.error("User Last name is empty");
+			return throwExceptionForHealthIdLastNamePreVerified();
+		} else if ((!healthIDDTO.getEmail().isEmpty() || healthIDDTO.getEmail() != null)
+				&& !validate.validateEmail(healthIDDTO.getEmail())) {
+			logger.error("User emailID pattern or is empty. Please check");
+			return throwExceptionForHealthIdEmailPreVerified();
+		} else if (healthIDDTO.getPassword() != null && !validate.validatePassword(healthIDDTO.getPassword())) {
+			logger.error("User password is empty. Please check");
+			return throwExceptionForHealthIdPasswordPreVerified();
+		}
+
+		return null;
+
+	}
+
+	/*
+	 * exception for first name
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> throwExceptionForHealthIdFirstNamePreVerified() {
+		mainResponsepreverified = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_FIRSTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponsepreverified.setErrors(listOfExceptions);
+		return mainResponsepreverified;
+	}
+
+	/*
+	 * exception for last name
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> throwExceptionForHealthIdLastNamePreVerified() {
+		mainResponsepreverified = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.USER_LASTNAME_VALIDATE.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponsepreverified.setErrors(listOfExceptions);
+		return mainResponsepreverified;
+	}
+
+	/*
+	 * exception for email id
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> throwExceptionForHealthIdEmailPreVerified() {
+		mainResponsepreverified = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.EMAIL_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponsepreverified.setErrors(listOfExceptions);
+		return mainResponsepreverified;
+
+	}
+
+	/*
+	 * exception for password
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> throwExceptionForHealthIdPasswordPreVerified() {
+		mainResponsepreverified = new MainResponseDTO<>();
+		listOfExceptions = new ArrayList<>();
+		exceptionJSONInfoDTO = new ExceptionJSONInfoDTO();
+		exceptionJSONInfoDTO.setErrorCode(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getCode());
+		exceptionJSONInfoDTO.setMessage(HealthIdCreationConstands.PASSWORD_EXCEPTION_MSG.getMsg());
+		listOfExceptions.add(exceptionJSONInfoDTO);
+		mainResponsepreverified.setErrors(listOfExceptions);
+		return mainResponsepreverified;
+
+	}
+
+	/*
+	 * create preverified health id by calling NDHM APIs
+	 */
+	private MainResponseDTO<CreateHealthIdPreverifiedRespDTO> createHealthIdPreVerified(Map<String, String> reqeaders,
+			CreateHealthIdPreverifiedRequestDTO persistEntity) {
+
+		logger.info("Creating the healthID for new  user");
+		String url = generateHealthIDwithPreverifiedAadhaar;
+		URI uri;
+		ResponseEntity<String> result = null;
+		CreateHealthIdPreverifiedRespDTO resp = null;
+		MainResponseDTO<CreateHealthIdPreverifiedRespDTO> response = new MainResponseDTO<>();
+
+		try {
+			uri = new URI(url);
+			String encryptedString = new Gson().toJson(persistEntity);
+			HttpEntity<String> requestEntity = new HttpEntity<>(encryptedString,
+					commonHeadersUtil.getHeaders(reqeaders));
+			result = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, String.class);
+
+			resp = new Gson().fromJson(result.getBody(), CreateHealthIdPreverifiedRespDTO.class);
+			response.setResponse(resp);
+			response.setStatus(HealthIdCreationConstands.SERVICE_SUCCESS_STATUS.isStatus());
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Error In createHealthIdPreVerified {} ", e);
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList
+					.add(new ExceptionJSONInfoDTO(String.valueOf(e.getStatusCode().value()), e.getStatusCode().name()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+		} catch (Exception e) {
+			logger.error("Error In generateOTPForAadharAssisted {} ", e);
+			List<ExceptionJSONInfoDTO> errorList = new ArrayList<>();
+			errorList.add(new ExceptionJSONInfoDTO(HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getCode(),
+					HealthIdCreationConstands.USER_MANAGEMENT_FAIL.getMsg()));
+			response.setErrors(errorList);
+			response.setStatus(HealthIdCreationConstands.SERVICE_FAIL_STATUS.isStatus());
+			return response;
+
+		}
+		logger.info("Created HealthID for new  user successfully");
+		return response;
+
+	}
+}

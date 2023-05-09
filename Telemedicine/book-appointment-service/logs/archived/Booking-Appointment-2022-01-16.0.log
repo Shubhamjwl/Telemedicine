@@ -1,0 +1,653 @@
+  [2022-01-16 13:53:14,335], , [main], Booking-Appointment, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$23867ba0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-01-16 13:53:14,681], , [main], Booking-Appointment, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888/config
+  [2022-01-16 13:53:15,352], , [main], Booking-Appointment, INFO  ConfigServicePropertySourceLocator log | Located environment: name=Booking-Appointment, profiles=[dev], label=1.0.1, version=null, state=null
+  [2022-01-16 13:53:15,353], , [main], Booking-Appointment, INFO  PropertySourceBootstrapConfiguration initialize | Located property source: CompositePropertySource {name='configService', propertySources=[MapPropertySource {name='file:///D:/git-localconfig-repo/application-dev.properties'}]}
+  [2022-01-16 13:53:15,407], , [main], Booking-Appointment, INFO  BookAppointmentServiceApplication logStartupProfileInfo | The following profiles are active: dev
+  [2022-01-16 13:53:16,975], , [main], Booking-Appointment, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Bootstrapping Spring Data repositories in DEFAULT mode.
+  [2022-01-16 13:53:17,113], , [main], Booking-Appointment, INFO  RepositoryConfigurationDelegate registerRepositoriesIn | Finished Spring Data repository scanning in 126ms. Found 10 repository interfaces.
+  [2022-01-16 13:53:17,416], , [main], Booking-Appointment, INFO  GenericScope setSerializationId | BeanFactory id=94975fd3-ccd3-3c52-85ab-18409a6afab6
+  [2022-01-16 13:53:17,747], , [main], Booking-Appointment, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$76c78a3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-01-16 13:53:17,800], , [main], Booking-Appointment, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$23867ba0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-01-16 13:53:18,490], , [main], Booking-Appointment, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7079 (http)
+  [2022-01-16 13:53:18,510], , [main], Booking-Appointment, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7079"]
+  [2022-01-16 13:53:18,524], , [main], Booking-Appointment, INFO  StandardService log | Starting service [Tomcat]
+  [2022-01-16 13:53:18,525], , [main], Booking-Appointment, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.16]
+  [2022-01-16 13:53:18,540], , [main], Booking-Appointment, INFO  AprLifecycleListener log | The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin/server;D:/Softwares/eclipse-jee-2020-12-R-win32-x86_64/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_15.0.1.v20201027-0507/jre/bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\CrSSL\bin;C:\Program Files\TortoiseSVN\bin;D:\Softwares\apache-maven-3.6.1\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;;D:\Softwares\eclipse-jee-2020-12-R-win32-x86_64\eclipse;;.]
+  [2022-01-16 13:53:18,719], , [main], Booking-Appointment, INFO  [/book/v1] log | Initializing Spring embedded WebApplicationContext
+  [2022-01-16 13:53:18,719], , [main], Booking-Appointment, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 3295 ms
+  [2022-01-16 13:53:19,321], , [main], Booking-Appointment, INFO  HikariDataSource getConnection | HikariPool-1 - Starting...
+  [2022-01-16 13:53:21,256], , [main], Booking-Appointment, INFO  HikariDataSource getConnection | HikariPool-1 - Start completed.
+  [2022-01-16 13:53:21,424], , [main], Booking-Appointment, INFO  LogHelper logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+  [2022-01-16 13:53:21,632], , [main], Booking-Appointment, INFO  Version logVersion | HHH000412: Hibernate Core {5.3.7.Final}
+  [2022-01-16 13:53:21,636], , [main], Booking-Appointment, INFO  Environment <clinit> | HHH000206: hibernate.properties not found
+  [2022-01-16 13:53:22,059], , [main], Booking-Appointment, INFO  Version <clinit> | HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+  [2022-01-16 13:53:22,451], , [main], Booking-Appointment, INFO  Dialect <init> | HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+  [2022-01-16 13:53:22,492], , [main], Booking-Appointment, INFO  LobCreatorBuilderImpl makeLobCreatorBuilder | HHH000422: Disabling contextual LOB creation as connection was null
+  [2022-01-16 13:53:22,506], , [main], Booking-Appointment, INFO  BasicTypeRegistry register | HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5a4e492c
+  [2022-01-16 13:53:37,711], , [main], Booking-Appointment, INFO  LocalContainerEntityManagerFactoryBean buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+  [2022-01-16 13:53:40,575], , [main], Booking-Appointment, INFO  QueryTranslatorFactoryInitiator initiateService | HHH000397: Using ASTQueryTranslatorFactory
+  [2022-01-16 13:53:43,215], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.restTemplate
+  [2022-01-16 13:53:43,229], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.restTemplate
+  [2022-01-16 13:53:43,230], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.restTemplate :: 15 ms
+  [2022-01-16 13:53:43,535], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-01-16 13:53:43,538], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.corsConfigurationSource
+  [2022-01-16 13:53:43,539], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.corsConfigurationSource :: 4 ms
+  [2022-01-16 13:53:44,076], , [main], Booking-Appointment, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-01-16 13:53:44,247], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of CustomInterceptorAppConfig.addInterceptors
+  [2022-01-16 13:53:44,249], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of CustomInterceptorAppConfig.addInterceptors
+  [2022-01-16 13:53:44,249], , [main], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of CustomInterceptorAppConfig.addInterceptors :: 2 ms
+  [2022-01-16 13:53:44,253], , [main], Booking-Appointment, WARN  JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration openEntityManagerInViewInterceptor | spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+  [2022-01-16 13:53:44,875], , [main], Booking-Appointment, INFO  ThreadPoolTaskScheduler initialize | Initializing ExecutorService 'taskScheduler'
+  [2022-01-16 13:53:45,484], , [main], Booking-Appointment, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7079"]
+  [2022-01-16 13:53:45,531], , [main], Booking-Appointment, INFO  TomcatWebServer start | Tomcat started on port(s): 7079 (http) with context path '/book/v1'
+  [2022-01-16 13:53:45,536], , [main], Booking-Appointment, INFO  BookAppointmentServiceApplication logStarted | Started BookAppointmentServiceApplication in 32.377 seconds (JVM running for 33.951)
+  [2022-01-16 13:53:48,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+2ea24b71c65cd739 2ea24b71c65cd739 [2022-01-16 13:53:48,028], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+2ea24b71c65cd739 2ea24b71c65cd739 [2022-01-16 13:53:48,028], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:53:48,036], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:53:48,046], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:53:48,048], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:49,022], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:49,023], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 975 ms
+  [2022-01-16 13:53:49,023], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:53:49,024], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:53:49,025], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:53:49,025], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:53:51,081], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:53:51,087], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:53:51,088], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3052 ms
+  [2022-01-16 13:53:51,088], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:53:51,088], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3074 ms
+  [2022-01-16 13:53:54,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+e336c2dc2a2877e2 e336c2dc2a2877e2 [2022-01-16 13:53:54,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+e336c2dc2a2877e2 e336c2dc2a2877e2 [2022-01-16 13:53:54,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:53:54,016], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:53:54,016], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:53:54,017], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:54,676], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:54,676], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 659 ms
+  [2022-01-16 13:53:54,677], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:53:54,677], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:53:54,678], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:53:54,678], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:53:56,734], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:53:56,737], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:53:56,737], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2721 ms
+  [2022-01-16 13:53:56,738], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:53:56,738], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2724 ms
+  [2022-01-16 13:53:57,012], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+03fa423574fb4b83 03fa423574fb4b83 [2022-01-16 13:53:57,013], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+03fa423574fb4b83 03fa423574fb4b83 [2022-01-16 13:53:57,014], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:53:57,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:53:57,014], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:53:57,015], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:59,563], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:53:59,564], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 2549 ms
+  [2022-01-16 13:53:59,564], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:53:59,565], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:53:59,566], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:53:59,566], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:01,587], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:01,591], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:01,592], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 4578 ms
+  [2022-01-16 13:54:01,592], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:01,592], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 4580 ms
+  [2022-01-16 13:54:01,593], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+de98e0eebdb019fd de98e0eebdb019fd [2022-01-16 13:54:01,599], , [scheduling-1], Booking-Appointment, INFO  AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+  [2022-01-16 13:54:01,600], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:54:01,600], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:54:01,891], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:54:01,892], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 292 ms
+  [2022-01-16 13:54:01,892], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:54:01,892], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 292 ms
+  [2022-01-16 13:54:01,893], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:54:01,893], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 300 ms
+  [2022-01-16 13:54:03,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+9203b12a27ac1a9a 9203b12a27ac1a9a [2022-01-16 13:54:03,014], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+9203b12a27ac1a9a 9203b12a27ac1a9a [2022-01-16 13:54:03,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:03,015], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:03,016], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:03,016], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:03,664], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:03,665], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 649 ms
+  [2022-01-16 13:54:03,665], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:03,666], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:03,666], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:03,666], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:05,691], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:05,694], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:05,696], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2681 ms
+  [2022-01-16 13:54:05,696], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:05,696], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2682 ms
+  [2022-01-16 13:54:06,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+0bc42e46713330d9 0bc42e46713330d9 [2022-01-16 13:54:06,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+0bc42e46713330d9 0bc42e46713330d9 [2022-01-16 13:54:06,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:06,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:06,006], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:06,006], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:06,804], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:06,804], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 798 ms
+  [2022-01-16 13:54:06,805], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:06,805], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:06,806], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:06,806], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:08,832], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:08,835], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:08,836], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2831 ms
+  [2022-01-16 13:54:08,837], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:08,837], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2834 ms
+  [2022-01-16 13:54:09,007], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+5b7424f9c1723733 5b7424f9c1723733 [2022-01-16 13:54:09,007], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+5b7424f9c1723733 5b7424f9c1723733 [2022-01-16 13:54:09,008], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:09,008], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:09,009], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:09,009], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:09,774], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:09,775], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 766 ms
+  [2022-01-16 13:54:09,775], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:09,776], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:09,776], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:09,776], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:11,827], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:11,830], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:11,831], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2823 ms
+  [2022-01-16 13:54:11,831], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:11,832], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2825 ms
+  [2022-01-16 13:54:12,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+da5f1a09366be96f da5f1a09366be96f [2022-01-16 13:54:12,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+da5f1a09366be96f da5f1a09366be96f [2022-01-16 13:54:12,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:12,018], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:12,020], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:12,026], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:12,942], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:12,943], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 917 ms
+  [2022-01-16 13:54:12,944], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:12,953], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:12,953], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:12,955], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:15,010], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:15,012], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:15,012], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2994 ms
+  [2022-01-16 13:54:15,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:15,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2999 ms
+  [2022-01-16 13:54:18,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+39bdee8f9125ec36 39bdee8f9125ec36 [2022-01-16 13:54:18,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+39bdee8f9125ec36 39bdee8f9125ec36 [2022-01-16 13:54:18,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:18,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:18,004], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:18,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:18,663], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:18,663], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 659 ms
+  [2022-01-16 13:54:18,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:18,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:18,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:18,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:20,720], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:20,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:20,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2721 ms
+  [2022-01-16 13:54:20,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:20,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2722 ms
+  [2022-01-16 13:54:21,000], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+36e6171ce8fee8ef 36e6171ce8fee8ef [2022-01-16 13:54:21,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+36e6171ce8fee8ef 36e6171ce8fee8ef [2022-01-16 13:54:21,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:21,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:21,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:21,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:21,755], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:21,755], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 752 ms
+  [2022-01-16 13:54:21,756], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:21,756], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:21,757], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:21,757], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:23,788], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:23,796], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:23,796], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2794 ms
+  [2022-01-16 13:54:23,797], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:23,797], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2797 ms
+  [2022-01-16 13:54:24,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+919abdb5e6527875 919abdb5e6527875 [2022-01-16 13:54:24,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+919abdb5e6527875 919abdb5e6527875 [2022-01-16 13:54:24,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:24,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:24,005], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:24,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:24,864], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:24,865], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 860 ms
+  [2022-01-16 13:54:24,865], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:24,865], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:24,866], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:24,866], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:27,141], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:27,151], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:27,151], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3146 ms
+  [2022-01-16 13:54:27,152], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:27,152], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3150 ms
+  [2022-01-16 13:54:30,000], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+f65132ad29c17bc8 f65132ad29c17bc8 [2022-01-16 13:54:30,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+f65132ad29c17bc8 f65132ad29c17bc8 [2022-01-16 13:54:30,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:30,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:30,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:30,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:30,905], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:30,906], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 903 ms
+  [2022-01-16 13:54:30,906], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:30,906], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:30,907], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:30,907], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:33,109], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:33,112], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:33,113], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3112 ms
+  [2022-01-16 13:54:33,113], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:33,113], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3113 ms
+  [2022-01-16 13:54:36,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+a1a46cd7ff875694 a1a46cd7ff875694 [2022-01-16 13:54:36,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+a1a46cd7ff875694 a1a46cd7ff875694 [2022-01-16 13:54:36,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:36,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:36,005], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:36,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:36,583], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:36,584], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 579 ms
+  [2022-01-16 13:54:36,584], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:36,584], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:36,584], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:36,585], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:38,611], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:38,613], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:38,614], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2610 ms
+  [2022-01-16 13:54:38,614], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:38,614], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2612 ms
+  [2022-01-16 13:54:39,000], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+9f291449022c3829 9f291449022c3829 [2022-01-16 13:54:39,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+9f291449022c3829 9f291449022c3829 [2022-01-16 13:54:39,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:39,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:39,003], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:39,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:39,663], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:39,664], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 661 ms
+  [2022-01-16 13:54:39,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:39,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:39,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:39,664], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:41,704], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:41,707], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:41,708], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2706 ms
+  [2022-01-16 13:54:41,708], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:41,708], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2708 ms
+  [2022-01-16 13:54:42,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+552798e5af56017c 552798e5af56017c [2022-01-16 13:54:42,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+552798e5af56017c 552798e5af56017c [2022-01-16 13:54:42,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:42,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:42,004], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:42,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:42,601], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:42,602], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 598 ms
+  [2022-01-16 13:54:42,602], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:42,603], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:42,603], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:42,603], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:44,624], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:44,625], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:44,626], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2623 ms
+  [2022-01-16 13:54:44,627], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:44,627], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2625 ms
+  [2022-01-16 13:54:45,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+08c217923aaf7486 08c217923aaf7486 [2022-01-16 13:54:45,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+08c217923aaf7486 08c217923aaf7486 [2022-01-16 13:54:45,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:45,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:45,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:45,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:45,704], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:45,704], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 702 ms
+  [2022-01-16 13:54:45,705], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:45,705], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:45,705], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:45,705], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:47,762], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:47,765], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:47,766], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2764 ms
+  [2022-01-16 13:54:47,766], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:47,767], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2766 ms
+  [2022-01-16 13:54:48,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+c01f4602a2c48ef7 c01f4602a2c48ef7 [2022-01-16 13:54:48,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+c01f4602a2c48ef7 c01f4602a2c48ef7 [2022-01-16 13:54:48,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:48,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:48,005], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:48,006], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:48,602], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:48,604], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 599 ms
+  [2022-01-16 13:54:48,605], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:48,606], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:48,606], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:48,606], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:50,658], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:50,661], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:50,662], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2657 ms
+  [2022-01-16 13:54:50,662], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:50,662], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2659 ms
+  [2022-01-16 13:54:51,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+0a7c3dc208fe5474 0a7c3dc208fe5474 [2022-01-16 13:54:51,003], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+0a7c3dc208fe5474 0a7c3dc208fe5474 [2022-01-16 13:54:51,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:51,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:51,005], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:51,007], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:51,665], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:51,666], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 659 ms
+  [2022-01-16 13:54:51,667], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:51,668], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:51,670], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:51,670], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:53,711], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:53,717], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:53,718], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2714 ms
+  [2022-01-16 13:54:53,719], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:53,720], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2718 ms
+  [2022-01-16 13:54:54,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+3e19cab5b176300f 3e19cab5b176300f [2022-01-16 13:54:54,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+3e19cab5b176300f 3e19cab5b176300f [2022-01-16 13:54:54,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:54,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:54,003], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:54,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:54,713], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:54,713], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 710 ms
+  [2022-01-16 13:54:54,715], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:54,715], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:54,715], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:54,715], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:56,776], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:56,779], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:56,779], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2776 ms
+  [2022-01-16 13:54:56,780], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:56,780], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2779 ms
+  [2022-01-16 13:54:57,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+f4f424879990ac2f f4f424879990ac2f [2022-01-16 13:54:57,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+f4f424879990ac2f f4f424879990ac2f [2022-01-16 13:54:57,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:54:57,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:57,003], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:54:57,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:57,761], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:54:57,762], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 758 ms
+  [2022-01-16 13:54:57,762], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:54:57,762], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:54:57,763], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:54:57,763], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:54:59,814], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:54:59,816], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:54:59,816], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2813 ms
+  [2022-01-16 13:54:59,817], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:54:59,817], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2816 ms
+  [2022-01-16 13:55:00,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentController.sendNotificationBeforeAppointmentStart
+2c20f8c3a3599212 2c20f8c3a3599212 [2022-01-16 13:55:00,003], , [scheduling-1], Booking-Appointment, INFO  AppointmentController sendNotificationBeforeAppointmentStart | Request received to send Notification Before Appointment Start
+  [2022-01-16 13:55:00,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:55:00,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:55:00,513], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:55:00,514], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.sendNotificationBeforeAppointmentStart :: 510 ms
+  [2022-01-16 13:55:00,515], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:55:00,516], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeAppointmentStart :: 513 ms
+  [2022-01-16 13:55:00,517], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentController.sendNotificationBeforeAppointmentStart
+  [2022-01-16 13:55:00,518], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentController.sendNotificationBeforeAppointmentStart :: 516 ms
+  [2022-01-16 13:55:00,519], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+b1042f1bfcf9de4f b1042f1bfcf9de4f [2022-01-16 13:55:00,520], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+b1042f1bfcf9de4f b1042f1bfcf9de4f [2022-01-16 13:55:00,521], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:00,522], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:00,523], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:00,524], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:02,296], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:02,299], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 1775 ms
+  [2022-01-16 13:55:02,299], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:02,299], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:02,300], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:02,301], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:04,349], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:04,353], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:04,354], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3832 ms
+  [2022-01-16 13:55:04,354], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:04,355], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3836 ms
+  [2022-01-16 13:55:06,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+d37feae58e69ecdc d37feae58e69ecdc [2022-01-16 13:55:06,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+d37feae58e69ecdc d37feae58e69ecdc [2022-01-16 13:55:06,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:06,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:06,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:06,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:06,974], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:06,975], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 973 ms
+  [2022-01-16 13:55:06,975], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:06,975], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:06,975], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:06,976], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:09,028], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:09,032], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:09,033], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3031 ms
+  [2022-01-16 13:55:09,033], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:09,033], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3032 ms
+  [2022-01-16 13:55:12,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+64d2322ac97ff07c 64d2322ac97ff07c [2022-01-16 13:55:12,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+64d2322ac97ff07c 64d2322ac97ff07c [2022-01-16 13:55:12,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:12,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:12,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:12,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:12,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:12,724], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 722 ms
+  [2022-01-16 13:55:12,725], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:12,725], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:12,725], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:12,725], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:14,770], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:14,772], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:14,773], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2771 ms
+  [2022-01-16 13:55:14,773], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:14,773], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2772 ms
+  [2022-01-16 13:55:15,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+d731aca0a25dc059 d731aca0a25dc059 [2022-01-16 13:55:15,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+d731aca0a25dc059 d731aca0a25dc059 [2022-01-16 13:55:15,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:15,004], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:15,004], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:15,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:15,814], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:15,815], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 810 ms
+  [2022-01-16 13:55:15,815], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:15,816], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:15,817], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:15,817], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:17,857], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:17,861], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:17,863], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2859 ms
+  [2022-01-16 13:55:17,863], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:17,863], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2860 ms
+  [2022-01-16 13:55:18,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+85185266f3f746d8 85185266f3f746d8 [2022-01-16 13:55:18,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+85185266f3f746d8 85185266f3f746d8 [2022-01-16 13:55:18,016], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:18,017], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:18,018], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:18,019], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:18,813], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:18,814], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 795 ms
+  [2022-01-16 13:55:18,815], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:18,815], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:18,815], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:18,816], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:20,850], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:20,852], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:20,852], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2835 ms
+  [2022-01-16 13:55:20,853], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:20,853], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2840 ms
+  [2022-01-16 13:55:21,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+dffb4b26b99f4cde dffb4b26b99f4cde [2022-01-16 13:55:21,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+dffb4b26b99f4cde dffb4b26b99f4cde [2022-01-16 13:55:21,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:21,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:21,002], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:21,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:21,833], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:21,834], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 831 ms
+  [2022-01-16 13:55:21,834], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:21,834], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:21,835], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:21,835], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:23,879], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:23,882], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:23,883], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2881 ms
+  [2022-01-16 13:55:23,883], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:23,883], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2882 ms
+  [2022-01-16 13:55:24,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+204420286ec83a7c 204420286ec83a7c [2022-01-16 13:55:24,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+204420286ec83a7c 204420286ec83a7c [2022-01-16 13:55:24,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:24,016], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:24,016], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:24,016], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:24,624], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:24,625], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 609 ms
+  [2022-01-16 13:55:24,625], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:24,626], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:24,626], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:24,626], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:26,658], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:26,660], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:26,660], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2644 ms
+  [2022-01-16 13:55:26,661], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:26,661], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2647 ms
+  [2022-01-16 13:55:27,009], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+5aeeaa4d089fd1cc 5aeeaa4d089fd1cc [2022-01-16 13:55:27,010], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+5aeeaa4d089fd1cc 5aeeaa4d089fd1cc [2022-01-16 13:55:27,011], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:27,011], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:27,012], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:27,012], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:27,681], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:27,682], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 670 ms
+  [2022-01-16 13:55:27,682], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:27,682], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:27,682], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:27,683], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:29,731], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:29,736], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:29,737], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2726 ms
+  [2022-01-16 13:55:29,738], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:29,738], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2729 ms
+  [2022-01-16 13:55:30,001], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+da83759c4f2cf276 da83759c4f2cf276 [2022-01-16 13:55:30,001], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+da83759c4f2cf276 da83759c4f2cf276 [2022-01-16 13:55:30,002], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:30,002], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:30,003], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:30,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 801 ms
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:30,804], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:32,845], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:32,850], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:32,850], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2848 ms
+  [2022-01-16 13:55:32,850], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:32,850], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2849 ms
+  [2022-01-16 13:55:33,011], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+e2a6bc87f5d2eb06 e2a6bc87f5d2eb06 [2022-01-16 13:55:33,011], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+e2a6bc87f5d2eb06 e2a6bc87f5d2eb06 [2022-01-16 13:55:33,012], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:33,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:33,013], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:33,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:33,742], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:33,742], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 729 ms
+  [2022-01-16 13:55:33,743], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:33,744], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:33,744], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:33,744], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:35,788], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:35,791], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:35,791], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2778 ms
+  [2022-01-16 13:55:35,791], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:35,792], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2781 ms
+  [2022-01-16 13:55:36,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+b9ac32cbaea82a3e b9ac32cbaea82a3e [2022-01-16 13:55:36,014], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+b9ac32cbaea82a3e b9ac32cbaea82a3e [2022-01-16 13:55:36,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:36,015], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:36,015], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:36,015], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:36,702], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:36,703], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 688 ms
+  [2022-01-16 13:55:36,703], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:36,704], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:36,704], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:36,704], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:38,710], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:38,714], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:38,714], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2699 ms
+  [2022-01-16 13:55:38,715], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:38,715], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2701 ms
+  [2022-01-16 13:55:39,011], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+f987075410ebb0ae f987075410ebb0ae [2022-01-16 13:55:39,011], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+f987075410ebb0ae f987075410ebb0ae [2022-01-16 13:55:39,012], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:39,012], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:39,012], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:39,013], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:39,886], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:39,886], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 873 ms
+  [2022-01-16 13:55:39,887], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:39,887], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:39,888], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:39,888], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:41,941], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:41,945], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:41,946], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2934 ms
+  [2022-01-16 13:55:41,947], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:41,947], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2936 ms
+  [2022-01-16 13:55:42,003], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+67c14885d5803e37 67c14885d5803e37 [2022-01-16 13:55:42,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+67c14885d5803e37 67c14885d5803e37 [2022-01-16 13:55:42,004], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:42,005], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:42,005], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:42,006], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:43,604], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:43,605], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 1599 ms
+  [2022-01-16 13:55:43,605], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:43,606], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:43,606], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:43,607], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:45,641], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:45,646], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:45,647], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 3642 ms
+  [2022-01-16 13:55:45,648], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:45,648], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 3645 ms
+  [2022-01-16 13:55:48,007], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+d67197b3c5659091 d67197b3c5659091 [2022-01-16 13:55:48,007], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+d67197b3c5659091 d67197b3c5659091 [2022-01-16 13:55:48,007], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:48,008], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:48,008], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:48,008], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:48,714], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:48,715], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 707 ms
+  [2022-01-16 13:55:48,716], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:48,716], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:48,716], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:48,717], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:50,748], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:50,753], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:50,753], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2745 ms
+  [2022-01-16 13:55:50,754], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:50,755], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2748 ms
+  [2022-01-16 13:55:51,014], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of ReminderScheduler.smsReminderSchedulerCron
+c307f38c0752fef2 c307f38c0752fef2 [2022-01-16 13:55:51,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | inside into sceduler
+c307f38c0752fef2 c307f38c0752fef2 [2022-01-16 13:55:51,015], , [scheduling-1], Booking-Appointment, INFO  ReminderScheduler smsReminderSchedulerCron | calling send nitification method
+  [2022-01-16 13:55:51,016], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:51,017], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | inside into send notification()
+  [2022-01-16 13:55:51,017], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Start of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:51,821], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus
+  [2022-01-16 13:55:51,822], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentDtlsRepository.findByAdApptSlotFkAndAdApptStatus :: 805 ms
+  [2022-01-16 13:55:51,822], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | got appointment details
+  [2022-01-16 13:55:51,822], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | Calling another API of email and sms notification
+  [2022-01-16 13:55:51,822], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationBeforeTodaysAppointmentStart | call send sms method
+  [2022-01-16 13:55:51,822], , [scheduling-1], Booking-Appointment, INFO  AppointmentServiceImpl sendNotificationOnSMS | Calling another API of email and sms notification from book-appointment service
+  [2022-01-16 13:55:52,071], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-01-16 13:55:52,083], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  ThreadPoolTaskScheduler shutdown | Shutting down ExecutorService 'taskScheduler'
+  [2022-01-16 13:55:52,084], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-01-16 13:55:52,089], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  LocalContainerEntityManagerFactoryBean destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+  [2022-01-16 13:55:52,102], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  HikariDataSource close | HikariPool-1 - Shutdown initiated...
+  [2022-01-16 13:55:52,111], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  HikariDataSource close | HikariPool-1 - Shutdown completed.
+  [2022-01-16 13:55:52,117], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7079"]
+  [2022-01-16 13:55:52,146], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-01-16 13:55:52,180], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7079"]
+  [2022-01-16 13:55:52,183], , [RMI TCP Connection(5)-127.0.0.1], Booking-Appointment, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7079"]
+  [2022-01-16 13:55:53,873], , [scheduling-1], Booking-Appointment, ERROR AppointmentServiceImpl sendNotificationOnSMS | Exception while calling email API : method sendNotificationOnSMS()
+  [2022-01-16 13:55:53,876], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart
+  [2022-01-16 13:55:53,877], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of AppointmentServiceImpl.sendNotificationBeforeTodaysAppointmentStart :: 2861 ms
+  [2022-01-16 13:55:53,877], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | END of ReminderScheduler.smsReminderSchedulerCron
+  [2022-01-16 13:55:53,877], , [scheduling-1], Booking-Appointment, INFO  LoggingAspect profileAllMethods | Execution time of ReminderScheduler.smsReminderSchedulerCron :: 2863 ms

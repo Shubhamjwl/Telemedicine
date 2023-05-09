@@ -1,0 +1,25 @@
+package com.nsdl.telemedicine.dto;
+
+import java.io.Serializable;
+
+import com.nsdl.telemedicine.exception.ServiceErrors;
+
+import lombok.Data;
+
+@Data 
+public class ResponseWrapperDTO<T> implements Serializable {
+	private static final long serialVersionUID = 3384945682672832638L;
+
+	private String id;
+
+	private String version;
+
+	private String responsetime;
+
+	private T response;
+	
+	private boolean status;
+	
+	private ServiceErrors error;
+
+}

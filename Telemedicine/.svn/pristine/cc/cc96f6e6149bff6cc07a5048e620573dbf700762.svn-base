@@ -1,0 +1,14 @@
+package com.nsdl.ndhm.dto;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class AddContextResponseDTO {
+	public String requestId;
+	public String timestamp;
+	public AcknowledgementDTO acknowledgement;
+	public ErrorDTO error;
+	public RespDTO resp;
+}

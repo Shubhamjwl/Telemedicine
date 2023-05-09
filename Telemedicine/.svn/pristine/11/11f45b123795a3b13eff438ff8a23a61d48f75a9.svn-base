@@ -1,0 +1,45 @@
+.mat-expansion-panel-content{
+    height: 4rem;
+    overflow: auto
+}
+.example-action-button {
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+// Profile details 
+.paitentDetails {
+  background: #ffffffa3;
+  img {
+    // border: 3px solid #fff;
+    box-shadow: 0 0 10px 0px;
+  }
+  .border-left {
+    border-left: 2px solid #dee2e6 !important;
+  }
+  .patientInfo {
+    letter-spacing: 1px;
+  }
+}
+// End Profile details 
+
+.pageHeight {
+  // max-height: 520px !important;
+  overflow: auto !important;
+  overflow-x: hidden !important;
+}
+
+.expansionPanelHeaderHeight {
+  height: 40px;
+}
+.mat-toolbar {
+  background: #27b8cf;
+}
+
+.font-size {
+  font-size: 15px;
+}
+
+.servicePre{
+  color: black;
+}

@@ -1,0 +1,58 @@
+package com.nsdl.ndhm.controller;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nsdl.ndhm.dto.DiscoverRequestDTO;
+import com.nsdl.ndhm.service.DiscoveryAndLinkingService;
+
+@RestController
+@CrossOrigin
+@RequestMapping("/v0.5/care-contexts/")
+public class DiscoveryAndLinkingController {
+
+	private static final Logger logger = LoggerFactory.getLogger(DiscoveryAndLinkingController.class);
+
+	@Autowired
+	DiscoveryAndLinkingService discoveryAndLinkingService;
+
+	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+	@Async("asyncExecutor")
+	@PostMapping(value = "discover1", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> discover(@RequestHeader Map<String, String> headers,
+			@RequestBody DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Received For Discovery Starts");
+
+		logger.info("Request Received For Discovery ends {}");
+		return discoveryAndLinkingService.discover(discoverRequestDTO);
+	}
+
+	/**
+	 * Dummy method for test discover api
+	 */
+	@PostMapping(value = "discover")
+	public ResponseEntity<String> discoverDummy(@RequestHeader Map<String, String> headers,
+			@RequestBody DiscoverRequestDTO discoverRequestDTO) {
+		logger.info("Request Received For Discovery Starts");
+		logger.info("Discover Request : {} " ,discoverRequestDTO);
+		discoveryAndLinkingService.discoverDemo(discoverRequestDTO);
+		logger.info("Request Received For Discovery ends");
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+}

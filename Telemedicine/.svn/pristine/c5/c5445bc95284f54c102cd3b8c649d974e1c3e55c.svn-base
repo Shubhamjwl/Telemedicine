@@ -1,0 +1,180 @@
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row " style="justify-content: center;">
+                <div class="row history-form">
+                    <div class="col-12 header">
+                        <h2>Order History</h2>
+                    </div>
+                    <form>
+                        <div class="Details">
+                            <div class="col-6">
+                                <label class="form-field">Order Date</label>
+
+                            </div>
+                            <div class="col-6">
+                                <input class="input" type="text" required>
+
+                            </div>
+                        </div>
+                        <div class="Details">
+                            <div class="col-6">
+                                <label class="form-field">Order ID </label>
+
+                            </div>
+                            <div class="col-6">
+                                <input class="input" type="text" required>
+
+                            </div>
+                        </div>
+                        <div class="Details">
+                            <div class="col-6">
+                            </div>
+                            <div class="col-6" style="display: flex; margin-left: 40px;">
+                                <button class="searchBtn">Search</button>
+                                <button class="clearBtn">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+             <!-- <div class="row" style="height: 100%;">
+                <div class="col-md-11 mb-4">
+                    <div class="row mt-2">
+                        <div class="mat-elevation-z8" style="width:100%;">
+                            <table mat-table >
+
+                                 <ng-container matColumnDef="position">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Date | Time </strong></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <strong>
+                                    <span class="mr-1">{{element.appointmentDate | date: 'dd MMM yyyy'}}</span>|
+                                    <span class="mr-1">{{element.appointmentTime}}</span>
+                                </strong>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="orderId">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Date | Time </strong></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <strong>
+                                    <span class="mr-1">{{element.appointmentDate | date: 'dd MMM yyyy'}}</span>|
+                                    <span class="mr-1">{{element.appointmentTime}}</span>
+                                </strong>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="orderDate">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Patient Name </strong></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <span class="wrapper">{{element.patientName}}</span>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ptname">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Doctor Name </strong> </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <span class="wrapper">{{element.doctorName}}</span>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="specialistDocName">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Symptoms </strong> </th>
+                                    <td mat-cell *matCellDef="let element">
+
+                                        <span  class="wrapper" ngbTooltip="{{element.cheifComplaint}}">{{element.cheifComplaint ? element.cheifComplaints : '-'}}</span>
+
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="view">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> View | Download | Upload </strong>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <span>
+                                            <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-eye mr-2"
+                                                placement="bottom" ngbTooltip="View" (click)="openDialog(element)"></i>
+                                        </span> |
+                                        <span>
+                                            <i class="fa fa-download ml-2" aria-hidden="true" placement="bottom"
+                                                ngbTooltip="Download" (click)="download(element)"></i>
+                                        </span> |
+                                        <span>
+                                            <i class="fa fa-upload editIcon ml-2" aria-hidden="true" placement="bottom"
+                                                ngbTooltip="Upload" (click)="openModel(appDetails,element)"></i>
+                                        </span>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="productPrize">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Status </strong> </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <span class="wrapper">{{element.status}}</span>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="productName">
+                                    <th mat-header-cell *matHeaderCellDef> <strong> Edit | Consultation </strong> </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <div *ngIf = "element.status == 'Scheduled' || element.status == 'Resheduled'">
+                                        <span>
+                                        <i class="fa fa-pencil editIcon mr-2" aria-hidden="true" placement="bottom" ngbTooltip="Modify"  (click)="openModel(appDetails,element)" ></i>
+                                    </span> <span *ngIf="element.slotType !== 'In-Clinic'">|</span>
+                                    <span> 
+                                        <i _ngcontent-mbp-c290="" aria-hidden="true" class="fa fa-video-camera videoIcon ml-2" placement="bottom" ngbTooltip="Start Consultation" *ngIf="element.slotType !== 'In-Clinic' && (element.status === 'Scheduled' ||  element.status === 'Resheduled') " (click) = "startVideoConsultation(element)"></i>
+                                    </span>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" class="back-{{element.status}}"></tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+                    </div>
+                </div>
+            </div> 
+        </div> -->
+         
+       <div class="container mt-5">
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
+          
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+              </ng-container>
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Weight </th>
+                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+              </ng-container>
+          
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                           showFirstLastButtons 
+                           aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+        </div>   
+    </div>
+</div>

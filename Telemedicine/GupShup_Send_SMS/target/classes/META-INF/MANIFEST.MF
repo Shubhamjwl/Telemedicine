@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 15.0.1
+Implementation-Title: GupShup_Send_SMS
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.nsdl.gupshup.sms
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/GupShup_Send_SMS
+Created-By: Maven Integration for Eclipse
+

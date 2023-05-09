@@ -1,0 +1,371 @@
+<div class="header">
+    <div class="logo-area2"><img src="/assets/img/logos2.png" alt=""></div>
+</div>
+<div class="registration-conatiner conatiner-fluid">
+    <div class="bottom-bg"></div>
+    <div class="register-left">
+        <div id="parentHorizontalTab">
+            <ul class="resp-tabs-list hor_1">
+                <li><span class="tab-icon"><img src="/assets/img/clinic-details.svg" alt=""></span><span
+                        class="tab-title">Clinic/Doctor<br> detail</span></li>
+                <li><span class="tab-icon"><img src="/assets/img/document.svg" alt=""></span><span
+                        class="tab-title">upload<br> documents</span></li>
+                <li><span class="tab-icon"><img src="/assets/img/create-account.svg" alt=""></span><span
+                        class="tab-title">create<br> account</span></li>
+                <li><span class="tab-icon"><img src="/assets/img/finish.svg" alt=""></span><span
+                        class="tab-title tab-title2">Finish</span></li>
+                <li><span class="tab-icon"><img src="/assets/img/create-slots.svg" alt=""></span><span
+                        class="tab-title">Create<br> Slots</span></li>
+            </ul>
+            <div class="resp-tabs-container hor_1">
+                <div>
+                    <div class="register-form">
+                        <form>
+                            <div class="input-group half-col">
+                                <label>Full Name<sup>*</sup></label>
+                                <input type="text" class="uname" placeholder="Ravindra Sharma" name="name">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>SMC No.<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="747458475895" name="smc">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>MIC No.<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="845712548785" name="mic">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>Select Specialization<sup>*</sup></label>
+                                <select id="specialization" class="select-area" name="specialization">
+                                    <option style="padding-left: 5px;">Anaesthesiology</option>
+                                    <option>Allergist</option>
+                                    <option>Anaesthesiology</option>
+                                    <option>Bariatrics Surgery</option>
+                                    <option>Bone Marrow Transplant</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col ruppee-icon">
+                                <label>Consultation Fees<sup>*</sup></label>
+
+                                <input type="text" class="select-area pass" placeholder="1,400.00" name="feed">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>Mobile Number <sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="+91 9876543210" name="mnumber">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>Gender <sup>*</sup></label>
+                                <select id="gender" class="select-area" name="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Transgender</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col">
+                                <label>State<sup>*</sup></label>
+                                <select id="country-state" class="select-area" name="country-state">
+                                    <option value="AN">Andaman and Nicobar Islands</option>
+                                    <option value="AP">Andhra Pradesh</option>
+                                    <option value="AR">Arunachal Pradesh</option>
+                                    <option value="AS">Assam</option>
+                                    <option value="BR">Bihar</option>
+                                    <option value="CH">Chandigarh</option>
+                                    <option value="CT">Chhattisgarh</option>
+                                    <option value="DN">Dadra and Nagar Haveli</option>
+                                    <option value="DD">Daman and Diu</option>
+                                    <option value="DL">Delhi</option>
+                                    <option value="GA">Goa</option>
+                                    <option value="GJ">Gujarat</option>
+                                    <option value="HR">Haryana</option>
+                                    <option value="HP">Himachal Pradesh</option>
+                                    <option value="JK">Jammu and Kashmir</option>
+                                    <option value="JH">Jharkhand</option>
+                                    <option value="KA">Karnataka</option>
+                                    <option value="KL">Kerala</option>
+                                    <option value="LA">Ladakh</option>
+                                    <option value="LD">Lakshadweep</option>
+                                    <option value="MP">Madhya Pradesh</option>
+                                    <option value="MH">Maharashtra</option>
+                                    <option value="MN">Manipur</option>
+                                    <option value="ML">Meghalaya</option>
+                                    <option value="MZ">Mizoram</option>
+                                    <option value="NL">Nagaland</option>
+                                    <option value="OR">Odisha</option>
+                                    <option value="PY">Puducherry</option>
+                                    <option value="PB">Punjab</option>
+                                    <option value="RJ">Rajasthan</option>
+                                    <option value="SK">Sikkim</option>
+                                    <option value="TN">Tamil Nadu</option>
+                                    <option value="TG">Telangana</option>
+                                    <option value="TR">Tripura</option>
+                                    <option value="UP">Uttar Pradesh</option>
+                                    <option value="UT">Uttarakhand</option>
+                                    <option value="WB">West Bengal</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col">
+                                <label>City<sup>*</sup></label>
+                                <select id="city" class="select-area" name="city">
+                                    <option>Mumbai</option>
+                                    <option>Bhopal</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col locality">
+                                <label>Locality</label>
+                                <input type="text" class="pass" placeholder="Mumbai" name="locality">
+                            </div>
+                            <div class="input-group full-col ">
+                                <label>Address 1<sup>*</sup></label>
+                                <input type="text" class="pass"
+                                    placeholder="A - 701, Shreeji Archade, Narsi Natha Street, Mumbai 400001"
+                                    name="address">
+                            </div>
+                            <div class="input-group half-col left">
+                                <label>Address 2</label>
+                                <input type="text" class="pass" placeholder="A - 701, Shreeji Archade, Mumbai 400001"
+                                    name="address1">
+                            </div>
+                            <div class="input-group half-col right">
+                                <label>Address 3</label>
+                                <input type="text" class="pass" placeholder="A - 701, Shreeji Archade, Mumbai 400001"
+                                    name="address2">
+                            </div>
+                            <div class="input-group half-col left">
+                                <label>Association Name </label>
+                                <select id="assname" class="select-area" name="assname">
+                                    <option>IAP</option>
+                                    <option>Others</option>
+                                    <option>Not selected</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col right">
+                                <label>Association Number </label>
+                                <input type="text" class="pass" placeholder="9448876543210" name="assnum">
+                            </div>
+                            <div class="input-group full-col">
+                                <label>Association Address <sup>*</sup></label>
+                                <input type="text" class="pass"
+                                    placeholder="S1/701, Tropical Paradise, M.K.Gandhi Chowk, Mumbai 400005"
+                                    name="assadd">
+                            </div>
+                            <div class="input-group btn-area">
+                                <button type="submit" class="submit-main-btn">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div class="register-form">
+                        <form>
+                            <div class="input-group full-col">
+                                <label>Pre-Assessment Link</label>
+                                <input type="text" class="pass" placeholder="Enter Pre-Assessment Link Here"
+                                    name="asslink">
+                            </div>
+                            <div class="input-group half-col left">
+                                <label>Document Type<sup>*</sup></label>
+                                <select id="type" class="select-area" name="type">
+                                    <option>Degree Certificate</option>
+                                    <option>Aadhar Card</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-col right upload-area">
+                                <label>Upload Document<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="Browse Files" name="upload">
+                            </div>
+                            <div class="input-group half-col left attach-col upload-area">
+                                <div class="attach-img"><img src="/assets/img/photo.png" alt=""></div>
+                                <label>Upload Photo<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="Browse Files" name="uploadphoto">
+                            </div>
+                            <div class="input-group btn-area">
+                                <button type="submit" class="submit-main-btn">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+
+                    <div class="register-form">
+                        <form>
+                            <div class="input-group">
+                                <label>Email ID<sup>*</sup></label>
+                                <input type="email" class="pass" placeholder="ravindra.sharma@gmail.com" name="email">
+                            </div>
+                            <div class="input-group half-col">
+                                <label>Username<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="rvindra123" name="user">
+                            </div>
+                            <div class="input-group half-col pass2">
+                                <label>Password<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="***********" name="pass">
+                            </div>
+                            <div class="input-group half-col pass2">
+                                <label>Re-enter Password<sup>*</sup></label>
+                                <input type="text" class="pass" placeholder="***********" name="repass">
+                            </div>
+                            <div class="input-group full-col">
+                                <label>Resolve The Captcha Below</label>
+                                <div class="captcha">
+                                    <span class="captcha-icon"><img src="/assets/img/captcha-img.jpg" alt=""></span>
+                                    <span class="refreash-icon"><img src="/assets/img/referesh.svg" alt=""></span>
+                                </div>
+                            </div>
+                            <div class="input-group half-col repeat-area left terms">
+
+                                <input type="checkbox" id="weekday-3" name="weekday-3" value="Yes">
+                                <label for="weekday-3">I agree to the <a href="#">Terms and Conditions</a></label>
+                            </div>
+                            <div class="input-group btn-area">
+                                <button type="submit" class="submit-main-btn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="form-content-area">
+                        <div class="form-title">Congratulations</div>
+                        <div class="congo-left"><img src="/assets/img/congratulations.svg" alt=""></div>
+                        <div class="congo-right">Thank You for registering into Protean Clinic. Your application is
+                            pending for verification, you will be able to login once the verification process is
+                            completed. You will receive a notification of the same on your registered Email ID / Mobile
+                            no</div>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="register-form">
+                        <form>
+                            <div class="input-group full-col no-border slot-area">
+                                <label>Create Slot For Months<sup>*</sup></label>
+
+                                <div class="moth-slot">
+                                    <ul>
+                                        <li><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#">6</a></li>
+                                        <li><a href="#">7</a></li>
+                                        <li><a href="#">8</a></li>
+                                        <li><a href="#">9</a></li>
+                                        <li><a href="#">10</a></li>
+                                        <li><a href="#">11</a></li>
+                                        <li><a href="#">12</a></li>
+                                        <li><a href="#">13</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="input-group half-col no-border repeat-area left">
+                                <label>Auto Repeat<sup>*</sup></label>
+
+                                <div class="repeat-inside">
+
+                                    <input id="radio-1" class="radio-custom" name="radio-group" type="radio" checked>
+                                    <label for="radio-1" class="radio-custom-label">Yes</label>
+
+                                    <input id="radio-2" class="radio-custom" name="radio-group" type="radio">
+                                    <label for="radio-2" class="radio-custom-label">No</label>
+
+                                </div>
+
+                            </div>
+                            <div class="input-group half-col repeat-area right">
+                                <label>Create Slots For<sup>*</sup></label>
+
+
+                                <div class="repeat-inside">
+
+                                    <input type="checkbox" id="weekday-1" name="weekday-1" value="Yes">
+                                    <label for="weekday-1">Tele Consultation</label>
+
+                                    <input type="checkbox" id="weekday-2" name="weekday-2" value="Yes">
+                                    <label for="weekday-2">In-Clinic</label>
+
+                                </div>
+
+
+                            </div>
+                            <div class="input-group full-col no-border slot-area">
+                                <label>Set Working Days<sup>*</sup></label>
+
+                                <div class="days-area">
+                                    <ul>
+                                        <li><a href="#">Sunday</a></li>
+                                        <li><a href="#">Monday</a></li>
+                                        <li><a href="#">Tuesday</a></li>
+                                        <li><a href="#">Wednesday</a></li>
+                                        <li><a href="#">Thursday</a></li>
+                                        <li><a href="#">Friday</a></li>
+                                        <li><a href="#">Saturday</a></li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+
+                            <div class="input-group full-col no-border slot-area repeat-area">
+                                <label>Set Working time (24-hr)<sup>*</sup></label>
+
+                                <div class="time-col">
+                                    <label>Start Time<sup>*</sup></label>
+                                    <select id="start" class="select-area" name="start">
+                                        <option>12:00 am</option>
+                                        <option>01:00 am</option>
+                                        <option>02:00 am</option>
+                                    </select>
+                                </div>
+
+                                <div class="End Time">
+                                    <label>End Time<sup>*</sup></label>
+                                    <select id="end" class="select-area" name="end">
+                                        <option>02:00 am</option>
+                                        <option>03:00 am</option>
+                                        <option>04:00 am</option>
+                                    </select>
+                                </div>
+
+                                <div class="add"><img alt="" src="/assets/img/add.svg" /></div>
+                                <div class="cancel"><img alt="" src="/assets/img/remove.svg" /></div>
+
+                            </div>
+
+
+
+                            <div class="input-group full-col no-border slot-area left">
+                                <label>Slot Duration ( in minutes): <sup>*</sup></label>
+
+
+                                <div class="moth-slot">
+                                    <ul>
+                                        <li><a href="#">10</a></li>
+                                        <li><a href="#">20</a></li>
+                                        <li><a href="#">30</a></li>
+                                        <li><a href="#">40</a></li>
+                                        <li><a href="#">50</a></li>
+                                        <li><a href="#">60</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+
+                            <div class="input-group btn-area">
+                                <button type="submit" class="submit-main-btn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        © Copyright 2022, Protean Clinic.
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<ngx-spinner>
+    <p class="loading">Loading...</p>
+</ngx-spinner>
+<div class="login-conatiner conatiner-fluid">
+    <div class="left-area">
+        <div class="right-logo mob-logo">
+            <img src="/assets/img/logos.png" alt="">
+        </div>
+        <div class="tagline">A Revolutionary Healthcare Boost<br> For India’s OPD Clinics</div>
+        <div class="tagline2">Empowering Your Clinic With More Services And Better<br> Outcomes For Your Patients.</div>
+        <div class="left-box">
+            <ul>
+                <li>
+                    <span class="box-icon icon1"><img src="/assets/img/specialist.png" alt=""></span>
+                    <span class="box-text">Specialist<br> Advice System</span>
+                </li>
+                <li>
+                    <span class="box-icon icon2"><img src="/assets/img/hightech-medical-device.png" alt=""></span>
+                    <span class="box-text">High Tech Medical Devices<br> With Local Assistance</span>
+                </li>
+                <li>
+                    <span class="box-icon icon3"><img src="/assets/img/diagnostic.png" alt=""></span>
+                    <span class="box-text">Specialized & <br> Diagnostic Services</span>
+                </li>
+                <li>
+                    <span class="box-icon icon4"><img src="/assets/img/patient-education.png" alt=""></span>
+                    <span class="box-text">Patient Education & Early<br> Detection Tools</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="right-area">
+        <div class="right-logo desk-logo">
+            <img src="/assets/img/logos.png" alt="">
+        </div>
+        <div class="login-form forgot-form">
+            <form [formGroup]="form">
+                <div class="input-group">
+                    <label>User ID</label>
+                    <input type="text" formControlName="userId" class="uname" readonly placeholder="User ID">
+                </div>
+                <div class="input-group otp">
+                    <label>OTP<sup>*</sup></label>
+                    <input type="text" formControlName="otp" class="otp-icon" placeholder="OTP">
+                    <mat-error class="mt-1 ml-1"
+                        *ngIf="form.get('otp').errors && (form.get('otp').touched || form.get('otp').dirty)">
+                        <span *ngIf="form.get('otp').errors.required">{{'errOtpRequired' | l10n}}</span>
+                    </mat-error>
+                </div>
+                <div class="input-group pass2">
+                    <label>Password<sup>*</sup>
+                        <i matSuffix (click)="hidePassword = !hidePassword"
+                            [ngClass]="hidePassword ? 'fa fa-eye-slash' : 'fa fa-eye'" class="cursor ml-2"></i>
+                    </label>
+                    <input [type]="hidePassword? 'password' : 'text'" formControlName="newPassword" class="pass"
+                        placeholder="***********">
+                    <mat-error class="mt-1 ml-1"
+                        *ngIf="form.get('newPassword').errors && (form.get('newPassword').touched || form.get('newPassword').dirty)">
+                        <span *ngIf="form.get('newPassword').errors.required">{{'errPasswordRequired' | l10n}}</span>
+                        <span *ngIf="form.get('newPassword').errors.maxlength">{{'errPasswordMaxLength' | l10n}}</span>
+                        <span
+                            *ngIf="!form.get('newPassword').errors.strong && form.get('newPassword').errors.minlength">{{'errPasswordMinLength'
+                            | l10n}}</span>
+                        <span
+                            *ngIf="(!form.get('newPassword').errors.required && !form.get('newPassword').errors.maxlength) && form.get('newPassword').errors.strong">{{'errPasswordPattern'
+                            | l10n}}</span>
+                    </mat-error>
+                </div>
+                <div class="input-group pass2">
+                    <label>Re-enter Password<sup>*</sup>
+                        <i matSuffix (click)="hideReEnterPassword = !hideReEnterPassword"
+                            [ngClass]="hideReEnterPassword ? 'fa fa-eye-slash' : 'fa fa-eye'" class="cursor ml-2"></i>
+                    </label>
+                    <input [type]="hideReEnterPassword? 'password' : 'text'" formControlName="confirmPassword"
+                        class="pass" placeholder="***********">
+                    <mat-error class="mt-1 ml-1"
+                        *ngIf="form.get('confirmPassword').errors && (form.get('confirmPassword').touched || form.get('confirmPassword').dirty)">
+                        <span *ngIf="form.get('confirmPassword').errors.required">{{'errPasswordRequired' |
+                            l10n}}</span>
+                        <span *ngIf="form.get('confirmPassword').errors.passwordMismatch">{{'lblEnterCorrectPass' |
+                            l10n}}</span>
+                    </mat-error>
+                </div>
+                <div class="input-group">
+                    <label>Resolve The Captcha Below</label>
+                    <div class="captcha">
+                        <span class="captcha-icon"><img [src]="captcha" alt=""></span>
+                        <input type="text" formControlName="captcha">
+                        <span type="button" (click)="refreshCpacha()" class="refreash-icon"><img src="/assets/img/referesh.svg" alt=""></span>
+                    </div>
+                </div>
+                <div class="input-group btn-area">
+                    <button type="button" class="submit-main-btn" (click)="verifyCaptcha()">Submit</button>
+                    <button type="button" *ngIf="this.fromWhere == 'forgot'"  class="submit-main-btn clear-btn" (click)="back()">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

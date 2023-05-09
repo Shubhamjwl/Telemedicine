@@ -1,0 +1,158 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+// import { CommonCoreModule } from './common-core/common-core.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+import { CommonModule, DatePipe } from '@angular/common';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthGuard } from './shared/autherization_Authentication/guards/auth.guard';
+import { TelemedicineInterceptor } from './shared/autherization_Authentication/interceptors/telemedicine.interceptor';
+import { AppComponent } from './app.component';
+import { CustomValidators } from './shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { EnterMobileComponent } from './NDHM/enter-mobile/enter-mobile.component';
+import { OTPComponent } from './NDHM/otp/otp.component';
+import { VerifyMobileComponent } from './NDHM/verify-mobile/verify-mobile.component';
+import { PatientRegisteredComponent } from './NDHM/patient-registered/patient-registered.component';
+import { ResendOTPComponent } from './NDHM/resend-otp/resend-otp.component';
+import { PatientRegesterNextComponent } from './NDHM/patient-regester-next/patient-regester-next.component';
+import { YesNoMessaeComponent } from './NDHM/yes-no-messae/yes-no-messae.component';
+import { SelfYesNoMessaeComponent } from './NDHM/Self-create/self-yes-no-messae/self-yes-no-messae.component';
+import { SelfResendOtpComponent } from './NDHM/Self-create/self-resend-otp/self-resend-otp.component';
+import { SelfOtpComponent } from './NDHM/Self-create/self-otp/self-otp.component';
+import { SelfPatientRegisteredNextComponent } from './NDHM/Self-create/self-patient-registered-next/self-patient-registered-next.component';
+import { SelfPatientRegisteredComponent } from './NDHM/Self-create/self-patient-registered/self-patient-registered.component';
+import { SelfVerifyMobileComponent } from './NDHM/Self-create/self-verify-mobile/self-verify-mobile.component';
+import { SelfEnterMobileComponent } from './NDHM/Self-create/self-enter-mobile/self-enter-mobile.component';
+import { AadharmobileEnterMobileComponent } from './NDHM/AadharMobile-create/aadharmobile-enter-mobile/aadharmobile-enter-mobile.component';
+import { AadharMobileOtpComponent } from './NDHM/AadharMobile-create/aadhar-mobile-otp/aadhar-mobile-otp.component';
+import { AadharMobileRegesterComponent } from './NDHM/AadharMobile-create/aadhar-mobile-regester/aadhar-mobile-regester.component';
+import { AadharMobileYesNoMessageComponent } from './NDHM/AadharMobile-create/aadhar-mobile-yes-no-message/aadhar-mobile-yes-no-message.component';
+import { AadharMobileRegesterNextComponent } from './NDHM/AadharMobile-create/aadhar-mobile-regester-next/aadhar-mobile-regester-next.component';
+import { AsithealthYesNoMessageComponent } from './NDHM/AssidteAdhare/asithealth-yes-no-message/asithealth-yes-no-message.component';
+import { AsithealthRegesterComponent } from './NDHM/AssidteAdhare/asithealth-regester/asithealth-regester.component';
+import { AsithealthRegesterNextComponent } from './NDHM/AssidteAdhare/asithealth-regester-next/asithealth-regester-next.component';
+import { AsithealthOtpComponent } from './NDHM/AssidteAdhare/asithealth-otp/asithealth-otp.component';
+import { AsithealthEnterMobileComponent } from './NDHM/AssidteAdhare/asithealth-enter-mobile/asithealth-enter-mobile.component';
+import { ProfileCreateComponent } from './NDHM/visithelthQR/profile-create/profile-create.component';
+import { FatchprofileMapComponent } from './NDHM/visithelthQR/fatchprofile-map/fatchprofile-map.component';
+import { PatientKYCpComponent } from './NDHM/visithelthmobile/patient-kycp/patient-kycp.component';
+import { PatienAutherComponent } from './NDHM/visithelthmobile/patien-auther/patien-auther.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LangModule } from 'src/app/lang/lang.module';
+import { WebcamModule } from 'ngx-webcam';
+import { BreadcrumbModule } from './shared/modules/breadcrumb/breadcrumb.module';
+import { SharedModule } from './shared/shared.module';
+
+import { AssidteEnterMobileComponent } from './NDHM/AssidteMobile/assidte-enter-mobile/assidte-enter-mobile.component';
+import { AssidteMobileOTPComponent } from './NDHM/AssidteMobile/assidte-mobile-otp/assidte-mobile-otp.component';
+import { AssidteMobileVerifyComponent } from './NDHM/AssidteMobile/assidte-mobile-verify/assidte-mobile-verify.component';
+import { AssidteMobileResendComponent } from './NDHM/AssidteMobile/assidte-mobile-resend/assidte-mobile-resend.component';
+import { AssidteMobileRegistrationComponent } from './NDHM/AssidteMobile/assidte-mobile-registration/assidte-mobile-registration.component';
+import { HealthidCreationMobileAssistedComponent } from './NDHM/AssidteMobile/healthid-creation-mobile-assisted/healthid-creation-mobile-assisted.component';
+import { HealthidSearchComponent } from './NDHM/healthid-search/healthid-search.component';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
+import { MatModuleModule } from './layout/mat-module/mat-module.module';
+import { InclinicRescheduleModalComponent } from './inclinic-reschedule-modal/inclinic-reschedule-modal.component';
+
+
+
+
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    EnterMobileComponent,
+    OTPComponent,
+    VerifyMobileComponent,
+    PatientRegisteredComponent,
+    ResendOTPComponent,
+    PatientRegesterNextComponent,
+    YesNoMessaeComponent,
+    SelfYesNoMessaeComponent,
+    SelfResendOtpComponent,
+    SelfOtpComponent,
+    SelfPatientRegisteredNextComponent,
+    SelfPatientRegisteredComponent,
+    SelfVerifyMobileComponent,
+    SelfEnterMobileComponent,
+    AadharmobileEnterMobileComponent,
+    AadharMobileOtpComponent,
+    AadharMobileRegesterComponent,
+    AadharMobileRegesterNextComponent,
+    AadharMobileYesNoMessageComponent,
+    AsithealthYesNoMessageComponent,
+    AsithealthRegesterComponent,
+    AsithealthRegesterNextComponent,
+    AsithealthOtpComponent,
+    AsithealthEnterMobileComponent,
+    ProfileCreateComponent,
+    FatchprofileMapComponent,
+    PatientKYCpComponent,
+    PatienAutherComponent,
+
+    HealthidCreationMobileAssistedComponent,
+
+    AssidteEnterMobileComponent,
+    AssidteMobileOTPComponent,
+    AssidteMobileVerifyComponent,
+    AssidteMobileResendComponent,
+    AssidteMobileRegistrationComponent,
+    HealthidSearchComponent,
+    TermsOfUseComponent,
+    InclinicRescheduleModalComponent,
+    
+   
+    
+   
+    
+  ],
+  imports: [
+    NgxSpinnerModule,
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // CommonCoreModule,
+    CommonModule,
+    // TeleMedicineModule,
+    BrowserAnimationsModule,
+    TypeaheadModule.forRoot(),
+    PdfViewerModule,
+    LangModule,WebcamModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BreadcrumbModule,
+    SharedModule,
+    MatModuleModule,
+
+    //other
+    NgbModule,
+    CalendarModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: "toast-top-center",
+      closeButton: true,
+    }),
+    ToastContainerModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+
+  ],
+  providers: [
+    AuthGuard,
+    CustomValidators,
+    DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: TelemedicineInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
+export class AppModule { }

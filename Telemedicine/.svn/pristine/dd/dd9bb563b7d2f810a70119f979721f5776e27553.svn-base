@@ -1,0 +1,48 @@
+spring.application.name=consultation-manager-service
+spring.datasource.driverClassName=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+#spring.datasource.hikari.validationTimeout=10000
+
+spring.profiles.active=dev
+
+#spring.jpa.properties.hibernate.hbm2ddl.auto=update
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.jpa.properties.hibernate.show_sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+#spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+server.port=7078
+server.servlet.context-path=/consultation
+
+spring.jpa.hibernate.ddl-auto=update
+
+consultation.manager.service.version=v1.0
+consultation.manager.service.id=consultation
+
+consultation.manager.service.prescription.path=/var/telemedicine/documents/prescription
+consultation.manager.service.path.seperator=/
+
+#consultation.manager.service.prescription.path=D:\\var\\telemedicine\\documents\\prescription
+#consultation.manager.service.path.seperator=\\
+
+consultation.manager.diagnosis.response.msg=Diagnosis details saved successfully
+consultation.manager.chief.complain.response.msg=chief complaint details saved successfully
+consultation.manager.investigation.response.msg=Investigation details saved successfully
+consultation.manager.verifyPrescription.response.msg=Prescription has been verified sucessfully
+consultation.manager.advice.response.msg=Consultation Advice details saved successfully
+consultation.manager.savePrescription.response.msg=Prescription saved successfully and send for verification
+consultation.manager.savePatient.report.response.msg=Patient Report saved sucessfully
+
+
+## Document paths
+#LinuxDocPath=/deploy/RMS/UploadFile
+#WindowDocPath=D://Telemedicine//Files
+#WindowDocPath = D://temp
+#WindowDocPath=/tmp
+uploadedPath=/var/telemedicine/documents
+DocumentUploadSize=2097152
+
+consultation.manager.service.prescription.email=http://localhost:7076/OTPManager/sendNotification
+#consultation.manager.service.prescription.email=http://172.30.151.100:7076/OTPManager/sendNotification
+#consultation.manager.service.prescription.email = https://uattele.cloudvoice.in/OTPManager/sendNotification

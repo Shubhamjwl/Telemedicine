@@ -1,0 +1,9 @@
+spring.datasource.url=jdbc:postgresql://172.30.151.101:9001/telemedicine?characterEncoding=utf8
+spring.datasource.username=sysadmin
+spring.datasource.password=Mosipadm@dev123
+server.port=7076
+smsRequestUrl=http://172.30.151.101:8083/send-sms/sendSmsGupShupAPI
+spring.mail.protocol=smtp
+spring.mail.host=172.19.65.67
+spring.mail.port=25
+eureka.client.service-url.defaultZone=http://172.30.151.100:8761/eureka

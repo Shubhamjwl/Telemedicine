@@ -1,0 +1,24 @@
+body {
+  --mat-paginator-bg-color: #0f607c2e;
+  --mat-paginator-txt-color: #222;
+}
+
+.mat-paginator {
+  background-color: var(--mat-paginator-bg-color) !important;
+  color: var(--mat-paginator-txt-color) !important;
+
+  .mat-select-value {
+    color: var(--mat-paginator-txt-color) !important;
+  }
+
+  .mat-select-arrow {
+    color: var(--mat-paginator-txt-color) !important;
+  }
+
+  .mat-form-field-underline {
+    background-color: var(--mat-paginator-txt-color) !important;
+  }
+}
+.mat-paginator-container {
+  min-height: 35px !important;
+}

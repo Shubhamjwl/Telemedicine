@@ -1,0 +1,552 @@
+<!-- <div class="login-container">
+  <div class="login-panel">
+    <div class="login-header">
+      <div class="login-par mt-4" style="border-radius: 10px">
+        <h2 style="color: #0d0d0e;">Create ABHA ID</h2>
+      </div>
+    </div>
+    <div class="login-form-box" style="
+        width: 700px;
+        margin: 20px auto;
+        border: 5px solid #00bcd49e;
+        border-radius: 20px;
+        padding: 20px;
+      ">
+
+      <form #verifyForm="ngForm" novalidate autocomplete="off">
+        <div class="row mt-4">
+          <div class="col-md-5 lable">
+            <p class="mt-1">
+              Create ABHA ID using Aadhaar<span class="error">*</span>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="aadhaar" class="form-control input" placeholder="Enter Aadhaar Number"
+                name="aadhaars" #aadhaars="ngModel" pattern="{{ PATTERN.Aadhaar }}" maxlength="12" required />
+            </div>
+            <div class="error" [hidden]="aadhaars.valid || aadhaars.untouched">
+              Enter Valid Aadhaar
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 84px">
+              <div class="col-md-1" style="margin-top: 5%">
+                <input type="checkbox" [(ngModel)]="isOTPChecked" name="isOTPCheckedV" #isOTPCheckedV="ngModel"
+                  (click)="onClickOTP()" />
+              </div>
+              <div class="col-md-4" style="margin-top: 5%">
+                <input type="text" class="form-control input" placeholder="OTP" name="OTP" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="isBioChecked">
+            <div class="row" style="margin: 10px 84px">
+              <div class="col-md-1" style="margin-top: 5%">
+                <input type="checkbox" [(ngModel)]="isFingerprintChecked" name="isFingerprintCheckedV"
+                  #isFingerprintCheckedV="ngModel" (click)="onClickFingerprint()" />
+              </div>
+              <div class="col-md-5" style="margin-top: 5%">
+                <input type="text" class="form-control input" placeholder="Fingerprint" name="Fingerprint" />
+              </div>
+              <div class="col-md-1" style="margin-top: 5%">
+                <input type="checkbox" [(ngModel)]="isIRISChecked" name="isIRISCheckedV" #isIRISCheckedV="ngModel"
+                  (click)="onClickIRIS()" />
+              </div>
+              <div class="col-md-3" style="margin-top: 5%">
+                <input type="text" class="form-control input" placeholder="IRIS" name="IRIS" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="isBioChecked">
+            <div class="row" style="margin: 10px 84px">
+              <div class="col-md-6" *ngIf="isFingerprintChecked">
+                <select [(ngModel)]="fingerprintDeviceID" name="slectFingerprintDevice" required
+                  #slectFingerprintDevice="ngModel" class="form-control input-box w-100 mt-3" style="
+                    width: 33%;
+                    display: inline-block;
+                    background-color: #dbe9f099;
+                    border-color: #2196f3;
+                  " (ngModelChange)="setBiometricFunctionNew()">
+                  <option value=" " selected>Select Device</option>
+                  <option value="3">Morpho</option>
+                  <option value="5">Precision</option>
+                  <option value="6">Mantra</option>
+                </select>
+              </div>
+              <div class="col-md-6" *ngIf="isIRISChecked">
+                <input type="hidden" [(ngModel)]="bioType" id="bioType" name="bioType" />
+                <input type="hidden" [(ngModel)]="pid" id="txtPidData" name="pid" />
+                <input type="hidden" [(ngModel)]="rdServiceData" id="rdServiceData" name="rdServiceData" />
+              </div>
+
+              <div class="col-md-6" *ngIf="isIRISChecked">
+                <input type="text" class="form-control input" placeholder="IRISImage" name="IRIS" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row" style="margin: 35px 84px">
+              <div class="col-md-1" style="margin-top: 10%">
+                <input type="checkbox" [(ngModel)]="isChecked" name="isCheckedV" #isCheckedV="ngModel" required />
+              </div>
+              <div class="col-md-10">
+                <p style="
+                    background-color: lightcyan;
+                    border: 2px solid #000;
+                    padding: 10px;
+                    width: 110%;
+                  ">
+                  I hereby authorize NSDL e-Gov "Protean Clinic" to share Aadhaar through ABDM for generation of ABHA ID
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-center align-items-center">
+          <button class="btn btn-primary mr-3" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " (click)="back()">
+            Cancel
+          </button>
+          <button class="btn btn-primary" style="
+              background-color: #63a4ec;
+              border-color: darkslategrey;
+              width: 16%;
+            " (click)="otpAadhaar()" [disabled]="!verifyForm.valid">
+            Proceed
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="container">
+  <div class="nav-container">
+    <p class="nav-text">Create ABHA ID</p>
+  </div>
+  <div>
+    <form
+      #verifyForm="ngForm"
+      novalidate
+      autocomplete="off"
+      style="margin-top: 45px"
+    >
+      <div class="row mt-4">
+        <div
+          class="col-md-3 lable"
+          style="margin-left: 75px; margin-bottom: 5%"
+        >
+          <p class="mt-1 text">Enter Aadhaar<span class="error">*</span></p>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group" style="margin-bottom: 5%">
+            <input
+              type="text"
+              [(ngModel)]="aadhaar"
+              class="input-border input"
+              placeholder="Enter Aadhaar Number"
+              name="aadhaars"
+              #aadhaars="ngModel"
+              pattern="{{ PATTERN.Aadhaar }}"
+              maxlength="12"
+              style="border-bottom: 1px solid #e43927 !important"
+              required
+            />
+          </div>
+          <div class="error" [hidden]="aadhaars.valid || aadhaars.untouched">
+            Enter Valid Aadhaar
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row" style="margin-top: -50px">
+            <div class="col-md-3" style="margin-left: 75px; margin-top: 23px">
+              <input
+                type="checkbox"
+                [(ngModel)]="isOTPChecked"
+                name="isOTPCheckedV"
+                #isOTPCheckedV="ngModel"
+                (click)="onClickOTP()"
+                style="margin-left: 69px; border: rgb(218, 31, 31)"
+                required
+              />
+              <p
+                style="
+                  margin-left: 98px;
+                  margin-top: -22px;
+                  font-size: 20px;
+                  font-family: Poppins-Regular, sans-serif;
+                "
+              >
+                OTP
+              </p>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="col-md-12" *ngIf="isBioChecked">
+          <div class="row" style="margin: 10px 84px">
+            <div class="col-md-1" style="margin-top: 5%">
+              <input
+                type="checkbox"
+                [(ngModel)]="isFingerprintChecked"
+                name="isFingerprintCheckedV"
+                #isFingerprintCheckedV="ngModel"
+                (click)="onClickFingerprint()"
+              />
+            </div>
+            <div class="col-md-5" style="margin-top: 5%">
+              <input
+                type="text"
+                class="input-text input"
+                placeholder="Fingerprint"
+                name="Fingerprint"
+              />
+            </div>
+            <div class="col-md-1" style="margin-top: 5%">
+              <input
+                type="checkbox"
+                [(ngModel)]="isIRISChecked"
+                name="isIRISCheckedV"
+                #isIRISCheckedV="ngModel"
+                (click)="onClickIRIS()"
+              />
+            </div>
+            <div class="col-md-3" style="margin-top: 5%">
+              <input
+                type="text"
+                class="form-control input"
+                placeholder="IRIS"
+                name="IRIS"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12" *ngIf="isBioChecked">
+          <div class="row" style="margin: 10px 84px">
+            <div class="col-md-6" *ngIf="isFingerprintChecked">
+              <select
+                [(ngModel)]="fingerprintDeviceID"
+                name="slectFingerprintDevice"
+                required
+                #slectFingerprintDevice="ngModel"
+                class="form-control input-box w-100 mt-3"
+                style="
+                  width: 33%;
+                  display: inline-block;
+                  background-color: #dbe9f099;
+                  border-color: #2196f3;
+                "
+                (ngModelChange)="setBiometricFunctionNew()"
+              >
+                <option value=" " selected>Select Device</option>
+                <option value="3">Morpho</option>
+                <option value="5">Precision</option>
+                <option value="6">Mantra</option>
+              </select>
+            </div>
+            <div class="col-md-6" *ngIf="isIRISChecked">
+              <input
+                type="hidden"
+                [(ngModel)]="bioType"
+                id="bioType"
+                name="bioType"
+              />
+              <input
+                type="hidden"
+                [(ngModel)]="pid"
+                id="txtPidData"
+                name="pid"
+              />
+              <input
+                type="hidden"
+                [(ngModel)]="rdServiceData"
+                id="rdServiceData"
+                name="rdServiceData"
+              />
+            </div>
+
+            <div class="col-md-6" *ngIf="isIRISChecked">
+              <input
+                type="text"
+                class="form-control input"
+                placeholder="IRISImage"
+                name="IRIS"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row" style="margin: 35px 84px">
+            <div class="col-md-2" style="margin-left: 46px">
+              <input
+                type="checkbox"
+                [(ngModel)]="isChecked"
+                name="isCheckedV"
+                #isCheckedV="ngModel"
+                required
+              />
+            </div>
+            <div class="col-md-10" style="margin-left: 72px; margin-top: -4%">
+              <p
+                style="
+                  background-color: white;
+                  padding: 10px;
+                  width: 110%;
+                  font-size: 20px;
+                  font-family: Poppins-Regular, sans-serif;
+                "
+              >
+                I hereby authorize NSDL e-Gov "Protean Clinic" to share Aadhaar
+                through ABDM for generation of ABHA ID
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 d-flex justify-content-center align-items-center">
+        <button
+          class="btn button mr-3"
+          style="width: 16%; margin-top: -45px"
+          (click)="back()"
+        >
+          BACK
+        </button>
+        <button
+          class="btn button"
+          style="width: 16%; margin-top: -45px"
+          (click)="otpAadhaar()"
+          [disabled]="!verifyForm.valid"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
+  </div>
+  <div style="padding-left: 342px; padding-top: 150px">
+    <p
+      tyle="margin-top: 33px; font-size: 7px; font-family: Poppins-Regular, sans-serif;
+    color: black;"
+    >
+      Powered BY
+    </p>
+    <img src="../../../assets/logo/logos.png" class="logo-img" />
+  </div>
+</div> -->
+
+<div
+  class="sample form-group"
+  style="background-color: white; padding-left: 3%"
+>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="margin-left: -6%">
+    <p class="nav-text">Create ABHA ID</p>
+  </nav>
+  <div style="margin-left: 2%">
+    <form
+      #verifyForm="ngForm"
+      novalidate
+      autocomplete="off"
+      style="margin-top: 45px"
+    >
+      <div class="row col-12 col-lg-12" style="margin-top: -4%">
+        <div class="col-3 col-lg-3 lable" style="margin-bottom: 5%">
+          <p class="mt-1 text" style="margin-left: -22%">
+            Enter Aadhaar<span class="error">*</span>
+          </p>
+        </div>
+        <div class="col-6 col-lg-6">
+          <div class="form-group" style="margin-bottom: 5%">
+            <input
+              type="text"
+              [(ngModel)]="aadhaar"
+              class="input-border input"
+              placeholder="Enter Aadhaar Number"
+              name="aadhaars"
+              #aadhaars="ngModel"
+              pattern="{{ PATTERN.Aadhaar }}"
+              maxlength="12"
+              style="border-bottom: 1px solid #e43927 !important; width: 140%"
+              required
+            />
+          </div>
+          <div
+            class="error"
+            style="margin-top: -5%"
+            [hidden]="aadhaars.valid || aadhaars.untouched"
+          >
+            Enter Valid Aadhaar
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-12 col-lg-12" style="margin-top: 5%">
+        <div class="col-3 col-lg-3">
+          <input
+            class="input-chbox"
+            type="checkbox"
+            [(ngModel)]="isOTPChecked"
+            name="isOTPCheckedV"
+            #isOTPCheckedV="ngModel"
+            (click)="onClickOTP()"
+            style="border: rgb(218, 31, 31)"
+            required
+          />
+        </div>
+        <div class="col-4 col-lg-4">
+          <p
+            style="
+              font-size: 18px;
+              font-family: Poppins-Regular, sans-serif;
+              margin-left: -24%;
+            "
+          >
+            OTP
+          </p>
+        </div>
+      </div>
+
+      <div class="row col-12 col-lg-12" *ngIf="isBioChecked">
+        <div class="col-1 col-lg-1">
+          <input
+            type="checkbox"
+            [(ngModel)]="isFingerprintChecked"
+            name="isFingerprintCheckedV"
+            #isFingerprintCheckedV="ngModel"
+            (click)="onClickFingerprint()"
+          />
+        </div>
+        <div class="col-5 col-lg-5">
+          <input
+            type="text"
+            class="input-text input"
+            placeholder="Fingerprint"
+            name="Fingerprint"
+          />
+        </div>
+        <div class="col-1 col-lg-1">
+          <input
+            type="checkbox"
+            [(ngModel)]="isIRISChecked"
+            name="isIRISCheckedV"
+            #isIRISCheckedV="ngModel"
+            (click)="onClickIRIS()"
+          />
+        </div>
+        <div class="col-3 col-lg-3">
+          <input
+            type="text"
+            class="form-control input"
+            placeholder="IRIS"
+            name="IRIS"
+          />
+        </div>
+      </div>
+
+      <div class="row col-12 col-lg-12" *ngIf="isBioChecked">
+        <div class="col-6 col-lg-6" *ngIf="isFingerprintChecked">
+          <select
+            [(ngModel)]="fingerprintDeviceID"
+            name="slectFingerprintDevice"
+            required
+            #slectFingerprintDevice="ngModel"
+            class="form-control input-box w-100 mt-3"
+            style="
+              width: 33%;
+              display: inline-block;
+              background-color: #dbe9f099;
+              border-color: #2196f3;
+            "
+            (ngModelChange)="setBiometricFunctionNew()"
+          >
+            <option value=" " selected>Select Device</option>
+            <option value="3">Morpho</option>
+            <option value="5">Precision</option>
+            <option value="6">Mantra</option>
+          </select>
+        </div>
+        <div class="col-6 col-lg-6" *ngIf="isIRISChecked">
+          <input
+            type="hidden"
+            [(ngModel)]="bioType"
+            id="bioType"
+            name="bioType"
+          />
+          <input type="hidden" [(ngModel)]="pid" id="txtPidData" name="pid" />
+          <input
+            type="hidden"
+            [(ngModel)]="rdServiceData"
+            id="rdServiceData"
+            name="rdServiceData"
+          />
+        </div>
+      </div>
+
+      <div class="row col-12 col-lg-12" style="margin-top: 6%">
+        <div class="col-2 col-lg-2">
+          <input
+            type="checkbox"
+            [(ngModel)]="isChecked"
+            name="isCheckedV"
+            #isCheckedV="ngModel"
+            required
+            style="margin-left: 80%"
+          />
+        </div>
+        <div class="col-10 col-lg-10">
+          <p class="declaration-text">
+            I hereby authorize NSDL e-Gov "Protean Clinic" to share Aadhaar
+            through ABDM for generation of ABHA ID
+          </p>
+        </div>
+      </div>
+
+      <div class="row col-12 col-lg-12" style="margin-top: 15%">
+        <div class="col-1 col-lg-1"></div>
+        <div class="col-3 col-lg-3">
+          <button
+            class="btn button mr-3"
+            style="margin-top: -45px"
+            (click)="back()"
+          >
+            BACK
+          </button>
+        </div>
+        <div class="col-3 col-lg-3" style="margin-left: 17%">
+          <button
+            class="btn button"
+            style="margin-top: -45px"
+            (click)="otpAadhaar()"
+            [disabled]="!verifyForm.valid"
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row form-groupBlogg">
+      <div class="col-2 col-lg-3"></div>
+      <div class="col-4 col-lg-3">
+        <p
+          style="
+            font-family: Poppins-Regular, sans-serif;
+            color: black;
+            margin-bottom: 0px;
+          "
+        >
+          Powered BY
+        </p>
+      </div>
+      <div class="col-4 col-lg-4">
+        <img src="assets/logo/logos.png" />
+      </div>
+    </div>
+  </div>
+</div>

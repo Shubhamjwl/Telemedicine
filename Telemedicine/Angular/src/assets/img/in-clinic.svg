@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21.562" height="18.193" viewBox="0 0 21.562 18.193">
+  <g id="in-clinic" transform="translate(-27 -4.77)">
+    <g id="clinic4" transform="translate(27 -35.225)">
+      <path id="Path_1224" data-name="Path 1224" d="M212.244,103.833h1.278v-1.28h1.28v-1.278h-1.28V100h-1.278v1.28h-1.28v1.278h1.28Z" transform="translate(-202.102 -57.443)" fill="#3190cf"/>
+      <path id="Path_1225" data-name="Path 1225" d="M376.061,290.123h2.132V291.4h-2.132Z" transform="translate(-360.244 -239.604)" fill="#3190cf"/>
+      <path id="Path_1226" data-name="Path 1226" d="M15.2,41.259V39.995H6.357v1.264H0V58.188H21.562V41.259ZM20.3,42.523v5.055H15.2V42.523Zm-6.357-1.264v6.32H7.621v-6.32ZM6.357,42.523v5.055H1.263V42.523Zm6.951,14.4h-1.9V51.792h1.9Zm-3.159,0h-1.9V51.792h1.9Zm4.423,0v-6.4H6.99v6.4H1.263V48.842H20.3v8.083H14.572Z" fill="#3190cf"/>
+    </g>
+  </g>
+</svg>

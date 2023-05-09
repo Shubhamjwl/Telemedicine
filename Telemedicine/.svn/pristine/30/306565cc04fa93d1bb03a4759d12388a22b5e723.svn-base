@@ -1,0 +1,258 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
+import { Observable, Subject } from 'rxjs';
+import { ErrorSuccessMessage } from 'src/app/shared/commonBuildBlocks/enum/error-success-message.enum';
+import { DocumentService } from 'src/app/shared/commonBuildBlocks/services/documentServices/document.service';
+import { PatientService } from 'src/app/shared/commonBuildBlocks/services/patientServices/patient.service';
+import { CustomValidators } from 'src/app/shared/commonBuildBlocks/services/Validators/customValidator.service';
+import { ToastMessageService } from 'src/app/shared/commonBuildBlocks/toaster/toast-message.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-tm-patient-registration-by-doc-sc',
+  templateUrl: './tm-patient-registration-by-doc-sc.component.html',
+  styleUrls: ['./tm-patient-registration-by-doc-sc.component.scss'],
+})
+export class TmPatientRegistrationByDocSCComponent implements OnInit {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private toastrMessage: ToastMessageService,
+    private patientService: PatientService,
+    private documentService: DocumentService,
+  ) {}
+
+  /**
+   * Used to store SignIn Form.
+   */
+  form: FormGroup = this.fb.group({
+    profilePhoto: [''],
+    patientName: ['', [Validators.required, CustomValidators.fullNameValidator(30)]],
+    mobileNo: ['', [Validators.required, CustomValidators.mobileValidator]],
+    email: ['', [Validators.email]],
+    dob: [''],
+  });
+
+  isSwitcheChecked = false;
+  private profilePhotoBase64;
+  private selectedXlsxFile: File;
+  uploadedFiles = [];
+  private trigger: Subject<void> = new Subject<void>();
+  uploadedImage = 'assets/img/photo.png';
+  private selectedFile: string;
+  selectedFileName: string = '';
+
+  @ViewChild('inputFile') xlsxInputFIle: ElementRef;
+
+  selectedRadio: string = 'single';
+
+  radioButtonLList = [
+    {
+      name: 'Single',
+      value: 'single',
+    },
+    {
+      name: 'File Upload',
+      value: 'multiple',
+    },
+  ];
+
+  ngOnInit(): void {}
+
+  onClickSwitch() {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+    this.uploadedImage = this.isSwitcheChecked ? 'assets/img/take-photo.svg' : 'assets/img/photo.png';
+  }
+
+  triggerSnapshot(): void {
+    this.isSwitcheChecked = !this.isSwitcheChecked;
+    this.trigger.next();
+  }
+
+  handleImage(webcamImage: WebcamImage): void {
+    this.profilePhotoBase64 = webcamImage['_imageAsDataUrl'];
+    this.uploadedImage = this.profilePhotoBase64;
+  }
+
+  handleInitError(error: WebcamInitError): void {
+    if (error.mediaStreamError && error.mediaStreamError.name === 'NotAllowedError') {
+      this.toastrMessage.showWarningMsg('Camera access was not allowed by user!', 'Information');
+    }
+  }
+
+  get triggerObservable(): Observable<void> {
+    return this.trigger.asObservable();
+  }
+
+  /**
+   * Used to set selected profile photo
+   */
+  uploadProfilePhoto(event) {
+    let hasImg = event.target.files[0].type.includes('image') ? true : false;
+    let hasSize = event.target.files[0].size <= 1000000 ? true : false; //1000000
+    if (hasImg && hasSize) {
+      const files = event.target.files;
+      const file = files[0];
+      if (files && file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.profilePhotoBase64 = e.target.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+      document.getElementById('ProfilePhoto').setAttribute('src', window.URL.createObjectURL(event.target.files[0]));
+    } else {
+      if (!hasImg) {
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGFORMATE, 'Warning');
+        event.target.files = '';
+      }
+      if (!hasSize) {
+        this.toastrMessage.showWarningMsg(ErrorSuccessMessage.IMGSIZE, 'Warning');
+        event.target.files = '';
+      }
+    }
+  }
+
+  /**
+   * Used for upload profile photo
+   */
+  browse() {
+    document.getElementById('browse').click();
+  }
+
+  selectFiles(event?: any) {
+    if (event) {
+      const fileName = event.target?.files[0]?.name;
+      if (fileName === 'sample.xlsx') {
+        this.selectedXlsxFile = event.target.files[0];
+        this.selectedFileName = fileName;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          let file = JSON.stringify(e.target.result);
+          this.selectedFile = file;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      } else {
+        this.xlsxInputFIle.nativeElement.value = '';
+        this.selectedFileName = '';
+        this.selectedXlsxFile = undefined;
+        this.toastrMessage.showErrorMsg(ErrorSuccessMessage.GIVENXLSXFILE, 'Error');
+      }
+    }
+  }
+
+  uploadFiles() {
+    if (this.selectedXlsxFile) {
+      this.uploadedFiles = [];
+      this.uploadedFiles.push(this.selectedXlsxFile);
+      this.xlsxInputFIle.nativeElement.value = '';
+      this.selectedXlsxFile = undefined;
+      this.selectedFileName = '';
+    } else {
+      this.xlsxInputFIle.nativeElement.value = '';
+      this.toastrMessage.showWarningMsg(ErrorSuccessMessage.XLFILEFORMATE, 'Warning');
+    }
+  }
+
+  removeFile(index: number) {
+    this.uploadedFiles.splice(index, 1);
+    this.selectedFileName = '';
+  }
+
+  download() {
+    const file = `${environment.baseUrl}/assets/files/sample.xlsx`;
+    window.open(file);
+  }
+
+  convertAndDownloadFile(fileData: string, fileName: string) {
+    //const file = new Blob([fileData], { type: 'application/vnd.ms-excel' });
+    const file = this.documentService.b64toBlob(fileData, 'application/vnd.ms-excel');
+    const fileURL = URL.createObjectURL(file);
+    const fileLink = document.createElement('a');
+    fileLink.href = fileURL;
+    fileLink.download = fileName;
+    fileLink.click();
+    //window.open(fileURL);
+  }
+
+  onClickSubmit() {
+    this.spinner.show();
+    let { patientName, mobileNo, email, dob } = this.form.value;
+    if (this.selectedRadio === 'single') {
+      if (patientName && mobileNo) {
+        let payload = {
+          patientName: patientName ? patientName : null,
+          doctorUserID: sessionStorage.getItem('USER_ID') ? sessionStorage.getItem('USER_ID') : null,
+          ptMobileNo: mobileNo ? mobileNo : null,
+          ptProfilePhoto: this.profilePhotoBase64 ? this.profilePhotoBase64 : null,
+          ptEmailID: email ? email : null,
+          ptDateOfBirth: dob ? dob : null,
+        };
+        this.patientService.patientRegistartionByScribeOrDoctor(payload).subscribe(
+          (result) => {
+            this.spinner.hide();
+            if (result.status) {
+              this.router.navigate(['appointments']);
+              this.toastrMessage.showSuccessMsg(result.response.message, 'Success');
+            } else {
+              if (result.errors) {
+                this.toastrMessage.showErrorMsg(result.errors[0].message, 'Error');
+              }
+            }
+          },
+          (error) => {
+            this.spinner.hide();
+            this.toastrMessage.showErrorMsg(error.errors[0].message, 'Error');
+          },
+        );
+      } else {
+        this.spinner.hide();
+        this.toastrMessage.showWarningMsg('Please select all required fields', 'Warning');
+      }
+    } else {
+      if (this.uploadedFiles?.length) {
+        const payload = {
+          doctorUserID: sessionStorage.getItem('USER_ID') ? sessionStorage.getItem('USER_ID') : null,
+          excelFileOfBulkPatientDtls: this.selectedFile ? this.selectedFile : null,
+          fileName: this.uploadedFiles[0]?.name,
+        };
+        this.patientService.patientRegistrationByDocumentUpload(payload).subscribe(
+          (result) => {
+            this.spinner.hide();
+            if (result.status) {
+              this.convertAndDownloadFile(result.response.fileData, result.response.fileName);
+              this.router.navigate(['appointments']);
+              this.toastrMessage.showSuccessMsg(result.response.message, 'Success');
+            } else {
+              if (result.errors) {
+                this.toastrMessage.showErrorMsg(result.errors[0]?.message, 'Error');
+              }
+            }
+          },
+          (error) => {
+            this.spinner.hide();
+            this.toastrMessage.showErrorMsg(error.error?.errors[0]?.message, 'Error');
+          },
+        );
+      } else {
+        this.spinner.hide();
+        this.toastrMessage.showWarningMsg('Please select file', 'Warning');
+      }
+    }
+  }
+
+  reset() {
+    this.uploadedFiles = [];
+    this.form.reset();
+    this.form.markAsPristine();
+    document.getElementById('ProfilePhoto').setAttribute('src', this.uploadedImage);
+  }
+
+  onClickCancel() {
+    this.router.navigate(['appointments']);
+  }
+}
