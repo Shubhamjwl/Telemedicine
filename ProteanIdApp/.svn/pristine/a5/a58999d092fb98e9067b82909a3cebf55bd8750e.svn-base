@@ -1,0 +1,3 @@
+groupId=com.nsdl.notification
+artifactId=nsdl-email-sender-service
+version=0.0.1-SNAPSHOT

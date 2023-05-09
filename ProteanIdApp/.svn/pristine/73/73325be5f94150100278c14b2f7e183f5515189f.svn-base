@@ -1,0 +1,10 @@
+package com.nsdl.notification.service;
+
+import com.nsdl.notification.dto.SendMailDTO;
+import com.nsdl.notification.dto.StatusDTO;
+
+public interface NsdlEmailSenderService {
+	
+	public StatusDTO sendMailNotification(SendMailDTO  mailDTO);
+
+}

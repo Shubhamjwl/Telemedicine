@@ -1,0 +1,65 @@
+spring.application.name=Uin-Authenticate-Service
+server.port=7065
+server.servlet.context-path=/uin-authenticate
+
+#---Mosip Db properties-----------------
+mosipbox.public.url=https://minibox.nsdlmosipdemo.in
+#mosip.registration.processor.database.hostname=minibox.nsdlmosipdemo.in
+mosip.registration.processor.database.hostname=65.2.149.93
+
+mosip.registration.processor.database.port=30090
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.jdbc-url=jdbc:postgresql://api-internal.dev.mosip.net:5432/mosip_idrepo
+spring.datasource.username=postgres
+spring.datasource.password=4YbeUrM2bD
+hibernate.hbm2ddl.auto=none
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.show-sql=false
+
+#---local Db properties-----------------
+db2.datasource.driverClassName=org.postgresql.Driver
+db2.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+db2.jpa.hibernate.ddl-auto=none
+db2.jpa.hibernate.show-sql=false
+db2.datasource.jdbc-url=jdbc:postgresql://172.30.151.101:9001/Protean_Id?autoReconnect=true&reWriteBatchedInserts=true
+db2.datasource.username=sysadmin
+db2.datasource.password=Mosipadm@dev123
+
+spring.mvc.pathmatch.matching-strategy=ant-path-matcher
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+testing.flag=true
+testing.email=avrab@nsdl.co.in
+
+#Authorization token for regproc
+regproc.client.id=mosip-regproc-client
+regproc.client.secret=Lm9sCEW9mfszCFzi
+regrpco.appid=regproc
+token.id=mosip.authentication.clientidsecretkey
+version="1.0"
+
+#Authorization token for Idrepo
+idrepo.client.id=mosip-idrepo-client
+idrepo.client.secret=LvBc7m5whX2c87rl
+idrepo.appid=idrepo
+
+#Email content
+from.email.id=proteandigitalid@proteantech.in
+subject=UID Authentication OTP
+email.body=Your UID authentication otp is 
+
+mosip.hostname=qa-1201-b2
+nsdl.hostname=172.30.151.101
+
+Id.repo.url =https://api-internal.${mosip.hostname}.mosip.net/idrepository/v1/identity/idvid/{uin}?type=bio
+bioMetric.url=https://api-internal.${mosip.hostname}.mosip.net/commons/v1/packetmanager/biometrics
+client.secret.url =https://api-internal.${mosip.hostname}.mosip.net/v1/authmanager/authenticate/clientidsecretkey
+Id.repo.rid.url=https://api-internal.${mosip.hostname}.mosip.net/idrepository/v1/identity/rid/{uin}?type=all
+email.send.url =http://${nsdl.hostname}:9090/send-notification/nsdlnotification/sendEmail
+otp.string =0123456789
+otp.length = 6
+#OTP Expire Time in minutes
+otp.valid.duration=10
+
+
+

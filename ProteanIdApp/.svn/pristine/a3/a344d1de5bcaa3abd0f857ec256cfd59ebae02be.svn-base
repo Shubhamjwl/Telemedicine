@@ -1,0 +1,16 @@
+package com.nsdl.authenticate.dto;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.nsdl.authenticate.exception.ServiceError;
+
+import lombok.Data;
+
+@Data
+public class RequestWrapper<T> {
+
+	private String id;
+	private String version;
+	private T request;
+	private List<ServiceError> errors = new ArrayList<>();
+}

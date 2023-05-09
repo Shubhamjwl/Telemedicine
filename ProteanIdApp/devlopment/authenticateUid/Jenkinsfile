@@ -1,0 +1,61 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('sonar quality analysis') {
+  //       withSonarQubeEnv('My SonarQube Server') {
+  //          sh "mvn sonar:sonar"
+  //       }
+  //  }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def authenticateUid
+   stage ('create Image Version'){
+   authenticateUid = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('proteanidapp/authenticateuid', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'telemed') {
+           dockerImage.push "${authenticateUid}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi proteanidapp/authenticateuid"
+       sh "docker rmi 172.16.11.166:37719/proteanidapp/authenticateuid:${authenticateUid}"
+       }
+
+   stage('Deploy on Dev Env') {
+         sshagent (credentials: ['nsdl']) {
+       sh "echo 'authenticateUid=${authenticateUid}' > .env"
+       sh "scp -o StrictHostKeyChecking=no .env mosip@172.30.151.101:/var/workspace/ProteanIdApp"
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.30.151.101 /var/workspace/ProteanIdApp/helper/authenticateUid.sh"
+         }
+       }              
+       
+   }
+

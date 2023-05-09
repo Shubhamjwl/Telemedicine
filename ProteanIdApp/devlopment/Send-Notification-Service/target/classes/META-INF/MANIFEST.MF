@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 17.0.2
+Implementation-Title: Send-Notification-service
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.nsdl.notification
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/Send-Notification-service
+Created-By: Maven Integration for Eclipse
+

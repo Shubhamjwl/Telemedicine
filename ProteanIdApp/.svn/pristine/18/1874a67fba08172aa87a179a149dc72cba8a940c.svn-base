@@ -1,0 +1,10 @@
+server.port = 7064
+server.servlet.context-path=/login/v1
+
+keycloak.external.url=http://172.30.151.100:8080
+auth.server.admin.issuer.uri=${keycloak.external.url}/auth/realms/
+mosip.kernel.auth.appids.realm.map={protean:'mosip'}
+
+client.id=protean-id
+client.secret=0a9ba6a2-2dae-4519-9dc0-029f7da60291
+

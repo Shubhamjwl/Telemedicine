@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 17.0.2
+Implementation-Title: user-app-service
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.nsdl.user
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/user-app-service
+Created-By: Maven Integration for Eclipse
+

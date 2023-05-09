@@ -1,0 +1,12 @@
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\dto\SendEmailDTO.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\NsdlEmailSenderServiceApplication.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\exception\NsdlSendEmailException.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\exception\ServiceError.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\dto\StatusDTO.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\service\NsdlEmailSenderService.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\service\impl\NsdlEmailSenderServiceImpl.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\config\EmailConfig.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\constant\ErrorConstant.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\constant\NsdlEmailConstant.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\controller\NsdlEmailSenderController.java
+D:\MOSIP-Team\mosip-develop\nsdl-email-sender-service\src\main\java\com\nsdl\notification\exception\NsdlEmailAdviceController.java

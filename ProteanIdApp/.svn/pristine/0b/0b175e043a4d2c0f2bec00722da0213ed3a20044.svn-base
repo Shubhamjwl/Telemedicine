@@ -1,0 +1,182 @@
+package com.nsdl.login.service.impl;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestTemplate;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nsdl.login.constant.LoginConstant;
+import com.nsdl.login.dto.LoginRequest;
+import com.nsdl.login.dto.LoginResponse;
+import com.nsdl.login.dto.ServiceError;
+import com.nsdl.login.exception.LoginErrorConstant;
+import com.nsdl.login.exception.LoginException;
+import com.nsdl.login.service.LoginService;
+
+@Service
+public class LoginServiceImpl implements LoginService {
+
+	private static final Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
+
+	@Value("${auth.server.admin.issuer.uri:}")
+	private String issuerURI;
+
+	@Value("${auth.server.admin.oidc.userinfo.path:/protocol/openid-connect/userinfo}")
+	private String userInfo;
+
+	@Value("${auth.server.admin.oidc.token.path:/protocol/openid-connect/token}")
+	private String tokenPath;
+
+	@Value("${client.id}")
+	private String clientId;
+
+	@Value("${client.secret}")
+	private String clientSecret;
+
+	@Value("#{${mosip.kernel.auth.appids.realm.map}}")
+	private Map<String, String> realmMap;
+
+	@Autowired
+	private ObjectMapper mapper;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Override
+	public LoginResponse validateUser(LoginRequest request) {
+
+		LoginResponse response = new LoginResponse();
+		String token = getClientToken(request.getUserId(), request.getPassword(), "protean");
+
+		if (token == null) {
+			throw new LoginException(new ServiceError(LoginErrorConstant.INVALID_CREDENTIALS.getErrorCode(),
+					LoginErrorConstant.INVALID_CREDENTIALS.getErrorMessage()));
+		}
+		response.setJwtToken(token);
+		return response;
+	}
+
+	public String getClientToken(String userId, String password, String appId) {
+
+		logger.info("Requesting for new Token: {}", issuerURI);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+		MultiValueMap<String, String> valueMap = new LinkedMultiValueMap<String, String>();
+		valueMap.add(LoginConstant.GRANT_TYPE, LoginConstant.PASSWORD);
+		valueMap.add(LoginConstant.CLIENT_ID, clientId);
+		valueMap.add(LoginConstant.CLIENT_SECRET, clientSecret);
+		valueMap.add(LoginConstant.USERNAME, userId);
+		valueMap.add(LoginConstant.PASSWORD, password);
+
+		HttpEntity<String> response = null;
+		try {
+			HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(valueMap, headers);
+			String realm = getRealmIdFromAppId(appId);
+			if (Objects.isNull(realm))
+				return null;
+			String tokenUrl = new StringBuilder(issuerURI).append(realm).append(tokenPath).toString();
+			response = restTemplate.postForEntity(tokenUrl, request, String.class);
+		} catch (HttpServerErrorException | HttpClientErrorException e) {
+			logger.error("error connecting to keycloak {}", e.getResponseBodyAsString());
+			e.printStackTrace();
+		}
+		if (response == null) {
+			logger.error("error connecting to keycloak {}",
+					LoginErrorConstant.CANNOT_CONNECT_TO_AUTH_SERVICE.getErrorMessage());
+			return null;
+		}
+		String responseBody = response.getBody();
+		if (responseBody == null) {
+			throw new LoginException(new ServiceError(LoginErrorConstant.INTERNAL_SERVER_ERROR.getErrorCode(),
+					LoginErrorConstant.INTERNAL_SERVER_ERROR.getErrorMessage()));
+		}
+		try {
+			JsonNode jsonNode = mapper.readTree(responseBody);
+			String accessToken = jsonNode.get(LoginConstant.ACCESS_TOKEN).asText();
+			if (Objects.nonNull(accessToken)) {
+				logger.info("Found Token in response body and returning the Token");
+				return accessToken;
+			}
+		} catch (IOException e) {
+			logger.error("Error Parsing Response data {}", e.getMessage(), e);
+		}
+
+		logger.error("Error connecting to OIDC service (RestTemplate) {} or UNKNOWN Error.",
+				LoginErrorConstant.CANNOT_CONNECT_TO_AUTH_SERVICE.getErrorMessage());
+		return null;
+	}
+
+	private String getRealmIdFromAppId(String appId) {
+
+		if (realmMap.get(appId) != null) {
+			return realmMap.get(appId).toLowerCase();
+		}
+
+		logger.warn(
+				"Realm not configured in configuration for appId: " + appId + ", not requesting for new auth token.");
+		return null;
+	}
+
+	@Override
+	public boolean jwtVerify(String jwtToken) {
+
+		DecodedJWT decodedJWT = JWT.decode(jwtToken);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(LoginConstant.AUTH_REQUEST_COOOKIE_HEADER, LoginConstant.BEARER_STR + jwtToken);
+		HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+		ResponseEntity<String> response = null;
+		HttpStatusCodeException statusCodeException = null;
+		try {
+			String realm = getRealM(decodedJWT);
+			String userInfoPath = issuerURI + realm + userInfo;
+			response = restTemplate.exchange(userInfoPath, HttpMethod.GET, entity, String.class);
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			logger.error("Token validation failed for accessToken {}", jwtToken, e);
+			e.printStackTrace();
+			statusCodeException = e;
+		}
+
+		if (Objects.nonNull(statusCodeException)) {
+			JsonNode errorNode;
+			try {
+				errorNode = mapper.readTree(statusCodeException.getResponseBodyAsString());
+				logger.error("Token validation failed error {} and message {}", errorNode.get(LoginConstant.ERROR),
+						errorNode.get(LoginConstant.ERROR_DESC));
+				return false;
+			} catch (IOException e) {
+				logger.error("IO Excepton in parsing response {}", e.getMessage());
+			}
+		}
+
+		if (response != null && response.getStatusCode().is2xxSuccessful()) {
+			return true;
+		}
+		return false;
+	}
+
+	private String getRealM(DecodedJWT decodedJWT) {
+		String tokenIssuer = decodedJWT.getClaim(LoginConstant.ISSUER).asString();
+		return tokenIssuer.substring(tokenIssuer.lastIndexOf("/") + 1);
+	}
+}

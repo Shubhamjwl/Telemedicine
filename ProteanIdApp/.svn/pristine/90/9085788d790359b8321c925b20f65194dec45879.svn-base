@@ -1,0 +1,14 @@
+package com.nsdl.authenticate.id.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import com.nsdl.authenticate.id.entity.UinIdRepoEntity;
+
+public interface UinIdRepoRepository extends JpaRepository<UinIdRepoEntity, String> {
+
+	
+	@Query(value="select * from idrepo.uin where bio_ref_id=?1",nativeQuery=true)
+	public Optional<UinIdRepoEntity> findByBioRefId(String bioRefId);
+}

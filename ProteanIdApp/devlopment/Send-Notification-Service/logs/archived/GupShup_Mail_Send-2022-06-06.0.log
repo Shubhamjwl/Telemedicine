@@ -1,0 +1,472 @@
+  [2022-06-06 14:51:05,369], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarting | Starting SendNotificationServiceApplication on DESKTOP-HPF3U74 with PID 12648 (started by user in D:\NSDL Projects\ProteanIdApp\devlopment\Send-Notification-Service)
+  [2022-06-06 14:51:05,381], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:51:05,462], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:51:05,466], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+  [2022-06-06 14:51:06,671], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8080 (http)
+  [2022-06-06 14:51:06,686], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8080"]
+  [2022-06-06 14:51:06,687], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:51:06,688], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:51:06,784], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:51:06,785], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1317 ms
+  [2022-06-06 14:51:06,846], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+  [2022-06-06 14:51:06,852], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:51:06,869], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-06-06 14:51:06,873], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.notification.SendNotificationServiceApplication.main(SendNotificationServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1287)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	... 24 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 35 common frames omitted
+  [2022-06-06 14:51:55,641], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarting | Starting SendNotificationServiceApplication on DESKTOP-HPF3U74 with PID 10628 (started by user in D:\NSDL Projects\ProteanIdApp\devlopment\Send-Notification-Service)
+  [2022-06-06 14:51:55,654], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:51:55,726], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:51:55,729], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+  [2022-06-06 14:51:56,753], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8080 (http)
+  [2022-06-06 14:51:56,768], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8080"]
+  [2022-06-06 14:51:56,769], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:51:56,770], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:51:56,871], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:51:56,872], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1142 ms
+  [2022-06-06 14:51:56,928], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+  [2022-06-06 14:51:56,933], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:51:56,948], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-06-06 14:51:56,952], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.notification.SendNotificationServiceApplication.main(SendNotificationServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1287)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	... 24 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'notification.send.email' in value "${notification.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 35 common frames omitted
+  [2022-06-06 14:53:07,928], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarting | Starting SendNotificationServiceApplication on DESKTOP-HPF3U74 with PID 7336 (started by user in D:\NSDL Projects\ProteanIdApp\devlopment\Send-Notification-Service)
+  [2022-06-06 14:53:07,942], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:53:07,997], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:53:08,001], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+  [2022-06-06 14:53:09,012], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8080 (http)
+  [2022-06-06 14:53:09,038], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8080"]
+  [2022-06-06 14:53:09,039], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:53:09,040], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:53:09,220], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:53:09,222], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1221 ms
+  [2022-06-06 14:53:09,314], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+  [2022-06-06 14:53:09,320], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:53:09,352], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-06-06 14:53:09,359], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.notification.SendNotificationServiceApplication.main(SendNotificationServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1287)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	... 24 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 35 common frames omitted
+  [2022-06-06 14:54:48,990], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarting | Starting SendNotificationServiceApplication on DESKTOP-HPF3U74 with PID 8612 (started by user in D:\NSDL Projects\ProteanIdApp\devlopment\Send-Notification-Service)
+  [2022-06-06 14:54:49,004], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:54:49,062], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:54:49,065], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+  [2022-06-06 14:54:50,055], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 8080 (http)
+  [2022-06-06 14:54:50,067], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-8080"]
+  [2022-06-06 14:54:50,068], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:54:50,069], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:54:50,153], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:54:50,154], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1089 ms
+  [2022-06-06 14:54:50,204], , [restartedMain], app_name_IS_UNDEFINED, WARN  AnnotationConfigServletWebServerApplicationContext refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+  [2022-06-06 14:54:50,207], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:54:50,226], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConditionEvaluationReportLoggingListener logMessage | 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+  [2022-06-06 14:54:50,229], , [restartedMain], app_name_IS_UNDEFINED, ERROR SpringApplication reportFailure | Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'nsdlMailController': Unsatisfied dependency expressed through field 'emailSenderService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:643)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at com.nsdl.notification.SendNotificationServiceApplication.main(SendNotificationServiceApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'nsdlEmailSenderServiceImpl': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:405)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1287)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	... 24 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'gupshup.send.email' in value "${gupshup.send.email}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:178)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:124)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:175)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:908)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+	... 35 common frames omitted
+  [2022-06-06 14:57:08,237], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:57:08,567], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$d9416792] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:57:08,864], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 14:57:11,005], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 14:57:11,007], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 14:57:11,015], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:57:12,104], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=e807a19f-04c4-3f2b-b3fd-3ac16e882edc
+  [2022-06-06 14:57:12,479], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$d9416792] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:57:13,435], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 14:57:13,454], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:57:13,455], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:57:13,455], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:57:13,597], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:57:13,597], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 2540 ms
+  [2022-06-06 14:57:14,486], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:57:14,930], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 14:57:15,366], , [restartedMain], app_name_IS_UNDEFINED, INFO  EndpointLinksResolver <init> | Exposing 2 endpoint(s) beneath base path '/actuator'
+  [2022-06-06 14:57:15,459], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:57:15,502], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 14:57:15,508], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 7.883 seconds (JVM running for 9.504)
+  [2022-06-06 14:57:54,844], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 14:57:54,856], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:57:54,862], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:57:54,884], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:57:54,900], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:57:54,907], , [RMI TCP Connection(4)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:05,517], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:58:05,798], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b614f50f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:58:06,091], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 14:58:08,239], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 14:58:08,241], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 14:58:08,250], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:58:08,887], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=5146c786-f67a-3a81-b378-38c0c16f8074
+  [2022-06-06 14:58:09,147], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$b614f50f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:58:09,731], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 14:58:09,748], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:09,750], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:58:09,751], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:58:09,897], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:58:09,900], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1598 ms
+  [2022-06-06 14:58:10,344], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:58:10,667], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 14:58:11,007], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:11,035], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 14:58:11,039], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 6.27 seconds (JVM running for 7.728)
+  [2022-06-06 14:58:30,727], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 14:58:30,732], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:58:30,734], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:30,757], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:58:30,763], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:30,766], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:37,551], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:58:37,943], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$7f936a41] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:58:38,318], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 14:58:40,433], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 14:58:40,434], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 14:58:40,441], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:58:41,131], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=530f280f-6691-3b16-8fa1-379174daca8c
+  [2022-06-06 14:58:41,212], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$7f936a41] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:58:41,660], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 14:58:41,671], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:41,672], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:58:41,672], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:58:41,786], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:58:41,787], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1325 ms
+  [2022-06-06 14:58:41,954], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:58:42,105], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 14:58:42,351], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:58:42,378], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 14:58:42,382], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 5.482 seconds (JVM running for 6.747)
+  [2022-06-06 14:59:12,574], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 14:59:12,579], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:59:12,582], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:12,621], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:59:12,639], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:12,647], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:20,731], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:59:20,987], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f61e4e1d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:59:21,275], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 14:59:23,476], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 14:59:23,478], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 14:59:23,482], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:59:23,995], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=530f280f-6691-3b16-8fa1-379174daca8c
+  [2022-06-06 14:59:24,055], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f61e4e1d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:59:24,450], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 14:59:24,460], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:24,461], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:59:24,461], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:59:24,571], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:59:24,571], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1061 ms
+  [2022-06-06 14:59:24,734], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:59:24,890], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 14:59:25,132], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:25,159], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 14:59:25,162], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 4.976 seconds (JVM running for 6.319)
+  [2022-06-06 14:59:29,434], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 14:59:29,439], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:59:29,442], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:29,464], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 14:59:29,472], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:29,475], , [RMI TCP Connection(2)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:36,147], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 14:59:36,412], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$5a5f2f71] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:59:36,704], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 14:59:38,835], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 14:59:38,837], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 14:59:38,847], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 14:59:39,454], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=530f280f-6691-3b16-8fa1-379174daca8c
+  [2022-06-06 14:59:39,522], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$5a5f2f71] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 14:59:39,932], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 14:59:39,943], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:39,944], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 14:59:39,945], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 14:59:40,045], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 14:59:40,045], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1155 ms
+  [2022-06-06 14:59:40,206], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 14:59:40,365], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 14:59:40,614], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 14:59:40,641], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 14:59:40,645], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 5.014 seconds (JVM running for 6.308)
+  [2022-06-06 15:00:38,862], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 15:00:38,866], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 15:00:38,869], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:00:38,892], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 15:00:38,903], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:00:38,906], , [RMI TCP Connection(3)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:00:44,588], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 15:00:44,925], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$c98cf6cb] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 15:00:45,209], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 15:00:47,319], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 15:00:47,320], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 15:00:47,323], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 15:00:47,790], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=530f280f-6691-3b16-8fa1-379174daca8c
+  [2022-06-06 15:00:47,855], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$c98cf6cb] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 15:00:48,315], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 15:00:48,328], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:00:48,329], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 15:00:48,330], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 15:00:48,444], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 15:00:48,445], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1108 ms
+  [2022-06-06 15:00:48,637], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 15:00:48,803], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 15:00:49,062], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:00:49,098], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 15:00:49,101], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 5.029 seconds (JVM running for 6.527)
+  [2022-06-06 15:04:49,092], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-06-06 15:04:49,108], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-06-06 15:04:49,153], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Completed initialization in 45 ms
+  [2022-06-06 15:04:49,303], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Mail Dto before sending request to notification:SendMailDTO(recipients=[shubh.55jwl@gmail.com], subject=Uin otp verification, content=your otp is=12345, flag=null, content_type=text/html)
+  [2022-06-06 15:04:49,315], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Calling notification api...
+  [2022-06-06 15:04:49,316], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Email Url::http://172.30.151.100:8098/send-mail-gupshup/sendMailGupShupAPI
+  [2022-06-06 15:04:49,615], , [http-nio-7061-exec-2], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | SUCCESSFULLY RECEIVED DATA FROM notification API RESPONSE : StatusDTO(message=Mail sent successfully, status=success)
+  [2022-06-06 15:43:48,743], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 15:43:48,875], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 15:43:48,903], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:43:48,963], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 15:43:48,978], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-06-06 15:43:49,026], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 15:43:49,037], , [RMI TCP Connection(45)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 18:33:46,554], , [restartedMain], app_name_IS_UNDEFINED, INFO  DevToolsPropertyDefaultsPostProcessor logTo | Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+  [2022-06-06 18:33:46,894], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$3b3be278] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 18:33:47,206], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Fetching config from server at : http://localhost:8888
+  [2022-06-06 18:33:49,356], , [restartedMain], app_name_IS_UNDEFINED, INFO  ConfigServicePropertySourceLocator getRemoteEnvironment | Connect Timeout Exception on Url - http://localhost:8888. Will be trying the next url if available
+  [2022-06-06 18:33:49,358], , [restartedMain], app_name_IS_UNDEFINED, WARN  ConfigServicePropertySourceLocator locate | Could not locate PropertySource: I/O error on GET request for "http://localhost:8888/application/default": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+  [2022-06-06 18:33:49,369], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStartupProfileInfo | No active profile set, falling back to default profiles: default
+  [2022-06-06 18:33:50,038], , [restartedMain], app_name_IS_UNDEFINED, INFO  GenericScope setSerializationId | BeanFactory id=530f280f-6691-3b16-8fa1-379174daca8c
+  [2022-06-06 18:33:50,125], , [restartedMain], app_name_IS_UNDEFINED, INFO  PostProcessorRegistrationDelegate$BeanPostProcessorChecker postProcessAfterInitialization | Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$3b3be278] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+  [2022-06-06 18:33:50,622], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer initialize | Tomcat initialized with port(s): 7061 (http)
+  [2022-06-06 18:33:50,644], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Initializing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 18:33:50,645], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardService log | Starting service [Tomcat]
+  [2022-06-06 18:33:50,647], , [restartedMain], app_name_IS_UNDEFINED, INFO  StandardEngine log | Starting Servlet engine: [Apache Tomcat/9.0.30]
+  [2022-06-06 18:33:50,772], , [restartedMain], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring embedded WebApplicationContext
+  [2022-06-06 18:33:50,773], , [restartedMain], app_name_IS_UNDEFINED, INFO  ContextLoader prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 1354 ms
+  [2022-06-06 18:33:50,956], , [restartedMain], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor initialize | Initializing ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 18:33:51,140], , [restartedMain], app_name_IS_UNDEFINED, INFO  OptionalLiveReloadServer startServer | LiveReload server is running on port 35729
+  [2022-06-06 18:33:51,377], , [restartedMain], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Starting ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 18:33:51,416], , [restartedMain], app_name_IS_UNDEFINED, INFO  TomcatWebServer start | Tomcat started on port(s): 7061 (http) with context path '/send-notification'
+  [2022-06-06 18:33:51,420], , [restartedMain], app_name_IS_UNDEFINED, INFO  SendNotificationServiceApplication logStarted | Started SendNotificationServiceApplication in 5.526 seconds (JVM running for 7.516)
+  [2022-06-06 18:34:57,740], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+  [2022-06-06 18:34:57,741], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Initializing Servlet 'dispatcherServlet'
+  [2022-06-06 18:34:57,751], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  DispatcherServlet initServletBean | Completed initialization in 9 ms
+  [2022-06-06 18:34:57,828], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Mail Dto before sending request to notification:SendMailDTO(recipients=[shubh.55jwl@gmail.com], subject=Uin otp verification, content=your otp is=12345, flag=null, content_type=text/html)
+  [2022-06-06 18:34:57,831], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Calling notification api...
+  [2022-06-06 18:34:57,832], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Email Url::http://172.30.151.100:8098/send-mail-gupshup/sendMailGupShupAPI
+  [2022-06-06 18:34:58,185], , [http-nio-7061-exec-1], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | SUCCESSFULLY RECEIVED DATA FROM notification API RESPONSE : StatusDTO(message=Mail sent successfully, status=success)
+  [2022-06-06 18:35:02,529], , [http-nio-7061-exec-3], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Mail Dto before sending request to notification:SendMailDTO(recipients=[shubh.55jwl@gmail.com], subject=Uin otp verification, content=your otp is=12345, flag=null, content_type=text/html)
+  [2022-06-06 18:35:02,531], , [http-nio-7061-exec-3], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Calling notification api...
+  [2022-06-06 18:35:02,532], , [http-nio-7061-exec-3], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | Email Url::http://172.30.151.100:8098/send-mail-gupshup/sendMailGupShupAPI
+  [2022-06-06 18:35:02,696], , [http-nio-7061-exec-3], app_name_IS_UNDEFINED, INFO  NsdlEmailSenderServiceImpl sendMailNotification | SUCCESSFULLY RECEIVED DATA FROM notification API RESPONSE : StatusDTO(message=Mail sent successfully, status=success)
+  [2022-06-06 21:43:28,248], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin shutdown | Application shutdown requested.
+  [2022-06-06 21:43:29,045], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  ThreadPoolTaskExecutor shutdown | Shutting down ExecutorService 'applicationTaskExecutor'
+  [2022-06-06 21:43:29,289], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Pausing ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 21:43:29,608], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  StandardService log | Stopping service [Tomcat]
+  [2022-06-06 21:43:29,730], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  [/send-notification] log | Destroying Spring FrameworkServlet 'dispatcherServlet'
+  [2022-06-06 21:43:30,038], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Stopping ProtocolHandler ["http-nio-7061"]
+  [2022-06-06 21:43:30,091], , [RMI TCP Connection(122)-127.0.0.1], app_name_IS_UNDEFINED, INFO  Http11NioProtocol log | Destroying ProtocolHandler ["http-nio-7061"]

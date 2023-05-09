@@ -1,0 +1,15 @@
+version: "2.4"
+
+services:
+  certificate-signer:
+    image: protean/rc-certificate-signer
+    environment:
+      - PORT=4001
+    ports:
+      - "4001:4001"
+  certificate-api:
+    image: protean/rc-certificate-api
+    environment:
+      - PORT=4002
+    ports:
+      - "4002:4002"

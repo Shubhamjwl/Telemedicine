@@ -1,0 +1,43 @@
+spring.application.name=Uin-Authenticate-Service
+server.port=7065
+server.servlet.context-path=/uin-authenticate
+
+#---Mosip Db properties-----------------
+mosipbox.public.url=https://minibox.nsdlmosipdemo.in
+#mosip.registration.processor.database.hostname=minibox.nsdlmosipdemo.in
+mosip.registration.processor.database.hostname=65.2.149.93
+
+mosip.registration.processor.database.port=30090
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.jdbc-url=jdbc:postgresql://${mosip.registration.processor.database.hostname}:${mosip.registration.processor.database.port}/mosip_idrepo
+spring.datasource.username=idrepouser
+spring.datasource.password=mosip123
+hibernate.hbm2ddl.auto=none
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.show-sql=false
+
+#---local Db properties-----------------
+db2.datasource.driverClassName=org.postgresql.Driver
+db2.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+db2.jpa.hibernate.ddl-auto=none
+db2.jpa.hibernate.show-sql=false
+db2.datasource.jdbc-url=jdbc:postgresql://172.30.151.101:9001/Protean_Id?autoReconnect=true&reWriteBatchedInserts=true
+db2.datasource.username=sysadmin
+db2.datasource.password=Mosipadm@dev123
+
+spring.mvc.pathmatch.matching-strategy=ant-path-matcher
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+
+Id.repo.url =https://minibox.nsdlmosipdemo.in/idrepository/v1/identity/idvid/{uin}?type=bio
+bioMetric.url=https://minibox.nsdlmosipdemo.in/commons/v1/packetmanager/biometrics
+client.secret.url =https://minibox.nsdlmosipdemo.in/v1/authmanager/authenticate/clientidsecretkey
+#email.send.url =https://uat.protean-health.com/proteanid/send-mail-gupshup/sendMailGupShupAPI
+email.send.url =http://172.30.151.100:8098/send-mail-gupshup/sendMailGupShupAPI
+otp.string =0123456789
+otp.length = 6
+#OTP Expire Time in minutes
+otp.valid.duration=10
+
+
+

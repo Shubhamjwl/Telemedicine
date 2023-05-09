@@ -1,0 +1,25 @@
+package com.nsdl.notification.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.nsdl.notification.dto.SendMailDTO;
+import com.nsdl.notification.dto.StatusDTO;
+import com.nsdl.notification.service.NsdlEmailSenderService;
+
+
+@RestController
+@CrossOrigin("*")
+public class NsdlMailController {
+
+	@Autowired
+	private NsdlEmailSenderService emailSenderService;
+
+	@PostMapping(value = "/sendEmailNotification", consumes = "application/json")
+	public StatusDTO sendMailGupShupAPI(@RequestBody SendMailDTO sendMailDTO) {
+
+		return emailSenderService.sendMailNotification(sendMailDTO);
+	}
+}

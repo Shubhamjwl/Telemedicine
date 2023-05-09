@@ -1,0 +1,61 @@
+#!/usr/bin/env groovy
+
+node {
+   stage('checkout') {
+       checkout scm
+   }
+   
+   stage('Installing Packages') {
+      sh "java -version"
+   }
+
+   stage('packaging') {
+       sh "mvn -U clean package -DskipTests"
+   }
+
+  // stage('sonar quality analysis') {
+  //       withSonarQubeEnv('My SonarQube Server') {
+  //          sh "mvn sonar:sonar"
+  //       }
+  //  }
+
+  // stage('Unit Test') {
+  //     sh "mvn test"
+  // }
+
+   def userappservice
+   stage ('create Image Version'){
+   userappservice = sh (
+   script: "date +'%Y-%m-%d-%H.%M'",
+   returnStdout: true,
+      )
+   }
+
+   def dockerImage
+   stage('build docker') {
+       sh "cp -R docker target/"
+       sh "cp target/*.jar target/docker/"
+       dockerImage = docker.build('proteanidapp/userappservice', 'target/docker')
+   }
+
+   stage('publish docker') {
+       docker.withRegistry('http://172.16.11.166:37719', 'telemed') {
+           dockerImage.push "${userappservice}"
+         }
+      }
+      
+   stage('delete docker Image') {
+       sh "docker rmi proteanidapp/userappservice"
+       sh "docker rmi 172.16.11.166:37719/proteanidapp/userappservice:${userappservice}"
+       }
+
+   stage('Deploy on Dev Env') {
+         sshagent (credentials: ['nsdl']) {
+       sh "echo 'userappservice=${userappservice}' > .env"
+       sh "scp -o StrictHostKeyChecking=no .env mosip@172.30.151.101:/var/workspace/ProteanIdApp"
+       sh "ssh -o StrictHostKeyChecking=no -l mosip 172.30.151.101 /var/workspace/ProteanIdApp/helper/userapp.sh"
+         }
+       }              
+       
+   }
+
